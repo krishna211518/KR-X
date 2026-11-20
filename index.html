@@ -1,317 +1,188 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KR-X | Cyber Future</title>
-
+<meta name="theme-color" content="#07111f">
+<meta name="description" content="KR-X — a personal technology, learning and digital safety workspace.">
+<title>KR-X | Technology Workspace</title>
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    background: #050a12;
-    color: #f0f7ff;
-    font-family: Arial, sans-serif;
-}
-
-:root {
-    --green: #00f5a0;
-    --blue: #168bff;
-    --muted: #9aadc2;
-    --panel: #0b1930;
-}
-
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 8%;
-    background: #07101e;
-    border-bottom: 1px solid #18344b;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
-
-.logo {
-    color: var(--green);
-    font-size: 30px;
-    font-weight: bold;
-    letter-spacing: 3px;
-    text-shadow: 0 0 15px #00f5a066;
-}
-
-nav {
-    display: flex;
-    gap: 25px;
-}
-
-nav a {
-    color: #d5e3f2;
-    text-decoration: none;
-    font-size: 14px;
-    transition: .3s;
-}
-
-nav a:hover {
-    color: var(--green);
-}
-
-.hero {
-    min-height: 75vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 50px 20px;
-    background:
-      radial-gradient(ellipse at 25% 40%, #00f5a018, transparent 40%),
-      radial-gradient(ellipse at 80% 60%, #168bff20, transparent 40%);
-}
-
-.tag {
-    color: var(--green);
-    border: 1px solid #00f5a077;
-    padding: 9px 18px;
-    border-radius: 30px;
-    letter-spacing: 2px;
-    font-size: 12px;
-    margin-bottom: 25px;
-}
-
-.hero h1 {
-    font-size: clamp(45px, 8vw, 85px);
-    margin-bottom: 18px;
-}
-
-.hero h1 span {
-    color: var(--green);
-    text-shadow: 0 0 25px #00f5a055;
-}
-
-.hero p {
-    max-width: 620px;
-    color: var(--muted);
-    line-height: 1.8;
-    font-size: 17px;
-    margin-bottom: 30px;
-}
-
-.btn {
-    display: inline-block;
-    padding: 14px 28px;
-    background: var(--green);
-    color: #03120d;
-    text-decoration: none;
-    border-radius: 7px;
-    font-weight: bold;
-    transition: .3s;
-}
-
-.btn:hover {
-    box-shadow: 0 0 25px #00f5a088;
-    transform: translateY(-3px);
-}
-
-.section {
-    padding: 75px 8%;
-    text-align: center;
-}
-
-.section h2 {
-    font-size: 32px;
-    margin-bottom: 15px;
-}
-
-.section h2 span {
-    color: var(--green);
-}
-
-.subtitle {
-    color: var(--muted);
-    margin-bottom: 40px;
-}
-
-.cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 22px;
-}
-
-.card {
-    background: linear-gradient(145deg, #0c1b30, #091321);
-    border: 1px solid #1a3854;
-    padding: 30px 24px;
-    border-radius: 13px;
-    text-align: left;
-    transition: .3s;
-}
-
-.card:hover {
-    transform: translateY(-6px);
-    border-color: var(--green);
-    box-shadow: 0 0 20px #168bff20;
-}
-
-.card .icon {
-    font-size: 36px;
-    margin-bottom: 18px;
-}
-
-.card h3 {
-    color: var(--green);
-    margin-bottom: 13px;
-}
-
-.card p {
-    color: var(--muted);
-    line-height: 1.7;
-    font-size: 14px;
-}
-
-.about {
-    background: #081321;
-    border-top: 1px solid #18344b;
-    border-bottom: 1px solid #18344b;
-}
-
-.about p {
-    max-width: 700px;
-    margin: auto;
-    color: var(--muted);
-    line-height: 1.9;
-}
-
-footer {
-    text-align: center;
-    padding: 30px 15px;
-    color: #8195aa;
-    font-size: 13px;
-}
-
-footer span {
-    color: var(--green);
-}
-
-@media(max-width: 700px) {
-    header {
-        flex-direction: column;
-        gap: 18px;
-    }
-
-    nav {
-        gap: 15px;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    nav a {
-        font-size: 12px;
-    }
-
-    .cards {
-        grid-template-columns: 1fr;
-    }
-
-    .section {
-        padding: 55px 6%;
-    }
-}
+:root{--bg:#07111f;--panel:#0d1b2d;--panel2:#10243a;--line:#203b55;--text:#edf6ff;--muted:#9bb0c5;--cyan:#48d9e8;--blue:#5597ff;--green:#6ce6b0;--red:#ff8585;--shadow:0 18px 55px #0005}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 10% 0%,#12314b 0,transparent 34%),var(--bg);color:var(--text);font:15px/1.55 Inter,system-ui,Segoe UI,Arial,sans-serif;min-height:100vh}
+button,input,textarea,select{font:inherit}button{cursor:pointer}.app{display:grid;grid-template-columns:245px minmax(0,1fr);min-height:100vh}
+.sidebar{background:#081523eF;border-right:1px solid var(--line);padding:24px 16px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:24px}
+.brand{display:flex;align-items:center;gap:12px;padding:0 8px}.brand-mark{width:42px;height:42px;border-radius:13px;background:linear-gradient(140deg,var(--cyan),var(--blue));display:grid;place-items:center;color:#06111c;font-weight:950;font-size:20px;box-shadow:0 0 25px #48d9e855}.brand strong{font-size:20px;letter-spacing:3px}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:1.5px}
+.nav-label{color:#6f8ba5;font-size:10px;font-weight:800;letter-spacing:1.8px;padding:0 12px;margin:4px 0}.nav{display:grid;gap:5px}.nav button{border:1px solid transparent;background:transparent;color:#b8cadd;text-align:left;padding:11px 12px;border-radius:10px;display:flex;gap:12px;align-items:center}.nav button:hover,.nav button.active{background:#142b42;color:white;border-color:#244b68}.nav button.active{box-shadow:inset 3px 0 var(--cyan)}.nav .ico{width:20px;text-align:center;font-size:17px}.side-bottom{margin-top:auto;color:#7891a8;font-size:12px;padding:12px}.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:7px}
+main{min-width:0;padding:28px clamp(16px,3vw,42px) 60px;max-width:1500px;width:100%;margin:auto}.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:28px}.eyebrow{color:var(--cyan);font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase}.topbar h1{font-size:clamp(25px,4vw,34px);margin:4px 0 0;letter-spacing:-1px}.top-actions{display:flex;gap:9px;align-items:center}.clock{color:var(--muted);font-variant-numeric:tabular-nums;font-size:13px}
+.btn{border:1px solid var(--line);background:#14283d;color:var(--text);padding:9px 13px;border-radius:9px;font-weight:650}.btn:hover{border-color:var(--cyan);background:#193650}.btn.primary{background:linear-gradient(120deg,#42d5df,#5c9bff);border:0;color:#05121e}.btn.danger{color:#ffaaaa}.btn.small{padding:6px 9px;font-size:12px}
+.page{display:none;animation:fade .2s ease}.page.active{display:block}@keyframes fade{from{opacity:.5;transform:translateY(4px)}to{opacity:1;transform:none}}
+.hero{padding:28px;border:1px solid #2b526b;border-radius:20px;background:linear-gradient(120deg,#102b43ed,#0d1b2deb);box-shadow:var(--shadow);position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:250px;height:250px;border-radius:50%;right:-75px;top:-120px;background:#48d9e81b;filter:blur(4px)}.hero h2{font-size:clamp(25px,4vw,38px);line-height:1.12;margin:8px 0 12px;max-width:650px}.hero p{color:var(--muted);max-width:650px;margin:0 0 20px}.hero-actions{display:flex;gap:10px;flex-wrap:wrap}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px;margin-top:18px}.card{grid-column:span 4;background:linear-gradient(145deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:15px;padding:18px;min-width:0}.card.wide{grid-column:span 8}.card.full{grid-column:1/-1}.card.half{grid-column:span 6}.card h3{font-size:15px;margin:0 0 12px}.muted{color:var(--muted)}.stat{font-size:28px;font-weight:800;letter-spacing:-1px}.stat-label{font-size:12px;color:var(--muted)}.stat-icon{font-size:22px;margin-bottom:7px}.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:5px 0 16px}.section-head h2{margin:0;font-size:25px}.section-head p{margin:4px 0 0;color:var(--muted);font-size:13px}
+.field{display:grid;gap:6px;margin:10px 0}.field label{font-size:12px;color:#b8cadd;font-weight:700}.field input,.field textarea,.field select,input.control,textarea.control,select.control{width:100%;background:#071523;color:var(--text);border:1px solid #29445d;border-radius:9px;padding:10px 11px;outline:none}.field input:focus,.field textarea:focus,.field select:focus,.control:focus{border-color:var(--cyan);box-shadow:0 0 0 3px #48d9e81b}.field textarea,textarea.control{min-height:110px;resize:vertical}.row{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.row>*{min-width:0}.row .grow{flex:1}.output{background:#071523;border:1px solid #29445d;border-radius:9px;padding:12px;min-height:42px;white-space:pre-wrap;overflow-wrap:anywhere;color:#cfe6f7}.list{display:grid;gap:9px}.item{display:flex;align-items:flex-start;gap:10px;padding:11px;background:#091827;border:1px solid #203a52;border-radius:10px}.item-main{flex:1;min-width:0}.item-title{font-weight:700;overflow-wrap:anywhere}.item-meta{font-size:12px;color:var(--muted)}.item.done .item-title{text-decoration:line-through;color:#7e98ae}.empty{padding:18px;text-align:center;color:#8199ae;border:1px dashed #29445d;border-radius:10px;font-size:13px}
+.pill{display:inline-flex;align-items:center;padding:4px 8px;border-radius:99px;background:#17354b;color:#8eeaf0;font-size:11px;font-weight:700}.quiz-option{display:block;width:100%;text-align:left;margin:7px 0;background:#0a1b2b;border:1px solid #29445d;color:var(--text);padding:10px;border-radius:9px}.quiz-option:hover{border-color:var(--cyan)}.meter{height:8px;background:#20384c;border-radius:20px;overflow:hidden}.meter>span{display:block;height:100%;width:0;background:var(--green);transition:width .2s}
+.tool-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.tool{background:#0a1929;border:1px solid var(--line);border-radius:12px;padding:15px;min-width:0}.tool h3{font-size:14px;margin:0 0 10px}.tool .control{margin-bottom:8px}.tool-actions{display:flex;gap:7px;flex-wrap:wrap}.small-note{font-size:11px;color:#829ab0;margin-top:8px}.checkline{display:flex;align-items:center;gap:9px;color:#c5d8e8;font-size:13px;padding:7px 0}.checkline input{accent-color:var(--cyan)}
+footer{border-top:1px solid var(--line);margin-top:35px;padding-top:18px;color:#718ba3;font-size:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.light{--bg:#edf4fa;--panel:#fff;--panel2:#fff;--line:#cbd9e5;--text:#102338;--muted:#526a80;background:var(--bg);color:var(--text)}.light .sidebar{background:#f7fbff;border-color:var(--line)}.light .nav button{color:#39536b}.light .nav button.active,.light .nav button:hover{background:#e4f1f8;color:#102338}.light .field input,.light .field textarea,.light .field select,.light .output,.light .control,.light .item,.light .tool,.light .quiz-option{background:#f6faff;color:#102338;border-color:#cbd9e5}.light .hero{background:linear-gradient(120deg,#d9f1f6,#e9f1ff)}.light .card{background:#fff}
+@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{height:auto;position:relative;padding:12px;gap:12px;border-right:0;border-bottom:1px solid var(--line)}.brand{padding:4px 8px}.nav-label,.side-bottom{display:none}.nav{display:flex;overflow:auto;padding-bottom:4px}.nav button{white-space:nowrap;padding:9px}.nav button.active{box-shadow:inset 0 -3px var(--cyan)}main{padding:20px 14px 45px}.card{grid-column:span 6}.card.wide{grid-column:span 12}}
+@media(max-width:560px){.topbar{align-items:flex-start;flex-direction:column}.top-actions{width:100%;justify-content:space-between}.card,.card.half{grid-column:span 12}.tool-grid{grid-template-columns:1fr}.hero{padding:21px}.clock{font-size:12px}}
 </style>
 </head>
-
 <body>
+<div class="app">
+<aside class="sidebar">
+ <div class="brand"><div class="brand-mark">K</div><div><strong>KR-X</strong><small>TECHNOLOGY WORKSPACE</small></div></div>
+ <div><div class="nav-label">WORKSPACE</div><nav class="nav" id="navigation">
+  <button class="active" data-page="dashboard"><span class="ico">⌂</span>Dashboard</button>
+  <button data-page="assistant"><span class="ico">✦</span>AI Assistant</button>
+  <button data-page="security"><span class="ico">◈</span>Security Center</button>
+  <button data-page="workspace"><span class="ico">▤</span>Workspace</button>
+  <button data-page="planner"><span class="ico">✓</span>Planner</button>
+  <button data-page="tools"><span class="ico">⌘</span>Tools Lab</button>
+  <button data-page="learning"><span class="ico">▱</span>Learning Hub</button>
+  <button data-page="settings"><span class="ico">⚙</span>Settings</button>
+ </nav></div>
+ <div class="side-bottom"><span class="status-dot"></span>Local workspace active<br><span id="sideDate"></span></div>
+</aside>
+<main>
+ <div class="topbar"><div><div class="eyebrow">PERSONAL TECHNOLOGY PLATFORM</div><h1 id="pageTitle">Dashboard</h1></div><div class="top-actions"><span class="clock" id="clock">--:--:--</span><button class="btn small" id="themeBtn">☼ Theme</button></div></div>
 
-<header>
-    <div class="logo">KR-X</div>
-
-    <nav>
-        <a href="#">Home</a>
-        <a href="#technology">Technology</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-    </nav>
-</header>
-
-<section class="hero">
-    <div class="tag">NEXT GENERATION TECHNOLOGY</div>
-
-    <h1>WELCOME TO <span>KR-X</span></h1>
-
-    <p>
-        Building a smarter, safer and more intelligent
-        digital future through Artificial Intelligence,
-        Cyber Security and Privacy.
-    </p>
-
-    <a href="#technology" class="btn">EXPLORE KR-X →</a>
+<section class="page active" id="page-dashboard">
+ <div class="hero"><span class="pill">KR-X 4.0 • YOUR DIGITAL WORKSPACE</span><h2>Think Big. Build Smart.<br><span style="color:var(--cyan)">Stay Secure.</span></h2><p>A focused space to learn technology, organize your work, practise digital safety and build useful projects — all saved in this browser.</p><div class="hero-actions"><button class="btn primary" data-go="learning">Start learning →</button><button class="btn" data-go="tools">Open tools</button></div></div>
+ <div class="grid">
+  <div class="card"><div class="stat-icon">📝</div><div class="stat" id="noteCount">0</div><div class="stat-label">Saved notes</div></div>
+  <div class="card"><div class="stat-icon">✓</div><div class="stat" id="taskCount">0</div><div class="stat-label">Pending tasks</div></div>
+  <div class="card"><div class="stat-icon">📚</div><div class="stat" id="knowledgeCount">0</div><div class="stat-label">Knowledge entries</div></div>
+  <div class="card wide"><h3>Quick launch</h3><div class="row"><button class="btn" data-go="assistant">✦ Ask KR-X</button><button class="btn" data-go="security">◈ Safety check</button><button class="btn" data-go="workspace">▤ Open notes</button><button class="btn" data-go="planner">✓ View planner</button></div></div>
+  <div class="card"><h3>Daily reminder</h3><p class="muted">Learn one small concept, practise it, and write down what you understood. Consistency beats rushing.</p><span class="pill">LEARN • PRACTISE • REVIEW</span></div>
+ </div>
 </section>
 
-<section class="section" id="technology">
-    <h2>OUR <span>TECHNOLOGY</span></h2>
-
-    <p class="subtitle">
-        Think Big. Build Smart. Stay Secure.
-    </p>
-
-    <div class="cards">
-        <div class="card">
-            <div class="icon">🤖</div>
-            <h3>Artificial Intelligence</h3>
-            <p>
-                Exploring intelligent technology to make
-                everyday digital experiences smarter.
-            </p>
-        </div>
-
-        <div class="card">
-            <div class="icon">🔐</div>
-            <h3>Cyber Security</h3>
-            <p>
-                Learning and developing technology
-                to help protect digital information.
-            </p>
-        </div>
-
-        <div class="card">
-            <div class="icon">🛡️</div>
-            <h3>Privacy First</h3>
-            <p>
-                Putting user privacy, transparency
-                and digital control at the centre.
-            </p>
-        </div>
-    </div>
+<section class="page" id="page-assistant">
+ <div class="section-head"><div><h2>AI Assistant</h2><p>A small offline demo assistant with starter knowledge.</p></div><span class="pill">LOCAL DEMO</span></div>
+ <div class="grid"><div class="card wide"><h3>Chat with KR-X</h3><div class="output" id="chatLog" style="min-height:230px;max-height:420px;overflow:auto">KR-X: Hi! I can explain computer basics, HTML, CSS, JavaScript and digital safety. This demo works locally and is not connected to a live AI service.</div><div class="row" style="margin-top:10px"><input class="control grow" id="chatInput" placeholder="Ask a question..." aria-label="Ask KR-X"><button class="btn primary" id="sendChat">Send</button></div><div class="small-note">Tip: Try “What is HTML?”, “Explain phishing”, or “What is an operating system?”</div></div><div class="card"><h3>What this assistant can do</h3><ul class="muted"><li>Explain beginner technology topics</li><li>Give safe digital-safety reminders</li><li>Use knowledge you add in your notebook</li><li>Suggest a next learning step</li></ul><p class="small-note">For live AI answers, a secure server-side AI connection would need to be added later. Never put a private API key in public website code.</p></div></div>
 </section>
 
-<section class="section about" id="about">
-    <h2>ABOUT <span>KR-X</span></h2>
-
-    <p>
-        KR-X is a technology project focused on
-        Artificial Intelligence, Cyber Security,
-        Software Development and Digital Privacy.
-        Our vision is to learn, innovate and build
-        useful technology for the future.
-    </p>
+<section class="page" id="page-security">
+ <div class="section-head"><div><h2>Security Center</h2><p>Learn safe habits and check sample information on your own device.</p></div><span class="pill">DEFENSIVE LEARNING</span></div>
+ <div class="grid">
+  <div class="card half"><h3>Sample password strength checker</h3><div class="field"><label for="passwordInput">Enter a sample password (don't use your real password)</label><input id="passwordInput" type="password" autocomplete="off" placeholder="Type a sample only"></div><div class="meter"><span id="passwordMeter"></span></div><p id="passwordFeedback" class="muted">Your result will appear here.</p><button class="btn" id="checkPassword">Check sample</button></div>
+  <div class="card half"><h3>Phishing awareness quiz</h3><p id="quizQuestion">A message says your account will be closed unless you share an OTP. What should you do?</p><div id="quizOptions"><button class="quiz-option" data-correct="false">Share the OTP to save the account</button><button class="quiz-option" data-correct="true">Never share it; verify through the official app or website</button><button class="quiz-option" data-correct="false">Forward the OTP to a friend</button></div><p id="quizFeedback" class="muted">Choose the safest answer.</p></div>
+  <div class="card full"><h3>Personal digital-safety checklist</h3><div id="safetyChecks"><label class="checkline"><input type="checkbox" data-safe="updates"> I keep my apps and operating system updated.</label><label class="checkline"><input type="checkbox" data-safe="otp"> I never share OTPs, passwords or recovery codes.</label><label class="checkline"><input type="checkbox" data-safe="links"> I check links and website addresses before signing in.</label><label class="checkline"><input type="checkbox" data-safe="backup"> I keep a backup of important files.</label><label class="checkline"><input type="checkbox" data-safe="privacy"> I review app permissions and privacy settings.</label></div><p class="small-note" id="safetyProgress">0 of 5 completed. Your checklist is saved on this device.</p></div>
+ </div>
 </section>
 
-<footer id="contact">
-    <p>© 2026 <span>KR-X</span> | The Future Starts Here.</p>
-    <p style="margin-top:10px;">
-        Think Big. Build Smart. Stay Secure.
-    </p>
-</footer>
+<section class="page" id="page-workspace">
+ <div class="section-head"><div><h2>Workspace</h2><p>Keep notes, useful links and your own knowledge in one place.</p></div></div>
+ <div class="grid">
+  <div class="card half"><h3>Quick notes</h3><div class="field"><label for="noteTitle">Title</label><input id="noteTitle" placeholder="Note title"></div><div class="field"><label for="noteBody">Your note</label><textarea id="noteBody" placeholder="Write something useful..."></textarea></div><button class="btn primary" id="saveNote">Save note</button><div class="list" id="notesList" style="margin-top:14px"></div></div>
+  <div class="card half"><h3>Knowledge notebook</h3><p class="muted">Add facts or explanations for the local demo assistant to use.</p><div class="field"><label for="knowledgeInput">Knowledge entry</label><textarea id="knowledgeInput" placeholder="Example: RAM is temporary working memory..."></textarea></div><button class="btn primary" id="saveKnowledge">Add knowledge</button><div class="list" id="knowledgeList" style="margin-top:14px"></div><p class="small-note">This stores notes locally; it does not train an AI model.</p></div>
+  <div class="card full"><h3>Bookmarks</h3><div class="row"><input class="control grow" id="bookmarkName" placeholder="Website name"><input class="control grow" id="bookmarkUrl" placeholder="https://example.com"><button class="btn primary" id="addBookmark">Add</button></div><div class="list" id="bookmarksList" style="margin-top:12px"></div></div>
+ </div>
+</section>
 
+<section class="page" id="page-planner">
+ <div class="section-head"><div><h2>Planner</h2><p>Break a big goal into small, manageable tasks.</p></div></div>
+ <div class="grid"><div class="card full"><h3>Add a task</h3><div class="row"><input class="control grow" id="taskInput" placeholder="What do you want to complete?"><button class="btn primary" id="addTask">Add task</button></div><div class="row" style="justify-content:space-between;margin:16px 0 10px"><span class="muted" id="taskSummary">No tasks yet</span><button class="btn small" id="clearDone">Clear completed</button></div><div class="list" id="tasksList"></div></div></div>
+</section>
+
+<section class="page" id="page-tools">
+ <div class="section-head"><div><h2>Tools Lab</h2><p>Useful everyday utilities that run in your browser.</p></div></div>
+ <div class="tool-grid">
+  <div class="tool"><h3>Basic calculator</h3><input class="control" id="calcInput" placeholder="Example: (12 + 8) * 3"><div class="tool-actions"><button class="btn primary" id="calculate">Calculate</button><button class="btn" id="clearCalc">Clear</button></div><p class="output" id="calcOutput">Result appears here.</p></div>
+  <div class="tool"><h3>Word & character counter</h3><textarea class="control" id="counterInput" placeholder="Paste or type your text..."></textarea><p class="output" id="counterOutput">Words: 0 • Characters: 0</p></div>
+  <div class="tool"><h3>Text case converter</h3><textarea class="control" id="caseInput" placeholder="Enter text..."></textarea><div class="tool-actions"><button class="btn" data-case="upper">UPPERCASE</button><button class="btn" data-case="lower">lowercase</button><button class="btn" data-case="title">Title Case</button></div><textarea class="control" id="caseOutput" placeholder="Converted text..." readonly></textarea></div>
+  <div class="tool"><h3>JSON formatter</h3><textarea class="control" id="jsonInput" placeholder='{"name":"KR-X","version":4}'></textarea><button class="btn primary" id="formatJson">Format JSON</button><p class="output" id="jsonOutput">Formatted JSON appears here.</p></div>
+  <div class="tool"><h3>Unit converter</h3><input class="control" id="unitValue" type="number" placeholder="Enter a value"><select class="control" id="unitType"><option value="km">Kilometres → Miles</option><option value="mi">Miles → Kilometres</option><option value="kg">Kilograms → Pounds</option><option value="cm">Centimetres → Inches</option><option value="c">Celsius → Fahrenheit</option></select><button class="btn primary" id="convertUnit">Convert</button><p class="output" id="unitOutput">Converted value appears here.</p></div>
+  <div class="tool"><h3>Focus timer</h3><p class="stat" id="timerDisplay">25:00</p><div class="tool-actions"><button class="btn primary" id="startTimer">Start</button><button class="btn" id="pauseTimer">Pause</button><button class="btn" id="resetTimer">Reset</button></div><p class="small-note">A simple 25-minute focus session.</p></div>
+ </div>
+</section>
+
+<section class="page" id="page-learning">
+ <div class="section-head"><div><h2>Learning Hub</h2><p>Beginner-friendly roadmap. Learn one topic at a time.</p></div></div>
+ <div class="grid">
+  <div class="card half"><span class="pill">LEVEL 01</span><h3>Computer fundamentals</h3><p class="muted">Hardware, software, input/output devices, memory, operating systems and number systems.</p><p><strong>Practice:</strong> Identify five hardware components and explain their uses.</p></div>
+  <div class="card half"><span class="pill">LEVEL 02</span><h3>Web development</h3><p class="muted">HTML structures a page, CSS styles it, and JavaScript adds interaction.</p><p><strong>Practice:</strong> Build a simple personal webpage with a heading and a button.</p></div>
+  <div class="card half"><span class="pill">LEVEL 03</span><h3>Programming logic</h3><p class="muted">Variables, conditions, loops, functions, arrays and debugging.</p><p><strong>Practice:</strong> Write a small program that checks whether a number is even.</p></div>
+  <div class="card half"><span class="pill">LEVEL 04</span><h3>Cybersecurity basics</h3><p class="muted">Passwords, phishing awareness, updates, backups, privacy and responsible security.</p><p><strong>Practice:</strong> Review the safety checklist in Security Center.</p></div>
+  <div class="card half"><span class="pill">LEVEL 05</span><h3>Networking</h3><p class="muted">IP addresses, routers, DNS, HTTP/HTTPS and how data travels online.</p><p><strong>Practice:</strong> Draw a simple home network diagram.</p></div>
+  <div class="card half"><span class="pill">LEVEL 06</span><h3>AI foundations</h3><p class="muted">Understand data, models, prompts, limitations, bias and responsible AI use.</p><p><strong>Practice:</strong> Compare an AI answer with a trusted textbook source.</p></div>
+ </div>
+</section>
+
+<section class="page" id="page-settings">
+ <div class="section-head"><div><h2>Settings & data</h2><p>Manage this browser's local KR-X workspace.</p></div></div>
+ <div class="grid">
+  <div class="card half"><h3>Profile</h3><div class="field"><label for="nickname">Display name</label><input id="nickname" placeholder="Your name or nickname"></div><button class="btn primary" id="saveProfile">Save profile</button><p class="small-note">Only stored in this browser.</p></div>
+  <div class="card half"><h3>Backup & restore</h3><p class="muted">Export your notes, tasks, bookmarks and settings as a JSON backup.</p><div class="tool-actions"><button class="btn primary" id="exportData">Export backup</button><label class="btn" for="importFile">Import backup</label><input id="importFile" type="file" accept="application/json" hidden></div><p class="small-note">Keep backup files private if they contain personal information.</p></div>
+  <div class="card full"><h3>About KR-X</h3><p class="muted">KR-X is a learning and productivity project. Most tools work locally in your browser. The assistant is a basic offline demo, not a live AI service. This site does not provide professional cybersecurity testing.</p><button class="btn danger" id="resetData">Reset local KR-X data</button></div>
+ </div>
+</section>
+<footer><span>© 2026 KR-X • Built for learning and creating</span><span>Think Big. Build Smart. Stay Secure.</span></footer>
+</main>
+</div>
+<script>
+"use strict";
+const $=id=>document.getElementById(id);
+const read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem("krx-"+key))??fallback}catch{return fallback}};
+const write=(key,value)=>localStorage.setItem("krx-"+key,JSON.stringify(value));
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const escapeHTML=value=>String(value).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+const safeUrl=value=>{try{const u=new URL(value);return ["http:","https:"].includes(u.protocol)?u.href:null}catch{return null}};
+function navigate(page){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id==="page-"+page));document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===page));const active=document.querySelector('[data-page="'+page+'"]');$("pageTitle").textContent=active?active.textContent.trim():page;window.scrollTo({top:0,behavior:"smooth"})}
+document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>navigate(b.dataset.page)));
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>navigate(b.dataset.go)));
+function tick(){const d=new Date();$("clock").textContent=d.toLocaleTimeString();$("sideDate").textContent=d.toLocaleDateString(undefined,{weekday:"short",day:"numeric",month:"short",year:"numeric"})}tick();setInterval(tick,1000);
+
+let notes=read("notes",[]),tasks=read("tasks",[]),bookmarks=read("bookmarks",[]),knowledge=read("knowledge",[]),checks=read("checks",{});
+function refreshStats(){$("noteCount").textContent=notes.length;$("taskCount").textContent=tasks.filter(t=>!t.done).length;$("knowledgeCount").textContent=knowledge.length}
+function renderNotes(){$("notesList").innerHTML=notes.length?notes.map(n=>'<div class="item"><div class="item-main"><div class="item-title">'+escapeHTML(n.title)+'</div><div class="item-meta">'+escapeHTML(n.body)+'</div></div><button class="btn small danger" data-delete-note="'+n.id+'">Delete</button></div>').join(""):'<div class="empty">No notes saved yet.</div>';refreshStats()}
+$("saveNote").addEventListener("click",()=>{const title=$("noteTitle").value.trim(),body=$("noteBody").value.trim();if(!title||!body)return alert("Add a title and note first.");notes.unshift({id:uid(),title,body});write("notes",notes);$("noteTitle").value="";$("noteBody").value="";renderNotes()});
+$("notesList").addEventListener("click",e=>{const b=e.target.closest("[data-delete-note]");if(!b)return;notes=notes.filter(n=>n.id!==b.dataset.deleteNote);write("notes",notes);renderNotes()});
+function renderKnowledge(){$("knowledgeList").innerHTML=knowledge.length?knowledge.map(k=>'<div class="item"><div class="item-main">'+escapeHTML(k.text)+'</div><button class="btn small danger" data-delete-knowledge="'+k.id+'">Delete</button></div>').join(""):'<div class="empty">No knowledge entries yet.</div>';refreshStats()}
+$("saveKnowledge").addEventListener("click",()=>{const text=$("knowledgeInput").value.trim();if(!text)return;knowledge.unshift({id:uid(),text});write("knowledge",knowledge);$("knowledgeInput").value="";renderKnowledge()});
+$("knowledgeList").addEventListener("click",e=>{const b=e.target.closest("[data-delete-knowledge]");if(!b)return;knowledge=knowledge.filter(k=>k.id!==b.dataset.deleteKnowledge);write("knowledge",knowledge);renderKnowledge()});
+function renderBookmarks(){$("bookmarksList").innerHTML=bookmarks.length?bookmarks.map(b=>'<div class="item"><div class="item-main"><a href="'+escapeHTML(b.url)+'" target="_blank" rel="noopener noreferrer" style="color:var(--cyan)">'+escapeHTML(b.name)+'</a><div class="item-meta">'+escapeHTML(b.url)+'</div></div><button class="btn small danger" data-delete-bookmark="'+b.id+'">Delete</button></div>').join(""):'<div class="empty">No bookmarks saved yet.</div>'}
+$("addBookmark").addEventListener("click",()=>{const name=$("bookmarkName").value.trim(),url=safeUrl($("bookmarkUrl").value.trim());if(!name||!url)return alert("Enter a name and a valid http/https URL.");bookmarks.unshift({id:uid(),name,url});write("bookmarks",bookmarks);$("bookmarkName").value="";$("bookmarkUrl").value="";renderBookmarks()});
+$("bookmarksList").addEventListener("click",e=>{const b=e.target.closest("[data-delete-bookmark]");if(!b)return;bookmarks=bookmarks.filter(x=>x.id!==b.dataset.deleteBookmark);write("bookmarks",bookmarks);renderBookmarks()});
+function renderTasks(){$("tasksList").innerHTML=tasks.length?tasks.map(t=>'<div class="item '+(t.done?"done":"")+'"><input type="checkbox" data-task-check="'+t.id+'" '+(t.done?"checked":"")+' aria-label="Complete task"><div class="item-main"><div class="item-title">'+escapeHTML(t.text)+'</div><div class="item-meta">'+(t.done?"Completed":"Pending")+'</div></div><button class="btn small danger" data-task-delete="'+t.id+'">Delete</button></div>').join(""):'<div class="empty">No tasks yet. Add one small goal above.</div>';$("taskSummary").textContent=tasks.filter(t=>t.done).length+" completed • "+tasks.filter(t=>!t.done).length+" pending";refreshStats()}
+$("addTask").addEventListener("click",()=>{const text=$("taskInput").value.trim();if(!text)return;tasks.unshift({id:uid(),text,done:false});write("tasks",tasks);$("taskInput").value="";renderTasks()});
+$("taskInput").addEventListener("keydown",e=>{if(e.key==="Enter")$("addTask").click()});
+$("tasksList").addEventListener("change",e=>{const id=e.target.dataset.taskCheck;if(!id)return;const t=tasks.find(x=>x.id===id);if(t)t.done=e.target.checked;write("tasks",tasks);renderTasks()});
+$("tasksList").addEventListener("click",e=>{const id=e.target.dataset.taskDelete;if(!id)return;tasks=tasks.filter(t=>t.id!==id);write("tasks",tasks);renderTasks()});
+$("clearDone").addEventListener("click",()=>{tasks=tasks.filter(t=>!t.done);write("tasks",tasks);renderTasks()});
+
+function assistantReply(q){const s=q.toLowerCase();const custom=knowledge.find(k=>s.split(/\W+/).some(w=>w.length>3&&k.text.toLowerCase().includes(w)));if(custom)return "From your Knowledge Notebook: "+custom.text;
+if(/html/.test(s))return "HTML (HyperText Markup Language) gives a webpage its structure. Headings, paragraphs, links and images are written using HTML elements.";
+if(/css/.test(s))return "CSS (Cascading Style Sheets) controls how a webpage looks: colours, spacing, layout, fonts and responsive design.";
+if(/javascript| js /.test(" "+s+" "))return "JavaScript adds behaviour to websites. It can respond to clicks, validate forms, update content and work with browser storage.";
+if(/phish|otp|scam|fraud/.test(s))return "Stay cautious: never share an OTP or password, don't rush through urgent messages, and verify requests using the official app or website.";
+if(/operating system|windows|linux/.test(s))return "An operating system manages a computer's hardware and software and provides an interface for users and applications. Examples include Windows and Linux.";
+if(/ram|memory/.test(s))return "RAM is fast, temporary working memory used by programs while they are running. Its contents are normally cleared when power is turned off.";
+if(/hello|hi|hey/.test(s))return "Hello! Ask me about computer basics, web development, programming or digital safety.";
+return "I’m the KR-X offline demo, so my built-in answers are limited. Try asking about HTML, CSS, JavaScript, RAM, operating systems or phishing. You can also add your own notes in the Knowledge Notebook."}
+function sendChat(){const q=$("chatInput").value.trim();if(!q)return;const log=$("chatLog");log.textContent+="\n\nYou: "+q+"\n\nKR-X: "+assistantReply(q);log.scrollTop=log.scrollHeight;$("chatInput").value=""}
+$("sendChat").addEventListener("click",sendChat);$("chatInput").addEventListener("keydown",e=>{if(e.key==="Enter")sendChat()});
+
+$("checkPassword").addEventListener("click",()=>{const p=$("passwordInput").value;let score=0;if(p.length>=12)score++;if(/[a-z]/.test(p)&&/[A-Z]/.test(p))score++;if(/\d/.test(p))score++;if(/[^A-Za-z0-9]/.test(p))score++;const labels=["Very weak","Weak","Fair","Good","Strong"];$("passwordMeter").style.width=(score*25)+"%";$("passwordFeedback").textContent=p.length?labels[score]+" sample. Use a unique, long passphrase and never reuse passwords.":"Enter a sample first.";});
+document.querySelectorAll("[data-correct]").forEach(b=>b.addEventListener("click",()=>{$("quizFeedback").textContent=b.dataset.correct==="true"?"Correct! Verify independently and never share an OTP.":"Not safe. Never share OTPs; use the official service to verify."; $("quizFeedback").style.color=b.dataset.correct==="true"?"var(--green)":"var(--red)"}));
+document.querySelectorAll("[data-safe]").forEach(c=>{c.checked=!!checks[c.dataset.safe];c.addEventListener("change",()=>{checks[c.dataset.safe]=c.checked;write("checks",checks);renderChecks()})});
+function renderChecks(){const all=[...document.querySelectorAll("[data-safe]")];$("safetyProgress").textContent=all.filter(c=>c.checked).length+" of "+all.length+" completed. Your checklist is saved on this device."}renderChecks();
+
+function parseMath(source){const tokens=source.match(/\d+(?:\.\d+)?|[()+\-*/%]/g)||[];if(tokens.join("")!==source.replace(/\s+/g,""))throw Error("Use numbers and + - * / % ( ) only.");let i=0;function expr(){let v=term();while(tokens[i]==="+"||tokens[i]==="-"){const op=tokens[i++],r=term();v=op==="+"?v+r:v-r}return v}function term(){let v=factor();while(["*","/","%"].includes(tokens[i])){const op=tokens[i++],r=factor();if((op==="/"||op==="%")&&r===0)throw Error("Cannot divide by zero.");v=op==="*"?v*r:op==="/"?v/r:v%r}return v}function factor(){if(tokens[i]==="-"){i++;return-factor()}if(tokens[i]==="+"){i++;return factor()}if(tokens[i]==="("){i++;const v=expr();if(tokens[i++]!==")")throw Error("Missing closing bracket.");return v}const t=tokens[i++];if(!t||!/^\d/.test(t))throw Error("Check your expression.");return Number(t)}const result=expr();if(i!==tokens.length||!Number.isFinite(result))throw Error("Invalid expression.");return result}
+$("calculate").addEventListener("click",()=>{try{$("calcOutput").textContent=String(parseMath($("calcInput").value))}catch(e){$("calcOutput").textContent=e.message}});
+$("clearCalc").addEventListener("click",()=>{$("calcInput").value="";$("calcOutput").textContent="Result appears here."});
+$("counterInput").addEventListener("input",()=>{const t=$("counterInput").value.trim();$("counterOutput").textContent="Words: "+(t?t.split(/\s+/).length:0)+" • Characters: "+$("counterInput").value.length});
+document.querySelectorAll("[data-case]").forEach(b=>b.addEventListener("click",()=>{const v=$("caseInput").value;const mode=b.dataset.case;$("caseOutput").value=mode==="upper"?v.toUpperCase():mode==="lower"?v.toLowerCase():v.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase())}));
+$("formatJson").addEventListener("click",()=>{try{$("jsonOutput").textContent=JSON.stringify(JSON.parse($("jsonInput").value),null,2)}catch(e){$("jsonOutput").textContent="Invalid JSON: "+e.message}});
+$("convertUnit").addEventListener("click",()=>{const n=Number($("unitValue").value);if($("unitValue").value.trim()===""||!Number.isFinite(n))return $("unitOutput").textContent="Enter a valid number.";const type=$("unitType").value;const f={km:n=>n*.621371,mi:n=>n*1.60934,kg:n=>n*2.20462,cm:n=>n*.393701,c:n=>n*9/5+32};const suffix={km:"miles",mi:"kilometres",kg:"pounds",cm:"inches",c:"°F"};$("unitOutput").textContent=f[type](n).toFixed(3)+" "+suffix[type]});
+let timerSeconds=1500,timerInterval=null;function showTimer(){$("timerDisplay").textContent=String(Math.floor(timerSeconds/60)).padStart(2,"0")+":"+String(timerSeconds%60).padStart(2,"0")}function startTimer(){if(timerInterval)return;timerInterval=setInterval(()=>{if(timerSeconds>0){timerSeconds--;showTimer()}else{clearInterval(timerInterval);timerInterval=null;alert("Focus session complete. Take a short break.")}},1000)}$("startTimer").addEventListener("click",startTimer);$("pauseTimer").addEventListener("click",()=>{clearInterval(timerInterval);timerInterval=null});$("resetTimer").addEventListener("click",()=>{clearInterval(timerInterval);timerInterval=null;timerSeconds=1500;showTimer()});showTimer();
+
+$("themeBtn").addEventListener("click",()=>{document.body.classList.toggle("light");localStorage.setItem("krx-theme",document.body.classList.contains("light")?"light":"dark")});if(localStorage.getItem("krx-theme")==="light")document.body.classList.add("light");
+$("saveProfile").addEventListener("click",()=>{localStorage.setItem("krx-nickname",$("nickname").value.trim());alert("Profile saved on this device.")});$("nickname").value=localStorage.getItem("krx-nickname")||"";
+$("exportData").addEventListener("click",()=>{const data={version:4,notes,tasks,bookmarks,knowledge,checks,nickname:localStorage.getItem("krx-nickname")||""};const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="kr-x-backup.json";a.click();URL.revokeObjectURL(url)});
+$("importFile").addEventListener("change",async e=>{const file=e.target.files[0];if(!file)return;try{const d=JSON.parse(await file.text());if(!d||typeof d!=="object")throw Error("Invalid backup");notes=Array.isArray(d.notes)?d.notes:[];tasks=Array.isArray(d.tasks)?d.tasks:[];bookmarks=Array.isArray(d.bookmarks)?d.bookmarks:[];knowledge=Array.isArray(d.knowledge)?d.knowledge:[];checks=d.checks&&typeof d.checks==="object"?d.checks:{};write("notes",notes);write("tasks",tasks);write("bookmarks",bookmarks);write("knowledge",knowledge);write("checks",checks);localStorage.setItem("krx-nickname",String(d.nickname||""));$("nickname").value=String(d.nickname||"");renderNotes();renderTasks();renderKnowledge();renderBookmarks();renderChecks();alert("Backup imported.")}catch(err){alert("Could not import: "+err.message)}e.target.value=""});
+$("resetData").addEventListener("click",()=>{if(!confirm("This will delete KR-X data saved in this browser. Export a backup first if needed. Continue?"))return;Object.keys(localStorage).filter(k=>k.startsWith("krx-")).forEach(k=>localStorage.removeItem(k));location.reload()});
+renderNotes();renderKnowledge();renderBookmarks();renderTasks();refreshStats();
+</script>
 </body>
 </html>
