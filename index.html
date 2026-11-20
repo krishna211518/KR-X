@@ -47,6 +47,26 @@ footer{border-top:1px solid var(--line);margin-top:35px;padding-top:18px;color:#
 .light .sim-choice.correct{background:#e7f7ee;border-color:#348b60}
 .light .sim-choice.incorrect{background:#fff0f0;border-color:#c75858}
 
+
+@media (hover:none) and (pointer:coarse){
+ .app{grid-template-columns:1fr}
+ .sidebar{height:auto;position:relative;padding:12px;gap:12px;border-right:0;border-bottom:1px solid var(--line)}
+ .brand{padding:4px 8px}
+ .nav-label{display:none}
+ .nav{display:flex;overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+ .nav::-webkit-scrollbar{display:none}
+ .nav button{white-space:nowrap;min-height:44px;padding:9px}
+ .nav button.active{box-shadow:inset 0 -3px var(--cyan)}
+ .side-bottom{display:block;margin-top:0;padding:4px 12px}
+ main{padding:18px 14px 42px}
+ .topbar{align-items:flex-start;flex-direction:column;gap:12px;margin-bottom:20px}
+ .top-actions{width:100%;justify-content:space-between;flex-wrap:wrap}
+ .card,.card.half,.card.wide{grid-column:1/-1}
+ .tool-grid{grid-template-columns:1fr}
+ .hero{padding:20px}
+ .btn,.quiz-option,.sim-choice{min-height:44px}
+ input,textarea,select{font-size:16px}
+}
 </style>
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" sizes="192x192" href="./icons/icon-192.png">
