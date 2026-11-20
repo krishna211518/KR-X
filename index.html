@@ -1,0 +1,317 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KR-X | Cyber Future</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #050a12;
+    color: #f0f7ff;
+    font-family: Arial, sans-serif;
+}
+
+:root {
+    --green: #00f5a0;
+    --blue: #168bff;
+    --muted: #9aadc2;
+    --panel: #0b1930;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 8%;
+    background: #07101e;
+    border-bottom: 1px solid #18344b;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.logo {
+    color: var(--green);
+    font-size: 30px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    text-shadow: 0 0 15px #00f5a066;
+}
+
+nav {
+    display: flex;
+    gap: 25px;
+}
+
+nav a {
+    color: #d5e3f2;
+    text-decoration: none;
+    font-size: 14px;
+    transition: .3s;
+}
+
+nav a:hover {
+    color: var(--green);
+}
+
+.hero {
+    min-height: 75vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 50px 20px;
+    background:
+      radial-gradient(ellipse at 25% 40%, #00f5a018, transparent 40%),
+      radial-gradient(ellipse at 80% 60%, #168bff20, transparent 40%);
+}
+
+.tag {
+    color: var(--green);
+    border: 1px solid #00f5a077;
+    padding: 9px 18px;
+    border-radius: 30px;
+    letter-spacing: 2px;
+    font-size: 12px;
+    margin-bottom: 25px;
+}
+
+.hero h1 {
+    font-size: clamp(45px, 8vw, 85px);
+    margin-bottom: 18px;
+}
+
+.hero h1 span {
+    color: var(--green);
+    text-shadow: 0 0 25px #00f5a055;
+}
+
+.hero p {
+    max-width: 620px;
+    color: var(--muted);
+    line-height: 1.8;
+    font-size: 17px;
+    margin-bottom: 30px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 14px 28px;
+    background: var(--green);
+    color: #03120d;
+    text-decoration: none;
+    border-radius: 7px;
+    font-weight: bold;
+    transition: .3s;
+}
+
+.btn:hover {
+    box-shadow: 0 0 25px #00f5a088;
+    transform: translateY(-3px);
+}
+
+.section {
+    padding: 75px 8%;
+    text-align: center;
+}
+
+.section h2 {
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+.section h2 span {
+    color: var(--green);
+}
+
+.subtitle {
+    color: var(--muted);
+    margin-bottom: 40px;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+.card {
+    background: linear-gradient(145deg, #0c1b30, #091321);
+    border: 1px solid #1a3854;
+    padding: 30px 24px;
+    border-radius: 13px;
+    text-align: left;
+    transition: .3s;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    border-color: var(--green);
+    box-shadow: 0 0 20px #168bff20;
+}
+
+.card .icon {
+    font-size: 36px;
+    margin-bottom: 18px;
+}
+
+.card h3 {
+    color: var(--green);
+    margin-bottom: 13px;
+}
+
+.card p {
+    color: var(--muted);
+    line-height: 1.7;
+    font-size: 14px;
+}
+
+.about {
+    background: #081321;
+    border-top: 1px solid #18344b;
+    border-bottom: 1px solid #18344b;
+}
+
+.about p {
+    max-width: 700px;
+    margin: auto;
+    color: var(--muted);
+    line-height: 1.9;
+}
+
+footer {
+    text-align: center;
+    padding: 30px 15px;
+    color: #8195aa;
+    font-size: 13px;
+}
+
+footer span {
+    color: var(--green);
+}
+
+@media(max-width: 700px) {
+    header {
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    nav {
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    nav a {
+        font-size: 12px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    .section {
+        padding: 55px 6%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">KR-X</div>
+
+    <nav>
+        <a href="#">Home</a>
+        <a href="#technology">Technology</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="tag">NEXT GENERATION TECHNOLOGY</div>
+
+    <h1>WELCOME TO <span>KR-X</span></h1>
+
+    <p>
+        Building a smarter, safer and more intelligent
+        digital future through Artificial Intelligence,
+        Cyber Security and Privacy.
+    </p>
+
+    <a href="#technology" class="btn">EXPLORE KR-X →</a>
+</section>
+
+<section class="section" id="technology">
+    <h2>OUR <span>TECHNOLOGY</span></h2>
+
+    <p class="subtitle">
+        Think Big. Build Smart. Stay Secure.
+    </p>
+
+    <div class="cards">
+        <div class="card">
+            <div class="icon">🤖</div>
+            <h3>Artificial Intelligence</h3>
+            <p>
+                Exploring intelligent technology to make
+                everyday digital experiences smarter.
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="icon">🔐</div>
+            <h3>Cyber Security</h3>
+            <p>
+                Learning and developing technology
+                to help protect digital information.
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="icon">🛡️</div>
+            <h3>Privacy First</h3>
+            <p>
+                Putting user privacy, transparency
+                and digital control at the centre.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="section about" id="about">
+    <h2>ABOUT <span>KR-X</span></h2>
+
+    <p>
+        KR-X is a technology project focused on
+        Artificial Intelligence, Cyber Security,
+        Software Development and Digital Privacy.
+        Our vision is to learn, innovate and build
+        useful technology for the future.
+    </p>
+</section>
+
+<footer id="contact">
+    <p>© 2026 <span>KR-X</span> | The Future Starts Here.</p>
+    <p style="margin-top:10px;">
+        Think Big. Build Smart. Stay Secure.
+    </p>
+</footer>
+
+</body>
+</html>
