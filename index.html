@@ -25,6 +25,28 @@ footer{border-top:1px solid var(--line);margin-top:35px;padding-top:18px;color:#
 .light{--bg:#edf4fa;--panel:#fff;--panel2:#fff;--line:#cbd9e5;--text:#102338;--muted:#526a80;background:var(--bg);color:var(--text)}.light .sidebar{background:#f7fbff;border-color:var(--line)}.light .nav button{color:#39536b}.light .nav button.active,.light .nav button:hover{background:#e4f1f8;color:#102338}.light .field input,.light .field textarea,.light .field select,.light .output,.light .control,.light .item,.light .tool,.light .quiz-option{background:#f6faff;color:#102338;border-color:#cbd9e5}.light .hero{background:linear-gradient(120deg,#d9f1f6,#e9f1ff)}.light .card{background:#fff}
 @media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{height:auto;position:relative;padding:12px;gap:12px;border-right:0;border-bottom:1px solid var(--line)}.brand{padding:4px 8px}.nav-label,.side-bottom{display:none}.nav{display:flex;overflow:auto;padding-bottom:4px}.nav button{white-space:nowrap;padding:9px}.nav button.active{box-shadow:inset 0 -3px var(--cyan)}main{padding:20px 14px 45px}.card{grid-column:span 6}.card.wide{grid-column:span 12}}
 @media(max-width:560px){.topbar{align-items:flex-start;flex-direction:column}.top-actions{width:100%;justify-content:space-between}.card,.card.half{grid-column:span 12}.tool-grid{grid-template-columns:1fr}.hero{padding:21px}.clock{font-size:12px}}
+
+.sim-card{background:linear-gradient(145deg,#102c44,#091827);border-color:#2c6373}
+.sim-topline{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.sim-topline h3{margin:9px 0 5px}
+.sim-topline p{margin:0}
+.sim-readout{min-width:190px}
+.sim-readout .meter{margin-top:6px}
+.sim-intro{display:grid;gap:12px;margin-top:18px}
+.sim-stage{margin-top:20px}
+.sim-question{padding:14px;border-left:3px solid var(--cyan);border-radius:8px;background:#091827;color:var(--text)}
+.sim-choices{display:grid;gap:9px;margin-top:12px}
+.sim-choice{width:100%;text-align:left;background:#091827;border:1px solid #29445d;color:var(--text);padding:12px;border-radius:9px}
+.sim-choice:hover{border-color:var(--cyan);background:#10283a}
+.sim-choice:disabled{cursor:default}
+.sim-choice.correct{border-color:var(--green);background:#103029}
+.sim-choice.incorrect{border-color:var(--red);background:#321f2a}
+.sim-feedback{min-height:24px;margin:12px 0}
+.light .sim-card{background:linear-gradient(145deg,#effbff,#edf4fa);border-color:#cbd9e5}
+.light .sim-question,.light .sim-choice{background:#f6faff;color:#102338;border-color:#cbd9e5}
+.light .sim-choice.correct{background:#e7f7ee;border-color:#348b60}
+.light .sim-choice.incorrect{background:#fff0f0;border-color:#c75858}
+
 </style>
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" sizes="192x192" href="./icons/icon-192.png">
@@ -70,6 +92,15 @@ footer{border-top:1px solid var(--line);margin-top:35px;padding-top:18px;color:#
   <div class="card half"><h3>Sample password strength checker</h3><div class="field"><label for="passwordInput">Enter a sample password (don't use your real password)</label><input id="passwordInput" type="password" autocomplete="off" placeholder="Type a sample only"></div><div class="meter"><span id="passwordMeter"></span></div><p id="passwordFeedback" class="muted">Your result will appear here.</p><button class="btn" id="checkPassword">Check sample</button></div>
   <div class="card half"><h3>Phishing awareness quiz</h3><p id="quizQuestion">A message says your account will be closed unless you share an OTP. What should you do?</p><div id="quizOptions"><button class="quiz-option" data-correct="false">Share the OTP to save the account</button><button class="quiz-option" data-correct="true">Never share it; verify through the official app or website</button><button class="quiz-option" data-correct="false">Forward the OTP to a friend</button></div><p id="quizFeedback" class="muted">Choose the safest answer.</p></div>
   <div class="card full"><h3>Personal digital-safety checklist</h3><div id="safetyChecks"><label class="checkline"><input type="checkbox" data-safe="updates"> I keep my apps and operating system updated.</label><label class="checkline"><input type="checkbox" data-safe="otp"> I never share OTPs, passwords or recovery codes.</label><label class="checkline"><input type="checkbox" data-safe="links"> I check links and website addresses before signing in.</label><label class="checkline"><input type="checkbox" data-safe="backup"> I keep a backup of important files.</label><label class="checkline"><input type="checkbox" data-safe="privacy"> I review app permissions and privacy settings.</label></div><p class="small-note" id="safetyProgress">0 of 5 completed. Your checklist is saved on this device.</p></div>
+  <div class="card full sim-card" id="cyberDefenseSimulator">
+   <div class="sim-topline">
+    <div><span class="pill">CYBER DEFENSE LAB • SIMULATION</span><h3>Mission: Defend the device</h3><p class="muted">Make three choices to protect a fictional device. See your shield score after every decision.</p></div>
+    <div class="sim-readout"><span id="simScore">0 / 3 threats blocked</span><div class="small-note">Shield integrity</div><div class="meter"><span id="simShieldMeter" style="width:100%"></span></div></div>
+   </div>
+   <div id="simIntro" class="sim-intro"><div class="output">Training run: urgent message, reused password, and unknown public Wi-Fi. These are fictional situations; no accounts or network connections are used.</div><button class="btn primary" id="simStart" type="button">Start simulation →</button></div>
+   <div id="simStage" class="sim-stage" hidden><p class="eyebrow" id="simRound"></p><h3 id="simTitle"></h3><p class="sim-question" id="simPrompt"></p><div class="sim-choices" id="simChoices"></div><p class="muted sim-feedback" id="simFeedback" role="status" aria-live="polite" hidden></p><button class="btn" id="simNext" type="button" hidden>Continue →</button></div>
+   <div id="simResults" class="sim-stage" hidden><p class="output" id="simResultText" role="status" aria-live="polite"></p><button class="btn primary" id="simRestart" type="button">Run again</button></div>
+  </div>
  </div>
 </section>
 
@@ -249,6 +280,132 @@ if ("serviceWorker" in navigator && location.protocol !== "file:") {
   });
 }
 // --- End KR-X PWA support ---
+</script>
+<script>
+(() => {
+  "use strict";
+  const scenarios = [
+    {
+      title: "Urgent account warning",
+      prompt: "A message claims your account will close in ten minutes unless you reply with the OTP. What is the safest move?",
+      choices: [
+        {text:"Reply with the OTP so the account stays open.",correct:false},
+        {text:"Open the official app yourself, verify there, then report or delete the message.",correct:true},
+        {text:"Forward the message to a friend and ask them to open its link.",correct:false}
+      ],
+      explanation: "Support teams should never ask you to share an OTP. Verify requests in the official app or at an address you type yourself."
+    },
+    {
+      title: "Reused password detected",
+      prompt: "A practice alert says the same short password is used on several accounts. Which change gives the strongest protection?",
+      choices: [
+        {text:"Give every account a long, unique password and turn on multi-factor authentication.",correct:true},
+        {text:"Add one extra symbol to the same password everywhere.",correct:false},
+        {text:"Send the password to a friend so they can help remember it.",correct:false}
+      ],
+      explanation: "Unique passwords limit the damage from a leak on one site. Multi-factor authentication adds another check."
+    },
+    {
+      title: "Unknown public Wi-Fi",
+      prompt: "You need to open a sensitive account while connected to an unknown public hotspot. What should you do?",
+      choices: [
+        {text:"Turn off multi-factor authentication to make sign-in quicker.",correct:false},
+        {text:"Install the update offered by the hotspot pop-up.",correct:false},
+        {text:"Switch to mobile data or a trusted network, then check the official HTTPS address.",correct:true}
+      ],
+      explanation: "Use a trusted network for sensitive sign-ins. Avoid surprise update prompts and verify the address yourself."
+    }
+  ];
+  const get = id => document.getElementById(id);
+  const intro = get("simIntro");
+  const stage = get("simStage");
+  const results = get("simResults");
+  const scoreLabel = get("simScore");
+  const shieldMeter = get("simShieldMeter");
+  const roundLabel = get("simRound");
+  const title = get("simTitle");
+  const prompt = get("simPrompt");
+  const choices = get("simChoices");
+  const feedback = get("simFeedback");
+  const nextButton = get("simNext");
+  const resultText = get("simResultText");
+  let round = 0;
+  let score = 0;
+  let shield = 100;
+
+  function updateReadout() {
+    scoreLabel.textContent = score + " / " + scenarios.length + " threats blocked";
+    shieldMeter.style.width = shield + "%";
+    shieldMeter.style.background = shield <= 50 ? "var(--red)" : "var(--green)";
+  }
+
+  function renderScenario() {
+    const scenario = scenarios[round];
+    roundLabel.textContent = "SCENARIO " + (round + 1) + " OF " + scenarios.length;
+    title.textContent = scenario.title;
+    prompt.textContent = scenario.prompt;
+    choices.innerHTML = scenario.choices.map((choice,index) =>
+      '<button type="button" class="sim-choice" data-sim-choice="' + index + '">' + choice.text + '</button>'
+    ).join("");
+    feedback.hidden = true;
+    nextButton.hidden = true;
+    nextButton.textContent = round === scenarios.length - 1 ? "View mission result →" : "Continue →";
+    updateReadout();
+  }
+
+  function startSimulation() {
+    round = 0;
+    score = 0;
+    shield = 100;
+    intro.hidden = true;
+    results.hidden = true;
+    stage.hidden = false;
+    renderScenario();
+  }
+
+  function finishSimulation() {
+    stage.hidden = true;
+    results.hidden = false;
+    const result = score === scenarios.length
+      ? "Perfect defense. Every threat was blocked."
+      : score >= 2
+        ? "Strong defense. Review the missed choice, then try again."
+        : "Keep practising. Read each explanation and run the simulation again.";
+    resultText.textContent = "Mission complete: " + score + " of " + scenarios.length + " threats blocked. Shield integrity: " + shield + "%. " + result;
+  }
+
+  get("simStart").addEventListener("click",startSimulation);
+  get("simRestart").addEventListener("click",startSimulation);
+  nextButton.addEventListener("click",() => {
+    if (round < scenarios.length - 1) {
+      round++;
+      renderScenario();
+    } else {
+      finishSimulation();
+    }
+  });
+  choices.addEventListener("click",event => {
+    const button = event.target.closest("[data-sim-choice]");
+    if (!button || !stage.contains(button) || button.disabled) return;
+    const choiceIndex = Number(button.dataset.simChoice);
+    const scenario = scenarios[round];
+    const choice = scenario.choices[choiceIndex];
+    if (!choice) return;
+    if (choice.correct) score++;
+    else shield = Math.max(0,shield - 25);
+    for (const option of choices.querySelectorAll("[data-sim-choice]")) {
+      option.disabled = true;
+      const optionIndex = Number(option.dataset.simChoice);
+      if (scenario.choices[optionIndex].correct) option.classList.add("correct");
+      else if (optionIndex === choiceIndex) option.classList.add("incorrect");
+    }
+    feedback.textContent = (choice.correct ? "Threat blocked. " : "Simulation alert. ") + scenario.explanation;
+    feedback.hidden = false;
+    nextButton.hidden = false;
+    updateReadout();
+  });
+  updateReadout();
+})();
 </script>
 </body>
 </html>
