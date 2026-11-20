@@ -26,6 +26,8 @@ footer{border-top:1px solid var(--line);margin-top:35px;padding-top:18px;color:#
 @media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{height:auto;position:relative;padding:12px;gap:12px;border-right:0;border-bottom:1px solid var(--line)}.brand{padding:4px 8px}.nav-label,.side-bottom{display:none}.nav{display:flex;overflow:auto;padding-bottom:4px}.nav button{white-space:nowrap;padding:9px}.nav button.active{box-shadow:inset 0 -3px var(--cyan)}main{padding:20px 14px 45px}.card{grid-column:span 6}.card.wide{grid-column:span 12}}
 @media(max-width:560px){.topbar{align-items:flex-start;flex-direction:column}.top-actions{width:100%;justify-content:space-between}.card,.card.half{grid-column:span 12}.tool-grid{grid-template-columns:1fr}.hero{padding:21px}.clock{font-size:12px}}
 </style>
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" sizes="192x192" href="./icons/icon-192.png">
 </head>
 <body>
 <div class="app">
@@ -44,7 +46,7 @@ footer{border-top:1px solid var(--line);margin-top:35px;padding-top:18px;color:#
  <div class="side-bottom"><span class="status-dot"></span>Local workspace active<br><span id="sideDate"></span></div>
 </aside>
 <main>
- <div class="topbar"><div><div class="eyebrow">PERSONAL TECHNOLOGY PLATFORM</div><h1 id="pageTitle">Dashboard</h1></div><div class="top-actions"><span class="clock" id="clock">--:--:--</span><button class="btn small" id="themeBtn">☼ Theme</button></div></div>
+ <div class="topbar"><div><div class="eyebrow">PERSONAL TECHNOLOGY PLATFORM</div><h1 id="pageTitle">Dashboard</h1><p id="installStatus" class="small-note" role="status" aria-live="polite" hidden></p></div><div class="top-actions"><span class="clock" id="clock">--:--:--</span><button class="btn small primary" id="installAppBtn" type="button">↓ Install App</button><button class="btn small" id="themeBtn">☼ Theme</button></div></div>
 
 <section class="page active" id="page-dashboard">
  <div class="hero"><span class="pill">KR-X 4.0 • YOUR DIGITAL WORKSPACE</span><h2>Think Big. Build Smart.<br><span style="color:var(--cyan)">Stay Secure.</span></h2><p>A focused space to learn technology, organize your work, practise digital safety and build useful projects — all saved in this browser.</p><div class="hero-actions"><button class="btn primary" data-go="learning">Start learning →</button><button class="btn" data-go="tools">Open tools</button></div></div>
@@ -183,6 +185,56 @@ $("exportData").addEventListener("click",()=>{const data={version:4,notes,tasks,
 $("importFile").addEventListener("change",async e=>{const file=e.target.files[0];if(!file)return;try{const d=JSON.parse(await file.text());if(!d||typeof d!=="object")throw Error("Invalid backup");notes=Array.isArray(d.notes)?d.notes:[];tasks=Array.isArray(d.tasks)?d.tasks:[];bookmarks=Array.isArray(d.bookmarks)?d.bookmarks:[];knowledge=Array.isArray(d.knowledge)?d.knowledge:[];checks=d.checks&&typeof d.checks==="object"?d.checks:{};write("notes",notes);write("tasks",tasks);write("bookmarks",bookmarks);write("knowledge",knowledge);write("checks",checks);localStorage.setItem("krx-nickname",String(d.nickname||""));$("nickname").value=String(d.nickname||"");renderNotes();renderTasks();renderKnowledge();renderBookmarks();renderChecks();alert("Backup imported.")}catch(err){alert("Could not import: "+err.message)}e.target.value=""});
 $("resetData").addEventListener("click",()=>{if(!confirm("This will delete KR-X data saved in this browser. Export a backup first if needed. Continue?"))return;Object.keys(localStorage).filter(k=>k.startsWith("krx-")).forEach(k=>localStorage.removeItem(k));location.reload()});
 renderNotes();renderKnowledge();renderBookmarks();renderTasks();refreshStats();
+// --- KR-X PWA install and offline support ---
+let deferredInstallPrompt = null;
+const installAppBtn = $("installAppBtn");
+const installStatus = $("installStatus");
+function isStandaloneApp(){
+  return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+}
+function refreshInstallButton(){ installAppBtn.hidden = isStandaloneApp(); }
+window.addEventListener("beforeinstallprompt", event => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+  installStatus.textContent = "KR-X is ready to install.";
+  installStatus.hidden = false;
+});
+window.addEventListener("appinstalled", () => {
+  deferredInstallPrompt = null;
+  installAppBtn.hidden = true;
+  installStatus.textContent = "KR-X has been installed.";
+  installStatus.hidden = false;
+});
+installAppBtn.addEventListener("click", async () => {
+  if (isStandaloneApp()) { installAppBtn.hidden = true; return; }
+  if (deferredInstallPrompt) {
+    const promptEvent = deferredInstallPrompt;
+    deferredInstallPrompt = null;
+    promptEvent.prompt();
+    const choice = await promptEvent.userChoice;
+    installStatus.textContent = choice.outcome === "accepted" ? "KR-X installation was accepted." : "Installation was cancelled.";
+    installStatus.hidden = false;
+    return;
+  }
+  const userAgent = navigator.userAgent.toLowerCase();
+  const help = /(iphone|ipad|ipod)/.test(userAgent)
+    ? "To install on iPhone or iPad, open KR-X in Safari, tap Share, then Add to Home Screen."
+    : /android/.test(userAgent)
+      ? "If the install prompt is not shown, open your browser menu and choose Install app or Add to Home screen."
+      : "If the install prompt is not shown, use your browser’s Install app option near the address bar or in its menu.";
+  installStatus.textContent = help;
+  installStatus.hidden = false;
+});
+refreshInstallButton();
+if ("serviceWorker" in navigator && location.protocol !== "file:") {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").catch(error => {
+      console.error("KR-X service worker registration failed:", error);
+    });
+  });
+}
+// --- End KR-X PWA support ---
 </script>
 </body>
 </html>
+
