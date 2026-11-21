@@ -657,7 +657,7 @@ $("tasksList").addEventListener("change",e=>{const id=e.target.dataset.taskCheck
 $("tasksList").addEventListener("click",e=>{const id=e.target.dataset.taskDelete;if(!id)return;tasks=tasks.filter(t=>t.id!==id);write("tasks",tasks);renderTasks();toast("Task deleted.")});
 $("clearDone").addEventListener("click",()=>{tasks=tasks.filter(t=>!t.done);write("tasks",tasks);renderTasks();toast("Completed tasks cleared.")});
 
-const chatHistory=read("chatHistory",[]);
+let chatHistory=read("chatHistory",[]);
 function assistantReply(q){
  const s=q.toLowerCase();
  const custom=knowledge.find(k=>s.split(/\W+/).filter(w=>w.length>3).some(w=>k.text.toLowerCase().includes(w)));
