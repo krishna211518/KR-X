@@ -1,14 +1,14 @@
-const CACHE_NAME = "krx-pwa-v5";
+const CACHE_NAME = "krx-pwa-v6";
 const APP_SHELL = [
   "./",
   "./index.html",
-  "./manifest.json",
-  "./icons/icon.svg",
-  "./icons/icon-180.png",
-  "./icons/icon-192.png",
-  "./icons/icon-512.png",
-  "./icons/icon-192-maskable.png",
-  "./icons/icon-512-maskable.png"
+  "./manifest.json?v=2",
+  "./icons/icon.svg?v=2",
+  "./icons/icon-180.png?v=2",
+  "./icons/icon-192.png?v=2",
+  "./icons/icon-512.png?v=2",
+  "./icons/icon-192-maskable.png?v=2",
+  "./icons/icon-512-maskable.png?v=2"
 ];
 
 self.addEventListener("install", event => {
