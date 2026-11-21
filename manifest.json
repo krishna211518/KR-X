@@ -1,13 +1,13 @@
 {
   "id": "./",
-  "name": "KR-X Technology Workspace",
+  "name": "KR-X NEBULA X Technology Workspace",
   "short_name": "KR-X",
-  "description": "A personal technology, learning and digital safety workspace.",
+  "description": "KR-X NEBULA X — technology learning, productivity, tools and digital safety in one responsive workspace.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#07111f",
-  "theme_color": "#07111f",
+  "background_color": "#050b17",
+  "theme_color": "#050b17",
   "icons": [
     {
       "src": "./icons/icon-192.png",
@@ -23,4 +23,3 @@
     }
   ]
 }
-
