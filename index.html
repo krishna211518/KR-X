@@ -450,6 +450,8 @@ footer{border-color:#24425e;color:#829bb7}
   <div class="card"><div class="stat-icon">📚</div><div class="stat" id="knowledgeCount">0</div><div class="stat-label">Knowledge entries</div></div>
   <div class="card wide"><h3>Quick launch</h3><div class="row"><button class="btn" data-go="assistant">✦ Ask KR-X</button><button class="btn" data-go="security">◈ Safety check</button><button class="btn" data-go="workspace">▤ Open notes</button><button class="btn" data-go="planner">✓ View planner</button></div></div>
   <div class="card"><h3>Daily reminder</h3><p class="muted">Learn one small concept, practise it, and write down what you understood. Consistency beats rushing.</p><span class="pill">LEARN • PRACTISE • REVIEW</span></div>
+  <div class="card full"><h3>⌕ KR-X Universal Search</h3><p class="muted">Search your saved notes, tasks, knowledge and app sections in one place.</p><div class="row"><input class="control grow" id="globalSearch" type="search" placeholder="Try: HTML, task, security, notes..." aria-label="Search KR-X"><button class="btn primary" id="clearGlobalSearch" type="button">Clear</button></div><div id="globalSearchResults" class="list" aria-live="polite"><div class="empty">Start typing to search your KR-X workspace.</div></div><p class="small-note">Shortcut: Ctrl + K (or ⌘ + K) to jump to search.</p></div>
+  <div class="card"><div class="stat-icon">🎯</div><div class="stat" id="learningProgressStat">0%</div><div class="stat-label">Learning roadmap completed</div></div>
  </div>
 </section>
 
@@ -505,6 +507,14 @@ footer{border-color:#24425e;color:#829bb7}
 <section class="page" id="page-learning">
  <div class="section-head"><div><h2>Learning Hub</h2><p>Beginner-friendly roadmap. Learn one topic at a time.</p></div></div>
  <div class="grid">
+ <div class="card full"><h3>🚀 Your learning progress</h3><p class="muted">Tick a level after you understand it and complete its practice task. Progress is saved on this device.</p><div class="row" style="justify-content:space-between"><strong id="learningProgressLabel">0 of 6 levels completed</strong><span class="pill" id="learningProgressPercent">0%</span></div><div class="meter" style="margin:10px 0 14px"><span id="learningProgressBar"></span></div><div class="tool-grid">
+  <label class="checkline"><input type="checkbox" data-learning-step="fundamentals"> Level 01 — Computer fundamentals</label>
+  <label class="checkline"><input type="checkbox" data-learning-step="web"> Level 02 — Web development</label>
+  <label class="checkline"><input type="checkbox" data-learning-step="programming"> Level 03 — Programming logic</label>
+  <label class="checkline"><input type="checkbox" data-learning-step="cybersecurity"> Level 04 — Cybersecurity basics</label>
+  <label class="checkline"><input type="checkbox" data-learning-step="networking"> Level 05 — Networking</label>
+  <label class="checkline"><input type="checkbox" data-learning-step="ai"> Level 06 — AI foundations</label>
+ </div></div>
   <div class="card half"><span class="pill">LEVEL 01</span><h3>Computer fundamentals</h3><p class="muted">Hardware, software, input/output devices, memory, operating systems and number systems.</p><p><strong>Practice:</strong> Identify five hardware components and explain their uses.</p></div>
   <div class="card half"><span class="pill">LEVEL 02</span><h3>Web development</h3><p class="muted">HTML structures a page, CSS styles it, and JavaScript adds interaction.</p><p><strong>Practice:</strong> Build a simple personal webpage with a heading and a button.</p></div>
   <div class="card half"><span class="pill">LEVEL 03</span><h3>Programming logic</h3><p class="muted">Variables, conditions, loops, functions, arrays and debugging.</p><p><strong>Practice:</strong> Write a small program that checks whether a number is even.</p></div>
@@ -539,6 +549,38 @@ document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=
 function tick(){const d=new Date();$("clock").textContent=d.toLocaleTimeString();$("sideDate").textContent=d.toLocaleDateString(undefined,{weekday:"short",day:"numeric",month:"short",year:"numeric"})}tick();setInterval(tick,1000);
 
 let notes=read("notes",[]),tasks=read("tasks",[]),bookmarks=read("bookmarks",[]),knowledge=read("knowledge",[]),checks=read("checks",{});
+let learningProgress=read("learningProgress",{});
+function renderLearningProgress(){
+ const boxes=[...document.querySelectorAll("[data-learning-step]")];
+ boxes.forEach(box=>box.checked=!!learningProgress[box.dataset.learningStep]);
+ const done=boxes.filter(box=>box.checked).length,percent=Math.round(done/Math.max(boxes.length,1)*100);
+ $("learningProgressLabel").textContent=done+" of "+boxes.length+" levels completed";
+ $("learningProgressPercent").textContent=percent+"%";
+ $("learningProgressBar").style.width=percent+"%";
+ $("learningProgressStat").textContent=percent+"%";
+}
+document.querySelectorAll("[data-learning-step]").forEach(box=>box.addEventListener("change",()=>{
+ learningProgress[box.dataset.learningStep]=box.checked;write("learningProgress",learningProgress);renderLearningProgress();
+}));
+function runGlobalSearch(){
+ const q=$("globalSearch").value.trim().toLowerCase(),out=$("globalSearchResults");
+ if(!q){out.innerHTML='<div class="empty">Start typing to search your KR-X workspace.</div>';return}
+ const results=[];
+ const sections=[["Dashboard","dashboard"],["AI Assistant","assistant"],["Security Center","security"],["Workspace","workspace"],["Planner","planner"],["Tools Lab","tools"],["Learning Hub","learning"],["Settings","settings"]];
+ sections.forEach(([name,page])=>{if(name.toLowerCase().includes(q))results.push({title:name,meta:"Open app section",page})});
+ notes.forEach(n=>{if((n.title+" "+n.body).toLowerCase().includes(q))results.push({title:n.title,meta:"Saved note",page:"workspace"})});
+ tasks.forEach(t=>{if(t.text.toLowerCase().includes(q))results.push({title:t.text,meta:t.done?"Completed task":"Pending task",page:"planner"})});
+ knowledge.forEach(k=>{if(k.text.toLowerCase().includes(q))results.push({title:k.text,meta:"Knowledge notebook",page:"workspace"})});
+ bookmarks.forEach(b=>{if((b.name+" "+b.url).toLowerCase().includes(q))results.push({title:b.name,meta:"Saved bookmark",page:"workspace"})});
+ out.innerHTML=results.length?results.slice(0,20).map(x=>'<button type="button" class="item" data-search-page="'+x.page+'" style="width:100%;text-align:left;color:var(--text)"><span class="item-main"><span class="item-title">'+escapeHTML(x.title)+'</span><span class="item-meta" style="display:block">'+escapeHTML(x.meta)+'</span></span><span aria-hidden="true">→</span></button>').join(""):'<div class="empty">No matches found. Try a different keyword.</div>';
+}
+$("globalSearch").addEventListener("input",runGlobalSearch);
+$("clearGlobalSearch").addEventListener("click",()=>{$("globalSearch").value="";runGlobalSearch();$("globalSearch").focus()});
+$("globalSearchResults").addEventListener("click",event=>{const button=event.target.closest("[data-search-page]");if(button)navigate(button.dataset.searchPage)});
+document.addEventListener("keydown",event=>{
+ if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==="k"){event.preventDefault();navigate("dashboard");$("globalSearch").focus()}
+});
+
 function refreshStats(){$("noteCount").textContent=notes.length;$("taskCount").textContent=tasks.filter(t=>!t.done).length;$("knowledgeCount").textContent=knowledge.length}
 function renderNotes(){$("notesList").innerHTML=notes.length?notes.map(n=>'<div class="item"><div class="item-main"><div class="item-title">'+escapeHTML(n.title)+'</div><div class="item-meta">'+escapeHTML(n.body)+'</div></div><button class="btn small danger" data-delete-note="'+n.id+'">Delete</button></div>').join(""):'<div class="empty">No notes saved yet.</div>';refreshStats()}
 $("saveNote").addEventListener("click",()=>{const title=$("noteTitle").value.trim(),body=$("noteBody").value.trim();if(!title||!body)return alert("Add a title and note first.");notes.unshift({id:uid(),title,body});write("notes",notes);$("noteTitle").value="";$("noteBody").value="";renderNotes()});
@@ -584,10 +626,10 @@ let timerSeconds=1500,timerInterval=null;function showTimer(){$("timerDisplay").
 
 $("themeBtn").addEventListener("click",()=>{document.body.classList.toggle("light");localStorage.setItem("krx-theme",document.body.classList.contains("light")?"light":"dark")});if(localStorage.getItem("krx-theme")==="light")document.body.classList.add("light");
 $("saveProfile").addEventListener("click",()=>{localStorage.setItem("krx-nickname",$("nickname").value.trim());alert("Profile saved on this device.")});$("nickname").value=localStorage.getItem("krx-nickname")||"";
-$("exportData").addEventListener("click",()=>{const data={version:4,notes,tasks,bookmarks,knowledge,checks,nickname:localStorage.getItem("krx-nickname")||""};const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="kr-x-backup.json";a.click();URL.revokeObjectURL(url)});
-$("importFile").addEventListener("change",async e=>{const file=e.target.files[0];if(!file)return;try{const d=JSON.parse(await file.text());if(!d||typeof d!=="object")throw Error("Invalid backup");notes=Array.isArray(d.notes)?d.notes:[];tasks=Array.isArray(d.tasks)?d.tasks:[];bookmarks=Array.isArray(d.bookmarks)?d.bookmarks:[];knowledge=Array.isArray(d.knowledge)?d.knowledge:[];checks=d.checks&&typeof d.checks==="object"?d.checks:{};write("notes",notes);write("tasks",tasks);write("bookmarks",bookmarks);write("knowledge",knowledge);write("checks",checks);localStorage.setItem("krx-nickname",String(d.nickname||""));$("nickname").value=String(d.nickname||"");renderNotes();renderTasks();renderKnowledge();renderBookmarks();renderChecks();alert("Backup imported.")}catch(err){alert("Could not import: "+err.message)}e.target.value=""});
+$("exportData").addEventListener("click",()=>{const data={version:5,notes,tasks,bookmarks,knowledge,checks,learningProgress,nickname:localStorage.getItem("krx-nickname")||""};const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="kr-x-backup.json";a.click();URL.revokeObjectURL(url)});
+$("importFile").addEventListener("change",async e=>{const file=e.target.files[0];if(!file)return;try{const d=JSON.parse(await file.text());if(!d||typeof d!=="object")throw Error("Invalid backup");notes=Array.isArray(d.notes)?d.notes:[];tasks=Array.isArray(d.tasks)?d.tasks:[];bookmarks=Array.isArray(d.bookmarks)?d.bookmarks:[];knowledge=Array.isArray(d.knowledge)?d.knowledge:[];checks=d.checks&&typeof d.checks==="object"?d.checks:{};learningProgress=d.learningProgress&&typeof d.learningProgress==="object"?d.learningProgress:{};write("learningProgress",learningProgress);write("notes",notes);write("tasks",tasks);write("bookmarks",bookmarks);write("knowledge",knowledge);write("checks",checks);localStorage.setItem("krx-nickname",String(d.nickname||""));$("nickname").value=String(d.nickname||"");renderNotes();renderTasks();renderKnowledge();renderBookmarks();renderChecks();alert("Backup imported.")}catch(err){alert("Could not import: "+err.message)}e.target.value=""});
 $("resetData").addEventListener("click",()=>{if(!confirm("This will delete KR-X data saved in this browser. Export a backup first if needed. Continue?"))return;Object.keys(localStorage).filter(k=>k.startsWith("krx-")).forEach(k=>localStorage.removeItem(k));location.reload()});
-renderNotes();renderKnowledge();renderBookmarks();renderTasks();refreshStats();
+renderNotes();renderKnowledge();renderBookmarks();renderTasks();refreshStats();renderLearningProgress();
 // --- KR-X PWA install and offline support ---
 let deferredInstallPrompt = null;
 const installAppBtn = $("installAppBtn");
