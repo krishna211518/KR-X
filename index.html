@@ -715,7 +715,7 @@ const savedStudio=read("studioProject",null);
 if(savedStudio&&typeof savedStudio==="object"){if(typeof savedStudio.html==="string")$("studioHtml").value=savedStudio.html;if(typeof savedStudio.css==="string")$("studioCss").value=savedStudio.css;if(typeof savedStudio.js==="string")$("studioJs").value=savedStudio.js;}
 function studioDocument(){
  const html=$("studioHtml").value,css=$("studioCss").value,code=$("studioJs").value.replace(/<\/script/gi,"<\\/script");
- return '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src \'none\'; img-src data:; style-src \'unsafe-inline\'; script-src \'unsafe-inline\'"><style>'+css+'</style></head><body>'+html+'<script>'+code+'<\\/script></body></html>';
+ return '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src \'none\'; img-src data:; style-src \'unsafe-inline\'; script-src \'unsafe-inline\'"><style>'+css+'</style></head><body>'+html+'<script>'+code+'<\/script></body></html>';
 }
 function saveStudio(){write("studioProject",{html:$("studioHtml").value,css:$("studioCss").value,js:$("studioJs").value})}
 ["studioHtml","studioCss","studioJs"].forEach(id=>$(id).addEventListener("input",saveStudio));
