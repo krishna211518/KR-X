@@ -157,6 +157,117 @@ footer{border-top:1px solid var(--line);margin-top:35px;padding-top:18px;color:#
 }
 .light .sidebar { background: #f7fbfff2; }
 
+
+/* KR-X TITANIUM PREMIUM THEME */
+:root{
+ --bg:#101216;--panel:#191c22;--panel2:#20242b;--line:#373d47;
+ --text:#f0f1f3;--muted:#a4aab3;--cyan:#c5cbd3;--blue:#929eae;
+ --green:#91c9aa;--red:#e58f91;--shadow:0 20px 60px #0008;
+}
+body{
+ background:
+  radial-gradient(ellipse at 14% 0%,#42495438 0,transparent 34%),
+  radial-gradient(ellipse at 90% 15%,#8e99a10f 0,transparent 30%),
+  linear-gradient(145deg,#111318,#0c0e12 65%,#15181d);
+ color:var(--text);
+}
+.sidebar{
+ background:linear-gradient(180deg,#1b1e24f5,#121419f5);
+ border-color:#3a404a;
+ box-shadow:8px 0 35px #0003;
+}
+.brand-mark{
+ background:linear-gradient(145deg,#f0f2f5,#929ba7 58%,#5c6470);
+ color:#171a20;box-shadow:0 5px 22px #c5cbd326;
+}
+.brand strong{letter-spacing:3.5px}
+.nav button{color:#c0c5cc;transition:background .18s ease,border-color .18s ease,transform .18s ease}
+.nav button:hover{background:#ffffff0b;border-color:#505864}
+.nav button.active{
+ background:linear-gradient(100deg,#c7cdd51c,#ffffff08);
+ border-color:#707985;color:#fff;
+ box-shadow:inset 3px 0 #d4d9df,0 5px 18px #0003;
+}
+.eyebrow{color:#d0d5dc}
+.btn{
+ background:linear-gradient(145deg,#292e36,#1b1f26);
+ border-color:#4a515c;color:#edf0f3;
+ box-shadow:0 3px 10px #0002;
+ transition:transform .18s ease,border-color .18s ease,background .18s ease,box-shadow .18s ease;
+}
+.btn:hover{background:linear-gradient(145deg,#353b45,#242932);border-color:#aab2bd;box-shadow:0 5px 18px #0004;transform:translateY(-1px)}
+.btn.primary{
+ background:linear-gradient(120deg,#e2e5e9,#aeb6c1 58%,#8994a2);
+ color:#171a20;border:1px solid #e5e8ec;
+ box-shadow:0 5px 22px #c8d0dc20;
+}
+.btn.primary:hover{background:linear-gradient(120deg,#f4f5f7,#c5ccd5);border-color:#fff}
+.hero{
+ background:linear-gradient(125deg,#292e36f2,#191c22f5 62%,#242932f0);
+ border-color:#555d69;box-shadow:0 22px 65px #0006,inset 0 1px #ffffff12;
+}
+.hero:after{background:#dce2eb12}
+.hero h2 span{color:#d3d8df!important}
+.card,.tool{
+ background:linear-gradient(145deg,#242830,#191c22 78%);
+ border-color:#3e444e;box-shadow:0 10px 28px #0002,inset 0 1px #ffffff08;
+ transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+.card:hover,.tool:hover{border-color:#68717e;box-shadow:0 14px 34px #0004,inset 0 1px #ffffff0b}
+.field label{color:#c6cbd2}
+.field input,.field textarea,.field select,input.control,textarea.control,select.control,
+.output{
+ background:#111419;border-color:#414853;color:#f0f1f3;
+}
+.field input:focus,.field textarea:focus,.field select:focus,.control:focus{
+ border-color:#c4cbd4;box-shadow:0 0 0 3px #c5cbd31c;
+}
+.item{background:#171a20;border-color:#383f49}
+.pill{background:#343a44;color:#e1e5ea;border:1px solid #505864}
+.quiz-option,.sim-choice{background:#191d24;border-color:#414954;color:#eef0f3}
+.quiz-option:hover,.sim-choice:hover{border-color:#c2c9d2;background:#282d35}
+.meter{background:#3b414b}
+.meter>span{background:linear-gradient(90deg,#aab3bf,#e0e4e9)}
+.checkline{color:#d0d4da}
+.checkline input{accent-color:#c4cbd4}
+.sim-card{background:linear-gradient(145deg,#272d36,#171a20);border-color:#555e6a}
+.sim-question{background:#171a20;border-left-color:#c4cbd4}
+.sim-choice.correct{border-color:#91c9aa;background:#1c3028}
+.sim-choice.incorrect{border-color:#e58f91;background:#342125}
+footer{border-color:#3a404a}
+:focus-visible{outline:2px solid #d0d6df;outline-offset:3px}
+::selection{background:#c5cbd34a;color:#fff}
+@media(hover:hover) and (pointer:fine){
+ .nav button:hover{transform:translateX(2px)}
+}
+.light{
+ --bg:#eef0f3;--panel:#fff;--panel2:#f8f9fb;--line:#d3d8df;
+ --text:#20242a;--muted:#626b77;--cyan:#586474;--blue:#758296;
+ --shadow:0 16px 40px #26303d16;
+ background:linear-gradient(145deg,#f4f5f7,#e8ebef);
+ color:var(--text);
+}
+.light .sidebar{background:#f7f8fa;border-color:#d3d8df;box-shadow:4px 0 22px #26303d0c}
+.light .brand-mark{background:linear-gradient(145deg,#414a56,#aeb7c3);color:#fff}
+.light .nav button{color:#46505d}
+.light .nav button.active,.light .nav button:hover{background:#e4e8ed;color:#20242a;border-color:#c2c9d2}
+.light .hero{background:linear-gradient(125deg,#e0e4e9,#f7f8fa);border-color:#cbd1d9}
+.light .hero h2 span{color:#596575!important}
+.light .card,.light .tool{background:linear-gradient(145deg,#fff,#f5f6f8);border-color:#d5dae1}
+.light .btn{background:linear-gradient(145deg,#fff,#e9edf1);color:#252a31;border-color:#cbd1d9}
+.light .btn.primary{background:linear-gradient(120deg,#424c59,#788596);color:#fff;border-color:#788596}
+.light .field input,.light .field textarea,.light .field select,.light .output,.light .control,.light .item,.light .tool,.light .quiz-option{background:#fff;color:#20242a;border-color:#cbd1d9}
+.light .pill{background:#e4e8ed;color:#394451;border-color:#cbd1d9}
+.light .sim-card{background:linear-gradient(145deg,#f7f8fa,#e9edf1);border-color:#cbd1d9}
+.light .sim-question,.light .sim-choice{background:#fff;color:#20242a;border-color:#cbd1d9}
+.light .sim-choice.correct{background:#e7f4ec;border-color:#6a9f7e}
+.light .sim-choice.incorrect{background:#faebec;border-color:#c77d82}
+@media(max-width:700px){
+ .sidebar{background:#171a20f7;border-top:1px solid #414853;box-shadow:0 -10px 30px #0006}
+ .nav button.active{box-shadow:inset 0 2px #d2d7de}
+}
+.light .sidebar{background:#f7f8faf5}
+
 </style>
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" sizes="192x192" href="./icons/icon-192.png">
