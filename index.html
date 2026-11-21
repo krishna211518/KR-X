@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#07111f">
-<meta name="description" content="KR-X — a personal technology, learning and digital safety workspace.">
-<title>KR-X | Technology Workspace</title>
+<meta name="description" content="KR-X NEBULA X — technology learning, productivity, tools and digital safety in one responsive workspace.">
+<title>KR-X | NEBULA X Technology Workspace</title>
 <style>
 :root{--bg:#07111f;--panel:#0d1b2d;--panel2:#10243a;--line:#203b55;--text:#edf6ff;--muted:#9bb0c5;--cyan:#48d9e8;--blue:#5597ff;--green:#6ce6b0;--red:#ff8585;--shadow:0 18px 55px #0005}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 10% 0%,#12314b 0,transparent 34%),var(--bg);color:var(--text);font:15px/1.55 Inter,system-ui,Segoe UI,Arial,sans-serif;min-height:100vh}
@@ -419,11 +419,46 @@ footer{border-color:#24425e;color:#829bb7}
 .light .sim-choice.incorrect{background:#fff0f2;border-color:#d17a8c}
 .light .sidebar{background:#f5faffef}
 
+
+/* NEBULA X 5.0 — interaction, motion, readability and responsive polish */
+:root{color-scheme:dark;--ease-out:cubic-bezier(.2,.75,.25,1)}
+html{scroll-behavior:smooth;scrollbar-color:#24547b #071322}
+body{background-attachment:fixed}
+.brand-mark{position:relative;isolation:isolate;animation:nebulaPulse 5s ease-in-out infinite}
+.brand-mark:after{content:"";position:absolute;inset:-5px;border:1px solid #35e6ff55;border-radius:16px;z-index:-1;animation:brandOrbit 7s linear infinite}
+@keyframes nebulaPulse{0%,100%{filter:brightness(1);box-shadow:0 0 22px #00cfff44}50%{filter:brightness(1.2);box-shadow:0 0 34px #00cfff77,0 0 58px #7667ff33}}
+@keyframes brandOrbit{to{transform:rotate(360deg)}}
+@keyframes nebulaIn{from{opacity:0;transform:translateY(12px) scale(.99);filter:blur(3px)}to{opacity:1;transform:none;filter:blur(0)}}
+.page.active{animation:nebulaIn .38s var(--ease-out) both}
+.card,.tool,.hero,.item,.btn{transition:transform .22s var(--ease-out),border-color .22s ease,box-shadow .22s ease,background .22s ease}
+@media(hover:hover) and (pointer:fine){.card:hover,.tool:hover{transform:translateY(-3px)}.btn:not(:disabled):active{transform:scale(.97)}}
+.btn:focus-visible,.nav button:focus-visible,.quiz-option:focus-visible,.sim-choice:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+button:disabled{opacity:.55;cursor:not-allowed;transform:none!important}
+.chat-log{min-height:260px;max-height:480px;overflow:auto;line-height:1.75;scroll-behavior:smooth}
+.chat-prompts{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.chat-prompts .btn{font-size:11px}
+#globalSearch{min-height:48px}
+#globalSearchResults [data-search-page]{cursor:pointer;transition:transform .18s ease,border-color .18s ease}
+#globalSearchResults [data-search-page]:hover{transform:translateX(3px);border-color:var(--cyan)}
+#taskFilter{max-width:150px}
+.task-badge{display:inline-flex;align-items:center;border:1px solid #285078;border-radius:99px;padding:2px 7px;font-size:10px;font-weight:800;letter-spacing:.4px;margin-right:5px}
+.task-badge.high{color:#ff9bad;border-color:#a94d68;background:#421d2b55}
+.task-badge.low{color:#8bd7b9;border-color:#347a65;background:#123c3155}
+.task-badge.due{color:#8ceaff;border-color:#267b9b;background:#103449}
+.toast-region{position:fixed;right:18px;top:18px;z-index:3000;display:grid;gap:8px;width:min(360px,calc(100vw - 28px));pointer-events:none}
+.krx-toast{padding:12px 15px;border:1px solid #2b7191;border-radius:12px;background:#0b1d31f2;color:#f2f8ff;box-shadow:0 15px 45px #0008;backdrop-filter:blur(14px);animation:toastIn .25s ease both;font-size:13px}
+@keyframes toastIn{from{opacity:0;transform:translateY(-8px) scale(.98)}to{opacity:1;transform:none}}
+.light .krx-toast{background:#f8fcffff;color:#17334b;border-color:#b9d7e8}
+.light .task-badge.high{color:#a32d50;background:#fff0f3}.light .task-badge.low{color:#176c50;background:#e9f8f0}.light .task-badge.due{color:#126b87;background:#e9f8ff}
+:focus-visible{scroll-margin:90px}
+@media(max-width:700px){.toast-region{top:10px;right:10px}.chat-log{min-height:220px;max-height:52vh}.chat-prompts{gap:6px}.chat-prompts .btn{min-height:36px}.task-badge{font-size:9px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" sizes="192x192" href="./icons/icon-192.png">
 </head>
 <body>
+<div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
 <div class="app">
 <aside class="sidebar">
  <div class="brand"><div class="brand-mark">K</div><div><strong>KR-X</strong><small>TECHNOLOGY WORKSPACE</small></div></div>
@@ -457,7 +492,7 @@ footer{border-color:#24425e;color:#829bb7}
 
 <section class="page" id="page-assistant">
  <div class="section-head"><div><h2>AI Assistant</h2><p>A small offline demo assistant with starter knowledge.</p></div><span class="pill">LOCAL DEMO</span></div>
- <div class="grid"><div class="card wide"><h3>Chat with KR-X</h3><div class="output" id="chatLog" style="min-height:230px;max-height:420px;overflow:auto">KR-X: Hi! I can explain computer basics, HTML, CSS, JavaScript and digital safety. This demo works locally and is not connected to a live AI service.</div><div class="row" style="margin-top:10px"><input class="control grow" id="chatInput" placeholder="Ask a question..." aria-label="Ask KR-X"><button class="btn primary" id="sendChat">Send</button></div><div class="small-note">Tip: Try “What is HTML?”, “Explain phishing”, or “What is an operating system?”</div></div><div class="card"><h3>What this assistant can do</h3><ul class="muted"><li>Explain beginner technology topics</li><li>Give safe digital-safety reminders</li><li>Use knowledge you add in your notebook</li><li>Suggest a next learning step</li></ul><p class="small-note">For live AI answers, a secure server-side AI connection would need to be added later. Never put a private API key in public website code.</p></div></div>
+ <div class="grid"><div class="card wide"><div class="row" style="justify-content:space-between"><h3>✦ Chat with KR-X</h3><button class="btn small" id="clearChat" type="button">Clear chat</button></div><div class="output chat-log" id="chatLog" role="log" aria-live="polite" aria-relevant="additions text">KR-X: Welcome! I’m your offline learning assistant. Ask about computers, coding, networking, AI or digital safety.</div><div class="chat-prompts"><button class="btn small" data-prompt="Explain HTML in simple words">HTML basics</button><button class="btn small" data-prompt="What is an operating system?">Operating system</button><button class="btn small" data-prompt="How does the internet work?">Internet</button><button class="btn small" data-prompt="Give me a safe cybersecurity study tip">Cyber safety</button></div><div class="row" style="margin-top:10px"><input class="control grow" id="chatInput" placeholder="Ask a technology question..." aria-label="Ask KR-X"><button class="btn primary" id="sendChat">Send ↗</button></div><div class="small-note">Offline knowledge assistant • Chat is saved only in this browser • Not a live AI model.</div></div><div class="card"><h3>KR-X capabilities</h3><ul class="muted"><li>Beginner-friendly explanations</li><li>Study prompts and revision help</li><li>Defensive digital-safety guidance</li><li>Answers using your Knowledge Notebook</li></ul><div class="output">For genuine generative AI, KR-X needs a secure server-side AI connection. Never place private API keys in public website code.</div></div></div>
 </section>
 
 <section class="page" id="page-security">
@@ -489,7 +524,7 @@ footer{border-color:#24425e;color:#829bb7}
 
 <section class="page" id="page-planner">
  <div class="section-head"><div><h2>Planner</h2><p>Break a big goal into small, manageable tasks.</p></div></div>
- <div class="grid"><div class="card full"><h3>Add a task</h3><div class="row"><input class="control grow" id="taskInput" placeholder="What do you want to complete?"><button class="btn primary" id="addTask">Add task</button></div><div class="row" style="justify-content:space-between;margin:16px 0 10px"><span class="muted" id="taskSummary">No tasks yet</span><button class="btn small" id="clearDone">Clear completed</button></div><div class="list" id="tasksList"></div></div></div>
+ <div class="grid"><div class="card full"><h3>Plan your next move</h3><div class="field"><label for="taskInput">Task name</label><input class="control" id="taskInput" placeholder="What do you want to complete?"></div><div class="row"><div class="field grow"><label for="taskDueDate">Due date (optional)</label><input class="control" id="taskDueDate" type="date"></div><div class="field grow"><label for="taskPriority">Priority</label><select class="control" id="taskPriority"><option value="normal">Normal</option><option value="high">High</option><option value="low">Low</option></select></div><button class="btn primary" id="addTask" type="button">＋ Add task</button></div><div class="row" style="justify-content:space-between;margin:16px 0 10px"><span class="muted" id="taskSummary">No tasks yet</span><div class="row"><select class="control" id="taskFilter" aria-label="Filter tasks" style="width:auto"><option value="all">All tasks</option><option value="pending">Pending</option><option value="done">Completed</option><option value="high">High priority</option></select><button class="btn small" id="clearDone">Clear completed</button></div></div><div class="list" id="tasksList"></div></div></div>
 </section>
 
 <section class="page" id="page-tools">
@@ -500,7 +535,8 @@ footer{border-color:#24425e;color:#829bb7}
   <div class="tool"><h3>Text case converter</h3><textarea class="control" id="caseInput" placeholder="Enter text..."></textarea><div class="tool-actions"><button class="btn" data-case="upper">UPPERCASE</button><button class="btn" data-case="lower">lowercase</button><button class="btn" data-case="title">Title Case</button></div><textarea class="control" id="caseOutput" placeholder="Converted text..." readonly></textarea></div>
   <div class="tool"><h3>JSON formatter</h3><textarea class="control" id="jsonInput" placeholder='{"name":"KR-X","version":4}'></textarea><button class="btn primary" id="formatJson">Format JSON</button><p class="output" id="jsonOutput">Formatted JSON appears here.</p></div>
   <div class="tool"><h3>Unit converter</h3><input class="control" id="unitValue" type="number" placeholder="Enter a value"><select class="control" id="unitType"><option value="km">Kilometres → Miles</option><option value="mi">Miles → Kilometres</option><option value="kg">Kilograms → Pounds</option><option value="cm">Centimetres → Inches</option><option value="c">Celsius → Fahrenheit</option></select><button class="btn primary" id="convertUnit">Convert</button><p class="output" id="unitOutput">Converted value appears here.</p></div>
-  <div class="tool"><h3>Focus timer</h3><p class="stat" id="timerDisplay">25:00</p><div class="tool-actions"><button class="btn primary" id="startTimer">Start</button><button class="btn" id="pauseTimer">Pause</button><button class="btn" id="resetTimer">Reset</button></div><p class="small-note">A simple 25-minute focus session.</p></div>
+  <div class="tool"><h3>Focus timer</h3><p class="stat" id="timerDisplay">25:00</p><div class="field"><label for="focusMinutes">Session length (minutes)</label><input class="control" id="focusMinutes" type="number" min="1" max="180" value="25"></div><div class="tool-actions"><button class="btn primary" id="startTimer">Start</button><button class="btn" id="pauseTimer">Pause</button><button class="btn" id="resetTimer">Reset</button></div><p class="small-note" id="focusStatus">Ready when you are. Completed sessions: <strong id="focusSessions">0</strong></p></div>
+  <div class="tool"><h3>Secure password generator</h3><p class="small-note">Creates a random sample locally. Never reuse generated passwords or share them.</p><div class="row"><input class="control grow" id="generatedPassword" readonly aria-label="Generated password" placeholder="Tap Generate"><button class="btn" id="copyGeneratedPassword" type="button">Copy</button></div><div class="field"><label for="passwordLength">Length: <span id="passwordLengthLabel">18</span></label><input class="control" id="passwordLength" type="range" min="12" max="32" value="18"></div><button class="btn primary" id="generatePassword" type="button">Generate secure sample</button><p class="small-note" id="passwordGenStatus" aria-live="polite">Uses your browser's secure random generator when available. Not saved by KR-X.</p></div>
  </div>
 </section>
 
@@ -543,7 +579,14 @@ const write=(key,value)=>localStorage.setItem("krx-"+key,JSON.stringify(value));
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 const escapeHTML=value=>String(value).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
 const safeUrl=value=>{try{const u=new URL(value);return ["http:","https:"].includes(u.protocol)?u.href:null}catch{return null}};
-function navigate(page){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id==="page-"+page));document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===page));const active=document.querySelector('[data-page="'+page+'"]');$("pageTitle").textContent=active?active.textContent.trim():page;window.scrollTo({top:0,behavior:"smooth"})}
+function toast(message){
+ const region=$("toastRegion");if(!region)return;
+ const node=document.createElement("div");node.className="krx-toast";node.textContent=String(message);
+ region.appendChild(node);while(region.children.length>3)region.firstElementChild.remove();
+ setTimeout(()=>node.remove(),3200);
+}
+
+function navigate(page){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id==="page-"+page));document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===page));const active=document.querySelector('[data-page="'+page+'"]');$("pageTitle").textContent=active?active.textContent.trim():page;const navButton=document.querySelector('[data-page="'+page+'"]');if(navButton&&window.matchMedia("(max-width:700px)").matches)navButton.scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"});window.scrollTo({top:0,behavior:"smooth"})}
 document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>navigate(b.dataset.page)));
 document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>navigate(b.dataset.go)));
 function tick(){const d=new Date();$("clock").textContent=d.toLocaleTimeString();$("sideDate").textContent=d.toLocaleDateString(undefined,{weekday:"short",day:"numeric",month:"short",year:"numeric"})}tick();setInterval(tick,1000);
@@ -591,25 +634,87 @@ $("knowledgeList").addEventListener("click",e=>{const b=e.target.closest("[data-
 function renderBookmarks(){$("bookmarksList").innerHTML=bookmarks.length?bookmarks.map(b=>'<div class="item"><div class="item-main"><a href="'+escapeHTML(b.url)+'" target="_blank" rel="noopener noreferrer" style="color:var(--cyan)">'+escapeHTML(b.name)+'</a><div class="item-meta">'+escapeHTML(b.url)+'</div></div><button class="btn small danger" data-delete-bookmark="'+b.id+'">Delete</button></div>').join(""):'<div class="empty">No bookmarks saved yet.</div>'}
 $("addBookmark").addEventListener("click",()=>{const name=$("bookmarkName").value.trim(),url=safeUrl($("bookmarkUrl").value.trim());if(!name||!url)return alert("Enter a name and a valid http/https URL.");bookmarks.unshift({id:uid(),name,url});write("bookmarks",bookmarks);$("bookmarkName").value="";$("bookmarkUrl").value="";renderBookmarks()});
 $("bookmarksList").addEventListener("click",e=>{const b=e.target.closest("[data-delete-bookmark]");if(!b)return;bookmarks=bookmarks.filter(x=>x.id!==b.dataset.deleteBookmark);write("bookmarks",bookmarks);renderBookmarks()});
-function renderTasks(){$("tasksList").innerHTML=tasks.length?tasks.map(t=>'<div class="item '+(t.done?"done":"")+'"><input type="checkbox" data-task-check="'+t.id+'" '+(t.done?"checked":"")+' aria-label="Complete task"><div class="item-main"><div class="item-title">'+escapeHTML(t.text)+'</div><div class="item-meta">'+(t.done?"Completed":"Pending")+'</div></div><button class="btn small danger" data-task-delete="'+t.id+'">Delete</button></div>').join(""):'<div class="empty">No tasks yet. Add one small goal above.</div>';$("taskSummary").textContent=tasks.filter(t=>t.done).length+" completed • "+tasks.filter(t=>!t.done).length+" pending";refreshStats()}
-$("addTask").addEventListener("click",()=>{const text=$("taskInput").value.trim();if(!text)return;tasks.unshift({id:uid(),text,done:false});write("tasks",tasks);$("taskInput").value="";renderTasks()});
+function renderTasks(){
+ const filter=$("taskFilter").value;
+ const visible=tasks.filter(t=>filter==="all"||(filter==="pending"&&!t.done)||(filter==="done"&&t.done)||(filter==="high"&&t.priority==="high"));
+ $("tasksList").innerHTML=visible.length?visible.map(t=>{
+  const due=t.due?'<span class="task-badge due">Due '+escapeHTML(t.due)+'</span>':"";
+  const priority=t.priority&&t.priority!=="normal"?'<span class="task-badge '+escapeHTML(t.priority)+'">'+escapeHTML(t.priority.toUpperCase())+'</span>':"";
+  return '<div class="item '+(t.done?"done":"")+'"><input type="checkbox" data-task-check="'+t.id+'" '+(t.done?"checked":"")+' aria-label="Complete task"><div class="item-main"><div class="item-title">'+escapeHTML(t.text)+'</div><div class="item-meta">'+(t.done?"Completed":"Pending")+' '+priority+due+'</div></div><button class="btn small danger" data-task-delete="'+t.id+'" aria-label="Delete task">Delete</button></div>';
+ }).join(""):'<div class="empty">'+(tasks.length?"No tasks match this filter.":"No tasks yet. Add your first small goal above.")+'</div>';
+ $("taskSummary").textContent=tasks.filter(t=>t.done).length+" completed • "+tasks.filter(t=>!t.done).length+" pending • "+tasks.length+" total";
+ refreshStats();
+}
+$("addTask").addEventListener("click",()=>{
+ const text=$("taskInput").value.trim();if(!text)return toast("Add a task name first.");
+ const due=$("taskDueDate").value,priority=$("taskPriority").value;
+ tasks.unshift({id:uid(),text,done:false,due,priority,createdAt:new Date().toISOString()});
+ write("tasks",tasks);$("taskInput").value="";$("taskDueDate").value="";$("taskPriority").value="normal";renderTasks();toast("Task added to your planner.");
+});
 $("taskInput").addEventListener("keydown",e=>{if(e.key==="Enter")$("addTask").click()});
-$("tasksList").addEventListener("change",e=>{const id=e.target.dataset.taskCheck;if(!id)return;const t=tasks.find(x=>x.id===id);if(t)t.done=e.target.checked;write("tasks",tasks);renderTasks()});
-$("tasksList").addEventListener("click",e=>{const id=e.target.dataset.taskDelete;if(!id)return;tasks=tasks.filter(t=>t.id!==id);write("tasks",tasks);renderTasks()});
-$("clearDone").addEventListener("click",()=>{tasks=tasks.filter(t=>!t.done);write("tasks",tasks);renderTasks()});
+$("taskFilter").addEventListener("change",renderTasks);
+$("tasksList").addEventListener("change",e=>{const id=e.target.dataset.taskCheck;if(!id)return;const t=tasks.find(x=>x.id===id);if(t)t.done=e.target.checked;write("tasks",tasks);renderTasks();if(t&&t.done)toast("Task completed. Nice progress!")});
+$("tasksList").addEventListener("click",e=>{const id=e.target.dataset.taskDelete;if(!id)return;tasks=tasks.filter(t=>t.id!==id);write("tasks",tasks);renderTasks();toast("Task deleted.")});
+$("clearDone").addEventListener("click",()=>{tasks=tasks.filter(t=>!t.done);write("tasks",tasks);renderTasks();toast("Completed tasks cleared.")});
 
-function assistantReply(q){const s=q.toLowerCase();const custom=knowledge.find(k=>s.split(/\W+/).some(w=>w.length>3&&k.text.toLowerCase().includes(w)));if(custom)return "From your Knowledge Notebook: "+custom.text;
-if(/html/.test(s))return "HTML (HyperText Markup Language) gives a webpage its structure. Headings, paragraphs, links and images are written using HTML elements.";
-if(/css/.test(s))return "CSS (Cascading Style Sheets) controls how a webpage looks: colours, spacing, layout, fonts and responsive design.";
-if(/javascript| js /.test(" "+s+" "))return "JavaScript adds behaviour to websites. It can respond to clicks, validate forms, update content and work with browser storage.";
-if(/phish|otp|scam|fraud/.test(s))return "Stay cautious: never share an OTP or password, don't rush through urgent messages, and verify requests using the official app or website.";
-if(/operating system|windows|linux/.test(s))return "An operating system manages a computer's hardware and software and provides an interface for users and applications. Examples include Windows and Linux.";
-if(/ram|memory/.test(s))return "RAM is fast, temporary working memory used by programs while they are running. Its contents are normally cleared when power is turned off.";
-if(/hello|hi|hey/.test(s))return "Hello! Ask me about computer basics, web development, programming or digital safety.";
-return "I’m the KR-X offline demo, so my built-in answers are limited. Try asking about HTML, CSS, JavaScript, RAM, operating systems or phishing. You can also add your own notes in the Knowledge Notebook."}
-function sendChat(){const q=$("chatInput").value.trim();if(!q)return;const log=$("chatLog");log.textContent+="\n\nYou: "+q+"\n\nKR-X: "+assistantReply(q);log.scrollTop=log.scrollHeight;$("chatInput").value=""}
-$("sendChat").addEventListener("click",sendChat);$("chatInput").addEventListener("keydown",e=>{if(e.key==="Enter")sendChat()});
+const chatHistory=read("chatHistory",[]);
+function assistantReply(q){
+ const s=q.toLowerCase();
+ const custom=knowledge.find(k=>s.split(/\W+/).filter(w=>w.length>3).some(w=>k.text.toLowerCase().includes(w)));
+ if(custom)return "From your Knowledge Notebook: "+custom.text;
+ const answers=[
+  [/\bhtml\b/,"HTML means HyperText Markup Language. It gives a webpage its structure using elements such as headings, paragraphs, links, images and forms. Think of HTML as the skeleton of a website."],
+  [/\bcss\b|style sheet/,"CSS means Cascading Style Sheets. It controls colours, fonts, spacing, borders, layouts and responsive behaviour. HTML creates the structure; CSS styles it."],
+  [/javascript|\bjs\b|script/,"JavaScript adds behaviour to websites. It can react to clicks, validate forms, update page content and store information in the browser. Start with variables, conditions, loops and functions."],
+  [/python/,"Python is a beginner-friendly programming language used in automation, data analysis, web development and AI. Start with variables, input/output, if statements, loops and functions."],
+  [/\bram\b|random access memory/,"RAM is fast, temporary working memory used by programs while they run. More RAM can help with multitasking, but performance also depends on the processor and storage."],
+  [/rom|storage|ssd|hard disk/,"Storage keeps files even when power is off. SSDs are generally faster than hard disk drives. RAM is temporary working memory, while storage is long-term."],
+  [/operating system|\bwindows\b|\blinux\b|\bandroid\b/,"An operating system manages hardware, memory, files, devices and apps, and provides the interface people use. Examples include Windows, Linux and Android."],
+  [/input device|output device|keyboard|monitor/,"Input devices send data to a computer, such as a keyboard, mouse or microphone. Output devices present results, such as a monitor, speaker or printer."],
+  [/internet|www|website|browser|dns|http/,"The internet is a global network of connected networks. A browser requests a website, DNS helps find its server address, and HTTP/HTTPS carries web data. HTTPS encrypts the connection."],
+  [/network|router|ip address|wifi/,"A network connects devices so they can exchange data. A router directs traffic between networks, Wi-Fi provides wireless access, and an IP address identifies a device/interface on a network."],
+  [/cyber|phish|otp|scam|fraud|password|privacy/,"Digital safety basics: use unique passwords, enable multi-factor authentication, never share OTPs, update software, review app permissions and verify suspicious requests through official channels."],
+  [/algorithm|flowchart|programming logic/,"An algorithm is a clear sequence of steps for solving a problem. A flowchart represents those steps with symbols. Plan the input, process, decisions and output before coding."],
+  [/database|sql/,"A database stores organised information so it can be searched and updated. SQL is a language commonly used to query relational databases."],
+  [/artificial intelligence|\bai\b|machine learning/,"Artificial intelligence is a field that builds systems able to perform tasks that usually need human-like reasoning. Machine learning is one approach where models learn patterns from data. AI can make mistakes, so verify important answers."],
+  [/computer|cpu|processor/,"A computer accepts input, processes data, stores information and produces output. The CPU executes instructions; memory and storage hold the data and programs it needs."]
+ ];
+ const found=answers.find(([pattern])=>pattern.test(s));
+ if(found)return found[1];
+ if(/hello|hi|hey|namaste/.test(s))return "Hello! 👋 I can help with computer fundamentals, coding, networking, AI basics and digital safety. Ask one topic at a time for a clearer explanation.";
+ if(/study|revise|learn|roadmap|class 9/.test(s))return "Try this study loop: 1) Read one small concept. 2) Explain it in your own words. 3) Solve two practice questions. 4) Note what was confusing. Tell me your topic and I can make a beginner-friendly study plan.";
+ return "I couldn't find a confident match in my offline knowledge yet. Try asking about HTML, CSS, JavaScript, Python, RAM, operating systems, networking, algorithms, AI or digital safety. You can add your own explanations in Workspace → Knowledge Notebook.";
+}
+function renderChat(){
+ const lines=chatHistory.map(m=>(m.role==="user"?"You: ":"KR-X: ")+m.text);
+ $("chatLog").textContent=lines.length?lines.join("\n\n"):"KR-X: Welcome back! Ask me a technology question.";
+ $("chatLog").scrollTop=$("chatLog").scrollHeight;
+}
+function sendChat(){
+ const q=$("chatInput").value.trim();if(!q)return;
+ chatHistory.push({role:"user",text:q},{role:"assistant",text:assistantReply(q)});
+ if(chatHistory.length>80)chatHistory=chatHistory.slice(-80);
+ write("chatHistory",chatHistory);renderChat();$("chatInput").value="";
+}
+$("sendChat").addEventListener("click",sendChat);
+$("chatInput").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendChat()}});
+$("clearChat").addEventListener("click",()=>{chatHistory=[];write("chatHistory",chatHistory);renderChat();toast("Chat history cleared.")});
+document.querySelectorAll("[data-prompt]").forEach(b=>b.addEventListener("click",()=>{$("chatInput").value=b.dataset.prompt;sendChat()}));
+renderChat();
 
+$("passwordLength").addEventListener("input",()=>{$("passwordLengthLabel").textContent=$("passwordLength").value});
+$("generatePassword").addEventListener("click",()=>{
+ const length=Number($("passwordLength").value)||18,chars="ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%&*+-_?";
+ if(!window.crypto||!crypto.getRandomValues){$("passwordGenStatus").textContent="Secure random generation is unavailable in this browser.";return}
+ const bytes=new Uint32Array(length);crypto.getRandomValues(bytes);
+ let value=Array.from(bytes,n=>chars[n%chars.length]).join("");
+ $("generatedPassword").value=value;$("passwordGenStatus").textContent="Generated locally. It is not stored in KR-X. Save it only in a trusted password manager.";
+});
+$("copyGeneratedPassword").addEventListener("click",async()=>{
+ const value=$("generatedPassword").value;if(!value)return toast("Generate a sample first.");
+ try{await navigator.clipboard.writeText(value);toast("Copied. Store it safely and do not share it.");}
+ catch{$("generatedPassword").select();toast("Select and copy the generated text manually.");}
+});
 $("checkPassword").addEventListener("click",()=>{const p=$("passwordInput").value;let score=0;if(p.length>=12)score++;if(/[a-z]/.test(p)&&/[A-Z]/.test(p))score++;if(/\d/.test(p))score++;if(/[^A-Za-z0-9]/.test(p))score++;const labels=["Very weak","Weak","Fair","Good","Strong"];$("passwordMeter").style.width=(score*25)+"%";$("passwordFeedback").textContent=p.length?labels[score]+" sample. Use a unique, long passphrase and never reuse passwords.":"Enter a sample first.";});
 document.querySelectorAll("[data-correct]").forEach(b=>b.addEventListener("click",()=>{$("quizFeedback").textContent=b.dataset.correct==="true"?"Correct! Verify independently and never share an OTP.":"Not safe. Never share OTPs; use the official service to verify."; $("quizFeedback").style.color=b.dataset.correct==="true"?"var(--green)":"var(--red)"}));
 document.querySelectorAll("[data-safe]").forEach(c=>{c.checked=!!checks[c.dataset.safe];c.addEventListener("change",()=>{checks[c.dataset.safe]=c.checked;write("checks",checks);renderChecks()})});
@@ -618,16 +723,29 @@ function renderChecks(){const all=[...document.querySelectorAll("[data-safe]")];
 function parseMath(source){const tokens=source.match(/\d+(?:\.\d+)?|[()+\-*/%]/g)||[];if(tokens.join("")!==source.replace(/\s+/g,""))throw Error("Use numbers and + - * / % ( ) only.");let i=0;function expr(){let v=term();while(tokens[i]==="+"||tokens[i]==="-"){const op=tokens[i++],r=term();v=op==="+"?v+r:v-r}return v}function term(){let v=factor();while(["*","/","%"].includes(tokens[i])){const op=tokens[i++],r=factor();if((op==="/"||op==="%")&&r===0)throw Error("Cannot divide by zero.");v=op==="*"?v*r:op==="/"?v/r:v%r}return v}function factor(){if(tokens[i]==="-"){i++;return-factor()}if(tokens[i]==="+"){i++;return factor()}if(tokens[i]==="("){i++;const v=expr();if(tokens[i++]!==")")throw Error("Missing closing bracket.");return v}const t=tokens[i++];if(!t||!/^\d/.test(t))throw Error("Check your expression.");return Number(t)}const result=expr();if(i!==tokens.length||!Number.isFinite(result))throw Error("Invalid expression.");return result}
 $("calculate").addEventListener("click",()=>{try{$("calcOutput").textContent=String(parseMath($("calcInput").value))}catch(e){$("calcOutput").textContent=e.message}});
 $("clearCalc").addEventListener("click",()=>{$("calcInput").value="";$("calcOutput").textContent="Result appears here."});
-$("counterInput").addEventListener("input",()=>{const t=$("counterInput").value.trim();$("counterOutput").textContent="Words: "+(t?t.split(/\s+/).length:0)+" • Characters: "+$("counterInput").value.length});
+$("counterInput").addEventListener("input",()=>{
+ const raw=$("counterInput").value,t=raw.trim(),words=t?t.split(/\s+/).length:0;
+ const sentences=t?(t.match(/[.!?]+(?=\s|$)/g)||[]).length:0,paragraphs=t?t.split(/\n\s*\n/).filter(x=>x.trim()).length:0;
+ const minutes=words?Math.max(1,Math.ceil(words/200)):0;
+ $("counterOutput").textContent="Words: "+words+" • Characters: "+raw.length+" • Sentences: "+sentences+" • Paragraphs: "+paragraphs+" • Reading time: "+minutes+" min";
+});
 document.querySelectorAll("[data-case]").forEach(b=>b.addEventListener("click",()=>{const v=$("caseInput").value;const mode=b.dataset.case;$("caseOutput").value=mode==="upper"?v.toUpperCase():mode==="lower"?v.toLowerCase():v.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase())}));
 $("formatJson").addEventListener("click",()=>{try{$("jsonOutput").textContent=JSON.stringify(JSON.parse($("jsonInput").value),null,2)}catch(e){$("jsonOutput").textContent="Invalid JSON: "+e.message}});
 $("convertUnit").addEventListener("click",()=>{const n=Number($("unitValue").value);if($("unitValue").value.trim()===""||!Number.isFinite(n))return $("unitOutput").textContent="Enter a valid number.";const type=$("unitType").value;const f={km:n=>n*.621371,mi:n=>n*1.60934,kg:n=>n*2.20462,cm:n=>n*.393701,c:n=>n*9/5+32};const suffix={km:"miles",mi:"kilometres",kg:"pounds",cm:"inches",c:"°F"};$("unitOutput").textContent=f[type](n).toFixed(3)+" "+suffix[type]});
-let timerSeconds=1500,timerInterval=null;function showTimer(){$("timerDisplay").textContent=String(Math.floor(timerSeconds/60)).padStart(2,"0")+":"+String(timerSeconds%60).padStart(2,"0")}function startTimer(){if(timerInterval)return;timerInterval=setInterval(()=>{if(timerSeconds>0){timerSeconds--;showTimer()}else{clearInterval(timerInterval);timerInterval=null;alert("Focus session complete. Take a short break.")}},1000)}$("startTimer").addEventListener("click",startTimer);$("pauseTimer").addEventListener("click",()=>{clearInterval(timerInterval);timerInterval=null});$("resetTimer").addEventListener("click",()=>{clearInterval(timerInterval);timerInterval=null;timerSeconds=1500;showTimer()});showTimer();
+let timerSeconds=1500,timerInterval=null,focusSessions=Number(read("focusSessions",0))||0;
+function showTimer(){$("timerDisplay").textContent=String(Math.floor(timerSeconds/60)).padStart(2,"0")+":"+String(timerSeconds%60).padStart(2,"0");$("focusSessions").textContent=focusSessions}
+function stopTimer(){clearInterval(timerInterval);timerInterval=null}
+function startTimer(){if(timerInterval)return;if(timerSeconds<=0)timerSeconds=1500;timerInterval=setInterval(()=>{if(timerSeconds>0){timerSeconds--;showTimer()}else{stopTimer();focusSessions++;write("focusSessions",focusSessions);showTimer();$("focusStatus").textContent="Session complete! Take a short break. Completed sessions: "+focusSessions;toast("Focus session complete. Great work!")}},1000);$("focusStatus").textContent="Focus session running • Completed sessions: "+focusSessions}
+$("focusMinutes").addEventListener("change",()=>{const n=Math.max(1,Math.min(180,Number($("focusMinutes").value)||25));$("focusMinutes").value=n;stopTimer();timerSeconds=n*60;showTimer();$("focusStatus").textContent="Timer reset • Completed sessions: "+focusSessions});
+$("startTimer").addEventListener("click",startTimer);
+$("pauseTimer").addEventListener("click",()=>{stopTimer();$("focusStatus").textContent="Timer paused • Completed sessions: "+focusSessions});
+$("resetTimer").addEventListener("click",()=>{stopTimer();timerSeconds=(Math.max(1,Math.min(180,Number($("focusMinutes").value)||25)))*60;showTimer();$("focusStatus").textContent="Timer reset • Completed sessions: "+focusSessions});
+showTimer();
 
-$("themeBtn").addEventListener("click",()=>{document.body.classList.toggle("light");localStorage.setItem("krx-theme",document.body.classList.contains("light")?"light":"dark")});if(localStorage.getItem("krx-theme")==="light")document.body.classList.add("light");
-$("saveProfile").addEventListener("click",()=>{localStorage.setItem("krx-nickname",$("nickname").value.trim());alert("Profile saved on this device.")});$("nickname").value=localStorage.getItem("krx-nickname")||"";
-$("exportData").addEventListener("click",()=>{const data={version:5,notes,tasks,bookmarks,knowledge,checks,learningProgress,nickname:localStorage.getItem("krx-nickname")||""};const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="kr-x-backup.json";a.click();URL.revokeObjectURL(url)});
-$("importFile").addEventListener("change",async e=>{const file=e.target.files[0];if(!file)return;try{const d=JSON.parse(await file.text());if(!d||typeof d!=="object")throw Error("Invalid backup");notes=Array.isArray(d.notes)?d.notes:[];tasks=Array.isArray(d.tasks)?d.tasks:[];bookmarks=Array.isArray(d.bookmarks)?d.bookmarks:[];knowledge=Array.isArray(d.knowledge)?d.knowledge:[];checks=d.checks&&typeof d.checks==="object"?d.checks:{};learningProgress=d.learningProgress&&typeof d.learningProgress==="object"?d.learningProgress:{};write("learningProgress",learningProgress);write("notes",notes);write("tasks",tasks);write("bookmarks",bookmarks);write("knowledge",knowledge);write("checks",checks);localStorage.setItem("krx-nickname",String(d.nickname||""));$("nickname").value=String(d.nickname||"");renderNotes();renderTasks();renderKnowledge();renderBookmarks();renderChecks();renderLearningProgress();alert("Backup imported.")}catch(err){alert("Could not import: "+err.message)}e.target.value=""});
+$("themeBtn").addEventListener("click",()=>{document.body.classList.toggle("light");const light=document.body.classList.contains("light");localStorage.setItem("krx-theme",light?"light":"dark");$("themeBtn").textContent=light?"☾ Dark mode":"☼ Light mode";toast(light?"Light theme enabled":"Nebula dark theme enabled")});if(localStorage.getItem("krx-theme")==="light")document.body.classList.add("light");$("themeBtn").textContent=document.body.classList.contains("light")?"☾ Dark mode":"☼ Light mode";
+$("saveProfile").addEventListener("click",()=>{localStorage.setItem("krx-nickname",$("nickname").value.trim());toast("Profile saved on this device.")});$("nickname").value=localStorage.getItem("krx-nickname")||"";
+$("exportData").addEventListener("click",()=>{const data={version:6,notes,tasks,bookmarks,knowledge,checks,learningProgress,chatHistory,focusSessions,nickname:localStorage.getItem("krx-nickname")||""};const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="kr-x-backup.json";a.click();URL.revokeObjectURL(url)});
+$("importFile").addEventListener("change",async e=>{const file=e.target.files[0];if(!file)return;try{const d=JSON.parse(await file.text());if(!d||typeof d!=="object")throw Error("Invalid backup");notes=Array.isArray(d.notes)?d.notes:[];tasks=Array.isArray(d.tasks)?d.tasks:[];bookmarks=Array.isArray(d.bookmarks)?d.bookmarks:[];knowledge=Array.isArray(d.knowledge)?d.knowledge:[];checks=d.checks&&typeof d.checks==="object"?d.checks:{};learningProgress=d.learningProgress&&typeof d.learningProgress==="object"?d.learningProgress:{};chatHistory=Array.isArray(d.chatHistory)?d.chatHistory:[];focusSessions=Number(d.focusSessions)||0;write("chatHistory",chatHistory);write("focusSessions",focusSessions);write("learningProgress",learningProgress);write("notes",notes);write("tasks",tasks);write("bookmarks",bookmarks);write("knowledge",knowledge);write("checks",checks);localStorage.setItem("krx-nickname",String(d.nickname||""));$("nickname").value=String(d.nickname||"");renderNotes();renderTasks();renderKnowledge();renderBookmarks();renderChecks();renderLearningProgress();renderChat();showTimer();alert("Backup imported.")}catch(err){alert("Could not import: "+err.message)}e.target.value=""});
 $("resetData").addEventListener("click",()=>{if(!confirm("This will delete KR-X data saved in this browser. Export a backup first if needed. Continue?"))return;Object.keys(localStorage).filter(k=>k.startsWith("krx-")).forEach(k=>localStorage.removeItem(k));location.reload()});
 renderNotes();renderKnowledge();renderBookmarks();renderTasks();refreshStats();renderLearningProgress();
 // --- KR-X PWA install and offline support ---
