@@ -725,6 +725,7 @@ main{margin-left:216px;width:calc(100% - 216px);max-width:1500px;padding:24px cl
   <button data-page="planner"><span class="ico">✓</span>Planner</button>
   <button data-page="tools"><span class="ico">⌘</span>Tools Lab</button>
   <button data-page="learning"><span class="ico">▱</span>Learning Hub</button>
+  <button data-page="advanced"><span class="ico">✧</span>Advanced Tools</button>
   <button data-page="settings"><span class="ico">⚙</span>Settings</button>
  </nav></div>
  <div class="side-bottom"><span class="status-dot" id="connectionDot" aria-hidden="true"></span><span class="connection-label" id="connectionStatus" role="status" aria-live="polite">Network: online</span><br><span>Local workspace active</span><br><span id="sideDate"></span></div>
@@ -837,6 +838,22 @@ button{padding:10px 16px;border:0;border-radius:8px;background:#35e6ff;color:#06
   <div class="card half"><span class="pill">LEVEL 04</span><h3>Cybersecurity basics</h3><p class="muted">Passwords, phishing awareness, updates, backups, privacy and responsible security.</p><p><strong>Practice:</strong> Review the safety checklist in Security Center.</p></div>
   <div class="card half"><span class="pill">LEVEL 05</span><h3>Networking</h3><p class="muted">IP addresses, routers, DNS, HTTP/HTTPS and how data travels online.</p><p><strong>Practice:</strong> Draw a simple home network diagram.</p></div>
   <div class="card half"><span class="pill">LEVEL 06</span><h3>AI foundations</h3><p class="muted">Understand data, models, prompts, limitations, bias and responsible AI use.</p><p><strong>Practice:</strong> Compare an AI answer with a trusted textbook source.</p></div>
+ </div>
+</section>
+
+<section class="page" id="page-advanced">
+ <div class="section-head"><div><h2>Advanced Tools</h2><p>Extra utilities that work locally in your browser. Your input stays on this device.</p></div><span class="pill">LOCAL TOOLS</span></div>
+ <div class="tool-grid">
+  <div class="tool"><h3>JSON validator & formatter</h3><textarea class="control" id="advJsonInput" placeholder='{"name":"KR-X"}'></textarea><div class="tool-actions"><button class="btn primary" id="advJsonFormat">Format</button><button class="btn" id="advJsonMinify">Minify</button></div><pre class="output" id="advJsonOutput">Formatted JSON appears here.</pre></div>
+  <div class="tool"><h3>Base64 encoder / decoder</h3><textarea class="control" id="advBaseInput" placeholder="Enter text..."></textarea><div class="tool-actions"><button class="btn primary" id="advBaseEncode">Encode</button><button class="btn" id="advBaseDecode">Decode</button></div><textarea class="control" id="advBaseOutput" placeholder="Result..." readonly></textarea></div>
+  <div class="tool"><h3>URL encoder / decoder</h3><textarea class="control" id="advUrlInput" placeholder="Enter URL or text..."></textarea><div class="tool-actions"><button class="btn primary" id="advUrlEncode">Encode</button><button class="btn" id="advUrlDecode">Decode</button></div><textarea class="control" id="advUrlOutput" placeholder="Result..." readonly></textarea></div>
+  <div class="tool"><h3>UUID generator</h3><p class="muted">Generate a random identifier using the browser's cryptographic random generator.</p><div class="tool-actions"><button class="btn primary" id="advUuid">Generate UUID</button><button class="btn" id="advUuidCopy">Copy</button></div><p class="output" id="advUuidOutput">Your UUID appears here.</p></div>
+  <div class="tool"><h3>Random number generator</h3><div class="row"><input class="control grow" id="advRandMin" type="number" value="1" aria-label="Minimum"><input class="control grow" id="advRandMax" type="number" value="100" aria-label="Maximum"></div><div class="tool-actions"><button class="btn primary" id="advRand">Generate</button></div><p class="output" id="advRandOutput">Your number appears here.</p></div>
+  <div class="tool"><h3>HEX / RGB converter</h3><input class="control" id="advHex" value="#35e6ff" placeholder="#35e6ff"><div class="tool-actions"><button class="btn primary" id="advHexConvert">Convert</button><input id="advColorPicker" type="color" value="#35e6ff" aria-label="Choose a color"></div><p class="output" id="advColorOutput">RGB values appear here.</p></div>
+  <div class="tool"><h3>Date difference</h3><label class="small-note" for="advDateA">Start date</label><input class="control" id="advDateA" type="date"><label class="small-note" for="advDateB">End date</label><input class="control" id="advDateB" type="date"><button class="btn primary" id="advDateCalc">Calculate days</button><p class="output" id="advDateOutput">Choose two dates.</p></div>
+  <div class="tool"><h3>Text difference checker</h3><textarea class="control" id="advDiffA" placeholder="Original text..."></textarea><textarea class="control" id="advDiffB" placeholder="New text..."></textarea><button class="btn primary" id="advDiff">Compare text</button><pre class="output" id="advDiffOutput">Comparison appears here.</pre></div>
+  <div class="tool"><h3>Timestamp converter</h3><input class="control" id="advTimestamp" type="number" placeholder="Unix timestamp in seconds"><button class="btn primary" id="advTimestampConvert">Convert</button><p class="output" id="advTimestampOutput">Date and time appear here.</p></div>
+  <div class="tool"><h3>Text to speech</h3><textarea class="control" id="advSpeakText" placeholder="Type text to hear it..."></textarea><div class="tool-actions"><button class="btn primary" id="advSpeak">Speak</button><button class="btn" id="advSpeakStop">Stop</button></div><p class="small-note">Uses your browser's speech support, if available.</p></div>
  </div>
 </section>
 
@@ -1019,7 +1036,49 @@ const savedStudio=read("studioProject",null);
 if(savedStudio&&typeof savedStudio==="object"){if(typeof savedStudio.html==="string")$("studioHtml").value=savedStudio.html;if(typeof savedStudio.css==="string")$("studioCss").value=savedStudio.css;if(typeof savedStudio.js==="string")$("studioJs").value=savedStudio.js;}
 function studioDocument(){
  const html=$("studioHtml").value,css=$("studioCss").value,code=$("studioJs").value.replace(/<\/script/gi,"<\\/script");
- return '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src \'none\'; img-src data:; style-src \'unsafe-inline\'; script-src \'unsafe-inline\'"><style>'+css+'</style></head><body>'+html+'<script>'+code+'<\/script></body></html>';
+ return '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src \'none\'; img-src data:; style-src \'unsafe-inline\'; script-src \'unsafe-inline\'"><style>'+css+'</style></head><body>'+html+'<script>'+code+'<\/script><style>
+#krxCommandOverlay{position:fixed;inset:0;z-index:3000;background:#020914c9;backdrop-filter:blur(9px);display:none;align-items:flex-start;justify-content:center;padding:12vh 16px 20px}
+#krxCommandOverlay.open{display:flex}
+.krx-command-box{width:min(620px,100%);background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:0 25px 90px #0009;padding:14px}
+.krx-command-box input{width:100%;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:14px;font:inherit}
+.krx-command-list{display:grid;gap:6px;margin-top:10px;max-height:50vh;overflow:auto}
+.krx-command-list button{text-align:left;background:transparent;border:1px solid transparent;color:var(--text);padding:11px;border-radius:9px}
+.krx-command-list button:hover,.krx-command-list button:focus{background:var(--panel2);border-color:var(--line)}
+@media(max-width:700px){#krxCommandOverlay{padding-top:8vh}}
+</style><div id="krxCommandOverlay" role="dialog" aria-modal="true" aria-label="KR-X quick launcher"><div class="krx-command-box"><div class="row" style="justify-content:space-between"><strong>KR-X Quick Launcher</strong><button class="btn small" id="krxCommandClose" type="button">Esc</button></div><input id="krxCommandInput" type="search" placeholder="Search pages and actions..." autocomplete="off"><div class="krx-command-list" id="krxCommandList"></div><p class="small-note">Tip: press Ctrl + K (or /) to open • Esc to close</p></div></div><script>
+(()=>{
+"use strict";
+const $=id=>document.getElementById(id);
+const on=(id,event,fn)=>{const el=$(id);if(el)el.addEventListener(event,fn)};
+const out=(id,value)=>{if($(id))$(id).textContent=String(value)};
+const val=id=>$(id)?$(id).value:"";
+const copy=async text=>{try{await navigator.clipboard.writeText(text);if(typeof toast==="function")toast("Copied to clipboard.");}catch{if(typeof toast==="function")toast("Clipboard unavailable in this browser.");}};
+on("advJsonFormat","click",()=>{try{out("advJsonOutput",JSON.stringify(JSON.parse(val("advJsonInput")),null,2));}catch(e){out("advJsonOutput","Invalid JSON: "+e.message);}});
+on("advJsonMinify","click",()=>{try{out("advJsonOutput",JSON.stringify(JSON.parse(val("advJsonInput"))));}catch(e){out("advJsonOutput","Invalid JSON: "+e.message);}});
+on("advBaseEncode","click",()=>{try{$("advBaseOutput").value=btoa(unescape(encodeURIComponent(val("advBaseInput"))));}catch(e){out("advBaseOutput","Could not encode this text.");}});
+on("advBaseDecode","click",()=>{try{$("advBaseOutput").value=decodeURIComponent(escape(atob(val("advBaseInput").trim())));}catch(e){out("advBaseOutput","Invalid Base64 input.");}});
+on("advUrlEncode","click",()=>{$("advUrlOutput").value=encodeURIComponent(val("advUrlInput"));});
+on("advUrlDecode","click",()=>{try{$("advUrlOutput").value=decodeURIComponent(val("advUrlInput"));}catch(e){out("advUrlOutput","Invalid encoded text.");}});
+on("advUuid","click",()=>out("advUuidOutput",crypto.randomUUID?crypto.randomUUID():"UUID generation is not supported by this browser."));
+on("advUuidCopy","click",()=>copy(val("advUuidOutput")||$("advUuidOutput").textContent));
+on("advRand","click",()=>{const a=Number(val("advRandMin")),b=Number(val("advRandMax"));if(!Number.isSafeInteger(a)||!Number.isSafeInteger(b)||b<a||b-a>1000000000)return out("advRandOutput","Enter valid whole-number limits (maximum range: 1 billion).");const n=new Uint32Array(1);crypto.getRandomValues(n);out("advRandOutput",a+(n[0]%(b-a+1)));});
+on("advHexConvert","click",()=>{const h=val("advHex").trim().replace(/^#/,"");if(!/^[0-9a-fA-F]{6}$/.test(h))return out("advColorOutput","Enter a valid 6-digit HEX color.");const n=parseInt(h,16),r=n>>16&255,g=n>>8&255,b=n&255;out("advColorOutput","RGB("+r+", "+g+", "+b+") • HEX #"+h.toUpperCase());$("advColorPicker").value="#"+h;});
+on("advColorPicker","input",()=>{$("advHex").value=$("advColorPicker").value;});
+on("advDateCalc","click",()=>{const a=Date.parse(val("advDateA")+"T00:00:00Z"),b=Date.parse(val("advDateB")+"T00:00:00Z");if(!Number.isFinite(a)||!Number.isFinite(b))return out("advDateOutput","Choose both dates.");out("advDateOutput",Math.round(Math.abs(b-a)/86400000)+" days"+(b<a?" (end date is earlier)":""));});
+on("advDiff","click",()=>{const a=val("advDiffA").split(/\s+/),b=val("advDiffB").split(/\s+/),max=Math.max(a.length,b.length),lines=[];for(let i=0;i<max&&lines.length<250;i++){if(a[i]!==b[i]){if(a[i]!==undefined)lines.push("- "+a[i]);if(b[i]!==undefined)lines.push("+ "+b[i]);}}out("advDiffOutput",lines.length?lines.join("\n"):"No word-level differences found.");});
+on("advTimestampConvert","click",()=>{const n=Number(val("advTimestamp"));if(!Number.isFinite(n)||Math.abs(n)>8640000000000)return out("advTimestampOutput","Enter a valid timestamp in seconds.");out("advTimestampOutput",new Date(n*1000).toLocaleString()+" (your device's local time)");});
+on("advSpeak","click",()=>{if(!("speechSynthesis"in window))return out("advSpeakText","Text-to-speech is not supported by this browser.");speechSynthesis.cancel();speechSynthesis.speak(new SpeechSynthesisUtterance(val("advSpeakText")));});
+on("advSpeakStop","click",()=>{if("speechSynthesis"in window)speechSynthesis.cancel();});
+const pages=[...document.querySelectorAll("[data-page]")].map(b=>({label:b.textContent.trim(),page:b.dataset.page}));
+const overlay=$("krxCommandOverlay"),input=$("krxCommandInput"),list=$("krxCommandList");
+function close(){overlay.classList.remove("open");}
+function render(q=""){list.replaceChildren();const matches=pages.filter(p=>p.label.toLowerCase().includes(q.toLowerCase()));for(const p of matches){const b=document.createElement("button");b.type="button";b.textContent="Open "+p.label;b.addEventListener("click",()=>{navigate(p.page);close();});list.appendChild(b);}const actions=[{label:"Open Advanced Tools",run:()=>{navigate("advanced");close();}},{label:"Export KR-X backup",run:()=>{$("exportData")?.click();close();}},{label:"Toggle theme",run:()=>{$("themeBtn")?.click();close();}}];for(const a of actions.filter(x=>x.label.toLowerCase().includes(q.toLowerCase()))){const b=document.createElement("button");b.type="button";b.textContent=a.label;b.addEventListener("click",a.run);list.appendChild(b);}if(!list.children.length){const p=document.createElement("p");p.className="small-note";p.textContent="No matching actions.";list.appendChild(p);}}
+function open(){overlay.classList.add("open");input.value="";render();setTimeout(()=>input.focus(),0);}
+on("krxCommandClose","click",close);on("krxCommandInput","input",()=>render(input.value));overlay.addEventListener("click",e=>{if(e.target===overlay)close();});
+document.addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();open();}else if(e.key==="/"&&!/input|textarea|select/i.test(document.activeElement.tagName)){e.preventDefault();open();}else if(e.key==="Escape")close();});
+})();
+</script>
+</body></html>';
 }
 function saveStudio(){write("studioProject",{html:$("studioHtml").value,css:$("studioCss").value,js:$("studioJs").value})}
 ["studioHtml","studioCss","studioJs"].forEach(id=>$(id).addEventListener("input",saveStudio));
