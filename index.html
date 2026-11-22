@@ -726,6 +726,7 @@ main{margin-left:216px;width:calc(100% - 216px);max-width:1500px;padding:24px cl
   <button data-page="tools"><span class="ico">⌘</span>Tools Lab</button>
   <button data-page="learning"><span class="ico">▱</span>Learning Hub</button>
   <button data-page="advanced"><span class="ico">✧</span>Advanced Tools</button>
+  <button data-page="routines"><span class="ico">▦</span>Habits & Insights</button>
   <button data-page="settings"><span class="ico">⚙</span>Settings</button>
  </nav></div>
  <div class="side-bottom"><span class="status-dot" id="connectionDot" aria-hidden="true"></span><span class="connection-label" id="connectionStatus" role="status" aria-live="polite">Network: online</span><br><span>Local workspace active</span><br><span id="sideDate"></span></div>
@@ -802,6 +803,20 @@ main{margin-left:216px;width:calc(100% - 216px);max-width:1500px;padding:24px cl
 <section class="page" id="page-planner">
  <div class="section-head"><div><h2>Planner</h2><p>Break a big goal into small, manageable tasks.</p></div></div>
  <div class="grid"><div class="card full"><h3>Plan your next move</h3><div class="field"><label for="taskInput">Task name</label><input class="control" id="taskInput" placeholder="What do you want to complete?"></div><div class="row"><div class="field grow"><label for="taskDueDate">Due date (optional)</label><input class="control" id="taskDueDate" type="date"></div><div class="field grow"><label for="taskPriority">Priority</label><select class="control" id="taskPriority"><option value="normal">Normal</option><option value="high">High</option><option value="low">Low</option></select></div><button class="btn primary" id="addTask" type="button">＋ Add task</button></div><div class="row" style="justify-content:space-between;margin:16px 0 10px"><span class="muted" id="taskSummary">No tasks yet</span><div class="row"><select class="control" id="taskFilter" aria-label="Filter tasks" style="width:auto"><option value="all">All tasks</option><option value="pending">Pending</option><option value="done">Completed</option><option value="high">High priority</option></select><button class="btn small" id="clearDone">Clear completed</button></div></div><div class="list" id="tasksList"></div></div></div>
+</section>
+
+<section class="page" id="page-routines">
+ <div class="section-head"><div><h2>Habits, Calendar & Insights</h2><p>Build steady routines, see upcoming tasks and review your progress. Data stays in this browser.</p></div></div>
+ <div class="grid">
+  <div class="card half"><h3>Habit tracker</h3><div class="row"><input class="control grow" id="habitName" placeholder="Add a habit (e.g. Read 15 minutes)"><button class="btn primary" id="habitAdd">Add</button></div><p class="small-note" id="habitTodayLabel"></p><div class="list" id="habitList"></div></div>
+  <div class="card half"><h3>Monthly calendar</h3><div class="row" style="justify-content:space-between;align-items:center"><button class="btn small" id="calPrev" aria-label="Previous month">←</button><strong id="calTitle">Month</strong><button class="btn small" id="calNext" aria-label="Next month">→</button></div><div id="calGrid" class="tool-grid" style="grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;margin-top:12px"></div><p class="small-note">Dots indicate tasks with due dates. Select a day to view its tasks.</p><div id="calDayTasks" class="list"></div></div>
+  <div class="card full"><h3>Productivity insights</h3><div class="tool-grid">
+   <div class="tool"><p class="muted">Tasks completed</p><h2 id="insCompleted">0</h2></div>
+   <div class="tool"><p class="muted">Tasks pending</p><h2 id="insPending">0</h2></div>
+   <div class="tool"><p class="muted">Completion rate</p><h2 id="insRate">0%</h2></div>
+   <div class="tool"><p class="muted">Habits checked today</p><h2 id="insHabits">0 / 0</h2></div>
+  </div><div class="meter" style="margin:14px 0"><span id="insBar"></span></div><p class="small-note" id="insTip">Add tasks and habits to start building your activity overview.</p></div>
+ </div>
 </section>
 
 <section class="page" id="page-tools">
@@ -1076,6 +1091,33 @@ function render(q=""){list.replaceChildren();const matches=pages.filter(p=>p.lab
 function open(){overlay.classList.add("open");input.value="";render();setTimeout(()=>input.focus(),0);}
 on("krxCommandClose","click",close);on("krxCommandInput","input",()=>render(input.value));overlay.addEventListener("click",e=>{if(e.target===overlay)close();});
 document.addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();open();}else if(e.key==="/"&&!/input|textarea|select/i.test(document.activeElement.tagName)){e.preventDefault();open();}else if(e.key==="Escape")close();});
+})();
+</script>
+<script>
+(()=>{
+"use strict";
+const $=id=>document.getElementById(id),today=()=>new Date().toLocaleDateString("en-CA");
+const get=(key,fallback)=>{try{const v=JSON.parse(localStorage.getItem("krx_"+key));return v??fallback}catch{return fallback}};
+const put=(key,value)=>{try{localStorage.setItem("krx_"+key,JSON.stringify(value));return true}catch{return false}};
+let habits=get("habits",[]),checks=get("habitChecks",{});
+let calDate=new Date();calDate.setDate(1);
+const dateKey=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,"0"),String(d.getDate()).padStart(2,"0")].join("-");
+const safe=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function renderHabits(){const key=today(),done=checks[key]||{};$("habitTodayLabel").textContent="Today: "+new Date().toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"long"});$("habitList").innerHTML=habits.length?habits.map(h=>'<div class="item"><input type="checkbox" data-habit="'+safe(h.id)+'" '+(done[h.id]?"checked":"")+' aria-label="Mark '+safe(h.name)+' complete"><div class="item-main"><div class="item-title">'+safe(h.name)+'</div><div class="item-meta">'+(done[h.id]?"Completed today":"Not checked today")+'</div></div><button class="btn small danger" data-habit-delete="'+safe(h.id)+'" aria-label="Delete habit">Delete</button></div>').join(""):'<div class="empty">No habits yet. Add one small routine to begin.</div>';renderInsights();}
+function renderInsights(){const tasks=Array.isArray(window.krxTasksForInsights)?window.krxTasksForInsights:[];const done=tasks.filter(t=>t.done).length,pending=tasks.length-done,rate=tasks.length?Math.round(done/tasks.length*100):0,checked=Object.values(checks[today()]||{}).filter(Boolean).length;$("insCompleted").textContent=done;$("insPending").textContent=pending;$("insRate").textContent=rate+"%";$("insHabits").textContent=checked+" / "+habits.length;$("insBar").style.width=rate+"%";$("insTip").textContent=tasks.length?"You've completed "+done+" of "+tasks.length+" tasks. Keep your next step small and realistic.":"Add tasks in Planner to see your completion insights.";}
+$("habitAdd").addEventListener("click",()=>{const name=$("habitName").value.trim();if(!name)return;if(name.length>70)return alert("Keep the habit name under 70 characters.");habits.unshift({id:Date.now().toString(36)+Math.random().toString(36).slice(2,7),name});put("habits",habits);$("habitName").value="";renderHabits();});
+$("habitName").addEventListener("keydown",e=>{if(e.key==="Enter")$("habitAdd").click()});
+$("habitList").addEventListener("change",e=>{const id=e.target.dataset.habit;if(!id)return;checks[today()]=checks[today()]||{};checks[today()][id]=e.target.checked;put("habitChecks",checks);renderHabits();});
+$("habitList").addEventListener("click",e=>{const id=e.target.dataset.habitDelete;if(!id)return;habits=habits.filter(h=>h.id!==id);Object.keys(checks).forEach(k=>{if(checks[k])delete checks[k][id]});put("habits",habits);put("habitChecks",checks);renderHabits();});
+function renderCalendar(){const y=calDate.getFullYear(),m=calDate.getMonth(),first=new Date(y,m,1),start=(first.getDay()+6)%7,days=new Date(y,m+1,0).getDate();$("calTitle").textContent=calDate.toLocaleDateString(undefined,{month:"long",year:"numeric"});const labels=["M","T","W","T","F","S","S"];let html=labels.map(x=>'<div class="small-note" style="text-align:center">'+x+'</div>').join("");const tasks=Array.isArray(window.krxTasksForInsights)?window.krxTasksForInsights:[];for(let i=0;i<start;i++)html+='<span></span>';for(let d=1;d<=days;d++){const key=dateKey(new Date(y,m,d)),has=tasks.some(t=>t.due===key),selected=key===$("calSelected").value;html+='<button type="button" data-cal-day="'+key+'" class="btn small '+(selected?"primary":"")+'" style="min-width:0;padding:8px 2px;position:relative">'+d+(has?" •":"")+'</button>';} $("calGrid").innerHTML=html;showCalendarDay($("calSelected").value||dateKey(new Date(y,m,Math.min(new Date().getDate(),days))));}
+function showCalendarDay(key){$("calSelected").value=key;const tasks=Array.isArray(window.krxTasksForInsights)?window.krxTasksForInsights:[],items=tasks.filter(t=>t.due===key);$("calDayTasks").innerHTML='<div class="item"><div class="item-main"><strong>'+key+'</strong><div class="item-meta">'+items.length+' task(s) due</div></div></div>'+(items.length?items.map(t=>'<div class="item"><div class="item-main">'+safe(t.text)+'<div class="item-meta">'+(t.done?"Completed":"Pending")+'</div></div></div>').join(""):'<div class="empty">No tasks due on this date.</div>');}
+$("calGrid").addEventListener("click",e=>{const b=e.target.closest("[data-cal-day]");if(b)showCalendarDay(b.dataset.calDay);});
+$("calPrev").addEventListener("click",()=>{calDate.setMonth(calDate.getMonth()-1);renderCalendar()});$("calNext").addEventListener("click",()=>{calDate.setMonth(calDate.getMonth()+1);renderCalendar()});
+const oldNavigate=window.navigate;if(typeof oldNavigate==="function")window.navigate=function(page){oldNavigate(page);if(page==="routines"){window.krxTasksForInsights=JSON.parse(localStorage.getItem("krx_tasks")||"[]");renderHabits();renderCalendar();}};
+const selected=document.createElement("input");selected.type="hidden";selected.id="calSelected";$("calGrid").after(selected);
+window.addEventListener("storage",e=>{if(e.key==="krx_tasks"){window.krxTasksForInsights=get("tasks",[]);renderInsights();renderCalendar();}});
+window.krxTasksForInsights=get("tasks",[]);
+renderHabits();renderCalendar();
 })();
 </script>
 </body></html>';
