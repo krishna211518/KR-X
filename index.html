@@ -729,6 +729,7 @@ main{margin-left:216px;width:calc(100% - 216px);max-width:1500px;padding:24px cl
   <button data-page="routines"><span class="ico">▦</span>Habits & Insights</button>
   <button data-page="notifications"><span class="ico">◉</span>Notification Center</button>
   <button data-page="focus"><span class="ico">◷</span>Focus Mode</button>
+  <button data-page="brain"><span class="ico">✧</span>KR-X Brain</button>
   <button data-page="settings"><span class="ico">⚙</span>Settings</button>
  </nav></div>
  <div class="side-bottom"><span class="status-dot" id="connectionDot" aria-hidden="true"></span><span class="connection-label" id="connectionStatus" role="status" aria-live="polite">Network: online</span><br><span>Local workspace active</span><br><span id="sideDate"></span></div>
@@ -903,6 +904,16 @@ button{padding:10px 16px;border:0;border-radius:8px;background:#35e6ff;color:#06
  </div>
 </section>
 
+<section class="page" id="page-brain">
+ <div class="section-head"><div><h2>KR-X Brain</h2><p>Find what you have saved across your personal workspace.</p></div><span class="pill">LOCAL KNOWLEDGE</span></div>
+ <div class="grid">
+  <div class="card full"><h3>Smart workspace search</h3><p class="muted">Search your notes, knowledge entries, tasks and bookmarks together. Your data stays in this browser.</p><div class="row"><input class="control grow" id="brainQuery" type="search" placeholder="Try: computer, project, homework..."><button class="btn primary" id="brainSearch" type="button">Search</button></div><div class="list" id="brainResults" style="margin-top:14px" aria-live="polite"><div class="empty">Type a keyword to search your saved workspace.</div></div></div>
+  <div class="card half"><h3>Quick memory</h3><p class="muted">Save a useful fact or idea to your Knowledge Notebook.</p><textarea class="control" id="brainMemory" rows="4" maxlength="1200" placeholder="Write a fact, idea or learning point..."></textarea><button class="btn primary" id="brainSave" type="button">Save to Knowledge Notebook</button></div>
+  <div class="card half"><h3>Workspace snapshot</h3><div class="stat" id="brainSnapshot">0</div><p class="muted">Saved items across notes, knowledge, tasks and bookmarks.</p><button class="btn" id="brainRefresh" type="button">Refresh snapshot</button></div>
+ </div>
+ <p class="small-note">KR-X Brain is a local search and memory organizer, not a trained or generative AI model.</p>
+</section>
+
 <section class="page" id="page-settings">
  <div class="section-head"><div><h2>Settings & data</h2><p>Manage this browser's local KR-X workspace.</p></div></div>
  <div class="grid">
@@ -952,7 +963,7 @@ function runGlobalSearch(){
  const q=$("globalSearch").value.trim().toLowerCase(),out=$("globalSearchResults");
  if(!q){out.innerHTML='<div class="empty">Start typing to search your KR-X workspace.</div>';return}
  const results=[];
- const sections=[["Dashboard","dashboard"],["AI Assistant","assistant"],["Security Center","security"],["Workspace","workspace"],["Planner","planner"],["Tools Lab","tools"],["Learning Hub","learning"],["Advanced Tools","advanced"],["Habits & Insights","routines"],["Notification Center","notifications"],["Focus Mode","focus"],["Settings","settings"]];
+ const sections=[["Dashboard","dashboard"],["AI Assistant","assistant"],["Security Center","security"],["Workspace","workspace"],["Planner","planner"],["Tools Lab","tools"],["Learning Hub","learning"],["Advanced Tools","advanced"],["Habits & Insights","routines"],["Notification Center","notifications"],["Focus Mode","focus"],["KR-X Brain","brain"],["Settings","settings"]];
  sections.forEach(([name,page])=>{if(name.toLowerCase().includes(q))results.push({title:name,meta:"Open app section",page})});
  notes.forEach(n=>{if((n.title+" "+n.body).toLowerCase().includes(q))results.push({title:n.title,meta:"Saved note",page:"workspace"})});
  tasks.forEach(t=>{if(t.text.toLowerCase().includes(q))results.push({title:t.text,meta:t.done?"Completed task":"Pending task",page:"planner"})});
@@ -1221,6 +1232,33 @@ renderHabits();renderCalendar();
  const oldNavigate=window.navigate;
  if(typeof oldNavigate==="function")window.navigate=function(page){oldNavigate(page);if(page==="focus")paint()};
  paint();
+})();
+</script>
+<script>
+(() => {
+ "use strict";
+ const $=id=>document.getElementById(id);
+ function snapshot(){
+  $("brainSnapshot").textContent=notes.length+knowledge.length+tasks.length+bookmarks.length;
+ }
+ function search(){
+  const q=$("brainQuery").value.trim().toLowerCase();
+  if(!q){$("brainResults").innerHTML='<div class="empty">Type a keyword to search your saved workspace.</div>';return}
+  const found=[];
+  notes.forEach(n=>{if((n.title+" "+n.body).toLowerCase().includes(q))found.push({type:"Note",title:n.title,detail:n.body,page:"workspace"})});
+  knowledge.forEach(k=>{if(k.text.toLowerCase().includes(q))found.push({type:"Knowledge",title:k.text,detail:"Saved knowledge entry",page:"workspace"})});
+  tasks.forEach(t=>{if(t.text.toLowerCase().includes(q))found.push({type:"Task",title:t.text,detail:t.done?"Completed":"Pending",page:"planner"})});
+  bookmarks.forEach(b=>{if((b.name+" "+b.url).toLowerCase().includes(q))found.push({type:"Bookmark",title:b.name,detail:b.url,page:"workspace"})});
+  $("brainResults").innerHTML=found.length?found.slice(0,30).map(x=>'<div class="item"><div class="item-main"><div class="item-title">'+escapeHTML(x.title)+'</div><div class="item-meta">'+escapeHTML(x.type+" • "+x.detail)+'</div></div><button class="btn small" type="button" data-brain-page="'+x.page+'">Open</button></div>').join(""):'<div class="empty">No matches found. Try another keyword or save a new memory.</div>';
+ }
+ $("brainSearch").addEventListener("click",search);
+ $("brainQuery").addEventListener("keydown",e=>{if(e.key==="Enter")search()});
+ $("brainResults").addEventListener("click",e=>{const b=e.target.closest("[data-brain-page]");if(b)navigate(b.dataset.brainPage)});
+ $("brainSave").addEventListener("click",()=>{const value=$("brainMemory").value.trim();if(!value)return toast("Write a fact or idea first.");knowledge.unshift({id:uid(),text:value});write("knowledge",knowledge);$("brainMemory").value="";renderKnowledge();snapshot();toast("Saved to Knowledge Notebook.")});
+ $("brainRefresh").addEventListener("click",()=>{snapshot();toast("Workspace snapshot updated.")});
+ const oldNavigate=window.navigate;
+ if(typeof oldNavigate==="function")window.navigate=function(page){oldNavigate(page);if(page==="brain")snapshot()};
+ snapshot();
 })();
 </script>
 </body></html>';
