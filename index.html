@@ -1097,8 +1097,8 @@ document.addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLower
 (()=>{
 "use strict";
 const $=id=>document.getElementById(id),today=()=>new Date().toLocaleDateString("en-CA");
-const get=(key,fallback)=>{try{const v=JSON.parse(localStorage.getItem("krx_"+key));return v??fallback}catch{return fallback}};
-const put=(key,value)=>{try{localStorage.setItem("krx_"+key,JSON.stringify(value));return true}catch{return false}};
+const get=(key,fallback)=>{try{const v=JSON.parse(localStorage.getItem("krx-"+key));return v??fallback}catch{return fallback}};
+const put=(key,value)=>{try{localStorage.setItem("krx-"+key,JSON.stringify(value));return true}catch{return false}};
 let habits=get("habits",[]),checks=get("habitChecks",{});
 let calDate=new Date();calDate.setDate(1);
 const dateKey=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,"0"),String(d.getDate()).padStart(2,"0")].join("-");
