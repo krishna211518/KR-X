@@ -727,6 +727,7 @@ main{margin-left:216px;width:calc(100% - 216px);max-width:1500px;padding:24px cl
   <button data-page="learning"><span class="ico">▱</span>Learning Hub</button>
   <button data-page="advanced"><span class="ico">✧</span>Advanced Tools</button>
   <button data-page="routines"><span class="ico">▦</span>Habits & Insights</button>
+  <button data-page="notifications"><span class="ico">◉</span>Notification Center</button>
   <button data-page="settings"><span class="ico">⚙</span>Settings</button>
  </nav></div>
  <div class="side-bottom"><span class="status-dot" id="connectionDot" aria-hidden="true"></span><span class="connection-label" id="connectionStatus" role="status" aria-live="polite">Network: online</span><br><span>Local workspace active</span><br><span id="sideDate"></span></div>
@@ -791,10 +792,18 @@ main{margin-left:216px;width:calc(100% - 216px);max-width:1500px;padding:24px cl
  </div>
 </section>
 
+<section class="page" id="page-notifications">
+ <div class="section-head"><div><h2>Notification Center</h2><p>A daily briefing built from tasks saved in this browser. No push notifications or external tracking.</p></div><span class="pill">ON-DEVICE</span></div>
+ <div class="grid">
+  <div class="card half"><h3>Today's briefing</h3><div class="output" id="briefingSummary">Your daily summary will appear here.</div><button class="btn primary" id="refreshBriefing" type="button" style="margin-top:12px">Refresh briefing</button></div>
+  <div class="card half"><h3>Task alerts</h3><p class="muted">Tasks due today or earlier appear here.</p><div class="list" id="notificationList"></div></div>
+ </div>
+</section>
+
 <section class="page" id="page-workspace">
  <div class="section-head"><div><h2>Workspace</h2><p>Keep notes, useful links and your own knowledge in one place.</p></div></div>
  <div class="grid">
-  <div class="card half"><h3>Quick notes</h3><div class="field"><label for="noteTitle">Title</label><input id="noteTitle" placeholder="Note title"></div><div class="field"><label for="noteBody">Your note</label><textarea id="noteBody" placeholder="Write something useful..."></textarea></div><button class="btn primary" id="saveNote">Save note</button><div class="list" id="notesList" style="margin-top:14px"></div></div>
+  <div class="card half"><h3>Quick notes</h3><div class="field"><label for="noteTitle">Title</label><input id="noteTitle" placeholder="Note title"></div><div class="field"><label for="noteBody">Your note</label><textarea id="noteBody" placeholder="Write something useful..."></textarea></div><button class="btn primary" id="saveNote">Save note</button><div class="field" style="margin-top:12px"><label for="noteSearch">Search notes</label><input id="noteSearch" type="search" placeholder="Search title, text or tags..."></div><div class="list" id="notesList" style="margin-top:14px"></div></div>
   <div class="card half"><h3>Knowledge notebook</h3><p class="muted">Add facts or explanations for the local demo assistant to use.</p><div class="field"><label for="knowledgeInput">Knowledge entry</label><textarea id="knowledgeInput" placeholder="Example: RAM is temporary working memory..."></textarea></div><button class="btn primary" id="saveKnowledge">Add knowledge</button><div class="list" id="knowledgeList" style="margin-top:14px"></div><p class="small-note">This stores notes locally; it does not train an AI model.</p></div>
   <div class="card full"><h3>Bookmarks</h3><div class="row"><input class="control grow" id="bookmarkName" placeholder="Website name"><input class="control grow" id="bookmarkUrl" placeholder="https://example.com"><button class="btn primary" id="addBookmark">Add</button></div><div class="list" id="bookmarksList" style="margin-top:12px"></div></div>
  </div>
@@ -921,7 +930,7 @@ function runGlobalSearch(){
  const q=$("globalSearch").value.trim().toLowerCase(),out=$("globalSearchResults");
  if(!q){out.innerHTML='<div class="empty">Start typing to search your KR-X workspace.</div>';return}
  const results=[];
- const sections=[["Dashboard","dashboard"],["AI Assistant","assistant"],["Security Center","security"],["Workspace","workspace"],["Planner","planner"],["Tools Lab","tools"],["Learning Hub","learning"],["Settings","settings"]];
+ const sections=[["Dashboard","dashboard"],["AI Assistant","assistant"],["Security Center","security"],["Workspace","workspace"],["Planner","planner"],["Tools Lab","tools"],["Learning Hub","learning"],["Advanced Tools","advanced"],["Habits & Insights","routines"],["Notification Center","notifications"],["Settings","settings"]];
  sections.forEach(([name,page])=>{if(name.toLowerCase().includes(q))results.push({title:name,meta:"Open app section",page})});
  notes.forEach(n=>{if((n.title+" "+n.body).toLowerCase().includes(q))results.push({title:n.title,meta:"Saved note",page:"workspace"})});
  tasks.forEach(t=>{if(t.text.toLowerCase().includes(q))results.push({title:t.text,meta:t.done?"Completed task":"Pending task",page:"planner"})});
@@ -932,6 +941,7 @@ function runGlobalSearch(){
 $("globalSearch").addEventListener("input",runGlobalSearch);
 $("clearGlobalSearch").addEventListener("click",()=>{$("globalSearch").value="";runGlobalSearch();$("globalSearch").focus()});
 $("globalSearchResults").addEventListener("click",event=>{const button=event.target.closest("[data-search-page]");if(button)navigate(button.dataset.searchPage)});
+$("globalSearch").setAttribute("placeholder","Search pages, notes, tasks, links and knowledge...");
 document.addEventListener("keydown",event=>{
  if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==="k"){event.preventDefault();navigate("dashboard");$("globalSearch").focus()}
 });
@@ -943,9 +953,20 @@ function refreshStats(){
  const recent=$("recentNotesList");
  if(recent)recent.innerHTML=notes.length?notes.slice(0,4).map(n=>'<div class="dash-recent-item"><span class="dash-file-icon">▤</span><div><strong>'+escapeHTML(n.title)+'</strong><small>'+escapeHTML(String(n.body).slice(0,76))+(String(n.body).length>76?'…':'')+'</small></div><span class="dash-recent-date">Saved</span></div>').join(""):'<div class="empty">No notes saved yet. Create your first note in Workspace.</div>';
 }
-function renderNotes(){$("notesList").innerHTML=notes.length?notes.map(n=>'<div class="item"><div class="item-main"><div class="item-title">'+escapeHTML(n.title)+'</div><div class="item-meta">'+escapeHTML(n.body)+'</div></div><button class="btn small danger" data-delete-note="'+n.id+'">Delete</button></div>').join(""):'<div class="empty">No notes saved yet.</div>';refreshStats()}
+function renderNotes(){
+ const q=($("noteSearch")?.value||"").trim().toLowerCase();
+ const visible=notes.filter(n=>(String(n.title)+" "+String(n.body)+" "+String(n.tags||"")).toLowerCase().includes(q)).sort((a,b)=>Number(!!b.pinned)-Number(!!a.pinned));
+ $("notesList").innerHTML=visible.length?visible.map(n=>'<div class="item"><div class="item-main"><div class="item-title">'+(n.pinned?'★ ':'')+escapeHTML(n.title)+'</div><div class="item-meta">'+escapeHTML(n.body)+'</div></div><button class="btn small" data-pin-note="'+n.id+'">'+(n.pinned?'Unpin':'Pin')+'</button><button class="btn small danger" data-delete-note="'+n.id+'">Delete</button></div>').join(""):'<div class="empty">'+(notes.length?"No notes match your search.":"No notes saved yet.")+'</div>';
+ refreshStats();
+}
 $("saveNote").addEventListener("click",()=>{const title=$("noteTitle").value.trim(),body=$("noteBody").value.trim();if(!title||!body)return alert("Add a title and note first.");notes.unshift({id:uid(),title,body});write("notes",notes);$("noteTitle").value="";$("noteBody").value="";renderNotes()});
-$("notesList").addEventListener("click",e=>{const b=e.target.closest("[data-delete-note]");if(!b)return;notes=notes.filter(n=>n.id!==b.dataset.deleteNote);write("notes",notes);renderNotes()});
+$("noteSearch").addEventListener("input",renderNotes);
+$("notesList").addEventListener("click",e=>{
+ const pin=e.target.closest("[data-pin-note]");
+ if(pin){const n=notes.find(x=>String(x.id)===pin.dataset.pinNote);if(n){n.pinned=!n.pinned;write("notes",notes);renderNotes()}return}
+ const b=e.target.closest("[data-delete-note]");if(!b)return;
+ notes=notes.filter(n=>String(n.id)!==b.dataset.deleteNote);write("notes",notes);renderNotes()
+});
 function renderKnowledge(){$("knowledgeList").innerHTML=knowledge.length?knowledge.map(k=>'<div class="item"><div class="item-main">'+escapeHTML(k.text)+'</div><button class="btn small danger" data-delete-knowledge="'+k.id+'">Delete</button></div>').join(""):'<div class="empty">No knowledge entries yet.</div>';refreshStats()}
 $("saveKnowledge").addEventListener("click",()=>{const text=$("knowledgeInput").value.trim();if(!text)return;knowledge.unshift({id:uid(),text});write("knowledge",knowledge);$("knowledgeInput").value="";renderKnowledge()});
 $("knowledgeList").addEventListener("click",e=>{const b=e.target.closest("[data-delete-knowledge]");if(!b)return;knowledge=knowledge.filter(k=>k.id!==b.dataset.deleteKnowledge);write("knowledge",knowledge);renderKnowledge()});
@@ -1118,6 +1139,26 @@ const selected=document.createElement("input");selected.type="hidden";selected.i
 window.addEventListener("storage",e=>{if(e.key==="krx_tasks"){window.krxTasksForInsights=get("tasks",[]);renderInsights();renderCalendar();}});
 window.krxTasksForInsights=get("tasks",[]);
 renderHabits();renderCalendar();
+})();
+</script>
+<script>
+(() => {
+ "use strict";
+ const $=id=>document.getElementById(id);
+ const today=()=>{const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
+ const dismissed=()=>{try{return JSON.parse(localStorage.getItem("krx-dismissed-alerts")||"[]")}catch{return []}};
+ function renderBriefing(){
+  const now=today(),seen=dismissed(),all=Array.isArray(tasks)?tasks:[];
+  const due=all.filter(t=>!t.done&&t.due&&t.due<=now),overdue=due.filter(t=>t.due<now),todayTasks=due.filter(t=>t.due===now);
+  $("briefingSummary").innerHTML='<strong>'+all.filter(t=>!t.done).length+'</strong> pending • <strong>'+all.filter(t=>t.done).length+'</strong> completed • <strong>'+(Array.isArray(notes)?notes.length:0)+'</strong> notes.<br><br><strong>'+overdue.length+'</strong> overdue task(s) and <strong>'+todayTasks.length+'</strong> due today. '+(due.length?'Choose one manageable next step.':'No due task alerts right now.');
+  const active=due.filter(t=>!seen.includes(String(t.id)));
+  $("notificationList").innerHTML=active.length?active.map(t=>'<div class="item"><div class="item-main"><div class="item-title">'+(t.due<now?'Overdue':'Due today')+': '+escapeHTML(t.text)+'</div><div class="item-meta">Due '+escapeHTML(t.due)+'</div></div><button class="btn small" type="button" data-dismiss-alert="'+escapeHTML(String(t.id))+'">Review</button></div>').join(""):'<div class="empty">No new task alerts. You are up to date.</div>';
+ }
+ $("refreshBriefing").addEventListener("click",()=>{renderBriefing();toast("Daily briefing refreshed.")});
+ $("notificationList").addEventListener("click",e=>{const b=e.target.closest("[data-dismiss-alert]");if(!b)return;const seen=dismissed();seen.push(b.dataset.dismissAlert);localStorage.setItem("krx-dismissed-alerts",JSON.stringify([...new Set(seen)]));renderBriefing();toast("Alert marked as reviewed.")});
+ const oldNavigate=window.navigate;
+ if(typeof oldNavigate==="function")window.navigate=function(page){oldNavigate(page);if(page==="notifications")renderBriefing()};
+ renderBriefing();
 })();
 </script>
 </body></html>';
