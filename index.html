@@ -945,31 +945,57 @@ $("clearDone").addEventListener("click",()=>{tasks=tasks.filter(t=>!t.done);writ
 
 let chatHistory=read("chatHistory",[]);
 function assistantReply(q){
- const s=q.toLowerCase();
- const custom=knowledge.find(k=>s.split(/\W+/).filter(w=>w.length>3).some(w=>k.text.toLowerCase().includes(w)));
- if(custom)return "From your Knowledge Notebook: "+custom.text;
- const answers=[
-  [/\bhtml\b/,"HTML means HyperText Markup Language. It gives a webpage its structure using elements such as headings, paragraphs, links, images and forms. Think of HTML as the skeleton of a website."],
-  [/\bcss\b|style sheet/,"CSS means Cascading Style Sheets. It controls colours, fonts, spacing, borders, layouts and responsive behaviour. HTML creates the structure; CSS styles it."],
-  [/javascript|\bjs\b|script/,"JavaScript adds behaviour to websites. It can react to clicks, validate forms, update page content and store information in the browser. Start with variables, conditions, loops and functions."],
-  [/python/,"Python is a beginner-friendly programming language used in automation, data analysis, web development and AI. Start with variables, input/output, if statements, loops and functions."],
-  [/\bram\b|random access memory/,"RAM is fast, temporary working memory used by programs while they run. More RAM can help with multitasking, but performance also depends on the processor and storage."],
-  [/rom|storage|ssd|hard disk/,"Storage keeps files even when power is off. SSDs are generally faster than hard disk drives. RAM is temporary working memory, while storage is long-term."],
-  [/operating system|\bwindows\b|\blinux\b|\bandroid\b/,"An operating system manages hardware, memory, files, devices and apps, and provides the interface people use. Examples include Windows, Linux and Android."],
-  [/input device|output device|keyboard|monitor/,"Input devices send data to a computer, such as a keyboard, mouse or microphone. Output devices present results, such as a monitor, speaker or printer."],
-  [/internet|www|website|browser|dns|http/,"The internet is a global network of connected networks. A browser requests a website, DNS helps find its server address, and HTTP/HTTPS carries web data. HTTPS encrypts the connection."],
-  [/network|router|ip address|wifi/,"A network connects devices so they can exchange data. A router directs traffic between networks, Wi-Fi provides wireless access, and an IP address identifies a device/interface on a network."],
-  [/cyber|phish|otp|scam|fraud|password|privacy/,"Digital safety basics: use unique passwords, enable multi-factor authentication, never share OTPs, update software, review app permissions and verify suspicious requests through official channels."],
-  [/algorithm|flowchart|programming logic/,"An algorithm is a clear sequence of steps for solving a problem. A flowchart represents those steps with symbols. Plan the input, process, decisions and output before coding."],
-  [/database|sql/,"A database stores organised information so it can be searched and updated. SQL is a language commonly used to query relational databases."],
-  [/artificial intelligence|\bai\b|machine learning/,"Artificial intelligence is a field that builds systems able to perform tasks that usually need human-like reasoning. Machine learning is one approach where models learn patterns from data. AI can make mistakes, so verify important answers."],
-  [/computer|cpu|processor/,"A computer accepts input, processes data, stores information and produces output. The CPU executes instructions; memory and storage hold the data and programs it needs."]
+ const raw=String(q||"").trim(),s=raw.toLowerCase()
+  .replace(/[’‘]/g,"'").replace(/[^\p{L}\p{N}\s.+\-*/]/gu," ")
+  .replace(/\s+/g," ").trim();
+ if(!s)return "Koi topic poochho — main help karne ki koshish karta hoon.";
+ const tokens=[...new Set(s.split(/\s+/).filter(w=>w.length>2))];
+ const custom=knowledge.map(k=>{
+  const text=String(k.text||""),hay=text.toLowerCase();
+  const score=tokens.reduce((n,w)=>n+(hay.includes(w)?(w.length>5?2:1):0),0);
+  return {text,score};
+ }).filter(x=>x.score>=2).sort((a,b)=>b.score-a.score)[0];
+ if(custom)return "📘 Knowledge Notebook se relevant note:\\n"+custom.text;
+ const rules=[
+  [/^(hi|hello|hey|namaste|namaskar|hlo|hii)\b/,"Hello! 👋 Main KR-X Assistant hoon. Main computers, coding, science, maths, school studies, internet, AI aur digital safety ke basics samjha sakta hoon. Apna question poochho."],
+  [/\b(who are you|tum kaun|aap kaun|tera naam|your name)\b/,"Main KR-X Assistant hoon — KR-X workspace ka built-in offline helper. Main fixed knowledge aur tumhare Knowledge Notebook se jawab deta hoon; main live ChatGPT ya online AI model nahi hoon."],
+  [/\b(what can you do|kya kar sakte|help me|madad karo|features)\b/,"Main computer basics, coding, web development, networking, AI basics, school-level science/maths, study planning aur digital safety mein basic help kar sakta hoon. Specific question poochho."],
+  [/\b(thank you|thanks|shukriya|dhanyavaad)\b/,"You're welcome! 😊 Agar kisi answer ko aur simple ya example ke saath samajhna ho toh poochhna."],
+  [/\b(html|hypertext markup)\b/,"HTML ka full form HyperText Markup Language hai. Ye webpage ka structure banata hai — jaise headings, paragraphs, links, images aur forms. Example: <h1>Hello</h1> ek heading banata hai."],
+  [/\b(css|cascading style|stylesheet)\b/,"CSS ka full form Cascading Style Sheets hai. Ye webpage ka look control karta hai: colours, fonts, spacing, borders aur layout. HTML structure hai, CSS design."],
+  [/\b(javascript|java script|js language)\b/,"JavaScript webpage mein actions aur interactivity add karta hai. Isse buttons, form validation, menus aur dynamic content ban sakte hain. JavaScript aur Java alag languages hain."],
+  [/\b(python|programming language)\b/,"Python ek readable, beginner-friendly programming language hai. Iska use automation, data analysis, web development aur AI mein hota hai. Start: print(), variables, input(), if/else, loops aur functions."],
+  [/\b(java\b|java programming)\b/,"Java ek general-purpose, object-oriented programming language hai. Iska use backend systems, enterprise software aur Android development mein hota hai. Java aur JavaScript same nahi hain."],
+  [/\b(c language|c\+\+|cpp)\b/,"C ek procedural language hai aur C++ object-oriented features bhi support karta hai. Dono programming fundamentals, memory aur performance samajhne mein useful hain."],
+  [/\b(variable|data type|datatype)\b/,"Variable ek named storage location jaisa hota hai jisme program value rakhta hai. Data types batate hain value kis type ki hai — jaise number, text ya true/false."],
+  [/\b(loop|for loop|while loop)\b/,"Loop kisi instruction ko baar-baar chalata hai. for loop aksar known repetitions ke liye aur while loop condition true rehne tak use hota hai. Infinite loop se bachne ke liye condition check karo."],
+  [/\b(function|method)\b/,"Function reusable code block hota hai. Isse program ko chhote parts mein divide karna, repeat code kam karna aur testing easy banana possible hota hai."],
+  [/\b(algorithm|flowchart)\b/,"Algorithm kisi problem ko solve karne ke clear step-by-step instructions hain. Flowchart un steps ko symbols aur arrows se dikhata hai."],
+  [/\b(computer|cpu|processor|hardware)\b/,"Computer ek electronic device hai jo input leta hai, data process karta hai, information store karta hai aur output deta hai. CPU instructions execute karta hai."],
+  [/\b(ram|random access memory)\b/,"RAM computer ki temporary working memory hai. Running apps ka data yahan rehta hai. Power off hone par RAM ka data normally erase ho jata hai."],
+  [/\b(rom|ssd|hdd|hard disk|storage)\b/,"Storage files ko long-term save karta hai. SSD generally HDD se faster hota hai. RAM temporary working memory hai, jabki storage files ko power off hone ke baad bhi rakhta hai."],
+  [/\b(operating system|windows|linux|android|os)\b/,"Operating System hardware aur software resources manage karta hai, files/apps chalata hai aur user interface deta hai. Examples: Windows, Linux, Android aur macOS."],
+  [/\b(input device|output device|keyboard|mouse|monitor|printer)\b/,"Input devices computer ko data dete hain — keyboard, mouse, microphone. Output devices result dikhate/sunate hain — monitor, speaker, printer."],
+  [/\b(internet|www|website|browser|dns|http|https)\b/,"Internet duniya bhar ke connected networks ka system hai. Browser website request karta hai, DNS domain ko server IP se map karta hai, aur HTTPS connection ko encrypt karta hai."],
+  [/\b(network|router|ip address|wifi|wi-fi|lan|wan)\b/,"Network devices ko data exchange karne deta hai. Router networks ke beech traffic direct karta hai. Wi‑Fi wireless connection hai; IP address network par device/interface ko identify karta hai."],
+  [/\b(database|sql|dbms)\b/,"Database organised data ka collection hai. DBMS ise create, search aur update karne mein help karta hai. SQL relational databases mein data query karne ki common language hai."],
+  [/\b(artificial intelligence|machine learning|deep learning|\bai\b)\b/,"AI systems ko aise tasks karne mein help karta hai jinmein aam taur par human-like reasoning lagti hai. Machine Learning data se patterns seekhta hai. AI galat bhi ho sakta hai, isliye important facts verify karo."],
+  [/\b(cyber|phishing|otp|scam|fraud|password|privacy|hack)\b/,"Digital safety: har account ka unique strong password rakho, MFA on karo, OTP kisi ko mat do, software update rakho aur suspicious links/requests ko official source se verify karo. Bina permission kisi system ko test mat karo."],
+  [/\b(virus|malware|ransomware|antivirus)\b/,"Malware harmful software ka general naam hai. Virus files se attach ho sakta hai, ransomware data ko lock karke payment maang sakta hai. Updates, trusted downloads, backups aur security tools risk kam karte hain."],
+  [/\b(maths|mathematics|algebra|equation|fraction)\b/,"Maths question bhejo. Main steps ke saath solve karne ki koshish karunga. Equation mein dono sides par same operation karna equality ko preserve karta hai."],
+  [/\b(science|physics|chemistry|biology)\b/,"Science ke liye topic ka naam bhejo — Physics, Chemistry ya Biology. Main concept ko simple language, examples aur key points mein samjha sakta hoon."],
+  [/\b(matter|solid|liquid|gas|evaporation|condensation)\b/,"Matter woh hai jiska mass hota hai aur jo space occupy karta hai. Common states solid, liquid aur gas hain. State temperature aur pressure se change ho sakti hai."],
+  [/\b(force|motion|speed|velocity|acceleration)\b/,"Motion mein object ki position time ke saath change hoti hai. Speed = distance/time. Velocity mein direction bhi hoti hai; acceleration velocity ke change ki rate hai."],
+  [/\b(cell|tissue|organ|photosynthesis|respiration)\b/,"Cell living organisms ki basic structural and functional unit hai. Similar cells milkar tissues banate hain; tissues organs banane mein contribute karte hain."],
+  [/\b(history|geography|civics|democracy|constitution|napoleon)\b/,"History, Geography aur Civics ke liye exact chapter ya question bhejo. Main school-level answer, important points aur easy explanation de sakta hoon."],
+  [/\b(study|revise|learn|roadmap|class 9|homework|exam|revision)\b/,"Study method: 1) Ek chhota topic padho. 2) Book band karke apne words mein samjhao. 3) 3–5 questions solve karo. 4) Galtiyon ko revise karo. Subject aur chapter batao."],
+  [/\b(career|job|future|cybersecurity|course)\b/,"Career explore karne ke liye interests, skills aur practical learning ko saath dekho. Technology pasand hai toh computer fundamentals, networking, programming aur ethical cybersecurity basics se start karo. Abhi school studies ko bhi priority do."],
+  [/\b(time|date|today|aaj)\b/,"Aaj ki date: "+new Date().toLocaleDateString()+" • Local time: "+new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})+"."],
+  [/^[0-9\s.+*/()%-]+$/,"Calculation ke liye Tools Lab ka Basic Calculator use karo. Brackets aur +, -, *, / jaise basic operations supported hain."]
  ];
- const found=answers.find(([pattern])=>pattern.test(s));
- if(found)return found[1];
- if(/hello|hi|hey|namaste/.test(s))return "Hello! 👋 I can help with computer fundamentals, coding, networking, AI basics and digital safety. Ask one topic at a time for a clearer explanation.";
- if(/study|revise|learn|roadmap|class 9/.test(s))return "Try this study loop: 1) Read one small concept. 2) Explain it in your own words. 3) Solve two practice questions. 4) Note what was confusing. Tell me your topic and I can make a beginner-friendly study plan.";
- return "I couldn't find a confident match in my offline knowledge yet. Try asking about HTML, CSS, JavaScript, Python, RAM, operating systems, networking, algorithms, AI or digital safety. You can add your own explanations in Workspace → Knowledge Notebook.";
+ const hit=rules.find(([pattern])=>pattern.test(s));
+ if(hit)return hit[1];
+ return "Is question ka exact answer meri offline knowledge mein abhi nahi mila. 🙏 Question ko thoda specific likho, ya Workspace → Knowledge Notebook mein apna verified note add karo. Note: main live internet/ChatGPT model se connected nahi hoon, isliye har topic ka jawab dene ka claim nahi karta.";
 }
 function renderChat(){
  const lines=chatHistory.map(m=>(m.role==="user"?"You: ":"KR-X: ")+m.text);
