@@ -728,6 +728,7 @@ main{margin-left:216px;width:calc(100% - 216px);max-width:1500px;padding:24px cl
   <button data-page="advanced"><span class="ico">✧</span>Advanced Tools</button>
   <button data-page="routines"><span class="ico">▦</span>Habits & Insights</button>
   <button data-page="notifications"><span class="ico">◉</span>Notification Center</button>
+  <button data-page="focus"><span class="ico">◷</span>Focus Mode</button>
   <button data-page="settings"><span class="ico">⚙</span>Settings</button>
  </nav></div>
  <div class="side-bottom"><span class="status-dot" id="connectionDot" aria-hidden="true"></span><span class="connection-label" id="connectionStatus" role="status" aria-live="polite">Network: online</span><br><span>Local workspace active</span><br><span id="sideDate"></span></div>
@@ -742,7 +743,7 @@ main{margin-left:216px;width:calc(100% - 216px);max-width:1500px;padding:24px cl
  </div>
  <div class="dash-search">
   <div class="dash-search-input"><span>⌕</span><input id="globalSearch" type="search" placeholder="Search anything in KR-X..." aria-label="Search KR-X"><button class="dash-search-go" type="button" onclick="document.getElementById('globalSearch').focus()">→</button></div>
-  <div class="dash-search-shortcuts"><button type="button" data-go="assistant">✦ Ask KR-X</button><button type="button" data-go="workspace">▤ Notes</button><button type="button" data-go="planner">✓ Tasks</button><button type="button" data-go="tools">⌘ Tools</button></div>
+  <div class="dash-search-shortcuts"><button type="button" data-go="assistant">✦ Ask KR-X</button><button type="button" data-go="workspace">▤ Notes</button><button type="button" data-go="planner">✓ Tasks</button><button type="button" data-go="focus">◷ Focus</button><button type="button" data-go="tools">⌘ Tools</button></div>
   <div id="globalSearchResults" class="list dash-search-results" aria-live="polite"><div class="empty">Search your notes, tasks, learning and KR-X tools.</div></div>
  </div>
  <div class="dash-quick-grid">
@@ -797,6 +798,27 @@ main{margin-left:216px;width:calc(100% - 216px);max-width:1500px;padding:24px cl
  <div class="grid">
   <div class="card half"><h3>Today's briefing</h3><div class="output" id="briefingSummary">Your daily summary will appear here.</div><button class="btn primary" id="refreshBriefing" type="button" style="margin-top:12px">Refresh briefing</button></div>
   <div class="card half"><h3>Task alerts</h3><p class="muted">Tasks due today or earlier appear here.</p><div class="list" id="notificationList"></div></div>
+ </div>
+</section>
+
+<section class="page" id="page-focus">
+ <div class="section-head"><div><h2>Focus Mode</h2><p>One task at a time. Work in a calm session, then take a proper break.</p></div><span class="pill">LOCAL TIMER</span></div>
+ <div class="grid">
+  <div class="card full" style="text-align:center">
+   <p class="eyebrow" id="focusModeLabel">FOCUS SESSION</p>
+   <div class="stat" id="focusModeClock" style="font-size:clamp(48px,12vw,82px);letter-spacing:3px;margin:12px 0">25:00</div>
+   <div class="row" style="justify-content:center;flex-wrap:wrap">
+    <button class="btn primary" id="focusModeStart" type="button">Start</button>
+    <button class="btn" id="focusModePause" type="button">Pause</button>
+    <button class="btn" id="focusModeReset" type="button">Reset</button>
+   </div>
+   <p class="small-note" id="focusModeStatus" role="status" aria-live="polite">Ready when you are. Pick a session length below.</p>
+   <div class="row" style="justify-content:center;flex-wrap:wrap;margin-top:14px">
+    <button class="btn small" data-focus-preset="15">15 min</button><button class="btn small" data-focus-preset="25">25 min</button><button class="btn small" data-focus-preset="45">45 min</button>
+   </div>
+  </div>
+  <div class="card half"><h3>Session settings</h3><div class="field"><label for="focusModeWork">Focus length (minutes)</label><input class="control" id="focusModeWork" type="number" min="1" max="180" value="25"></div><div class="field"><label for="focusModeBreak">Break length (minutes)</label><input class="control" id="focusModeBreak" type="number" min="1" max="60" value="5"></div><div class="field"><label for="focusModeTask">What are you focusing on? (optional)</label><input class="control" id="focusModeTask" maxlength="100" placeholder="e.g. Revise science chapter"></div><button class="btn" id="focusModeBreakNow" type="button">Switch to break</button></div>
+  <div class="card half"><h3>Your focus stats</h3><p class="stat" id="focusModeSessions">0</p><p class="muted">Completed focus sessions on this device.</p><p class="small-note">Timer continues only while this page is open. No sound or browser notification is sent.</p></div>
  </div>
 </section>
 
@@ -930,7 +952,7 @@ function runGlobalSearch(){
  const q=$("globalSearch").value.trim().toLowerCase(),out=$("globalSearchResults");
  if(!q){out.innerHTML='<div class="empty">Start typing to search your KR-X workspace.</div>';return}
  const results=[];
- const sections=[["Dashboard","dashboard"],["AI Assistant","assistant"],["Security Center","security"],["Workspace","workspace"],["Planner","planner"],["Tools Lab","tools"],["Learning Hub","learning"],["Advanced Tools","advanced"],["Habits & Insights","routines"],["Notification Center","notifications"],["Settings","settings"]];
+ const sections=[["Dashboard","dashboard"],["AI Assistant","assistant"],["Security Center","security"],["Workspace","workspace"],["Planner","planner"],["Tools Lab","tools"],["Learning Hub","learning"],["Advanced Tools","advanced"],["Habits & Insights","routines"],["Notification Center","notifications"],["Focus Mode","focus"],["Settings","settings"]];
  sections.forEach(([name,page])=>{if(name.toLowerCase().includes(q))results.push({title:name,meta:"Open app section",page})});
  notes.forEach(n=>{if((n.title+" "+n.body).toLowerCase().includes(q))results.push({title:n.title,meta:"Saved note",page:"workspace"})});
  tasks.forEach(t=>{if(t.text.toLowerCase().includes(q))results.push({title:t.text,meta:t.done?"Completed task":"Pending task",page:"planner"})});
@@ -1161,6 +1183,45 @@ renderHabits();renderCalendar();
  renderBriefing();
 })();
 </script>
+<script>
+(() => {
+ "use strict";
+ const $=id=>document.getElementById(id);
+ const readLocal=(key,fallback)=>{try{return JSON.parse(localStorage.getItem("krx-"+key))??fallback}catch{return fallback}};
+ const saveLocal=(key,value)=>localStorage.setItem("krx-"+key,JSON.stringify(value));
+ let mode="focus",seconds=25*60,interval=null,sessions=Number(readLocal("focusModeSessions",0))||0;
+ const clamp=(v,min,max)=>Math.max(min,Math.min(max,Number(v)||min));
+ function lengthFor(which){return clamp(which==="focus"?$("focusModeWork").value:$("focusModeBreak").value,1,which==="focus"?180:60)*60}
+ function paint(){
+  $("focusModeClock").textContent=String(Math.floor(seconds/60)).padStart(2,"0")+":"+String(seconds%60).padStart(2,"0");
+  $("focusModeLabel").textContent=mode==="focus"?"FOCUS SESSION":"BREAK TIME";
+  $("focusModeSessions").textContent=sessions;
+ }
+ function stop(){if(interval!==null){clearInterval(interval);interval=null}}
+ function setMode(next){stop();mode=next;seconds=lengthFor(mode);$("focusModeStatus").textContent=mode==="focus"?"Ready to focus.":"Take a short, screen-free break if you can.";paint()}
+ function start(){
+  if(interval!==null)return;
+  if(seconds<=0)seconds=lengthFor(mode);
+  $("focusModeStatus").textContent=mode==="focus"?"Focus session running.":"Break timer running.";
+  interval=setInterval(()=>{
+   if(seconds>0){seconds--;paint();return}
+   stop();
+   if(mode==="focus"){sessions++;saveLocal("focusModeSessions",sessions);$("focusModeStatus").textContent="Focus session complete. Nice work — take a break.";toast("Focus session complete!")}
+   else $("focusModeStatus").textContent="Break complete. Start another focus session when ready.";
+   paint();
+  },1000);
+ }
+ $("focusModeStart").addEventListener("click",start);
+ $("focusModePause").addEventListener("click",()=>{stop();$("focusModeStatus").textContent="Timer paused.";});
+ $("focusModeReset").addEventListener("click",()=>{stop();seconds=lengthFor(mode);$("focusModeStatus").textContent="Timer reset.";paint()});
+ $("focusModeBreakNow").addEventListener("click",()=>setMode("break"));
+ document.querySelectorAll("[data-focus-preset]").forEach(b=>b.addEventListener("click",()=>{$("focusModeWork").value=b.dataset.focusPreset;setMode("focus")}));
+ ["focusModeWork","focusModeBreak"].forEach(id=>$(id).addEventListener("change",()=>{const el=$(id);el.value=clamp(el.value,1,id==="focusModeWork"?180:60);if((id==="focusModeWork"&&mode==="focus")||(id==="focusModeBreak"&&mode==="break")){stop();seconds=lengthFor(mode);paint()}}));
+ const oldNavigate=window.navigate;
+ if(typeof oldNavigate==="function")window.navigate=function(page){oldNavigate(page);if(page==="focus")paint()};
+ paint();
+})();
+</script>
 </body></html>';
 }
 function saveStudio(){write("studioProject",{html:$("studioHtml").value,css:$("studioCss").value,js:$("studioJs").value})}
@@ -1211,8 +1272,8 @@ showTimer();
 
 $("themeBtn").addEventListener("click",()=>{document.body.classList.toggle("light");const light=document.body.classList.contains("light");localStorage.setItem("krx-theme",light?"light":"dark");$("themeBtn").textContent=light?"☾ Dark mode":"☼ Light mode";toast(light?"Light theme enabled":"Nebula dark theme enabled")});if(localStorage.getItem("krx-theme")==="light")document.body.classList.add("light");$("themeBtn").textContent=document.body.classList.contains("light")?"☾ Dark mode":"☼ Light mode";
 $("saveProfile").addEventListener("click",()=>{localStorage.setItem("krx-nickname",$("nickname").value.trim());toast("Profile saved on this device.")});$("nickname").value=localStorage.getItem("krx-nickname")||"";
-$("exportData").addEventListener("click",()=>{const data={version:7,notes,tasks,bookmarks,knowledge,checks,learningProgress,chatHistory,focusSessions,studioProject:{html:$("studioHtml").value,css:$("studioCss").value,js:$("studioJs").value},nickname:localStorage.getItem("krx-nickname")||""};const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="kr-x-backup.json";a.click();URL.revokeObjectURL(url)});
-$("importFile").addEventListener("change",async e=>{const file=e.target.files[0];if(!file)return;try{const d=JSON.parse(await file.text());if(!d||typeof d!=="object")throw Error("Invalid backup");notes=Array.isArray(d.notes)?d.notes:[];tasks=Array.isArray(d.tasks)?d.tasks:[];bookmarks=Array.isArray(d.bookmarks)?d.bookmarks:[];knowledge=Array.isArray(d.knowledge)?d.knowledge:[];checks=d.checks&&typeof d.checks==="object"?d.checks:{};learningProgress=d.learningProgress&&typeof d.learningProgress==="object"?d.learningProgress:{};chatHistory=Array.isArray(d.chatHistory)?d.chatHistory:[];focusSessions=Number(d.focusSessions)||0;if(d.studioProject&&typeof d.studioProject==="object"){["html","css","js"].forEach(k=>{if(typeof d.studioProject[k]==="string")$("studio"+k.charAt(0).toUpperCase()+k.slice(1)).value=d.studioProject[k]});saveStudio();$("studioPreview").srcdoc=studioDocument()}write("chatHistory",chatHistory);write("focusSessions",focusSessions);write("learningProgress",learningProgress);write("notes",notes);write("tasks",tasks);write("bookmarks",bookmarks);write("knowledge",knowledge);write("checks",checks);localStorage.setItem("krx-nickname",String(d.nickname||""));$("nickname").value=String(d.nickname||"");renderNotes();renderTasks();renderKnowledge();renderBookmarks();renderChecks();renderLearningProgress();renderChat();showTimer();alert("Backup imported.")}catch(err){alert("Could not import: "+err.message)}e.target.value=""});
+$("exportData").addEventListener("click",()=>{const data={version:8,notes,tasks,bookmarks,knowledge,checks,learningProgress,chatHistory,focusSessions,habits:read("habits",[]),habitChecks:read("habitChecks",{}),dismissedAlerts:read("dismissed-alerts",[]),focusModeSessions:read("focusModeSessions",0),studioProject:{html:$("studioHtml").value,css:$("studioCss").value,js:$("studioJs").value},nickname:localStorage.getItem("krx-nickname")||""};const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="kr-x-backup.json";a.click();URL.revokeObjectURL(url)});
+$("importFile").addEventListener("change",async e=>{const file=e.target.files[0];if(!file)return;try{const d=JSON.parse(await file.text());if(!d||typeof d!=="object")throw Error("Invalid backup");notes=Array.isArray(d.notes)?d.notes:[];tasks=Array.isArray(d.tasks)?d.tasks:[];bookmarks=Array.isArray(d.bookmarks)?d.bookmarks:[];knowledge=Array.isArray(d.knowledge)?d.knowledge:[];checks=d.checks&&typeof d.checks==="object"?d.checks:{};learningProgress=d.learningProgress&&typeof d.learningProgress==="object"?d.learningProgress:{};chatHistory=Array.isArray(d.chatHistory)?d.chatHistory:[];focusSessions=Number(d.focusSessions)||0;if(d.studioProject&&typeof d.studioProject==="object"){["html","css","js"].forEach(k=>{if(typeof d.studioProject[k]==="string")$("studio"+k.charAt(0).toUpperCase()+k.slice(1)).value=d.studioProject[k]});saveStudio();$("studioPreview").srcdoc=studioDocument()}write("chatHistory",chatHistory);write("focusSessions",focusSessions);write("learningProgress",learningProgress);write("notes",notes);write("tasks",tasks);write("bookmarks",bookmarks);write("knowledge",knowledge);write("checks",checks);write("habits",Array.isArray(d.habits)?d.habits:read("habits",[]));write("habitChecks",d.habitChecks&&typeof d.habitChecks==="object"?d.habitChecks:read("habitChecks",{}));write("dismissed-alerts",Array.isArray(d.dismissedAlerts)?d.dismissedAlerts:read("dismissed-alerts",[]));write("focusModeSessions",Number(d.focusModeSessions)||0);localStorage.setItem("krx-nickname",String(d.nickname||""));$("nickname").value=String(d.nickname||"");renderNotes();renderTasks();renderKnowledge();renderBookmarks();renderChecks();renderLearningProgress();renderChat();showTimer();alert("Backup imported.")}catch(err){alert("Could not import: "+err.message)}e.target.value=""});
 $("resetData").addEventListener("click",()=>{if(!confirm("This will delete KR-X data saved in this browser. Export a backup first if needed. Continue?"))return;Object.keys(localStorage).filter(k=>k.startsWith("krx-")).forEach(k=>localStorage.removeItem(k));location.reload()});
 renderNotes();renderKnowledge();renderBookmarks();renderTasks();refreshStats();renderLearningProgress();
 // --- KR-X PWA install and offline support ---
