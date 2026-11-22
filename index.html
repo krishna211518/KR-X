@@ -486,6 +486,150 @@ button:disabled{opacity:.55;cursor:not-allowed;transform:none!important}
 }
 
 .brand-mark img{display:block;width:100%;height:100%;object-fit:cover;border-radius:inherit}
+
+/* KR-X — intej-inspired blue workspace redesign (desktop + mobile adaptation) */
+:root{
+ --bg:#06152f;--panel:#071d3b;--panel2:#0a2348;--line:#23416f;
+ --text:#f5f7ff;--muted:#b2c0dc;--cyan:#73aaff;--blue:#315cff;
+ --green:#35d69a;--red:#ff7c91;--shadow:0 18px 50px #0005;
+}
+body{
+ background:
+  radial-gradient(ellipse at 72% 12%,#153fba 0,transparent 42%),
+  radial-gradient(ellipse at 98% 62%,#202e91 0,transparent 36%),
+  linear-gradient(135deg,#071a42 0%,#061b3c 48%,#04142d 100%);
+ background-attachment:fixed;
+}
+.app{display:block;min-height:100vh}
+.sidebar{
+ position:fixed;left:0;top:0;bottom:0;width:215px;height:100vh;
+ padding:26px 14px 20px;gap:25px;z-index:100;
+ background:linear-gradient(180deg,#03132cf7,#03152ff7);
+ border-right:1px solid #294579;box-shadow:8px 0 35px #0003;
+}
+.brand{padding:2px 8px 12px}
+.brand-mark{width:42px;height:42px;border-radius:12px;box-shadow:0 0 25px #287bff55}
+.brand strong{font-size:22px;letter-spacing:2px}
+.brand small{font-size:9px;letter-spacing:1.2px}
+.nav-label{color:#7897c8;letter-spacing:1.5px}
+.nav{gap:7px}
+.nav button{padding:11px 12px;border-radius:11px;color:#d4def3;font-size:14px}
+.nav button.active,.nav button:hover{
+ background:linear-gradient(100deg,#174b9b88,#253d9b66);
+ border-color:#3569c3;color:#fff;
+ box-shadow:inset 3px 0 #6da7ff,0 5px 18px #00113d66;
+}
+.nav button.active .ico{color:#9ec4ff}
+.side-bottom{color:#8fa7cf}
+main{
+ margin-left:215px;width:calc(100% - 215px);max-width:1500px;
+ padding:28px clamp(20px,3vw,46px) 58px;
+}
+.topbar{padding:6px 0 18px;margin-bottom:25px;border-bottom:1px solid #47649a55}
+.eyebrow{color:#8fb8ff;letter-spacing:2px}
+.topbar h1{font-size:clamp(27px,3vw,35px);letter-spacing:-1px}
+.clock{color:#b7c7e5}
+.btn{background:#0b2852;border-color:#31528a;color:#f4f7ff;border-radius:10px}
+.btn:hover{background:#143b78;border-color:#77a9ff;box-shadow:0 5px 20px #174caa44}
+.btn.primary{background:linear-gradient(120deg,#3d6eff,#3152e8);border:1px solid #759aff;color:#fff;box-shadow:0 6px 22px #214fd655}
+.hero{
+ padding:30px 32px;border-radius:19px;
+ background:
+  radial-gradient(ellipse at 90% 0%,#356cff66,transparent 38%),
+  linear-gradient(120deg,#0b2b60f2,#0a2250f2 55%,#151e66f2);
+ border:1px solid #4266ad;box-shadow:0 20px 55px #0004,inset 0 1px #ffffff18;
+}
+.hero h2{max-width:760px;font-size:clamp(29px,3.4vw,42px);letter-spacing:-1.2px}
+.hero h2 span{color:#a8c5ff!important;text-shadow:0 0 24px #538dff55}
+.hero p{max-width:720px;color:#c0cdea}
+.pill{background:#193d80;color:#c7dcff;border:1px solid #4268b2}
+.grid{gap:16px;margin-top:18px}
+.card,.tool{
+ background:linear-gradient(145deg,#0b2852ed,#071b39f7 85%);
+ border:1px solid #284779;border-radius:16px;
+ box-shadow:0 10px 28px #0003,inset 0 1px #ffffff0b;
+}
+.card:hover,.tool:hover{border-color:#527dc5;box-shadow:0 14px 32px #0004}
+.stat{background:linear-gradient(90deg,#fff,#9fc4ff);background-clip:text;-webkit-background-clip:text;color:transparent}
+.stat-icon{font-size:23px}
+.launch-card{grid-column:span 3;display:flex;flex-direction:column;align-items:flex-start;min-height:190px}
+.launch-card .launch-icon{font-size:28px;margin-bottom:8px}
+.launch-card h3{margin:0 0 5px}
+.launch-card p{font-size:13px;min-height:40px;margin:0 0 12px}
+.launch-card .btn{margin-top:auto}
+.field input,.field textarea,.field select,input.control,textarea.control,select.control,.output{
+ background:#061832;border-color:#2c4b7e;color:#f5f7ff;border-radius:10px
+}
+.item{background:#081d3b;border-color:#294574}
+.quiz-option,.sim-choice{background:#081d3b;border-color:#2c4b7e;color:#f5f7ff}
+.meter{background:#1c3763}
+.meter>span{background:linear-gradient(90deg,#4c8dff,#8c9fff)}
+footer{border-color:#294574}
+@media(max-width:1000px) and (min-width:701px){
+ .sidebar{width:190px;padding-left:11px;padding-right:11px}
+ main{margin-left:190px;width:calc(100% - 190px);padding-left:20px;padding-right:20px}
+ .launch-card{grid-column:span 6}
+}
+@media(max-width:700px){
+ .app{display:block}
+ .sidebar{
+  position:fixed;left:0;right:0;top:auto;bottom:0;width:100%;height:auto;min-height:0;
+  padding:6px 8px calc(6px + env(safe-area-inset-bottom));
+  background:#061735f5;border:0;border-top:1px solid #34558e;
+  box-shadow:0 -8px 26px #0006;z-index:1000;
+ }
+ .brand,.nav-label,.side-bottom{display:none!important}
+ .sidebar>div:has(.nav){display:block}
+ .nav{display:flex;overflow-x:auto;gap:4px;padding:0 0 2px;scrollbar-width:none}
+ .nav::-webkit-scrollbar{display:none}
+ .nav button{
+  flex:0 0 66px;min-width:66px;min-height:58px;padding:6px 3px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:3px;font-size:9px;line-height:1.15;text-align:center;white-space:normal;
+ }
+ .nav .ico{width:auto;font-size:17px}
+ .nav button.active{box-shadow:inset 0 2px #8bb7ff}
+ main{margin:0;width:100%;max-width:none;padding:17px 14px calc(94px + env(safe-area-inset-bottom))}
+ .topbar{align-items:flex-start;flex-direction:column;gap:11px;margin-bottom:17px}
+ .topbar h1{font-size:26px}
+ .top-actions{width:100%;justify-content:flex-start;flex-wrap:wrap}
+ .hero{padding:21px 19px;border-radius:16px}
+ .hero h2{font-size:29px;line-height:1.16}
+ .hero p{font-size:13px}
+ .grid{grid-template-columns:minmax(0,1fr);gap:12px}
+ .card,.card.half,.card.wide,.card.full,.launch-card{grid-column:1/-1;padding:15px}
+ .launch-card{min-height:0}
+ .launch-card p{min-height:0}
+ .launch-card .btn{margin-top:4px}
+ .tool-grid{grid-template-columns:1fr}
+ .row{align-items:stretch}
+ .row>.grow{flex-basis:100%}
+ .btn{min-height:43px}
+ input,textarea,select{font-size:16px}
+}
+@media(max-width:380px){
+ main{padding-left:11px;padding-right:11px}
+ .nav button{flex-basis:59px;min-width:59px;font-size:8px}
+ .hero h2{font-size:26px}
+}
+.light{
+ --bg:#eef4ff;--panel:#fff;--panel2:#f7faff;--line:#cbd9ef;
+ --text:#142846;--muted:#536b8d;--cyan:#2865ce;--blue:#315cff;
+ background:linear-gradient(135deg,#f5f8ff,#e7efff);
+ color:var(--text)
+}
+.light .sidebar{background:#f8faff;border-color:#cbd9ef}
+.light .nav button{color:#354e75}
+.light .nav button.active,.light .nav button:hover{background:#e5edff;color:#17345f;border-color:#b6c9ed}
+.light .hero{background:linear-gradient(120deg,#dce9ff,#e8edff 55%,#e9e7ff);border-color:#c0d0f0}
+.light .hero p{color:#455d82}
+.light .hero h2 span{color:#315cbb!important}
+.light .card,.light .tool{background:linear-gradient(145deg,#fff,#f4f7ff);border-color:#d0dcf0}
+.light .field input,.light .field textarea,.light .field select,.light .output,.light .control,.light .item,.light .quiz-option,.light .sim-choice{background:#fff;color:#17334b;border-color:#cbd9ef}
+.light .btn{background:#edf2ff;color:#203b67;border-color:#c3d2ed}
+.light .btn.primary{background:linear-gradient(120deg,#3d6eff,#3152e8);color:#fff}
+.light .pill{background:#e5edff;color:#315caa;border-color:#c1d2f1}
+
 </style>
 <link rel="icon" type="image/svg+xml" href="./icons/icon.svg?v=2">
 <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png?v=2">
@@ -513,12 +657,12 @@ button:disabled{opacity:.55;cursor:not-allowed;transform:none!important}
  <div class="topbar"><div><div class="eyebrow">PERSONAL TECHNOLOGY PLATFORM</div><h1 id="pageTitle">Dashboard</h1><p id="installStatus" class="small-note" role="status" aria-live="polite" hidden></p><p id="offlineNotice" class="small-note" role="status" aria-live="polite" hidden>You are offline. Saved KR-X data on this device remains available; some links need internet.</p></div><div class="top-actions"><span class="clock" id="clock">--:--:--</span><button class="btn small primary" id="installAppBtn" type="button">↓ Install App</button><button class="btn small" id="themeBtn">☼ Theme</button></div></div>
 
 <section class="page active" id="page-dashboard">
- <div class="hero"><span class="pill">KR-X 4.0 • YOUR DIGITAL WORKSPACE</span><h2>Think Big. Build Smart.<br><span style="color:var(--cyan)">Stay Secure.</span></h2><p>A focused space to learn technology, organize your work, practise digital safety and build useful projects — all saved in this browser.</p><div class="hero-actions"><button class="btn primary" data-go="learning">Start learning →</button><button class="btn" data-go="tools">Open tools</button></div></div>
+ <div class="hero"><span class="pill">KR-X • PERSONAL WORKSPACE</span><h2>Good morning 👋<br><span style="color:var(--cyan)">What would you like to work on today?</span></h2><p>Your space to learn technology, stay organized, build projects and keep your digital life secure.</p><div class="hero-actions"><button class="btn primary" data-go="assistant">✦ Chat with KR-X</button><button class="btn" data-go="learning">Explore learning</button></div></div>
  <div class="grid">
   <div class="card"><div class="stat-icon">📝</div><div class="stat" id="noteCount">0</div><div class="stat-label">Saved notes</div></div>
   <div class="card"><div class="stat-icon">✓</div><div class="stat" id="taskCount">0</div><div class="stat-label">Pending tasks</div></div>
   <div class="card"><div class="stat-icon">📚</div><div class="stat" id="knowledgeCount">0</div><div class="stat-label">Knowledge entries</div></div>
-  <div class="card wide"><h3>Quick launch</h3><div class="row"><button class="btn" data-go="assistant">✦ Ask KR-X</button><button class="btn" data-go="security">◈ Safety check</button><button class="btn" data-go="workspace">▤ Open notes</button><button class="btn" data-go="planner">✓ View planner</button></div></div>
+  <div class="card launch-card"><div class="launch-icon">💬</div><h3>Chat with KR-X</h3><p class="muted">Get help with technology and learning.</p><button class="btn" data-go="assistant">Open chat →</button></div><div class="card launch-card"><div class="launch-icon">📚</div><h3>Explore learning</h3><p class="muted">Build skills one step at a time.</p><button class="btn" data-go="learning">Start learning →</button></div><div class="card launch-card"><div class="launch-icon">✓</div><h3>Plan your tasks</h3><p class="muted">Organize goals and track progress.</p><button class="btn" data-go="planner">Open planner →</button></div><div class="card launch-card"><div class="launch-icon">⌘</div><h3>Open tools</h3><p class="muted">Use practical tools in one place.</p><button class="btn" data-go="tools">Explore tools →</button></div>
   <div class="card"><h3>Daily reminder</h3><p class="muted">Learn one small concept, practise it, and write down what you understood. Consistency beats rushing.</p><span class="pill">LEARN • PRACTISE • REVIEW</span></div>
   <div class="card full"><h3>⌕ KR-X Universal Search</h3><p class="muted">Search your saved notes, tasks, knowledge and app sections in one place.</p><div class="row"><input class="control grow" id="globalSearch" type="search" placeholder="Try: HTML, task, security, notes..." aria-label="Search KR-X"><button class="btn primary" id="clearGlobalSearch" type="button">Clear</button></div><div id="globalSearchResults" class="list" aria-live="polite"><div class="empty">Start typing to search your KR-X workspace.</div></div><p class="small-note">Shortcut: Ctrl + K (or ⌘ + K) to jump to search.</p></div>
   <div class="card"><div class="stat-icon">🎯</div><div class="stat" id="learningProgressStat">0%</div><div class="stat-label">Learning roadmap completed</div></div>
