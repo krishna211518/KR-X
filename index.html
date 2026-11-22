@@ -630,6 +630,71 @@ footer{border-color:#294574}
 .light .btn.primary{background:linear-gradient(120deg,#3d6eff,#3152e8);color:#fff}
 .light .pill{background:#e5edff;color:#315caa;border-color:#c1d2f1}
 
+
+/* KR-X DASHBOARD — faithful navy/blue productivity workspace */
+:root{--bg:#04132b;--panel:#071b38;--panel2:#0a2348;--line:#234675;--text:#f4f7ff;--muted:#aebfdf;--cyan:#32c8ff;--blue:#3568ff}
+body{
+ background:radial-gradient(ellipse at 68% 12%,#123fbd 0,transparent 38%),radial-gradient(ellipse at 100% 42%,#172d91 0,transparent 36%),linear-gradient(135deg,#061735 0%,#041b3b 55%,#06142e 100%);
+ background-attachment:fixed;
+}
+.app{grid-template-columns:216px minmax(0,1fr)}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:216px;height:100vh;padding:26px 14px 18px;background:linear-gradient(180deg,#03132df7,#041733f7);border-right:1px solid #244a83;gap:25px;z-index:100}
+.brand{padding:3px 8px 12px}.brand-mark{width:42px;height:42px;background:transparent;box-shadow:none}.brand-mark img{width:100%;height:100%;object-fit:contain}.brand strong{font-size:23px;letter-spacing:1px;background:linear-gradient(90deg,#f8fbff,#75c9ff);background-clip:text;-webkit-background-clip:text;color:transparent}.brand small{font-size:9px;letter-spacing:1px;color:#9bb6e3}
+.nav-label{color:#7897c8}.nav{gap:7px}.nav button{padding:11px 12px;border-radius:11px;color:#d7e4fb;font-size:14px}.nav button.active,.nav button:hover{background:linear-gradient(100deg,#174b9b88,#253d9b66);border-color:#3569c3;color:#fff;box-shadow:inset 3px 0 #6da7ff,0 5px 18px #00113d66}.nav button.active .ico{color:#9ec4ff}
+.side-bottom{color:#8fa7cf}
+main{margin-left:216px;width:calc(100% - 216px);max-width:1500px;padding:24px clamp(20px,3vw,42px) 55px}
+.topbar{padding:4px 0 17px;margin-bottom:22px;border-bottom:1px solid #47649a55}.topbar h1{font-size:clamp(24px,3vw,31px)}.eyebrow{color:#91baff}.clock{color:#b7c7e5}
+.btn{background:#0b2852;border-color:#31528a;color:#f4f7ff;border-radius:10px}.btn:hover{background:#143b78;border-color:#77a9ff}.btn.primary{background:linear-gradient(120deg,#3d6eff,#3152e8);border:1px solid #759aff;color:#fff}
+.page{animation:fade .22s ease}
+.dash-welcome{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:4px 4px 21px}
+.dash-eyebrow{font-size:10px;letter-spacing:2px;font-weight:800;color:#8fb8ff}
+.dash-welcome h2{font-size:clamp(29px,3.3vw,40px);line-height:1.12;letter-spacing:-1.1px;margin:8px 0}
+.dash-welcome h2 span{font-size:.86em}
+.dash-welcome p{margin:0;color:#c1d0ed;font-size:15px}
+.dash-welcome-mark{font-size:30px;font-weight:950;letter-spacing:-2px;color:#9cc5ff;text-shadow:0 0 30px #4d8dff66;opacity:.85}
+.dash-search{padding:15px 18px 13px;border:1px solid #45649b;border-radius:17px;background:linear-gradient(120deg,#071b39ed,#071a39eF);box-shadow:0 15px 40px #0003,inset 0 1px #ffffff10;margin-bottom:18px}
+.dash-search-input{display:flex;align-items:center;gap:12px}.dash-search-input>span{font-size:28px;color:#a9c9ff}.dash-search-input input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:#fff;font-size:17px;padding:10px 0}.dash-search-input input::placeholder{color:#9aacca}
+.dash-search-go{width:48px;height:43px;border:0;border-radius:11px;background:linear-gradient(120deg,#376cff,#294ce0);color:#fff;font-size:25px}
+.dash-search-shortcuts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.dash-search-shortcuts button{padding:7px 12px;border:1px solid #294777;border-radius:9px;background:#0b2245;color:#e5efff;font-size:12px}.dash-search-shortcuts button:hover{border-color:#75aaff;background:#12366b}
+.dash-search-results{margin-top:10px}.dash-search-results:empty{display:none}.dash-search-results .empty{padding:8px;border:0;text-align:left}
+.dash-quick-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin:0 0 18px}
+.dash-action{position:relative;min-height:176px;padding:19px 17px 16px;border:1px solid #284a7c;border-radius:17px;background:linear-gradient(145deg,#0a2851,#061a38 90%);color:#f4f7ff;text-align:left;display:flex;flex-direction:column;align-items:flex-start;gap:8px;box-shadow:0 10px 28px #0003;transition:transform .2s,border-color .2s,box-shadow .2s}
+.dash-action:hover{transform:translateY(-3px);border-color:#5796ff;box-shadow:0 15px 32px #0005,0 0 20px #317bff22}
+.dash-action-icon{width:43px;height:43px;border-radius:10px;display:grid;place-items:center;font-size:24px;font-weight:800;background:linear-gradient(145deg,#16b8ff,#1763e8);color:white;box-shadow:0 7px 20px #147aff55}
+.action-notes .dash-action-icon{background:linear-gradient(145deg,#25e2b4,#0a9b83)}.action-tasks .dash-action-icon{background:linear-gradient(145deg,#c18aff,#7545d7)}.action-learn .dash-action-icon{background:linear-gradient(145deg,#ffc34b,#e68b08)}
+.dash-action strong{font-size:15px;margin-top:2px}.dash-action small{font-size:12px;line-height:1.55;color:#b6c8e6;max-width:190px}.dash-arrow{margin-top:auto;color:#9fc2ff;font-size:23px}
+.dash-panels{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;margin-bottom:17px}
+.dash-panel{min-width:0;padding:19px;border:1px solid #284777;border-radius:17px;background:linear-gradient(145deg,#081f42ed,#061832f5);box-shadow:0 10px 28px #0003}
+.dash-panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:13px;margin-bottom:10px;border-bottom:1px solid #29436b}
+.dash-panel-head h3{margin:0;font-size:16px}.dash-panel-head p{margin:3px 0 0;color:#a9bddf;font-size:11px}.dash-panel-head>button{border:0;background:transparent;color:#7eaeff;font-size:12px;white-space:nowrap}
+.dash-recent-list{display:grid;gap:2px}.dash-recent-item{display:flex;align-items:center;gap:12px;padding:11px 2px;border-bottom:1px solid #1d3557;min-width:0}.dash-file-icon{width:36px;height:39px;flex:0 0 36px;border-radius:8px;display:grid;place-items:center;background:linear-gradient(145deg,#159eff,#1260c7);color:#fff;font-size:21px}.dash-recent-item>div{flex:1;min-width:0}.dash-recent-item strong,.dash-recent-item small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.dash-recent-item strong{font-size:13px}.dash-recent-item small{font-size:11px;color:#a9bddf;margin-top:3px}.dash-recent-date{font-size:10px;color:#91a8ce}
+.dash-add-note{margin-top:12px;border:0;background:transparent;color:#83b2ff;font-size:13px;padding:5px 0}
+.dash-tool-row{width:100%;display:flex;align-items:center;gap:12px;padding:10px 11px;margin:3px 0;border:1px solid transparent;border-radius:11px;background:#0a2449;color:#f4f7ff;text-align:left}.dash-tool-row:hover{border-color:#315d99;background:#10305c}.dash-tool-row>span:nth-child(2){flex:1;min-width:0}.dash-tool-row strong,.dash-tool-row small{display:block}.dash-tool-row strong{font-size:13px}.dash-tool-row small{font-size:11px;color:#a9bddf;margin-top:2px}.dash-tool-row>b{font-size:22px;color:#a6c7ff;font-weight:400}.dash-tool-icon{width:37px;height:37px;display:grid;place-items:center;border-radius:10px;font-size:20px;background:#123d68}.dash-tool-icon.cyan{color:#4ee4ff}.dash-tool-icon.violet{color:#c39aff;background:#30265c}.dash-tool-icon.green{color:#48e3b3;background:#104a46}.dash-tool-icon.blue{color:#8ab7ff;background:#163b75}
+.dash-bottom-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px;margin-bottom:16px}
+.dash-stat{display:flex;align-items:center;gap:12px;padding:13px 15px;border:1px solid #284777;border-radius:13px;background:#081e3d}.dash-stat>span{font-size:22px}.dash-stat strong,.dash-stat small{display:block}.dash-stat strong{font-size:20px}.dash-stat small{font-size:10px;color:#a9bddf}
+.dash-modules{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:17px 19px;border:1px solid #284777;border-radius:16px;background:linear-gradient(110deg,#0b2851,#071a38)}
+.dash-modules>div:first-child{display:flex;align-items:center;gap:11px}.dash-module-symbol{font-size:26px;color:#8cb8ff}.dash-modules strong,.dash-modules small{display:block}.dash-modules strong{font-size:14px}.dash-modules small{font-size:11px;color:#a9bddf;margin-top:3px}.dash-module-links{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}.dash-module-links button{border:1px solid #294777;border-radius:8px;padding:7px 10px;background:#0b2245;color:#dceaff;font-size:11px}
+.card,.tool{background:linear-gradient(145deg,#0b2852ed,#071b39f7);border-color:#284777}
+.field input,.field textarea,.field select,input.control,textarea.control,select.control,.output{background:#061832;border-color:#2c4b7e;color:#f5f7ff}
+@media(max-width:1050px){.dash-quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.dash-action{min-height:155px}}
+@media(max-width:700px){
+ .app{display:block}.sidebar{position:fixed;left:0;right:0;top:auto;bottom:0;width:100%;height:auto;min-height:0;padding:6px 8px calc(6px + env(safe-area-inset-bottom));background:#061735f7;border:0;border-top:1px solid #34558e;box-shadow:0 -8px 26px #0006;z-index:1000}
+ .brand,.nav-label,.side-bottom{display:none!important}.sidebar>div:has(.nav){display:block}.nav{display:flex;overflow-x:auto;gap:4px;padding:0 0 2px;scrollbar-width:none}.nav::-webkit-scrollbar{display:none}
+ .nav button{flex:0 0 66px;min-width:66px;min-height:58px;padding:6px 3px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:9px;line-height:1.15;text-align:center;white-space:normal}.nav .ico{width:auto;font-size:17px}.nav button.active{box-shadow:inset 0 2px #8bb7ff}
+ main{margin:0;width:100%;max-width:none;padding:17px 14px calc(94px + env(safe-area-inset-bottom))}
+ .topbar{align-items:flex-start;flex-direction:column;gap:10px;margin-bottom:14px}.topbar h1{font-size:24px}.top-actions{width:100%;justify-content:flex-start;flex-wrap:wrap}
+ .dash-welcome{padding:5px 2px 17px}.dash-welcome h2{font-size:27px}.dash-welcome p{font-size:13px}.dash-welcome-mark{font-size:21px}
+ .dash-search{padding:12px;border-radius:14px}.dash-search-input input{font-size:15px}.dash-search-shortcuts{gap:6px}.dash-search-shortcuts button{font-size:11px;padding:7px 9px}
+ .dash-quick-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.dash-action{min-height:150px;padding:14px 12px;border-radius:14px}.dash-action-icon{width:38px;height:38px;font-size:21px}.dash-action strong{font-size:13px}.dash-action small{font-size:10px}
+ .dash-panels{grid-template-columns:1fr;gap:11px}.dash-panel{padding:15px;border-radius:14px}.dash-bottom-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.dash-stat{padding:11px}.dash-modules{align-items:flex-start;flex-direction:column;padding:15px}.dash-module-links{justify-content:flex-start}
+}
+@media(max-width:380px){main{padding-left:11px;padding-right:11px}.dash-quick-grid{gap:8px}.dash-action{padding:12px 10px}.dash-welcome h2{font-size:24px}.nav button{flex-basis:59px;min-width:59px}}
+.light body,.light{background:linear-gradient(135deg,#eef5ff,#e7efff);color:#142846}
+.light .sidebar{background:#f8faff;border-color:#cbd9ef}.light .dash-search,.light .dash-panel,.light .dash-stat,.light .dash-modules{background:linear-gradient(145deg,#fff,#f3f7ff);border-color:#cbd9ef;color:#142846}
+.light .dash-welcome p,.light .dash-panel-head p,.light .dash-recent-item small,.light .dash-tool-row small,.light .dash-stat small,.light .dash-modules small{color:#536b8d}
+.light .dash-action{background:linear-gradient(145deg,#fff,#edf3ff);border-color:#cbd9ef;color:#142846}.light .dash-action small{color:#536b8d}
+.light .dash-tool-row{background:#edf3ff;color:#142846}.light .dash-search-input input{color:#142846}.light .dash-search-shortcuts button,.light .dash-module-links button{background:#edf3ff;color:#23436e;border-color:#cbd9ef}
+
 </style>
 <link rel="icon" type="image/svg+xml" href="./icons/icon.svg?v=2">
 <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png?v=2">
@@ -654,19 +719,40 @@ footer{border-color:#294574}
  <div class="side-bottom"><span class="status-dot" id="connectionDot" aria-hidden="true"></span><span class="connection-label" id="connectionStatus" role="status" aria-live="polite">Network: online</span><br><span>Local workspace active</span><br><span id="sideDate"></span></div>
 </aside>
 <main>
- <div class="topbar"><div><div class="eyebrow">PERSONAL TECHNOLOGY PLATFORM</div><h1 id="pageTitle">Dashboard</h1><p id="installStatus" class="small-note" role="status" aria-live="polite" hidden></p><p id="offlineNotice" class="small-note" role="status" aria-live="polite" hidden>You are offline. Saved KR-X data on this device remains available; some links need internet.</p></div><div class="top-actions"><span class="clock" id="clock">--:--:--</span><button class="btn small primary" id="installAppBtn" type="button">↓ Install App</button><button class="btn small" id="themeBtn">☼ Theme</button></div></div>
+ <div class="topbar"><div><div class="eyebrow">KR-X • YOUR PERSONAL HUB</div><h1 id="pageTitle">Dashboard</h1><p id="installStatus" class="small-note" role="status" aria-live="polite" hidden></p><p id="offlineNotice" class="small-note" role="status" aria-live="polite" hidden>You are offline. Saved KR-X data on this device remains available; some links need internet.</p></div><div class="top-actions"><span class="clock" id="clock">--:--:--</span><button class="btn small primary" id="installAppBtn" type="button">↓ Install App</button><button class="btn small" id="themeBtn">☼ Theme</button></div></div>
 
 <section class="page active" id="page-dashboard">
- <div class="hero"><span class="pill">KR-X • PERSONAL WORKSPACE</span><h2>Good morning 👋<br><span style="color:var(--cyan)">What would you like to work on today?</span></h2><p>Your space to learn technology, stay organized, build projects and keep your digital life secure.</p><div class="hero-actions"><button class="btn primary" data-go="assistant">✦ Chat with KR-X</button><button class="btn" data-go="learning">Explore learning</button></div></div>
- <div class="grid">
-  <div class="card"><div class="stat-icon">📝</div><div class="stat" id="noteCount">0</div><div class="stat-label">Saved notes</div></div>
-  <div class="card"><div class="stat-icon">✓</div><div class="stat" id="taskCount">0</div><div class="stat-label">Pending tasks</div></div>
-  <div class="card"><div class="stat-icon">📚</div><div class="stat" id="knowledgeCount">0</div><div class="stat-label">Knowledge entries</div></div>
-  <div class="card launch-card"><div class="launch-icon">💬</div><h3>Chat with KR-X</h3><p class="muted">Get help with technology and learning.</p><button class="btn" data-go="assistant">Open chat →</button></div><div class="card launch-card"><div class="launch-icon">📚</div><h3>Explore learning</h3><p class="muted">Build skills one step at a time.</p><button class="btn" data-go="learning">Start learning →</button></div><div class="card launch-card"><div class="launch-icon">✓</div><h3>Plan your tasks</h3><p class="muted">Organize goals and track progress.</p><button class="btn" data-go="planner">Open planner →</button></div><div class="card launch-card"><div class="launch-icon">⌘</div><h3>Open tools</h3><p class="muted">Use practical tools in one place.</p><button class="btn" data-go="tools">Explore tools →</button></div>
-  <div class="card"><h3>Daily reminder</h3><p class="muted">Learn one small concept, practise it, and write down what you understood. Consistency beats rushing.</p><span class="pill">LEARN • PRACTISE • REVIEW</span></div>
-  <div class="card full"><h3>⌕ KR-X Universal Search</h3><p class="muted">Search your saved notes, tasks, knowledge and app sections in one place.</p><div class="row"><input class="control grow" id="globalSearch" type="search" placeholder="Try: HTML, task, security, notes..." aria-label="Search KR-X"><button class="btn primary" id="clearGlobalSearch" type="button">Clear</button></div><div id="globalSearchResults" class="list" aria-live="polite"><div class="empty">Start typing to search your KR-X workspace.</div></div><p class="small-note">Shortcut: Ctrl + K (or ⌘ + K) to jump to search.</p></div>
-  <div class="card"><div class="stat-icon">🎯</div><div class="stat" id="learningProgressStat">0%</div><div class="stat-label">Learning roadmap completed</div></div>
+ <div class="dash-welcome">
+  <div><div class="dash-eyebrow">YOUR PERSONAL WORKSPACE</div><h2>Good morning, Krishna <span>👋</span></h2><p>What would you like to work on today?</p></div>
+  <div class="dash-welcome-mark">KR-X</div>
  </div>
+ <div class="dash-search">
+  <div class="dash-search-input"><span>⌕</span><input id="globalSearch" type="search" placeholder="Search anything in KR-X..." aria-label="Search KR-X"><button class="dash-search-go" type="button" onclick="document.getElementById('globalSearch').focus()">→</button></div>
+  <div class="dash-search-shortcuts"><button type="button" data-go="assistant">✦ Ask KR-X</button><button type="button" data-go="workspace">▤ Notes</button><button type="button" data-go="planner">✓ Tasks</button><button type="button" data-go="tools">⌘ Tools</button></div>
+  <div id="globalSearchResults" class="list dash-search-results" aria-live="polite"><div class="empty">Search your notes, tasks, learning and KR-X tools.</div></div>
+ </div>
+ <div class="dash-quick-grid">
+  <button class="dash-action action-chat" data-go="assistant"><span class="dash-action-icon">✦</span><strong>Chat with KR-X</strong><small>Get answers and clarity on anything.</small><span class="dash-arrow">→</span></button>
+  <button class="dash-action action-notes" data-go="workspace"><span class="dash-action-icon">▤</span><strong>Save your notes</strong><small>Write ideas and keep them organized.</small><span class="dash-arrow">→</span></button>
+  <button class="dash-action action-tasks" data-go="planner"><span class="dash-action-icon">✓</span><strong>Plan your tasks</strong><small>Stay organized and track your goals.</small><span class="dash-arrow">→</span></button>
+  <button class="dash-action action-learn" data-go="learning"><span class="dash-action-icon">⌘</span><strong>Explore learning</strong><small>Build useful technology skills.</small><span class="dash-arrow">→</span></button>
+ </div>
+ <div class="dash-panels">
+  <section class="dash-panel"><div class="dash-panel-head"><div><h3>Recent Notes</h3><p>Your latest saved workspace notes</p></div><button type="button" data-go="workspace">View all →</button></div><div id="recentNotesList" class="dash-recent-list"><div class="empty">Your saved notes will appear here.</div></div><button class="dash-add-note" type="button" data-go="workspace">＋ Add a new note</button></section>
+  <section class="dash-panel"><div class="dash-panel-head"><div><h3>Quick Tools</h3><p>Jump straight into a KR-X feature</p></div></div>
+   <button class="dash-tool-row" data-go="security"><span class="dash-tool-icon cyan">◈</span><span><strong>Security Center</strong><small>Privacy and digital safety</small></span><b>›</b></button>
+   <button class="dash-tool-row" data-go="tools"><span class="dash-tool-icon violet">⌘</span><span><strong>Tools Lab</strong><small>Useful everyday tools</small></span><b>›</b></button>
+   <button class="dash-tool-row" data-go="learning"><span class="dash-tool-icon green">▱</span><span><strong>Learning Hub</strong><small>Continue your roadmap</small></span><b>›</b></button>
+   <button class="dash-tool-row" data-go="assistant"><span class="dash-tool-icon blue">✦</span><span><strong>AI Assistant</strong><small>Ask and explore ideas</small></span><b>›</b></button>
+  </section>
+ </div>
+ <div class="dash-bottom-grid">
+  <div class="dash-stat"><span>📝</span><div><strong id="noteCount">0</strong><small>Saved notes</small></div></div>
+  <div class="dash-stat"><span>✓</span><div><strong id="taskCount">0</strong><small>Pending tasks</small></div></div>
+  <div class="dash-stat"><span>📚</span><div><strong id="knowledgeCount">0</strong><small>Knowledge entries</small></div></div>
+  <div class="dash-stat"><span>🎯</span><div><strong id="learningProgressStat">0%</strong><small>Learning progress</small></div></div>
+ </div>
+ <div class="dash-modules"><div><span class="dash-module-symbol">✧</span><div><strong>Everything in one place</strong><small>Explore your KR-X workspace modules.</small></div></div><div class="dash-module-links"><button data-go="assistant">AI Assistant</button><button data-go="workspace">Workspace</button><button data-go="planner">Planner</button><button data-go="security">Security</button><button data-go="learning">Learning</button><button data-go="tools">Tools Lab</button></div></div>
 </section>
 
 <section class="page" id="page-assistant">
@@ -807,7 +893,13 @@ document.addEventListener("keydown",event=>{
  if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==="k"){event.preventDefault();navigate("dashboard");$("globalSearch").focus()}
 });
 
-function refreshStats(){$("noteCount").textContent=notes.length;$("taskCount").textContent=tasks.filter(t=>!t.done).length;$("knowledgeCount").textContent=knowledge.length}
+function refreshStats(){
+ $("noteCount").textContent=notes.length;
+ $("taskCount").textContent=tasks.filter(t=>!t.done).length;
+ $("knowledgeCount").textContent=knowledge.length;
+ const recent=$("recentNotesList");
+ if(recent)recent.innerHTML=notes.length?notes.slice(0,4).map(n=>'<div class="dash-recent-item"><span class="dash-file-icon">▤</span><div><strong>'+escapeHTML(n.title)+'</strong><small>'+escapeHTML(String(n.body).slice(0,76))+(String(n.body).length>76?'…':'')+'</small></div><span class="dash-recent-date">Saved</span></div>').join(""):'<div class="empty">No notes saved yet. Create your first note in Workspace.</div>';
+}
 function renderNotes(){$("notesList").innerHTML=notes.length?notes.map(n=>'<div class="item"><div class="item-main"><div class="item-title">'+escapeHTML(n.title)+'</div><div class="item-meta">'+escapeHTML(n.body)+'</div></div><button class="btn small danger" data-delete-note="'+n.id+'">Delete</button></div>').join(""):'<div class="empty">No notes saved yet.</div>';refreshStats()}
 $("saveNote").addEventListener("click",()=>{const title=$("noteTitle").value.trim(),body=$("noteBody").value.trim();if(!title||!body)return alert("Add a title and note first.");notes.unshift({id:uid(),title,body});write("notes",notes);$("noteTitle").value="";$("noteBody").value="";renderNotes()});
 $("notesList").addEventListener("click",e=>{const b=e.target.closest("[data-delete-note]");if(!b)return;notes=notes.filter(n=>n.id!==b.dataset.deleteNote);write("notes",notes);renderNotes()});
