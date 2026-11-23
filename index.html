@@ -1616,10 +1616,14 @@ function studioDocument(){
   const win=document.createElement("section");win.className="krx-window";win.dataset.page=page;win.setAttribute("aria-label",item[0]+" window");
   const saved=layouts[page]||{};
   const offset=(serial%5)*24;
-  if(Number.isFinite(saved.left))win.style.left=saved.left+"px";else win.style.left="calc(50% - 290px + "+offset+"px)";
-  if(Number.isFinite(saved.top))win.style.top=saved.top+"px";else win.style.top=(95+offset)+"px";
-  if(Number.isFinite(saved.width))win.style.width=saved.width+"px";
-  if(Number.isFinite(saved.height))win.style.height=saved.height+"px";
+  const mobile=innerWidth<=700;
+  const baseWidth=Math.min(mobile?innerWidth-10:580,innerWidth-16);
+  const baseHeight=Math.min(mobile?innerHeight-82:470,innerHeight-32);
+  const maxLeft=Math.max(4,innerWidth-baseWidth-4),maxTop=Math.max(55,innerHeight-100);
+  win.style.left=(Number.isFinite(saved.left)?Math.max(4,Math.min(maxLeft,saved.left)):Math.max(4,Math.min(maxLeft,(innerWidth-baseWidth)/2+offset)))+"px";
+  win.style.top=(Number.isFinite(saved.top)?Math.max(55,Math.min(maxTop,saved.top)):Math.max(65,95+offset))+"px";
+  if(Number.isFinite(saved.width))win.style.width=Math.max(Math.min(285,baseWidth),Math.min(baseWidth,saved.width))+"px";
+  if(Number.isFinite(saved.height))win.style.height=Math.max(Math.min(220,baseHeight),Math.min(baseHeight,saved.height))+"px";
   const bar=document.createElement("div");bar.className="krx-window-bar";
   const title=document.createElement("span");title.className="krx-window-title";title.textContent="▣  "+item[0];
   const min=document.createElement("button");min.className="krx-window-control";min.type="button";min.title="Minimize";min.setAttribute("aria-label","Minimize window");min.textContent="−";
