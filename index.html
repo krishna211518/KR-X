@@ -2168,10 +2168,11 @@ setGate(!!saved());
  const conditionText={always:"Always",pending:"Pending tasks exist",notes:"Saved notes exist"};
  const actionText={notify:"Show in-app message",planner:"Open Planner",workspace:"Open Workspace",focus:"Open Focus Mode",learning:"Open Learning Hub",nexus:"Open NEXUS Core"};
  const pageFor={planner:"planner",workspace:"workspace",focus:"focus",learning:"learning",nexus:"nexus"};
+ function localArray(key){try{const value=JSON.parse(localStorage.getItem("krx-"+key)||"[]");return Array.isArray(value)?value:[];}catch{return [];}}
  function hasCondition(type){
   if(type==="always")return true;
-  if(type==="pending")return Array.isArray(window.tasks)&&window.tasks.some(t=>!t.done&&!t.completed);
-  if(type==="notes")return Array.isArray(window.notes)&&window.notes.length>0;
+  if(type==="pending")return localArray("tasks").some(t=>!t.done);
+  if(type==="notes")return localArray("notes").length>0;
   return false;
  }
  function log(message){logs.unshift({at:new Date().toISOString(),message});logs=logs.slice(0,30);save();renderLog();}
