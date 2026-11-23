@@ -959,6 +959,48 @@ body{
 @media(max-width:560px){.command-action-grid{grid-template-columns:1fr}.command-overlay{padding-top:7vh}.command-dialog{max-height:80vh}}
 </style>
 
+
+<style>
+/* KR-X Multi-Window Workspace */
+.window-hero h2 span{color:var(--cyan)}
+.window-launch-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.window-launch{display:flex;flex-direction:column;align-items:flex-start;gap:5px;text-align:left;min-height:92px;padding:13px;border:1px solid var(--line);border-radius:12px;background:var(--panel2);color:var(--text);font-size:20px}
+.window-launch:hover{border-color:var(--cyan);transform:translateY(-1px)}
+.window-launch strong{font-size:13px}.window-launch small{font-size:11px;color:var(--muted)}
+.krx-window-layer{position:fixed;inset:0;z-index:1800;pointer-events:none;overflow:hidden}
+.krx-window{position:absolute;left:calc(50% - 290px);top:110px;width:min(580px,calc(100vw - 30px));height:min(470px,calc(100vh - 145px));min-width:285px;min-height:230px;display:flex;flex-direction:column;overflow:hidden;resize:both;pointer-events:auto;border:1px solid #397b9b;border-radius:15px;background:#081827;box-shadow:0 22px 70px #0009}
+.krx-window.minimized{height:46px!important;min-height:46px;resize:none}
+.krx-window.maximized{left:8px!important;top:8px!important;width:calc(100vw - 16px)!important;height:calc(100vh - 16px)!important;resize:none}
+.krx-window-bar{height:44px;min-height:44px;display:flex;align-items:center;gap:8px;padding:0 9px 0 13px;background:linear-gradient(100deg,#12314b,#0c2035);border-bottom:1px solid #2b526e;cursor:move;touch-action:none;user-select:none}
+.krx-window-title{font-size:12px;font-weight:800;color:#eaf8ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
+.krx-window-control{width:27px;height:27px;display:grid;place-items:center;border:1px solid #3b607b;border-radius:7px;background:#17344c;color:#e7f5ff;padding:0;line-height:1}
+.krx-window-control:hover{background:#24516d}
+.krx-window-body{flex:1;min-height:0;overflow:hidden;background:var(--bg)}
+.krx-window-body iframe{width:100%;height:100%;border:0;display:block;background:var(--bg)}
+.krx-window.minimized .krx-window-body{display:none}
+.krx-window-layer:empty{display:none}
+.krx-window-hint{padding:12px;color:#9bb0c5;font-size:12px}
+.krx-panel-mode body{min-height:100vh;background:var(--bg)}
+.krx-panel-mode .app{display:block;min-height:100vh}
+.krx-panel-mode main{padding:14px;min-width:0}
+.krx-panel-mode .page{display:none}
+.krx-panel-mode .page.active{display:block}
+.krx-panel-mode .card{box-shadow:none}
+@media(max-width:700px){
+ .window-launch-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .krx-window{left:5px;top:70px;width:calc(100vw - 10px);height:calc(100vh - 82px);min-width:0;min-height:220px;border-radius:12px}
+ .krx-window-bar{height:42px;min-height:42px}
+ .krx-window.maximized{left:3px!important;top:3px!important;width:calc(100vw - 6px)!important;height:calc(100vh - 6px)!important}
+ .krx-panel-mode main{padding:10px}
+}
+.light .krx-window{background:#f5faff;border-color:#a9ccdf}
+.light .krx-window-bar{background:linear-gradient(100deg,#dceef8,#edf7fc);border-color:#c6dce9}
+.light .krx-window-title{color:#102b43}
+.light .krx-window-control{background:#e4f1f8;color:#163b57;border-color:#b8d0df}
+.light .window-launch{background:#f6faff;color:#102338;border-color:#cbd9e5}
+.light .window-launch small{color:#526c85}
+</style>
+
 </head>
 <body>
 
@@ -973,6 +1015,7 @@ body{
  </div>
 </div>
 
+<div class="krx-window-layer" id="krxWindowLayer" aria-live="polite"></div>
 <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
 <div class="app">
 <aside class="sidebar">
@@ -980,6 +1023,7 @@ body{
  <div><div class="nav-label">WORKSPACE</div><nav class="nav" id="navigation">
   <button class="active" data-page="dashboard"><span class="ico">⌂</span>Dashboard</button>
   <button data-page="command"><span class="ico">⌘</span>Command Center</button>
+  <button data-page="windows"><span class="ico">▣</span>Multi-Window</button>
   <button data-page="assistant"><span class="ico"><svg class="krx-ai-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3.5 19.2 12.8 28.5 16 19.2 19.2 16 28.5 12.8 19.2 3.5 16 12.8 12.8Z"/><path d="M25.5 3.5v5M23 6h5M6.5 23.5v5M4 26h5"/></svg></span>AI Assistant</button>
   <button data-page="security"><span class="ico">◈</span>Security Center</button>
   <button data-page="workspace"><span class="ico">▤</span>Workspace</button>
@@ -997,7 +1041,7 @@ body{
  <div class="side-bottom"><span class="status-dot" id="connectionDot" aria-hidden="true"></span><span class="connection-label" id="connectionStatus" role="status" aria-live="polite">Network: online</span><br><span>Local workspace active</span><br><span id="sideDate"></span></div>
 </aside>
 <main>
- <div class="topbar"><div><div class="eyebrow">KR-X • YOUR PERSONAL HUB</div><h1 id="pageTitle">Dashboard</h1><p id="offlineNotice" class="small-note" role="status" aria-live="polite" hidden>You are offline. Saved KR-X data on this device remains available; some links need internet.</p></div><div class="top-actions"><span class="clock" id="clock">--:--:--</span><button class="btn small" id="commandPaletteBtn" type="button" title="Open Command Palette (Ctrl+K)">⌘ Commands</button><button class="btn small" id="installAppBtn" type="button">↓ Install App</button><button class="btn small" id="themeBtn">☼ Theme</button></div></div>
+ <div class="topbar"><div><div class="eyebrow">KR-X • YOUR PERSONAL HUB</div><h1 id="pageTitle">Dashboard</h1><p id="offlineNotice" class="small-note" role="status" aria-live="polite" hidden>You are offline. Saved KR-X data on this device remains available; some links need internet.</p></div><div class="top-actions"><span class="clock" id="clock">--:--:--</span><button class="btn small" id="commandPaletteBtn" type="button" title="Open Command Palette (Ctrl+K)">⌘ Commands</button><button class="btn small" id="openWindowHub" type="button" title="Open Multi-Window Workspace">▣ Windows</button><button class="btn small" id="installAppBtn" type="button">↓ Install App</button><button class="btn small" id="themeBtn">☼ Theme</button></div></div>
 
 <section class="page active" id="page-dashboard">
  <div class="dash-welcome">
@@ -1230,6 +1274,27 @@ button{padding:10px 16px;border:0;border-radius:8px;background:#35e6ff;color:#06
  <p class="small-note">Keyboard: Ctrl + K (Windows/Linux) or ⌘ + K (Mac) opens the command palette. Press Esc to close it.</p>
 </section>
 
+
+<section class="page" id="page-windows">
+ <div class="section-head"><div><h2>Multi-Window Workspace</h2><p>Open KR-X modules side by side in movable, resizable windows.</p></div><span class="pill" id="windowCountLabel">0 OPEN</span></div>
+ <div class="hero window-hero"><div class="eyebrow">KR-X LIVE WORKSPACE</div><h2>More space. <span>More possibilities.</span></h2><p>Launch multiple modules at once. Move, resize, minimize, or close each window independently.</p><div class="hero-actions"><button class="btn primary" type="button" data-open-window="workspace">＋ Open Workspace</button><button class="btn" type="button" data-open-window="planner">Open Planner</button><button class="btn" type="button" id="closeAllWindows">Close all windows</button></div></div>
+ <div class="card"><h3>Launch a module</h3><div class="window-launch-grid">
+  <button class="window-launch" data-open-window="dashboard">⌂ <strong>Dashboard</strong><small>Overview and quick links</small></button>
+  <button class="window-launch" data-open-window="assistant">✧ <strong>AI Assistant</strong><small>Chat and assistance</small></button>
+  <button class="window-launch" data-open-window="workspace">▤ <strong>Workspace</strong><small>Notes and knowledge</small></button>
+  <button class="window-launch" data-open-window="planner">✓ <strong>Planner</strong><small>Tasks and deadlines</small></button>
+  <button class="window-launch" data-open-window="tools">⌘ <strong>Tools Lab</strong><small>Calculators and utilities</small></button>
+  <button class="window-launch" data-open-window="learning">▱ <strong>Learning Hub</strong><small>Lessons and progress</small></button>
+  <button class="window-launch" data-open-window="security">◈ <strong>Security Center</strong><small>Privacy and safety</small></button>
+  <button class="window-launch" data-open-window="focus">◷ <strong>Focus Mode</strong><small>Focus sessions</small></button>
+  <button class="window-launch" data-open-window="brain">✧ <strong>KR-X Brain</strong><small>Saved knowledge</small></button>
+  <button class="window-launch" data-open-window="vault">▣ <strong>KR-X Vault</strong><small>Private records</small></button>
+  <button class="window-launch" data-open-window="command">⌘ <strong>Command Center</strong><small>Quick actions</small></button>
+  <button class="window-launch" data-open-window="settings">⚙ <strong>Settings</strong><small>Preferences</small></button>
+ </div></div>
+ <p class="small-note">Window content runs inside KR-X itself, so supported module controls continue to work and use the same local saved data.</p>
+</section>
+
 <footer><span>© 2026 KR-X • Built for learning and creating</span><span>Think Big. Build Smart. Stay Secure.</span></footer>
 </main>
 </div>
@@ -1447,7 +1512,8 @@ function studioDocument(){
   ["KR-X Brain","brain","✧","Search saved knowledge"],
   ["KR-X Vault","vault","▣","Encrypted private notes"],
   ["Settings","settings","⚙","Preferences and data controls"],
-  ["Command Center","command","⌘","Quick actions and recent pages"]
+  ["Command Center","command","⌘","Quick actions and recent pages"],
+  ["Multi-Window","windows","▣","Open and manage floating module windows"]
  ];
  const actions = [
   ["Create a note","new-note","＋","Open Workspace and focus the note title"],
@@ -1520,6 +1586,90 @@ function studioDocument(){
  document.querySelectorAll("[data-command-action]").forEach(b=>b.addEventListener("click",()=>runAction(b.dataset.commandAction)));
  $("clearRecentPages")?.addEventListener("click",()=>{recent=[];saveRecent();renderRecent();});
  renderRecent();
+})();
+</script>
+
+
+<script>
+(()=> {
+ "use strict";
+ const layer=document.getElementById("krxWindowLayer");
+ if(!layer)return;
+ const catalog=[
+  ["Dashboard","dashboard"],["AI Assistant","assistant"],["Security Center","security"],
+  ["Workspace","workspace"],["Planner","planner"],["Tools Lab","tools"],
+  ["Learning Hub","learning"],["Advanced Tools","advanced"],["Habits & Insights","routines"],
+  ["Notification Center","notifications"],["Focus Mode","focus"],["KR-X Brain","brain"],
+  ["KR-X Vault","vault"],["Settings","settings"],["Command Center","command"]
+ ];
+ let z=20,serial=0,layouts={};
+ try{layouts=JSON.parse(localStorage.getItem("krx-window-layouts")||"{}");if(!layouts||typeof layouts!=="object")layouts={};}catch{layouts={};}
+ const save=()=>{try{localStorage.setItem("krx-window-layouts",JSON.stringify(layouts));}catch{}};
+ const toastMsg=msg=>{const region=document.getElementById("toastRegion");if(!region)return;const n=document.createElement("div");n.className="krx-toast";n.textContent=msg;region.append(n);setTimeout(()=>n.remove(),2600);};
+ function count(){const n=layer.querySelectorAll(".krx-window").length;const label=document.getElementById("windowCountLabel");if(label)label.textContent=n+" OPEN";}
+ function focus(win){z++;win.style.zIndex=z;}
+ function open(page){
+  const item=catalog.find(x=>x[1]===page);if(!item)return;
+  const existing=[...layer.querySelectorAll(".krx-window")].find(w=>w.dataset.page===page);
+  if(existing){existing.classList.remove("minimized");focus(existing);return;}
+  serial++;
+  const win=document.createElement("section");win.className="krx-window";win.dataset.page=page;win.setAttribute("aria-label",item[0]+" window");
+  const saved=layouts[page]||{};
+  const offset=(serial%5)*24;
+  if(Number.isFinite(saved.left))win.style.left=saved.left+"px";else win.style.left="calc(50% - 290px + "+offset+"px)";
+  if(Number.isFinite(saved.top))win.style.top=saved.top+"px";else win.style.top=(95+offset)+"px";
+  if(Number.isFinite(saved.width))win.style.width=saved.width+"px";
+  if(Number.isFinite(saved.height))win.style.height=saved.height+"px";
+  const bar=document.createElement("div");bar.className="krx-window-bar";
+  const title=document.createElement("span");title.className="krx-window-title";title.textContent="▣  "+item[0];
+  const min=document.createElement("button");min.className="krx-window-control";min.type="button";min.title="Minimize";min.setAttribute("aria-label","Minimize window");min.textContent="−";
+  const max=document.createElement("button");max.className="krx-window-control";max.type="button";max.title="Maximize / restore";max.setAttribute("aria-label","Maximize or restore window");max.textContent="□";
+  const close=document.createElement("button");close.className="krx-window-control";close.type="button";close.title="Close";close.setAttribute("aria-label","Close window");close.textContent="×";
+  bar.append(title,min,max,close);
+  const body=document.createElement("div");body.className="krx-window-body";
+  const frame=document.createElement("iframe");frame.title=item[0];frame.loading="eager";frame.referrerPolicy="same-origin";
+  frame.src=location.pathname+"?krxPanel="+encodeURIComponent(page);
+  body.append(frame);win.append(bar,body);layer.append(win);focus(win);count();
+  min.addEventListener("click",()=>{win.classList.toggle("minimized");min.textContent=win.classList.contains("minimized")?"+":"−";min.title=win.classList.contains("minimized")?"Restore":"Minimize";});
+  max.addEventListener("click",()=>{const was=win.classList.toggle("maximized");max.textContent=was?"❐":"□";});
+  close.addEventListener("click",()=>{remember(win);win.remove();count();});
+  win.addEventListener("pointerdown",()=>focus(win));
+  let drag=null;
+  bar.addEventListener("pointerdown",e=>{
+   if(e.target.closest("button")||win.classList.contains("maximized"))return;
+   focus(win);const rect=win.getBoundingClientRect();drag={x:e.clientX-rect.left,y:e.clientY-rect.top};
+   bar.setPointerCapture(e.pointerId);
+  });
+  bar.addEventListener("pointermove",e=>{
+   if(!drag)return;
+   const x=Math.max(0,Math.min(innerWidth-win.offsetWidth,e.clientX-drag.x));
+   const y=Math.max(0,Math.min(innerHeight-48,e.clientY-drag.y));
+   win.style.left=x+"px";win.style.top=y+"px";
+  });
+  const stop=()=>{if(drag){drag=null;remember(win);}};
+  bar.addEventListener("pointerup",stop);bar.addEventListener("pointercancel",stop);
+  if("ResizeObserver" in window){let timer;const ro=new ResizeObserver(()=>{clearTimeout(timer);timer=setTimeout(()=>remember(win),180);});ro.observe(win);}
+  frame.addEventListener("load",()=>{try{const doc=frame.contentDocument;if(doc){doc.documentElement.classList.add("krx-panel-mode");const panel=doc.querySelector("#page-"+CSS.escape(page));if(panel){doc.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p===panel));doc.querySelector(".sidebar")?.remove();doc.querySelector(".topbar")?.remove();doc.querySelector("footer")?.remove();doc.body.style.overflow="auto";}}}catch{}});
+ }
+ function remember(win){
+  if(!win||win.classList.contains("maximized"))return;
+  const r=win.getBoundingClientRect();layouts[win.dataset.page]={left:Math.round(r.left),top:Math.round(r.top),width:Math.round(r.width),height:Math.round(r.height)};save();
+ }
+ document.querySelectorAll("[data-open-window]").forEach(b=>b.addEventListener("click",()=>open(b.dataset.openWindow)));
+ document.getElementById("openWindowHub")?.addEventListener("click",()=>{if(typeof window.navigate==="function")window.navigate("windows");else document.querySelector('[data-page="windows"]')?.click();});
+ document.getElementById("closeAllWindows")?.addEventListener("click",()=>{layer.querySelectorAll(".krx-window").forEach(remember);layer.replaceChildren();count();toastMsg("All windows closed.");});
+ document.addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.altKey&&e.key.toLowerCase()==="w"){e.preventDefault();open("workspace");}});
+ count();
+ const params=new URLSearchParams(location.search),panel=params.get("krxPanel");
+ if(panel){
+  document.documentElement.classList.add("krx-panel-mode");
+  const target=document.getElementById("page-"+panel);
+  if(target){
+   document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p===target));
+   document.querySelector(".sidebar")?.remove();document.querySelector(".topbar")?.remove();document.querySelector("footer")?.remove();
+   document.body.style.overflow="auto";
+  }
+ }
 })();
 </script>
 
