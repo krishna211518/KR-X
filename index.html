@@ -26,6 +26,7 @@ footer{border-top:1px solid var(--line);margin-top:35px;padding-top:18px;color:#
 .agent-hero{background:linear-gradient(120deg,#102b43,#10213b);border-color:#39708b}.agent-hero h2 span{color:#54eaff}
 .agent-step{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.agent-step:last-child{border-bottom:0}.agent-step input{margin-top:4px;accent-color:var(--accent)}.agent-step label{flex:1;line-height:1.45;cursor:pointer}
 .code-area,.code-output{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}.design-preview{padding:22px;border-radius:14px;background:#17263b;color:#f4fbff;border:1px solid #38516c}.design-preview button{border:0;padding:10px 16px;color:#061521;font-weight:700;cursor:pointer}.flow-node{padding:13px;border:1px solid var(--line);border-radius:12px;background:var(--card);display:flex;align-items:center;gap:10px;margin:8px 0}.flow-node .flow-main{flex:1;min-width:0}.flow-node strong{display:block}.flow-node small{color:var(--muted)}.flow-node button{flex:none}
+.security-row{display:flex;align-items:flex-start;gap:10px;padding:11px;border:1px solid var(--line);border-radius:11px;background:var(--card);margin:7px 0}.security-row .status-dot{width:9px;height:9px;border-radius:50%;background:var(--cyan);margin-top:5px;flex:none}.security-row strong{display:block}.security-row p{margin:3px 0 0;color:var(--muted);font-size:12px}.security-row.warn .status-dot{background:#e7a83e}.security-row.good .status-dot{background:#32bd86}.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:14px 0}.stat-tile{padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--card)}.stat-tile strong{display:block;font-size:22px;color:var(--cyan)}.stat-tile span{font-size:12px;color:var(--muted)}.check-row{display:flex;gap:9px;align-items:center;margin:12px 0;font-size:13px}
 .batch-hero{background:linear-gradient(120deg,#102b43,#10213b);border-color:#39708b}.batch-hero h2 span{color:#54eaff}
 .widget-grid,.quick-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:14px}.widget-tile,.quick-tile{padding:16px;border:1px solid var(--line);border-radius:13px;background:var(--card);min-width:0}.widget-tile strong,.quick-tile strong{display:block}.widget-value{font-size:28px;font-weight:750;margin:9px 0;color:var(--cyan)}.profile-checks{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:9px}.profile-checks label{display:flex;gap:8px;align-items:center;padding:9px;border:1px solid var(--line);border-radius:9px}.profile-checks input{accent-color:var(--accent)}.quick-tile{display:flex;align-items:center;gap:10px}.quick-tile .quick-main{flex:1;min-width:0}.quick-tile small{display:block;color:var(--muted)}.quick-tile button{flex:none}
 .memory-hero,.decision-hero,.predict-hero,.voice-hero{background:linear-gradient(120deg,#102b43,#10213b);border-color:#39708b}.memory-hero h2 span,.decision-hero h2 span,.predict-hero h2 span,.voice-hero h2 span{color:#54eaff}.memory-entry{padding:12px;border:1px solid var(--line);border-radius:10px;margin-top:9px}.memory-entry strong{display:block}.memory-entry p{white-space:pre-wrap;margin:7px 0}.memory-entry .row{justify-content:flex-end}
@@ -1060,6 +1061,14 @@ body{
   <button data-page="flow"><span class="ico">⑂</span>Flow Builder</button>
   <button data-page="documents"><span class="ico">▧</span>Document Forge</button>
   <button data-page="media"><span class="ico">▣</span>Media Studio</button>
+  <button data-page="fortress"><span class="ico">🛡</span>Fortress</button>
+  <button data-page="sandbox"><span class="ico">◉</span>Security Sandbox</button>
+  <button data-page="privacy"><span class="ico">◈</span>Privacy Radar</button>
+  <button data-page="integrity"><span class="ico">✓</span>Integrity Guard</button>
+  <button data-page="recovery"><span class="ico">↺</span>Recovery Center</button>
+  <button data-page="watch"><span class="ico">◷</span>System Watch</button>
+  <button data-page="safemode"><span class="ico">⛨</span>Safe Mode</button>
+  <button data-page="selfcheck"><span class="ico">✧</span>Self-Check</button>
   <button data-page="assistant"><span class="ico"><svg class="krx-ai-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3.5 19.2 12.8 28.5 16 19.2 19.2 16 28.5 12.8 19.2 3.5 16 12.8 12.8Z"/><path d="M25.5 3.5v5M23 6h5M6.5 23.5v5M4 26h5"/></svg></span>AI Assistant</button>
   <button data-page="security"><span class="ico">◈</span>Security Center</button>
   <button data-page="workspace"><span class="ico">▤</span>Workspace</button>
@@ -1184,6 +1193,47 @@ body{
  <div class="hero batch-hero"><div class="eyebrow">MODULAR KR-X</div><h2>Extend your <span>workspace.</span></h2><p>Enable or disable local KR-X extensions. These are built-in modules, not third-party cloud integrations.</p></div>
  <div class="card full"><div class="row" style="justify-content:space-between"><h3>Available extensions</h3><span class="pill" id="pluginEnabledCount">0 ENABLED</span></div><div class="list" id="pluginList"></div></div>
  <p class="small-note">External plugins and connected services require a secure integration and their own permissions. No external account is accessed from this page.</p>
+</section>
+
+<section class="page" id="page-fortress">
+ <div class="section-head"><div><h2>FORTRESS</h2><p>A defensive security overview for your KR-X browser workspace.</p></div><span class="pill">DEFENCE CENTER</span></div>
+ <div class="hero batch-hero"><div class="eyebrow">PROTECT • REVIEW • IMPROVE</div><h2>Your digital <span>fortress.</span></h2><p>Review browser protections, storage exposure and practical safety checks. This is a local checklist, not a professional security scan.</p></div>
+ <div class="grid"><div class="card"><h3>Browser security posture</h3><div id="fortressChecks" class="list"></div><button class="btn primary" id="fortressRefresh" type="button">↻ Refresh checks</button></div><div class="card"><h3>Security checklist</h3><div id="fortressTasks" class="list"></div><p class="muted">Checklist progress is saved locally on this device.</p></div></div>
+</section>
+<section class="page" id="page-sandbox">
+ <div class="section-head"><div><h2>SECURITY SANDBOX</h2><p>Practice identifying suspicious messages and links without opening them.</p></div><span class="pill">SAFE LEARNING LAB</span></div>
+ <div class="hero batch-hero"><div class="eyebrow">LEARN TO SPOT RED FLAGS</div><h2>Think before you <span>click.</span></h2><p>Paste sample text or a URL for a basic offline red-flag review. Nothing is opened or sent to a server.</p></div>
+ <div class="card full"><div class="field"><label for="sandboxInput">Message or URL to inspect</label><textarea id="sandboxInput" class="control" rows="5" maxlength="4000" placeholder="Paste suspicious message text or a URL here..."></textarea></div><button class="btn primary" id="sandboxAnalyze" type="button">Analyze locally</button><div id="sandboxResult" class="list"></div><div class="muted">Heuristic learning aid only. It cannot prove that a link or message is safe or malicious.</div></div>
+</section>
+<section class="page" id="page-privacy">
+ <div class="section-head"><div><h2>PRIVACY RADAR</h2><p>See what this browser stores for KR-X without exposing the stored values.</p></div><span class="pill">LOCAL PRIVACY AUDIT</span></div>
+ <div class="hero batch-hero"><div class="eyebrow">KNOW YOUR DATA</div><h2>Your data, <span>your choice.</span></h2><p>Review storage keys, approximate sizes and browser permissions. Values are not displayed or uploaded.</p></div>
+ <div class="card full"><div class="row"><button class="btn primary" id="privacyScan" type="button">Scan local storage</button><button class="btn" id="privacyExport" type="button">Export key inventory</button></div><div class="stats-grid" id="privacyStats"></div><div class="list" id="privacyList"></div><p class="muted">Clearing site data in browser settings can remove KR-X records. Export a backup first.</p></div>
+</section>
+<section class="page" id="page-integrity">
+ <div class="section-head"><div><h2>INTEGRITY GUARD</h2><p>Calculate a SHA-256 fingerprint for a file you select.</p></div><span class="pill">FILE VERIFICATION</span></div>
+ <div class="hero batch-hero"><div class="eyebrow">HASH • COMPARE • VERIFY</div><h2>Check file <span>integrity.</span></h2><p>A matching SHA-256 hash indicates the file contents match the reference hash you have. It does not certify that a file is safe.</p></div>
+ <div class="card full"><div class="field"><label for="integrityFile">Choose file</label><input type="file" id="integrityFile" class="control"></div><div class="field"><label for="integrityExpected">Reference SHA-256 (optional)</label><input id="integrityExpected" class="control" maxlength="64" placeholder="Paste a trusted 64-character hash"></div><button class="btn primary" id="integrityHash" type="button">Calculate SHA-256</button><div class="field"><label>Calculated hash</label><pre class="output code-output" id="integrityOutput">No file processed yet.</pre></div><p id="integrityStatus" class="muted">File processing happens locally in this browser.</p></div>
+</section>
+<section class="page" id="page-recovery">
+ <div class="section-head"><div><h2>RECOVERY CENTER</h2><p>Create and restore a backup of this browser's KR-X local data.</p></div><span class="pill">BACKUP & RESTORE</span></div>
+ <div class="hero batch-hero"><div class="eyebrow">BACK UP BEFORE YOU CHANGE</div><h2>Recovery, <span>under your control.</span></h2><p>Backups can contain notes, tasks and personal data. Keep the exported file private and only restore backups you trust.</p></div>
+ <div class="grid"><div class="card"><h3>Create backup</h3><p class="muted">Export the current browser local storage as a JSON file.</p><button class="btn primary" id="recoveryExport" type="button">↓ Export full backup</button><div id="recoveryInfo" class="muted"></div></div><div class="card"><h3>Restore backup</h3><input type="file" id="recoveryFile" class="control" accept="application/json,.json"><label class="check-row"><input type="checkbox" id="recoveryReplace"> Replace existing local storage keys included in the backup</label><button class="btn" id="recoveryImport" type="button">Restore selected backup</button><p class="muted">Restore merges by default. Replace mode overwrites matching keys only. A reload may be needed.</p></div></div>
+</section>
+<section class="page" id="page-watch">
+ <div class="section-head"><div><h2>SYSTEM WATCH</h2><p>Monitor browser and KR-X runtime indicators.</p></div><span class="pill">LIVE LOCAL MONITOR</span></div>
+ <div class="hero batch-hero"><div class="eyebrow">OBSERVE YOUR SESSION</div><h2>Know what's <span>happening.</span></h2><p>These indicators describe this browser tab and device APIs, not a full operating-system monitor.</p></div>
+ <div class="card full"><div class="row"><button class="btn primary" id="watchRefresh" type="button">↻ Refresh monitor</button><span class="muted" id="watchUpdated"></span></div><div class="stats-grid" id="watchStats"></div><div class="list" id="watchDetails"></div></div>
+</section>
+<section class="page" id="page-safemode">
+ <div class="section-head"><div><h2>SAFE MODE</h2><p>Temporarily reduce active features while you review the app.</p></div><span class="pill">USER CONTROLLED</span></div>
+ <div class="hero batch-hero"><div class="eyebrow">REDUCE ACTIVE FEATURES</div><h2>Keep it <span>calm and controlled.</span></h2><p>Safe Mode pauses API Studio requests and prevents App Builder preview scripts from running. HTML and CSS previews remain available.</p></div>
+ <div class="card full"><div class="row" style="justify-content:space-between;align-items:center"><div><h3 id="safeModeTitle">Safe Mode is OFF</h3><p class="muted" id="safeModeDesc">Normal local development features are available.</p></div><button class="btn primary" id="safeModeToggle" type="button">Enable Safe Mode</button></div><div class="list"><div class="auto-item">API Studio: requests blocked while Safe Mode is on</div><div class="auto-item">App Builder: preview JavaScript is disabled while Safe Mode is on</div><div class="auto-item">Your saved data is not deleted or modified</div></div></div>
+</section>
+<section class="page" id="page-selfcheck">
+ <div class="section-head"><div><h2>SELF-CHECK</h2><p>Run lightweight checks for key KR-X pages and browser capabilities.</p></div><span class="pill">HEALTH CHECK</span></div>
+ <div class="hero batch-hero"><div class="eyebrow">TEST • REPORT • IMPROVE</div><h2>Check the <span>foundations.</span></h2><p>Self-Check verifies page wiring, browser APIs and local storage access. It does not scan the whole website for vulnerabilities.</p></div>
+ <div class="card full"><div class="row"><button class="btn primary" id="selfCheckRun" type="button">▶ Run self-check</button><button class="btn" id="selfCheckExport" type="button">Export report</button></div><div id="selfCheckSummary" class="muted">No check has been run yet.</div><div class="list" id="selfCheckResults"></div></div>
 </section>
 
 <section class="page" id="page-appbuilder">
@@ -1750,7 +1800,88 @@ function renderPlugins(){
 renderPlugins();
 
 
-/* Batch 3: local-first creation and developer workbenches */
+/* Batch 4: defensive security and system reliability */
+const securityChecklistDefaults=[["Use a unique password for important accounts","Use a password manager and never reuse passwords."],["Enable two-step verification","Add an extra sign-in layer wherever available."],["Keep browser and device updated","Install updates from official settings and sources."],["Check links before signing in","Open important services using a trusted bookmark."],["Back up important KR-X data","Export a backup and keep it in a private place."]];
+let fortressTasks=read("fortressChecklist",[]);
+function securityRow(title,desc,kind="good"){const row=document.createElement("div");row.className="security-row "+kind;const dot=document.createElement("span");dot.className="status-dot";const content=document.createElement("div");const strong=document.createElement("strong");strong.textContent=title;const p=document.createElement("p");p.textContent=desc;content.append(strong,p);row.append(dot,content);return row;}
+function renderFortress(){
+ const box=$("fortressChecks");box.replaceChildren();
+ const checks=[["HTTPS page",location.protocol==="https:","The current page uses HTTPS."],["Secure context",window.isSecureContext,"Browser secure-context APIs availability."],["Local storage",(()=>{try{localStorage.setItem("__krx_test","1");localStorage.removeItem("__krx_test");return true;}catch{return false;}})(),"Temporary storage write/read check."],["Web Crypto",!!(crypto&&crypto.subtle),"Cryptographic browser API availability."],["Online status",navigator.onLine,"Browser network status only; not proof that a site is reachable."],["Sandboxed app preview",!!document.querySelector('#appPreview[sandbox]'),"App Builder preview uses an iframe sandbox."]];
+ checks.forEach(([name,ok,desc])=>box.append(securityRow((ok?"PASS · ":"CHECK · ")+name,desc,ok?"good":"warn")));
+ const tasks=$("fortressTasks");tasks.replaceChildren();securityChecklistDefaults.forEach(([title,desc],i)=>{const label=document.createElement("label");label.className="security-row";const cb=document.createElement("input");cb.type="checkbox";cb.checked=!!fortressTasks[i];cb.addEventListener("change",()=>{fortressTasks[i]=cb.checked;write("fortressChecklist",fortressTasks);});const content=document.createElement("span");const strong=document.createElement("strong");strong.textContent=title;const p=document.createElement("p");p.textContent=desc;content.append(strong,p);label.append(cb,content);tasks.append(label);});
+}
+$("fortressRefresh")?.addEventListener("click",renderFortress);renderFortress();
+/* Offline heuristic message/link awareness */
+$("sandboxAnalyze")?.addEventListener("click",()=>{
+ const input=$("sandboxInput").value.trim(),box=$("sandboxResult");box.replaceChildren();if(!input)return toast("Paste a message or URL first.");
+ const rules=[["Urgency or threats",/urgent|immediately|act now|account.*suspend|blocked today|last warning/i,"Pressure tactics are a common warning sign."],["Credential request",/password|otp|one.time.password|pin|cvv|login|verify account/i,"Never share passwords, OTPs, PINs or card security codes."],["Prize or money bait",/won|winner|lottery|claim.*prize|free money|cash reward/i,"Unexpected prizes or money offers may be bait."],["Suspicious URL pattern",/https?:\/\/[^\s]*@|https?:\/\/\d{1,3}(?:\.\d{1,3}){3}|xn--/i,"Check unusual URL structure and lookalike domain names."],["Shortened link",/https?:\/\/(bit\.ly|tinyurl\.com|t\.co|cutt\.ly)\//i,"Shortened links hide the final destination. Verify through the sender independently."],["Unusual domain or link",/https?:\/\/[^\s]+/i,"Read the actual domain carefully; a lock icon alone does not prove legitimacy."]];
+ let flags=0;rules.forEach(([name,re,desc])=>{if(re.test(input)){flags++;box.append(securityRow(name,desc,"warn"));}});
+ box.prepend(securityRow(flags?flags+" warning pattern(s) detected":"No obvious warning pattern detected",flags?"Treat this as suspicious until independently verified.":"This basic check found no matching patterns; it cannot guarantee safety.",flags?"warn":"good"));
+});
+/* Privacy Radar: expose names and approximate byte sizes only, never values. */
+let privacyInventory=[];
+function scanPrivacy(){
+ privacyInventory=Object.keys(localStorage).sort().map(key=>{let value="";try{value=localStorage.getItem(key)||"";}catch{}return {key,bytes:new Blob([value]).size};});
+ const total=privacyInventory.reduce((a,x)=>a+x.bytes,0),box=$("privacyList");box.replaceChildren();
+ $("privacyStats").innerHTML="";
+ [["Storage keys",privacyInventory.length],["Approx. data",total>1024?(total/1024).toFixed(1)+" KB":total+" B"],["Origin",location.origin]].forEach(([label,value])=>{const tile=document.createElement("div");tile.className="stat-tile";const strong=document.createElement("strong");strong.textContent=value;const span=document.createElement("span");span.textContent=label;tile.append(strong,span);$("privacyStats").append(tile);});
+ privacyInventory.forEach(item=>box.append(securityRow(item.key,item.bytes+" bytes · stored in this browser","good")));
+ if(!privacyInventory.length)box.append(securityRow("No local storage keys found","KR-X may not have saved any browser data yet."));
+}
+$("privacyScan")?.addEventListener("click",scanPrivacy);
+$("privacyExport")?.addEventListener("click",()=>{if(!privacyInventory.length)scanPrivacy();downloadText("krx-privacy-inventory.json",JSON.stringify(privacyInventory,null,2),"application/json");});
+scanPrivacy();
+/* Integrity Guard */
+$("integrityHash")?.addEventListener("click",async()=>{
+ const file=$("integrityFile").files[0];if(!file)return toast("Choose a file first.");
+ if(!crypto?.subtle)return $("integrityStatus").textContent="Web Crypto is unavailable in this browser context.";
+ $("integrityHash").disabled=true;$("integrityStatus").textContent="Calculating SHA-256 locally…";
+ try{const bytes=await file.arrayBuffer(),digest=await crypto.subtle.digest("SHA-256",bytes),hash=[...new Uint8Array(digest)].map(x=>x.toString(16).padStart(2,"0")).join("");$("integrityOutput").textContent=hash;const expected=$("integrityExpected").value.trim().toLowerCase();$("integrityStatus").textContent=expected?(expected===hash?"MATCH: file matches the supplied reference hash.":"NO MATCH: hash differs from the supplied reference."):"Hash calculated. Add a trusted reference hash if you want to compare."; }
+ catch(e){$("integrityStatus").textContent="Hash calculation failed: "+e.message;}finally{$("integrityHash").disabled=false;}
+});
+/* Recovery Center — JSON backup of localStorage. */
+$("recoveryExport")?.addEventListener("click",()=>{const data={format:"KR-X-local-backup",version:1,createdAt:new Date().toISOString(),origin:location.origin,entries:Object.keys(localStorage).map(key=>[key,localStorage.getItem(key)])};downloadText("krx-backup-"+new Date().toISOString().slice(0,10)+".json",JSON.stringify(data,null,2),"application/json");$("recoveryInfo").textContent=data.entries.length+" storage entries exported. Keep this file private.";});
+$("recoveryImport")?.addEventListener("click",async()=>{
+ const file=$("recoveryFile").files[0];if(!file)return toast("Choose a backup JSON file first.");
+ if(file.size>10*1024*1024)return toast("Backup file is too large (10 MB limit).");
+ let data;try{data=JSON.parse(await file.text());if(data?.format!=="KR-X-local-backup"||!Array.isArray(data.entries)||data.entries.length>500)throw 0;if(!data.entries.every(x=>Array.isArray(x)&&typeof x[0]==="string"&&(typeof x[1]==="string"||x[1]===null)))throw 0;}catch{return toast("Invalid or unsupported KR-X backup.");}
+ if(!confirm("Restore "+data.entries.length+" entries? This can overwrite matching local data."))return;
+ try{data.entries.forEach(([key,value])=>{if(key.length>200)throw Error("Invalid storage key");if($("recoveryReplace").checked||localStorage.getItem(key)===null){if(value===null)localStorage.removeItem(key);else localStorage.setItem(key,value);}});$("recoveryInfo").textContent="Restore completed. Reload KR-X to refresh all modules.";toast("Backup restored. Reload may be needed.");}
+ catch(e){toast("Restore stopped: "+e.message);}
+});
+/* System Watch */
+function renderWatch(){
+ const box=$("watchStats");box.replaceChildren();const storage=(()=>{let bytes=0;for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);bytes+=new Blob([k,localStorage.getItem(k)||""]).size;}return bytes;})();
+ const values=[["Network",navigator.onLine?"Online":"Offline"],["Storage keys",localStorage.length],["Stored data",storage>1024?(storage/1024).toFixed(1)+" KB":storage+" B"],["Viewport",innerWidth+" × "+innerHeight],["Device memory",navigator.deviceMemory? navigator.deviceMemory+" GB":"Not exposed"],["CPU threads",navigator.hardwareConcurrency||"Not exposed"]];
+ values.forEach(([label,value])=>{const tile=document.createElement("div");tile.className="stat-tile";const strong=document.createElement("strong");strong.textContent=value;const span=document.createElement("span");span.textContent=label;tile.append(strong,span);box.append(tile);});
+ const details=$("watchDetails");details.replaceChildren();[["Page visibility",document.visibilityState],["Browser",navigator.userAgent],["Current page",location.pathname],["Safe Mode",read("krxSafeMode",false)?"Enabled":"Disabled"]].forEach(([k,v])=>details.append(securityRow(k,v)));
+ $("watchUpdated").textContent="Updated "+new Date().toLocaleTimeString();
+}
+$("watchRefresh")?.addEventListener("click",renderWatch);renderWatch();
+window.addEventListener("online",()=>{if(document.getElementById("page-watch")?.classList.contains("active"))renderWatch();});
+window.addEventListener("offline",()=>{if(document.getElementById("page-watch")?.classList.contains("active"))renderWatch();});
+/* Safe Mode shared flag; guards are checked at action time. */
+function isKrxSafeMode(){return !!read("krxSafeMode",false);}
+function renderSafeMode(){const on=isKrxSafeMode();$("safeModeTitle").textContent="Safe Mode is "+(on?"ON":"OFF");$("safeModeDesc").textContent=on?"API requests and preview scripts are blocked.":"Normal local development features are available.";$("safeModeToggle").textContent=on?"Disable Safe Mode":"Enable Safe Mode";$("safeModeToggle").classList.toggle("danger",on);}
+$("safeModeToggle")?.addEventListener("click",()=>{write("krxSafeMode",!isKrxSafeMode());renderSafeMode();toast(isKrxSafeMode()?"Safe Mode enabled.":"Safe Mode disabled.");});renderSafeMode();
+/* Self-Check */
+let selfCheckReport=[];
+function runSelfCheck(){
+ const pageIds=["dashboard","assistant","security","workspace","planner","tools","learning","advanced","routines","notifications","focus","brain","vault","settings","command","nexus","automation","agent","memory","decision","predict","voice","widgets","profiles","quicklaunch","clipboard","events","plugins","appbuilder","api","database","design","flow","documents","media","fortress","sandbox","privacy","integrity","recovery","watch","safemode","selfcheck"];
+ selfCheckReport=[];const add=(name,ok,detail)=>selfCheckReport.push({name,status:ok?"PASS":"CHECK",detail});
+ add("Core page sections",pageIds.every(id=>document.getElementById("page-"+id)), "Checks that expected module sections exist in the loaded document.");
+ add("Sidebar navigation",pageIds.every(id=>document.querySelector('[data-page="'+id+'"]')), "Checks that each module has a sidebar entry.");
+ let storageOK=false;try{localStorage.setItem("__krx_selfcheck","ok");storageOK=localStorage.getItem("__krx_selfcheck")==="ok";localStorage.removeItem("__krx_selfcheck");}catch{}add("Local storage read/write",storageOK,"Temporary test key is removed after the check.");
+ add("Web Crypto API",!!crypto?.subtle,"Used for local SHA-256 hashing when supported.");
+ add("Sandboxed app preview",!!document.querySelector('#appPreview[sandbox]'),"App Builder preview iframe sandbox attribute.");
+ add("Safe Mode state",typeof read("krxSafeMode",false)==="boolean","Safe Mode preference is readable.");
+ add("Browser online status",typeof navigator.onLine==="boolean","Indicates browser network status only.");
+ const box=$("selfCheckResults");box.replaceChildren();selfCheckReport.forEach(x=>box.append(securityRow(x.status+" · "+x.name,x.detail,x.status==="PASS"?"good":"warn")));
+ const passed=selfCheckReport.filter(x=>x.status==="PASS").length;$("selfCheckSummary").textContent=passed+" / "+selfCheckReport.length+" checks passed. CHECK means a feature/API needs attention or is not exposed by this browser.";
+}
+$("selfCheckRun")?.addEventListener("click",runSelfCheck);
+$("selfCheckExport")?.addEventListener("click",()=>{if(!selfCheckReport.length)runSelfCheck();downloadText("krx-self-check.json",JSON.stringify({createdAt:new Date().toISOString(),checks:selfCheckReport},null,2),"application/json");});
+
 function downloadText(name,textValue,type="text/plain"){
  const blob=new Blob([textValue],{type}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
@@ -1759,7 +1890,7 @@ const appDefault={name:"My KR-X App",html:$("appHtml").value,css:$("appCss").val
 let appProject=read("appBuilderProject",appDefault);
 $("appProjectName").value=appProject.name||appDefault.name;$("appHtml").value=appProject.html||appDefault.html;$("appCss").value=appProject.css||appDefault.css;$("appJs").value=appProject.js||appDefault.js;
 function runAppPreview(){
- const html=$("appHtml").value,css=$("appCss").value,code=$("appJs").value;
+ const html=$("appHtml").value,css=$("appCss").value,code=isKrxSafeMode()?"":$("appJs").value;
  $("appPreview").srcdoc="<!doctype html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><style>"+css.replace(/<\/style/gi,"<\\/style")+"</style></head><body>"+html+"<script>"+code.replace(/<\/script/gi,"<\\/script")+"<\\/script></body></html>";
 }
 $("appRun")?.addEventListener("click",runAppPreview);
@@ -1768,6 +1899,7 @@ $("appExport")?.addEventListener("click",()=>downloadText((($("appProjectName").
 $("appReset")?.addEventListener("click",()=>{if(!confirm("Reset the editor to its starter code?"))return;$("appHtml").value=appDefault.html;$("appCss").value=appDefault.css;$("appJs").value=appDefault.js;runAppPreview();});runAppPreview();
 /* API Studio: only explicit user-triggered GET/POST requests. */
 $("apiSend")?.addEventListener("click",async()=>{
+ if(isKrxSafeMode()){ $("apiStatus").textContent="Safe Mode is enabled. Disable it to send API requests."; return; }
  const raw=$("apiUrl").value.trim(),method=$("apiMethod").value,status=$("apiStatus"),out=$("apiResponse");
  let url;try{url=new URL(raw);if(!["http:","https:"].includes(url.protocol))throw 0;}catch{status.textContent="Enter a valid http(s) endpoint.";return;}
  let body; if(method==="POST"){try{body=JSON.parse($("apiBody").value||"{}");}catch{status.textContent="Request body must be valid JSON.";return;}}
@@ -1946,7 +2078,15 @@ function studioDocument(){
   ["Design Engine","design","✧","Generate themes and CSS tokens"],
   ["Flow Builder","flow","⑂","Create and export workflow diagrams"],
   ["Document Forge","documents","▧","Write and export documents"],
-  ["Media Studio","media","▣","Process images locally in your browser"]
+  ["Media Studio","media","▣","Process images locally in your browser"],
+  ["Fortress","fortress","🛡","Review browser security posture"],
+  ["Security Sandbox","sandbox","◉","Practice spotting suspicious messages"],
+  ["Privacy Radar","privacy","◈","Audit local browser storage"],
+  ["Integrity Guard","integrity","✓","Calculate file SHA-256 hashes"],
+  ["Recovery Center","recovery","↺","Back up and restore local data"],
+  ["System Watch","watch","◷","Monitor browser session indicators"],
+  ["Safe Mode","safemode","⛨","Reduce active app features"],
+  ["Self-Check","selfcheck","✧","Run KR-X health checks"]
  ];
  const actions = [
   ["Create a note","new-note","＋","Open Workspace and focus the note title"],
@@ -1975,7 +2115,15 @@ function studioDocument(){
   ["Open Design Engine","open-design","✧","Generate CSS themes"],
   ["Open Flow Builder","open-flow","⑂","Build a reusable workflow"],
   ["Open Document Forge","open-documents","▧","Create a text document"],
-  ["Open Media Studio","open-media","▣","Edit and export an image"]
+  ["Open Media Studio","open-media","▣","Edit and export an image"],
+  ["Open Fortress","open-fortress","🛡","Review security checks"],
+  ["Open Security Sandbox","open-sandbox","◉","Inspect suspicious text locally"],
+  ["Open Privacy Radar","open-privacy","◈","Review local storage inventory"],
+  ["Open Integrity Guard","open-integrity","✓","Verify a file hash"],
+  ["Open Recovery Center","open-recovery","↺","Back up KR-X data"],
+  ["Open System Watch","open-watch","◷","View browser status"],
+  ["Open Safe Mode","open-safemode","⛨","Control restricted mode"],
+  ["Open Self-Check","open-selfcheck","✧","Run app health checks"]
  ];
  let recent = [];
  try { recent = JSON.parse(localStorage.getItem("krx-recent-pages") || "[]"); if(!Array.isArray(recent)) recent=[]; } catch { recent=[]; }
@@ -2022,6 +2170,14 @@ function studioDocument(){
   if(id==="open-flow"){window.navigate("flow");return;}
   if(id==="open-documents"){window.navigate("documents");return;}
   if(id==="open-media"){window.navigate("media");return;}
+  if(id==="open-fortress"){window.navigate("fortress");return;}
+  if(id==="open-sandbox"){window.navigate("sandbox");return;}
+  if(id==="open-privacy"){window.navigate("privacy");return;}
+  if(id==="open-integrity"){window.navigate("integrity");return;}
+  if(id==="open-recovery"){window.navigate("recovery");return;}
+  if(id==="open-watch"){window.navigate("watch");return;}
+  if(id==="open-safemode"){window.navigate("safemode");return;}
+  if(id==="open-selfcheck"){window.navigate("selfcheck");return;}
   const page=pages.find(p=>p[1]===id);if(page)window.navigate(id);
  }
  function renderCommands(){
@@ -2070,7 +2226,7 @@ function studioDocument(){
   ["Workspace","workspace"],["Planner","planner"],["Tools Lab","tools"],
   ["Learning Hub","learning"],["Advanced Tools","advanced"],["Habits & Insights","routines"],
   ["Notification Center","notifications"],["Focus Mode","focus"],["KR-X Brain","brain"],
-  ["KR-X Vault","vault"],["Settings","settings"],["Command Center","command"],["NEXUS CORE","nexus"],["Automation Engine","automation"],["AI Agent","agent"],["Smart Memory Bank","memory"],["Decision Engine","decision"],["Predict Engine","predict"],["Voice Command","voice"],["Widget Engine","widgets"],["Workspace Profiles","profiles"],["Quick Launch","quicklaunch"],["Smart Clipboard","clipboard"],["Event Horizon","events"],["Plugin Universe","plugins"],["App Builder","appbuilder"],["API Studio","api"],["Database Lab","database"],["Design Engine","design"],["Flow Builder","flow"],["Document Forge","documents"],["Media Studio","media"]
+  ["KR-X Vault","vault"],["Settings","settings"],["Command Center","command"],["NEXUS CORE","nexus"],["Automation Engine","automation"],["AI Agent","agent"],["Smart Memory Bank","memory"],["Decision Engine","decision"],["Predict Engine","predict"],["Voice Command","voice"],["Widget Engine","widgets"],["Workspace Profiles","profiles"],["Quick Launch","quicklaunch"],["Smart Clipboard","clipboard"],["Event Horizon","events"],["Plugin Universe","plugins"],["App Builder","appbuilder"],["API Studio","api"],["Database Lab","database"],["Design Engine","design"],["Flow Builder","flow"],["Document Forge","documents"],["Media Studio","media"],["Fortress","fortress"],["Security Sandbox","sandbox"],["Privacy Radar","privacy"],["Integrity Guard","integrity"],["Recovery Center","recovery"],["System Watch","watch"],["Safe Mode","safemode"],["Self-Check","selfcheck"]
  ];
  let z=20,serial=0,layouts={};
  try{layouts=JSON.parse(localStorage.getItem("krx-window-layouts")||"{}");if(!layouts||typeof layouts!=="object")layouts={};}catch{layouts={};}
