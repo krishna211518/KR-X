@@ -1286,7 +1286,7 @@ window.addEventListener("beforeinstallprompt", event => {
 });
 window.addEventListener("appinstalled", () => {
   deferredInstallPrompt = null;
-  syncInstallButton();
+  if (installButton) installButton.hidden = true;
 });
 if (installButton) installButton.addEventListener("click", async () => {
   if (isAppInstalled()) { syncInstallButton(); return; }
