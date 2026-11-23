@@ -1993,7 +1993,7 @@ $("safeModeToggle")?.addEventListener("click",()=>{write("krxSafeMode",!isKrxSaf
 /* Self-Check */
 let selfCheckReport=[];
 function runSelfCheck(){
- const pageIds=["dashboard","assistant","security","workspace","planner","tools","learning","advanced","routines","notifications","focus","brain","vault","settings","command","nexus","automation","agent","memory","decision","predict","voice","widgets","profiles","quicklaunch","clipboard","events","plugins","appbuilder","api","database","design","flow","documents","media","fortress","sandbox","privacy","integrity","recovery","watch","safemode","selfcheck"];
+ const pageIds=["dashboard","assistant","security","workspace","planner","tools","learning","advanced","routines","notifications","focus","brain","vault","settings","command","nexus","automation","agent","memory","decision","predict","voice","widgets","profiles","quicklaunch","clipboard","events","plugins","appbuilder","api","database","design","flow","documents","media","fortress","sandbox","privacy","integrity","recovery","watch","safemode","selfcheck","synapse","twin","visual","mission","spatial","ambient","bridge","experience"];
  selfCheckReport=[];const add=(name,ok,detail)=>selfCheckReport.push({name,status:ok?"PASS":"CHECK",detail});
  add("Core page sections",pageIds.every(id=>document.getElementById("page-"+id)), "Checks that expected module sections exist in the loaded document.");
  add("Sidebar navigation",pageIds.every(id=>document.querySelector('[data-page="'+id+'"]')), "Checks that each module has a sidebar entry.");
