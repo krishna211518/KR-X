@@ -607,6 +607,39 @@ footer{border-color:#294574}
  .btn{min-height:43px}
  input,textarea,select{font-size:16px}
 }
+/* KR-X mobile dashboard fit and bottom navigation clearance */
+html,body{max-width:100%;overflow-x:hidden}
+main{min-width:0;overflow-x:clip}
+#page-dashboard{min-width:0;width:100%}
+#page-dashboard .dash-quick-grid,
+#page-dashboard .dash-panels,
+#page-dashboard .dash-bottom-grid{min-width:0}
+@media(max-width:700px){
+ #page-dashboard .dash-welcome{gap:10px;align-items:flex-start}
+ #page-dashboard .dash-welcome h2{font-size:clamp(25px,7vw,34px)}
+ #page-dashboard .dash-welcome-mark{font-size:22px;white-space:nowrap}
+ #page-dashboard .dash-quick-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ #page-dashboard .dash-action{min-width:0;min-height:145px;padding:14px 12px}
+ #page-dashboard .dash-action small{max-width:100%;overflow-wrap:anywhere}
+ #page-dashboard .dash-panels{grid-template-columns:minmax(0,1fr);gap:11px}
+ #page-dashboard .dash-panel{min-width:0;padding:14px}
+ #page-dashboard .dash-bottom-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ #page-dashboard .dash-stat{min-width:0;padding:10px;gap:8px}
+ #page-dashboard .dash-stat small{overflow-wrap:anywhere}
+ #page-dashboard .dash-modules{align-items:stretch;flex-direction:column;gap:12px;padding:14px}
+ #page-dashboard .dash-module-links{justify-content:flex-start}
+ #page-dashboard .dash-search{padding:12px}
+ #page-dashboard .dash-search-input{gap:7px}
+ #page-dashboard .dash-search-input input{font-size:16px}
+ #page-dashboard .dash-search-shortcuts{gap:6px}
+ #page-dashboard .dash-search-shortcuts button{padding:7px 9px}
+ main{padding-bottom:calc(112px + env(safe-area-inset-bottom))}
+}
+@media(max-width:380px){
+ #page-dashboard .dash-quick-grid{grid-template-columns:minmax(0,1fr)}
+ #page-dashboard .dash-action{min-height:125px}
+ #page-dashboard .dash-bottom-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
 @media(max-width:380px){
  main{padding-left:11px;padding-right:11px}
  .nav button{flex-basis:59px;min-width:59px;font-size:8px}
@@ -1428,7 +1461,11 @@ const installStatus = $("installStatus");
 function isStandaloneApp(){
   return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
 }
-function refreshInstallButton(){ installAppBtn.hidden = isStandaloneApp(); }
+function refreshInstallButton(){
+  const installed = isStandaloneApp() || read("appInstalled",false) === true;
+  installAppBtn.hidden = installed;
+  if(installed) installStatus.hidden = true;
+}
 window.addEventListener("beforeinstallprompt", event => {
   event.preventDefault();
   deferredInstallPrompt = event;
@@ -1437,9 +1474,9 @@ window.addEventListener("beforeinstallprompt", event => {
 });
 window.addEventListener("appinstalled", () => {
   deferredInstallPrompt = null;
+  write("appInstalled",true);
   installAppBtn.hidden = true;
-  installStatus.textContent = "KR-X has been installed.";
-  installStatus.hidden = false;
+  installStatus.hidden = true;
 });
 installAppBtn.addEventListener("click", async () => {
   if (isStandaloneApp()) { installAppBtn.hidden = true; return; }
@@ -1448,8 +1485,14 @@ installAppBtn.addEventListener("click", async () => {
     deferredInstallPrompt = null;
     promptEvent.prompt();
     const choice = await promptEvent.userChoice;
-    installStatus.textContent = choice.outcome === "accepted" ? "KR-X installation was accepted." : "Installation was cancelled.";
-    installStatus.hidden = false;
+    if(choice.outcome === "accepted"){
+      write("appInstalled",true);
+      installAppBtn.hidden = true;
+      installStatus.hidden = true;
+    }else{
+      installStatus.textContent = "Installation was cancelled.";
+      installStatus.hidden = false;
+    }
     return;
   }
   const userAgent = navigator.userAgent.toLowerCase();
