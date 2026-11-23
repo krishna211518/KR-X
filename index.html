@@ -2064,6 +2064,8 @@ function runSelfCheck(){
  add("Sidebar navigation",pageIds.every(id=>document.querySelector('[data-page="'+id+'"]')), "Checks that each module has a sidebar entry.");
  const polishControls=["updateCheck","diagnosticsRun","performanceFrames","offlineRefresh","a11ySave","onboardingSteps","dmExport","helpSearch"];
  add("Final polish module controls",polishControls.every(id=>document.getElementById(id)),"Checks that each Batch 6 page includes its primary control.");
+ const batch7Controls=["briefRefresh","goalAdd","studySave","readAdd","projectAdd","journalSave","captureSave","templateCards"];
+ add("Batch 7 productivity controls",batch7Controls.every(id=>document.getElementById(id)),"Checks the main controls for the new productivity modules.");
  let storageOK=false;try{localStorage.setItem("__krx_selfcheck","ok");storageOK=localStorage.getItem("__krx_selfcheck")==="ok";localStorage.removeItem("__krx_selfcheck");}catch{}add("Local storage read/write",storageOK,"Temporary test key is removed after the check.");
  add("Web Crypto API",!!crypto?.subtle,"Used for local SHA-256 hashing when supported.");
  add("Sandboxed app preview",!!document.querySelector('#appPreview[sandbox]'),"App Builder preview iframe sandbox attribute.");
