@@ -1568,7 +1568,16 @@ const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition
 if(SpeechRecognition){
  voiceRecognition=new SpeechRecognition();voiceRecognition.lang="en-IN";voiceRecognition.interimResults=true;voiceRecognition.continuous=false;
  voiceRecognition.onstart=()=>{$("voiceStatus").textContent="LISTENING";$("voiceStart").disabled=true;$("voiceStop").disabled=false;};
- voiceRecognition.onresult=e=>{voiceText=Array.from(e.results).map(r=>r[0].transcript).join(" ");$("voiceTranscript").textContent=voiceText;$("voiceSendChat").disabled=!voiceText.trim();};
+ voiceRecognition.onresult=e=>{
+ voiceText=Array.from(e.results).map(r=>r[0].transcript).join(" ");
+ $("voiceTranscript").textContent=voiceText;$("voiceSendChat").disabled=!voiceText.trim();
+ const finalResult=Array.from(e.results).filter(r=>r.isFinal).map(r=>r[0].transcript).join(" ").toLowerCase().trim();
+ if(finalResult){
+  const routes=[["open dashboard","dashboard"],["open planner","planner"],["open workspace","workspace"],["open ai agent","agent"],["open memory bank","memory"],["open smart memory","memory"],["open decision engine","decision"],["open predict engine","predict"],["open security center","security"],["open learning hub","learning"],["open focus mode","focus"],["open voice command","voice"]];
+  const match=routes.find(([phrase])=>finalResult===phrase||finalResult.includes(phrase));
+  if(match){navigate(match[1]);$("voiceTranscript").textContent="Command recognized: "+match[0];$("voiceSendChat").disabled=true;voiceText="";toast("Opened "+match[0].replace("open ","")+".");}
+ }
+};
  voiceRecognition.onerror=e=>{$("voiceStatus").textContent="ERROR: "+e.error;$("voiceStart").disabled=false;$("voiceStop").disabled=true;};
  voiceRecognition.onend=()=>{$("voiceStatus").textContent="READY";$("voiceStart").disabled=false;$("voiceStop").disabled=true;};
 }else{$("voiceStatus").textContent="NOT SUPPORTED";$("voiceStart").disabled=true;$("voiceTranscript").textContent="Speech recognition is not supported in this browser. You can still use KR-X by typing.";}
@@ -1590,6 +1599,8 @@ function assistantReply(q){
   return {text,score};
  }).filter(x=>x.score>=2).sort((a,b)=>b.score-a.score)[0];
  if(custom)return "📘 Knowledge Notebook se relevant note:\\n"+custom.text;
+ const savedMemory=krxMemories.map(m=>({m,score:tokens.reduce((n,w)=>n+(String(m.title+" "+m.body).toLowerCase().includes(w)?(w.length>5?2:1):0),0)})).filter(x=>x.score>=2).sort((x,y)=>y.score-x.score)[0];
+ if(savedMemory)return "🧠 Smart Memory Bank se relevant saved memory:\\n"+savedMemory.m.title+"\\n"+savedMemory.m.body;
  const rules=[
   [/^(hi|hello|hey|namaste|namaskar|hlo|hii)\b/,"Hello! 👋 Main KR-X Assistant hoon. Main computers, coding, science, maths, school studies, internet, AI aur digital safety ke basics samjha sakta hoon. Apna question poochho."],
   [/\b(who are you|tum kaun|aap kaun|tera naam|your name)\b/,"Main KR-X Assistant hoon — KR-X workspace ka built-in offline helper. Main fixed knowledge aur tumhare Knowledge Notebook se jawab deta hoon; main live ChatGPT ya online AI model nahi hoon."],
