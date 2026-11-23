@@ -26,6 +26,7 @@ footer{border-top:1px solid var(--line);margin-top:35px;padding-top:18px;color:#
 .agent-hero{background:linear-gradient(120deg,#102b43,#10213b);border-color:#39708b}.agent-hero h2 span{color:#54eaff}
 .agent-step{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.agent-step:last-child{border-bottom:0}.agent-step input{margin-top:4px;accent-color:var(--accent)}.agent-step label{flex:1;line-height:1.45;cursor:pointer}
 .code-area,.code-output{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}.design-preview{padding:22px;border-radius:14px;background:#17263b;color:#f4fbff;border:1px solid #38516c}.design-preview button{border:0;padding:10px 16px;color:#061521;font-weight:700;cursor:pointer}.flow-node{padding:13px;border:1px solid var(--line);border-radius:12px;background:var(--card);display:flex;align-items:center;gap:10px;margin:8px 0}.flow-node .flow-main{flex:1;min-width:0}.flow-node strong{display:block}.flow-node small{color:var(--muted)}.flow-node button{flex:none}
+.spatial-board{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:14px}.spatial-tile{padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--card);cursor:grab;min-height:105px}.spatial-tile:active{cursor:grabbing}.spatial-tile strong{display:block;margin:8px 0 4px}.ambient-choice{text-align:left;cursor:pointer;color:var(--text);min-height:120px}.ambient-choice p{color:var(--muted)}.ambient-choice.selected{outline:2px solid var(--accent)}body.krx-ambient-calm{filter:saturate(.82)}body.krx-ambient-midnight{background:#070d18!important}body.krx-ambient-energy{filter:saturate(1.18)}body.krx-density-compact .card{padding:12px}body.krx-density-compact .grid{gap:9px}body.krx-density-compact .page{padding-top:10px}body.krx-accent-violet{--accent:#a78bfa}body.krx-accent-emerald{--accent:#34d399}body.krx-accent-amber{--accent:#fbbf24}
 .security-row{display:flex;align-items:flex-start;gap:10px;padding:11px;border:1px solid var(--line);border-radius:11px;background:var(--card);margin:7px 0}.security-row .status-dot{width:9px;height:9px;border-radius:50%;background:var(--cyan);margin-top:5px;flex:none}.security-row strong{display:block}.security-row p{margin:3px 0 0;color:var(--muted);font-size:12px}.security-row.warn .status-dot{background:#e7a83e}.security-row.good .status-dot{background:#32bd86}.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:14px 0}.stat-tile{padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--card)}.stat-tile strong{display:block;font-size:22px;color:var(--cyan)}.stat-tile span{font-size:12px;color:var(--muted)}.check-row{display:flex;gap:9px;align-items:center;margin:12px 0;font-size:13px}
 .batch-hero{background:linear-gradient(120deg,#102b43,#10213b);border-color:#39708b}.batch-hero h2 span{color:#54eaff}
 .widget-grid,.quick-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:14px}.widget-tile,.quick-tile{padding:16px;border:1px solid var(--line);border-radius:13px;background:var(--card);min-width:0}.widget-tile strong,.quick-tile strong{display:block}.widget-value{font-size:28px;font-weight:750;margin:9px 0;color:var(--cyan)}.profile-checks{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:9px}.profile-checks label{display:flex;gap:8px;align-items:center;padding:9px;border:1px solid var(--line);border-radius:9px}.profile-checks input{accent-color:var(--accent)}.quick-tile{display:flex;align-items:center;gap:10px}.quick-tile .quick-main{flex:1;min-width:0}.quick-tile small{display:block;color:var(--muted)}.quick-tile button{flex:none}
@@ -1069,6 +1070,14 @@ body{
   <button data-page="watch"><span class="ico">◷</span>System Watch</button>
   <button data-page="safemode"><span class="ico">⛨</span>Safe Mode</button>
   <button data-page="selfcheck"><span class="ico">✧</span>Self-Check</button>
+  <button data-page="synapse"><span class="ico">🧠</span>Synapse</button>
+  <button data-page="twin"><span class="ico">◉</span>Digital Twin</button>
+  <button data-page="visual"><span class="ico">▧</span>Visual Intelligence</button>
+  <button data-page="mission"><span class="ico">🎯</span>Mission Control</button>
+  <button data-page="spatial"><span class="ico">▦</span>Spatial Workspace</button>
+  <button data-page="ambient"><span class="ico">☾</span>Ambient Mode</button>
+  <button data-page="bridge"><span class="ico">⇄</span>Multi-Device Bridge</button>
+  <button data-page="experience"><span class="ico">✧</span>Experience Engine</button>
   <button data-page="assistant"><span class="ico"><svg class="krx-ai-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3.5 19.2 12.8 28.5 16 19.2 19.2 16 28.5 12.8 19.2 3.5 16 12.8 12.8Z"/><path d="M25.5 3.5v5M23 6h5M6.5 23.5v5M4 26h5"/></svg></span>AI Assistant</button>
   <button data-page="security"><span class="ico">◈</span>Security Center</button>
   <button data-page="workspace"><span class="ico">▤</span>Workspace</button>
@@ -1234,6 +1243,47 @@ body{
  <div class="section-head"><div><h2>SELF-CHECK</h2><p>Run lightweight checks for key KR-X pages and browser capabilities.</p></div><span class="pill">HEALTH CHECK</span></div>
  <div class="hero batch-hero"><div class="eyebrow">TEST • REPORT • IMPROVE</div><h2>Check the <span>foundations.</span></h2><p>Self-Check verifies page wiring, browser APIs and local storage access. It does not scan the whole website for vulnerabilities.</p></div>
  <div class="card full"><div class="row"><button class="btn primary" id="selfCheckRun" type="button">▶ Run self-check</button><button class="btn" id="selfCheckExport" type="button">Export report</button></div><div id="selfCheckSummary" class="muted">No check has been run yet.</div><div class="list" id="selfCheckResults"></div></div>
+</section>
+
+<section class="page" id="page-synapse">
+ <div class="section-head"><div><h2>SYNAPSE</h2><p>Connect information across KR-X and discover useful next steps.</p></div><span class="pill">LOCAL KNOWLEDGE ENGINE</span></div>
+ <div class="hero batch-hero"><div class="eyebrow">CONNECT • DISCOVER • ACT</div><h2>See the <span>connections.</span></h2><p>Search your saved notes, tasks and memories together. Results stay in this browser.</p></div>
+ <div class="card full"><div class="field"><label for="synapseQuery">Search across your workspace</label><input id="synapseQuery" class="control" placeholder="Search notes, tasks or memories..."></div><div class="row"><button class="btn primary" id="synapseSearch" type="button">Search everything</button><button class="btn" id="synapseInsights" type="button">Find next steps</button></div><div id="synapseSummary" class="muted">Search your local workspace to get started.</div><div id="synapseResults" class="list"></div></div>
+</section>
+<section class="page" id="page-twin">
+ <div class="section-head"><div><h2>DIGITAL TWIN</h2><p>A user-controlled snapshot of your goals, habits and work patterns.</p></div><span class="pill">PERSONAL PROGRESS MODEL</span></div>
+ <div class="hero batch-hero"><div class="eyebrow">YOUR GOALS • YOUR CHOICES</div><h2>Understand your <span>progress.</span></h2><p>This is a simple editable profile, not an AI clone or a prediction of your identity.</p></div>
+ <div class="grid"><div class="card"><h3>My progress profile</h3><div class="field"><label for="twinGoal">Current goal</label><input id="twinGoal" class="control" maxlength="140" placeholder="What are you working toward?"></div><div class="field"><label for="twinStrength">Skill I am building</label><input id="twinStrength" class="control" maxlength="100" placeholder="e.g. Computer fundamentals"></div><div class="field"><label for="twinHours">Weekly learning target (hours)</label><input id="twinHours" type="number" min="1" max="40" class="control" value="5"></div><div class="field"><label for="twinReflection">My reflection</label><textarea id="twinReflection" class="control" rows="3" maxlength="500" placeholder="What is going well? What can improve?"></textarea></div><button class="btn primary" id="twinSave" type="button">Save my profile</button></div><div class="card"><h3>Progress snapshot</h3><div class="stats-grid" id="twinStats"></div><div id="twinAdvice" class="list"></div></div></div>
+</section>
+<section class="page" id="page-visual">
+ <div class="section-head"><div><h2>VISUAL INTELLIGENCE</h2><p>Inspect an image locally and extract a simple color palette.</p></div><span class="pill">IMAGE ANALYSIS LAB</span></div>
+ <div class="hero batch-hero"><div class="eyebrow">IMAGE • PIXELS • PALETTE</div><h2>Explore visual <span>details.</span></h2><p>Choose an image to inspect its dimensions, file size and approximate dominant colors. No upload or cloud analysis.</p></div>
+ <div class="grid"><div class="card"><div class="field"><label for="visualFile">Choose image</label><input id="visualFile" type="file" class="control" accept="image/*"></div><div id="visualMeta" class="muted">No image selected.</div><button class="btn primary" id="visualAnalyze" type="button">Analyze colors</button><div id="visualPalette" class="row" style="flex-wrap:wrap"></div></div><div class="card"><h3>Image preview</h3><img id="visualPreview" alt="Selected image preview" style="max-width:100%;max-height:420px;object-fit:contain;border-radius:12px"></div></div>
+</section>
+<section class="page" id="page-mission">
+ <div class="section-head"><div><h2>MISSION CONTROL</h2><p>A unified overview of your work, learning and focus.</p></div><span class="pill">COMMAND OVERVIEW</span></div>
+ <div class="hero batch-hero"><div class="eyebrow">ONE VIEW • CLEAR PRIORITIES</div><h2>Take command of <span>today.</span></h2><p>Live summary from your local KR-X Planner, Workspace and learning progress.</p></div>
+ <div class="stats-grid" id="missionStats"></div><div class="grid"><div class="card"><h3>Pending tasks</h3><div id="missionTasks" class="list"></div><button class="btn" id="missionPlanner" type="button">Open Planner</button></div><div class="card"><h3>Workspace snapshot</h3><div id="missionWorkspace" class="list"></div><button class="btn" id="missionWorkspaceBtn" type="button">Open Workspace</button></div></div>
+</section>
+<section class="page" id="page-spatial">
+ <div class="section-head"><div><h2>SPATIAL WORKSPACE</h2><p>Arrange your favourite KR-X modules into a personal launch board.</p></div><span class="pill">CUSTOM WORKSPACE</span></div>
+ <div class="hero batch-hero"><div class="eyebrow">ARRANGE • PIN • OPEN</div><h2>Your workspace, <span>your layout.</span></h2><p>Drag tiles to reorder them. Your arrangement is saved locally on this device.</p></div>
+ <div class="row"><button class="btn" id="spatialReset" type="button">Reset layout</button><span class="muted">Drag and drop tiles to rearrange.</span></div><div id="spatialBoard" class="spatial-board"></div>
+</section>
+<section class="page" id="page-ambient">
+ <div class="section-head"><div><h2>AMBIENT MODE</h2><p>Choose a visual atmosphere for your KR-X session.</p></div><span class="pill">SESSION ATMOSPHERE</span></div>
+ <div class="hero batch-hero"><div class="eyebrow">SET THE MOOD</div><h2>Make space to <span>focus.</span></h2><p>Switch between calm visual presets. These are appearance settings, not health or productivity measurements.</p></div>
+ <div class="grid" id="ambientChoices"><button class="card ambient-choice" data-ambient="calm" type="button"><h3>☁ Calm</h3><p>Soft, low-contrast atmosphere.</p></button><button class="card ambient-choice" data-ambient="midnight" type="button"><h3>🌙 Midnight</h3><p>Deep dark session appearance.</p></button><button class="card ambient-choice" data-ambient="energy" type="button"><h3>⚡ Energy</h3><p>Brighter accent for an active workspace.</p></button><button class="card ambient-choice" data-ambient="default" type="button"><h3>◐ Default</h3><p>Return to the app's original theme.</p></button></div><p class="muted" id="ambientStatus"></p>
+</section>
+<section class="page" id="page-bridge">
+ <div class="section-head"><div><h2>MULTI-DEVICE BRIDGE</h2><p>Move selected KR-X data between devices using a private transfer file.</p></div><span class="pill">MANUAL DATA TRANSFER</span></div>
+ <div class="hero batch-hero"><div class="eyebrow">EXPORT • TRANSFER • IMPORT</div><h2>Your data can <span>travel.</span></h2><p>Static GitHub Pages has no built-in cloud sync. This bridge creates a portable JSON transfer file you can move securely yourself.</p></div>
+ <div class="card full"><h3>Choose what to transfer</h3><div class="grid" id="bridgeOptions"></div><div class="row"><button class="btn primary" id="bridgeExport" type="button">↓ Create transfer file</button><input type="file" id="bridgeFile" class="control" accept="application/json,.json"><button class="btn" id="bridgeImport" type="button">Import selected file</button></div><p id="bridgeStatus" class="muted">Transfer files may contain personal notes or tasks. Keep them private.</p></div>
+</section>
+<section class="page" id="page-experience">
+ <div class="section-head"><div><h2>EXPERIENCE ENGINE</h2><p>Personalize how KR-X looks and which module opens first.</p></div><span class="pill">USER PREFERENCES</span></div>
+ <div class="hero batch-hero"><div class="eyebrow">TUNE YOUR WORKSPACE</div><h2>Make KR-X <span>feel right.</span></h2><p>Choose a layout density, accent and start page. Preferences are saved locally and can be reset any time.</p></div>
+ <div class="card full"><div class="field"><label for="experienceDensity">Layout density</label><select id="experienceDensity" class="control"><option value="comfortable">Comfortable</option><option value="compact">Compact</option></select></div><div class="field"><label for="experienceAccent">Accent color</label><select id="experienceAccent" class="control"><option value="cyan">Ocean cyan</option><option value="violet">Violet</option><option value="emerald">Emerald</option><option value="amber">Amber</option></select></div><div class="field"><label for="experienceHome">Preferred start page</label><select id="experienceHome" class="control"><option value="dashboard">Dashboard</option><option value="planner">Planner</option><option value="workspace">Workspace</option><option value="mission">Mission Control</option><option value="learning">Learning Hub</option></select></div><div class="row"><button class="btn primary" id="experienceSave" type="button">Save preferences</button><button class="btn" id="experienceReset" type="button">Reset preferences</button></div><p class="muted" id="experienceStatus"></p></div>
 </section>
 
 <section class="page" id="page-appbuilder">
@@ -1800,6 +1850,82 @@ function renderPlugins(){
 renderPlugins();
 
 
+/* Batch 5: intelligence and workspace experience */
+const synapseSources=()=>[
+ ...notes.map(x=>({type:"Note",title:x.title||"Untitled note",body:x.content||x.body||"",page:"workspace"})),
+ ...tasks.map(x=>({type:"Task",title:x.title||x.text||"Untitled task",body:x.description||"",page:"planner",done:!!x.done})),
+ ...read("smartMemories",[]).map(x=>({type:"Memory",title:x.title||x.label||"Saved memory",body:x.content||x.text||"",page:"memory"}))
+];
+function renderSynapse(q){
+ const box=$("synapseResults");box.replaceChildren();const all=synapseSources(),query=(q||"").trim().toLowerCase();
+ const found=query?all.filter(x=>(x.title+" "+x.body).toLowerCase().includes(query)):all;
+ $("synapseSummary").textContent=found.length+" matching item(s) across "+all.length+" local records.";
+ found.slice(0,40).forEach(item=>{const row=securityRow(item.type+" · "+item.title,(item.body||"No additional text").slice(0,240)+(item.done?" · Completed":""),"good");const open=document.createElement("button");open.className="btn small";open.textContent="Open";open.addEventListener("click",()=>navigate(item.page));row.append(open);box.append(row);});
+ if(!found.length)box.append(securityRow("No matches","Try another search term."));
+}
+$("synapseSearch")?.addEventListener("click",()=>renderSynapse($("synapseQuery").value));
+$("synapseQuery")?.addEventListener("keydown",e=>{if(e.key==="Enter")renderSynapse(e.target.value);});
+$("synapseInsights")?.addEventListener("click",()=>{
+ const pending=tasks.filter(t=>!t.done),emptyNotes=notes.length===0,box=$("synapseResults");box.replaceChildren();
+ const tips=[];if(pending.length)tips.push([pending.length+" task(s) are pending","Open Planner and choose one small next action.","planner"]);if(emptyNotes)tips.push(["Your Workspace has no saved notes yet","Capture useful ideas or class notes when needed.","workspace"]);if(!read("smartMemories",[]).length)tips.push(["No saved memories found","Save only information you want KR-X to reuse.","memory"]);if(!tips.length)tips.push(["Your local workspace is set up","Review priorities and take a short break when needed.","mission"]);
+ tips.forEach(([a,b,p])=>{const row=securityRow(a,b);const btn=document.createElement("button");btn.className="btn small";btn.textContent="Open";btn.addEventListener("click",()=>navigate(p));row.append(btn);box.append(row);});$("synapseSummary").textContent="Suggestions based on local records only; no future prediction is made.";
+});
+/* Digital Twin: editable progress snapshot */
+let twinProfile=read("digitalTwinProfile",{goal:"",skill:"",hours:5,reflection:""});
+$("twinGoal").value=twinProfile.goal;$("twinStrength").value=twinProfile.skill;$("twinHours").value=twinProfile.hours;$("twinReflection").value=twinProfile.reflection;
+function renderTwin(){
+ const stats=$("twinStats");stats.replaceChildren();[["Tasks completed",tasks.filter(t=>t.done).length],["Tasks pending",tasks.filter(t=>!t.done).length],["Saved notes",notes.length],["Learning target",twinProfile.hours+" h/week"]].forEach(([label,value])=>{const tile=document.createElement("div");tile.className="stat-tile";const strong=document.createElement("strong");strong.textContent=value;const span=document.createElement("span");span.textContent=label;tile.append(strong,span);stats.append(tile);});
+ const advice=$("twinAdvice");advice.replaceChildren();[[twinProfile.goal?"Current goal: "+twinProfile.goal:"Add a current goal to make your progress snapshot meaningful."],[twinProfile.skill?"Skill focus: "+twinProfile.skill:"Choose one skill you want to build."],[twinProfile.reflection?"Reflection saved.":"A short reflection can help you review what to improve."]].forEach(([v])=>advice.append(securityRow(v,"Editable profile information, not an automated personality assessment.")));
+}
+$("twinSave")?.addEventListener("click",()=>{twinProfile={goal:$("twinGoal").value.trim().slice(0,140),skill:$("twinStrength").value.trim().slice(0,100),hours:Math.max(1,Math.min(40,Number($("twinHours").value)||5)),reflection:$("twinReflection").value.slice(0,500)};write("digitalTwinProfile",twinProfile);renderTwin();toast("Progress profile saved.");});renderTwin();
+/* Visual Intelligence: local image metadata and sampled color palette */
+let visualUrl=null,visualImage=null;
+$("visualFile")?.addEventListener("change",e=>{const f=e.target.files[0];if(!f)return;if(!f.type.startsWith("image/")||f.size>12*1024*1024)return toast("Choose an image under 12 MB.");if(visualUrl)URL.revokeObjectURL(visualUrl);visualUrl=URL.createObjectURL(f);visualImage=new Image();visualImage.onload=()=>{$("visualPreview").src=visualUrl;$("visualMeta").textContent=visualImage.naturalWidth+" × "+visualImage.naturalHeight+" px · "+(f.size/1024).toFixed(1)+" KB";};visualImage.onerror=()=>toast("Image could not be read.");visualImage.src=visualUrl;});
+$("visualAnalyze")?.addEventListener("click",()=>{
+ if(!visualImage||!visualImage.naturalWidth)return toast("Choose an image first.");
+ try{const canvas=document.createElement("canvas"),w=64,h=Math.max(1,Math.round(64*visualImage.naturalHeight/visualImage.naturalWidth));canvas.width=w;canvas.height=Math.min(64,h);const ctx=canvas.getContext("2d",{willReadFrequently:true});ctx.drawImage(visualImage,0,0,w,canvas.height);const pixels=ctx.getImageData(0,0,w,canvas.height).data,buckets={};for(let i=0;i<pixels.length;i+=16){if(pixels[i+3]<100)continue;const rgb=[pixels[i],pixels[i+1],pixels[i+2]].map(v=>Math.round(v/32)*32),key=rgb.map(v=>Math.min(255,v)).join(",");buckets[key]=(buckets[key]||0)+1;}const top=Object.entries(buckets).sort((a,b)=>b[1]-a[1]).slice(0,6),box=$("visualPalette");box.replaceChildren();top.forEach(([key,count])=>{const rgb=key.split(",").map(Number),hex="#"+rgb.map(v=>v.toString(16).padStart(2,"0")).join("");const sw=document.createElement("button");sw.type="button";sw.className="card";sw.style.minWidth="80px";sw.style.cursor="pointer";sw.innerHTML="<span style='display:block;height:34px;border-radius:8px;background:"+hex+"'></span><strong>"+hex+"</strong><small>"+count+" samples</small>";sw.addEventListener("click",()=>navigator.clipboard?.writeText(hex).then(()=>toast(hex+" copied.")).catch(()=>{}));box.append(sw);});}
+ catch(e){toast("Image analysis unavailable: "+e.message);}
+});
+/* Mission Control */
+function renderMission(){
+ const stats=$("missionStats");stats.replaceChildren();[["Pending tasks",tasks.filter(t=>!t.done).length],["Completed tasks",tasks.filter(t=>t.done).length],["Saved notes",notes.length],["Saved memories",read("smartMemories",[]).length],["Learning topics",Object.keys(learningProgress||{}).length]].forEach(([label,value])=>{const tile=document.createElement("div");tile.className="stat-tile";const strong=document.createElement("strong");strong.textContent=value;const span=document.createElement("span");span.textContent=label;tile.append(strong,span);stats.append(tile);});
+ const list=$("missionTasks");list.replaceChildren();const pending=tasks.filter(t=>!t.done).slice(0,6);if(!pending.length)list.append(securityRow("No pending tasks","Planner currently has no unfinished tasks.","good"));pending.forEach(t=>list.append(securityRow(t.title||t.text||"Untitled task",t.description||"Pending task","warn")));
+ const ws=$("missionWorkspace");ws.replaceChildren();[notes.length+" notes saved",(read("bookmarks",[]).length||0)+" bookmarks saved",read("smartMemories",[]).length+" saved memories"].forEach(v=>ws.append(securityRow(v,"Local Workspace data.")));
+}
+$("missionPlanner")?.addEventListener("click",()=>navigate("planner"));$("missionWorkspaceBtn")?.addEventListener("click",()=>navigate("workspace"));renderMission();
+/* Spatial Workspace: reorderable module tiles */
+const spatialModules=[["Dashboard","dashboard","⌂"],["Planner","planner","✓"],["Workspace","workspace","▤"],["AI Assistant","assistant","✧"],["Learning Hub","learning","▱"],["Focus Mode","focus","◷"],["Mission Control","mission","🎯"],["Synapse","synapse","🧠"],["Digital Twin","twin","◉"],["Tools Lab","tools","⌘"]];
+let spatialOrder=read("spatialOrder",spatialModules.map(x=>x[1]));
+function renderSpatial(){
+ const box=$("spatialBoard");box.replaceChildren();const ordered=[...spatialOrder.filter(id=>spatialModules.some(x=>x[1]===id)),...spatialModules.map(x=>x[1]).filter(id=>!spatialOrder.includes(id))];
+ ordered.forEach(id=>{const item=spatialModules.find(x=>x[1]===id),tile=document.createElement("div");tile.className="spatial-tile";tile.draggable=true;tile.dataset.module=id;const icon=document.createElement("span");icon.textContent=item[2];const title=document.createElement("strong");title.textContent=item[0];const hint=document.createElement("small");hint.textContent="Drag to reorder · Tap to open";tile.append(icon,title,hint);tile.addEventListener("click",()=>navigate(id));tile.addEventListener("dragstart",e=>{e.dataTransfer.setData("text/plain",id);e.dataTransfer.effectAllowed="move";});tile.addEventListener("dragover",e=>{e.preventDefault();e.dataTransfer.dropEffect="move";});tile.addEventListener("drop",e=>{e.preventDefault();const from=e.dataTransfer.getData("text/plain"),to=id;if(!from||from===to)return;const a=ordered.indexOf(from),b=ordered.indexOf(to);ordered.splice(a,1);ordered.splice(b,0,from);spatialOrder=ordered;write("spatialOrder",spatialOrder);renderSpatial();});box.append(tile);});
+}
+$("spatialReset")?.addEventListener("click",()=>{spatialOrder=spatialModules.map(x=>x[1]);write("spatialOrder",spatialOrder);renderSpatial();});renderSpatial();
+/* Ambient presets are additive classes; original stylesheet remains intact. */
+function applyAmbient(value){document.body.classList.remove("krx-ambient-calm","krx-ambient-midnight","krx-ambient-energy");if(["calm","midnight","energy"].includes(value))document.body.classList.add("krx-ambient-"+value);write("ambientMode",value);document.querySelectorAll("[data-ambient]").forEach(b=>b.classList.toggle("selected",b.dataset.ambient===value));$("ambientStatus").textContent="Active atmosphere: "+value;}
+document.querySelectorAll("[data-ambient]").forEach(b=>b.addEventListener("click",()=>applyAmbient(b.dataset.ambient)));applyAmbient(read("ambientMode","default"));
+/* Multi-device bridge uses an explicit allowlist and manual transfer file. */
+const bridgeKeys=[["tasks","Planner tasks"],["notes","Workspace notes"],["bookmarks","Bookmarks"],["knowledge","Knowledge base"],["smartMemories","Smart Memory Bank"],["habits","Habits"],["learningProgress","Learning progress"],["digitalTwinProfile","Digital Twin profile"],["documents","Document Forge files"]];
+const bridgeOptions=$("bridgeOptions");
+bridgeKeys.forEach(([key,label])=>{const wrap=document.createElement("label");wrap.className="security-row";const cb=document.createElement("input");cb.type="checkbox";cb.checked=["tasks","notes","bookmarks","knowledge","smartMemories"].includes(key);cb.dataset.bridgeKey=key;const span=document.createElement("span");span.textContent=label;wrap.append(cb,span);bridgeOptions.append(wrap);});
+$("bridgeExport")?.addEventListener("click",()=>{const selected=[...bridgeOptions.querySelectorAll("input:checked")].map(x=>x.dataset.bridgeKey);if(!selected.length)return toast("Select at least one data category.");const entries=selected.map(key=>[key,localStorage.getItem("krx-"+key)]).filter(x=>x[1]!==null);downloadText("krx-device-transfer.json",JSON.stringify({format:"KR-X-transfer",version:1,createdAt:new Date().toISOString(),entries},null,2),"application/json");$("bridgeStatus").textContent=entries.length+" data categories exported. Transfer the file privately to your other device.";});
+$("bridgeImport")?.addEventListener("click",async()=>{
+ const file=$("bridgeFile").files[0];if(!file)return toast("Select a transfer file first.");if(file.size>10*1024*1024)return toast("Transfer file is too large.");
+ let data;try{data=JSON.parse(await file.text());if(data?.format!=="KR-X-transfer"||!Array.isArray(data.entries)||data.entries.length>bridgeKeys.length||!data.entries.every(x=>Array.isArray(x)&&bridgeKeys.some(k=>k[0]===x[0])&&typeof x[1]==="string"))throw 0;}catch{return toast("Invalid KR-X transfer file.");}
+ if(!confirm("Import "+data.entries.length+" selected data categories? Existing matching records may be overwritten."))return;
+ try{data.entries.forEach(([key,value])=>{JSON.parse(value);localStorage.setItem("krx-"+key,value);});$("bridgeStatus").textContent="Transfer imported. Reload KR-X to refresh module data.";toast("Transfer imported successfully.");}catch(e){toast("Import failed: "+e.message);}
+});
+/* Experience Engine: allowlisted visual preferences */
+const experienceDefaults={density:"comfortable",accent:"cyan",home:"dashboard"};
+let experiencePrefs=read("experiencePrefs",experienceDefaults);
+function applyExperience(){
+ document.body.classList.remove("krx-density-compact","krx-accent-violet","krx-accent-emerald","krx-accent-amber");
+ if(experiencePrefs.density==="compact")document.body.classList.add("krx-density-compact");
+ if(experiencePrefs.accent!=="cyan")document.body.classList.add("krx-accent-"+experiencePrefs.accent);
+ $("experienceDensity").value=experiencePrefs.density;$("experienceAccent").value=experiencePrefs.accent;$("experienceHome").value=experiencePrefs.home;
+}
+$("experienceSave")?.addEventListener("click",()=>{experiencePrefs={density:$("experienceDensity").value==="compact"?"compact":"comfortable",accent:["cyan","violet","emerald","amber"].includes($("experienceAccent").value)?$("experienceAccent").value:"cyan",home:["dashboard","planner","workspace","mission","learning"].includes($("experienceHome").value)?$("experienceHome").value:"dashboard"};write("experiencePrefs",experiencePrefs);applyExperience();$("experienceStatus").textContent="Preferences saved on this device.";toast("KR-X experience updated.");});
+$("experienceReset")?.addEventListener("click",()=>{experiencePrefs={...experienceDefaults};write("experiencePrefs",experiencePrefs);applyExperience();$("experienceStatus").textContent="Default preferences restored.";});applyExperience();
 /* Batch 4: defensive security and system reliability */
 const securityChecklistDefaults=[["Use a unique password for important accounts","Use a password manager and never reuse passwords."],["Enable two-step verification","Add an extra sign-in layer wherever available."],["Keep browser and device updated","Install updates from official settings and sources."],["Check links before signing in","Open important services using a trusted bookmark."],["Back up important KR-X data","Export a backup and keep it in a private place."]];
 let fortressTasks=read("fortressChecklist",[]);
@@ -2086,7 +2212,15 @@ function studioDocument(){
   ["Recovery Center","recovery","↺","Back up and restore local data"],
   ["System Watch","watch","◷","Monitor browser session indicators"],
   ["Safe Mode","safemode","⛨","Reduce active app features"],
-  ["Self-Check","selfcheck","✧","Run KR-X health checks"]
+  ["Self-Check","selfcheck","✧","Run KR-X health checks"],
+  ["Synapse","synapse","🧠","Search and connect local workspace records"],
+  ["Digital Twin","twin","◉","Review your editable progress profile"],
+  ["Visual Intelligence","visual","▧","Analyze image dimensions and colors locally"],
+  ["Mission Control","mission","🎯","See tasks and workspace overview"],
+  ["Spatial Workspace","spatial","▦","Arrange favourite modules"],
+  ["Ambient Mode","ambient","☾","Choose a session appearance"],
+  ["Multi-Device Bridge","bridge","⇄","Transfer selected data between devices"],
+  ["Experience Engine","experience","✧","Customize layout and start page"]
  ];
  const actions = [
   ["Create a note","new-note","＋","Open Workspace and focus the note title"],
@@ -2123,7 +2257,15 @@ function studioDocument(){
   ["Open Recovery Center","open-recovery","↺","Back up KR-X data"],
   ["Open System Watch","open-watch","◷","View browser status"],
   ["Open Safe Mode","open-safemode","⛨","Control restricted mode"],
-  ["Open Self-Check","open-selfcheck","✧","Run app health checks"]
+  ["Open Self-Check","open-selfcheck","✧","Run app health checks"],
+  ["Open Synapse","open-synapse","🧠","Search your local records"],
+  ["Open Digital Twin","open-twin","◉","View your progress profile"],
+  ["Open Visual Intelligence","open-visual","▧","Inspect an image palette"],
+  ["Open Mission Control","open-mission","🎯","View your workspace overview"],
+  ["Open Spatial Workspace","open-spatial","▦","Arrange module tiles"],
+  ["Open Ambient Mode","open-ambient","☾","Change session appearance"],
+  ["Open Multi-Device Bridge","open-bridge","⇄","Transfer selected KR-X data"],
+  ["Open Experience Engine","open-experience","✧","Customize KR-X preferences"]
  ];
  let recent = [];
  try { recent = JSON.parse(localStorage.getItem("krx-recent-pages") || "[]"); if(!Array.isArray(recent)) recent=[]; } catch { recent=[]; }
@@ -2178,6 +2320,14 @@ function studioDocument(){
   if(id==="open-watch"){window.navigate("watch");return;}
   if(id==="open-safemode"){window.navigate("safemode");return;}
   if(id==="open-selfcheck"){window.navigate("selfcheck");return;}
+  if(id==="open-synapse"){window.navigate("synapse");return;}
+  if(id==="open-twin"){window.navigate("twin");return;}
+  if(id==="open-visual"){window.navigate("visual");return;}
+  if(id==="open-mission"){window.navigate("mission");return;}
+  if(id==="open-spatial"){window.navigate("spatial");return;}
+  if(id==="open-ambient"){window.navigate("ambient");return;}
+  if(id==="open-bridge"){window.navigate("bridge");return;}
+  if(id==="open-experience"){window.navigate("experience");return;}
   const page=pages.find(p=>p[1]===id);if(page)window.navigate(id);
  }
  function renderCommands(){
@@ -2226,7 +2376,7 @@ function studioDocument(){
   ["Workspace","workspace"],["Planner","planner"],["Tools Lab","tools"],
   ["Learning Hub","learning"],["Advanced Tools","advanced"],["Habits & Insights","routines"],
   ["Notification Center","notifications"],["Focus Mode","focus"],["KR-X Brain","brain"],
-  ["KR-X Vault","vault"],["Settings","settings"],["Command Center","command"],["NEXUS CORE","nexus"],["Automation Engine","automation"],["AI Agent","agent"],["Smart Memory Bank","memory"],["Decision Engine","decision"],["Predict Engine","predict"],["Voice Command","voice"],["Widget Engine","widgets"],["Workspace Profiles","profiles"],["Quick Launch","quicklaunch"],["Smart Clipboard","clipboard"],["Event Horizon","events"],["Plugin Universe","plugins"],["App Builder","appbuilder"],["API Studio","api"],["Database Lab","database"],["Design Engine","design"],["Flow Builder","flow"],["Document Forge","documents"],["Media Studio","media"],["Fortress","fortress"],["Security Sandbox","sandbox"],["Privacy Radar","privacy"],["Integrity Guard","integrity"],["Recovery Center","recovery"],["System Watch","watch"],["Safe Mode","safemode"],["Self-Check","selfcheck"]
+  ["KR-X Vault","vault"],["Settings","settings"],["Command Center","command"],["NEXUS CORE","nexus"],["Automation Engine","automation"],["AI Agent","agent"],["Smart Memory Bank","memory"],["Decision Engine","decision"],["Predict Engine","predict"],["Voice Command","voice"],["Widget Engine","widgets"],["Workspace Profiles","profiles"],["Quick Launch","quicklaunch"],["Smart Clipboard","clipboard"],["Event Horizon","events"],["Plugin Universe","plugins"],["App Builder","appbuilder"],["API Studio","api"],["Database Lab","database"],["Design Engine","design"],["Flow Builder","flow"],["Document Forge","documents"],["Media Studio","media"],["Fortress","fortress"],["Security Sandbox","sandbox"],["Privacy Radar","privacy"],["Integrity Guard","integrity"],["Recovery Center","recovery"],["System Watch","watch"],["Safe Mode","safemode"],["Self-Check","selfcheck"],["Synapse","synapse"],["Digital Twin","twin"],["Visual Intelligence","visual"],["Mission Control","mission"],["Spatial Workspace","spatial"],["Ambient Mode","ambient"],["Multi-Device Bridge","bridge"],["Experience Engine","experience"]
  ];
  let z=20,serial=0,layouts={};
  try{layouts=JSON.parse(localStorage.getItem("krx-window-layouts")||"{}");if(!layouts||typeof layouts!=="object")layouts={};}catch{layouts={};}
