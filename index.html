@@ -2457,6 +2457,14 @@ function studioDocument(){
   if(id==="open-onboarding"){window.navigate("onboarding");return;}
   if(id==="open-datamanager"){window.navigate("datamanager");return;}
   if(id==="open-help"){window.navigate("help");return;}
+  if(id==="open-integrations"){window.navigate("integrations");return;}
+  if(id==="open-insights"){window.navigate("insights");return;}
+  if(id==="open-routinesplus"){window.navigate("routinesplus");return;}
+  if(id==="open-calendarhub"){window.navigate("calendarhub");return;}
+  if(id==="open-knowledgegraph"){window.navigate("knowledgegraph");return;}
+  if(id==="open-focusstudio"){window.navigate("focusstudio");return;}
+  if(id==="open-weeklyreview"){window.navigate("weeklyreview");return;}
+  if(id==="open-learningpath"){window.navigate("learningpath");return;}
   const page=pages.find(p=>p[1]===id);if(page)window.navigate(id);
  }
  function renderCommands(){
