@@ -812,7 +812,7 @@ main{width:100%;overflow-wrap:anywhere}
  <div class="side-bottom"><span class="status-dot" id="connectionDot" aria-hidden="true"></span><span class="connection-label" id="connectionStatus" role="status" aria-live="polite">Network: online</span><br><span>Local workspace active</span><br><span id="sideDate"></span></div>
 </aside>
 <main>
- <div class="topbar"><div><div class="eyebrow">KR-X • YOUR PERSONAL HUB</div><h1 id="pageTitle">Dashboard</h1><p id="offlineNotice" class="small-note" role="status" aria-live="polite" hidden>You are offline. Saved KR-X data on this device remains available; some links need internet.</p></div><div class="top-actions"><span class="clock" id="clock">--:--:--</span><button class="btn small" id="themeBtn">☼ Theme</button></div></div>
+ <div class="topbar"><div><div class="eyebrow">KR-X • YOUR PERSONAL HUB</div><h1 id="pageTitle">Dashboard</h1><p id="offlineNotice" class="small-note" role="status" aria-live="polite" hidden>You are offline. Saved KR-X data on this device remains available; some links need internet.</p></div><div class="top-actions"><span class="clock" id="clock">--:--:--</span><button class="btn small" id="installAppBtn" type="button">↓ Install App</button><button class="btn small" id="themeBtn">☼ Theme</button></div></div>
 
 <section class="page active" id="page-dashboard">
  <div class="dash-welcome">
@@ -1216,6 +1216,114 @@ function studioDocument(){
  const html=$("studioHtml").value,css=$("studioCss").value,code=$("studioJs").value.replace(/<\/script/gi,"<\\/script");
  return '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>'+css+'</style></head><body>'+html+'<script>'+code+'<\/script></body></html>';
 }
+
+function saveStudio(){write("studioProject",{html:$("studioHtml").value,css:$("studioCss").value,js:$("studioJs").value})}
+["studioHtml","studioCss","studioJs"].forEach(id=>$(id).addEventListener("input",saveStudio));
+$("runStudio").addEventListener("click",()=>{$("studioPreview").srcdoc=studioDocument();saveStudio();toast("Preview updated in the sandbox.")});
+$("resetStudio").addEventListener("click",()=>{$("studioHtml").value=studioDefaults.html;$("studioCss").value=studioDefaults.css;$("studioJs").value=studioDefaults.js;saveStudio();$("studioPreview").srcdoc=studioDocument();toast("Starter project restored.")});
+$("downloadStudio").addEventListener("click",()=>{const blob=new Blob([studioDocument()],{type:"text/html"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="krx-mini-project.html";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast("Project HTML downloaded.")});
+$("studioPreview").srcdoc=studioDocument();
+$("passwordLength").addEventListener("input",()=>{$("passwordLengthLabel").textContent=$("passwordLength").value});
+$("generatePassword").addEventListener("click",()=>{
+ const length=Number($("passwordLength").value)||18,chars="ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%&*+-_?";
+ if(!window.crypto||!crypto.getRandomValues){$("passwordGenStatus").textContent="Secure random generation is unavailable in this browser.";return}
+ const bytes=new Uint32Array(length);crypto.getRandomValues(bytes);
+ let value=Array.from(bytes,n=>chars[n%chars.length]).join("");
+ $("generatedPassword").value=value;$("passwordGenStatus").textContent="Generated locally. It is not stored in KR-X. Save it only in a trusted password manager.";
+});
+$("copyGeneratedPassword").addEventListener("click",async()=>{
+ const value=$("generatedPassword").value;if(!value)return toast("Generate a sample first.");
+ try{await navigator.clipboard.writeText(value);toast("Copied. Store it safely and do not share it.");}
+ catch{$("generatedPassword").select();toast("Select and copy the generated text manually.");}
+});
+$("checkPassword").addEventListener("click",()=>{const p=$("passwordInput").value;let score=0;if(p.length>=12)score++;if(/[a-z]/.test(p)&&/[A-Z]/.test(p))score++;if(/\d/.test(p))score++;if(/[^A-Za-z0-9]/.test(p))score++;const labels=["Very weak","Weak","Fair","Good","Strong"];$("passwordMeter").style.width=(score*25)+"%";$("passwordFeedback").textContent=p.length?labels[score]+" sample. Use a unique, long passphrase and never reuse passwords.":"Enter a sample first.";});
+document.querySelectorAll("[data-correct]").forEach(b=>b.addEventListener("click",()=>{$("quizFeedback").textContent=b.dataset.correct==="true"?"Correct! Verify independently and never share an OTP.":"Not safe. Never share OTPs; use the official service to verify."; $("quizFeedback").style.color=b.dataset.correct==="true"?"var(--green)":"var(--red)"}));
+document.querySelectorAll("[data-safe]").forEach(c=>{c.checked=!!checks[c.dataset.safe];c.addEventListener("change",()=>{checks[c.dataset.safe]=c.checked;write("checks",checks);renderChecks()})});
+function renderChecks(){const all=[...document.querySelectorAll("[data-safe]")];$("safetyProgress").textContent=all.filter(c=>c.checked).length+" of "+all.length+" completed. Your checklist is saved on this device."}renderChecks();
+
+function parseMath(source){const tokens=source.match(/\d+(?:\.\d+)?|[()+\-*/%]/g)||[];if(tokens.join("")!==source.replace(/\s+/g,""))throw Error("Use numbers and + - * / % ( ) only.");let i=0;function expr(){let v=term();while(tokens[i]==="+"||tokens[i]==="-"){const op=tokens[i++],r=term();v=op==="+"?v+r:v-r}return v}function term(){let v=factor();while(["*","/","%"].includes(tokens[i])){const op=tokens[i++],r=factor();if((op==="/"||op==="%")&&r===0)throw Error("Cannot divide by zero.");v=op==="*"?v*r:op==="/"?v/r:v%r}return v}function factor(){if(tokens[i]==="-"){i++;return-factor()}if(tokens[i]==="+"){i++;return factor()}if(tokens[i]==="("){i++;const v=expr();if(tokens[i++]!==")")throw Error("Missing closing bracket.");return v}const t=tokens[i++];if(!t||!/^\d/.test(t))throw Error("Check your expression.");return Number(t)}const result=expr();if(i!==tokens.length||!Number.isFinite(result))throw Error("Invalid expression.");return result}
+$("calculate").addEventListener("click",()=>{try{$("calcOutput").textContent=String(parseMath($("calcInput").value))}catch(e){$("calcOutput").textContent=e.message}});
+$("clearCalc").addEventListener("click",()=>{$("calcInput").value="";$("calcOutput").textContent="Result appears here."});
+$("counterInput").addEventListener("input",()=>{
+ const raw=$("counterInput").value,t=raw.trim(),words=t?t.split(/\s+/).length:0;
+ const sentences=t?(t.match(/[.!?]+(?=\s|$)/g)||[]).length:0,paragraphs=t?t.split(/\n\s*\n/).filter(x=>x.trim()).length:0;
+ const minutes=words?Math.max(1,Math.ceil(words/200)):0;
+ $("counterOutput").textContent="Words: "+words+" • Characters: "+raw.length+" • Sentences: "+sentences+" • Paragraphs: "+paragraphs+" • Reading time: "+minutes+" min";
+});
+document.querySelectorAll("[data-case]").forEach(b=>b.addEventListener("click",()=>{const v=$("caseInput").value;const mode=b.dataset.case;$("caseOutput").value=mode==="upper"?v.toUpperCase():mode==="lower"?v.toLowerCase():v.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase())}));
+$("formatJson").addEventListener("click",()=>{try{$("jsonOutput").textContent=JSON.stringify(JSON.parse($("jsonInput").value),null,2)}catch(e){$("jsonOutput").textContent="Invalid JSON: "+e.message}});
+$("convertUnit").addEventListener("click",()=>{const n=Number($("unitValue").value);if($("unitValue").value.trim()===""||!Number.isFinite(n))return $("unitOutput").textContent="Enter a valid number.";const type=$("unitType").value;const f={km:n=>n*.621371,mi:n=>n*1.60934,kg:n=>n*2.20462,cm:n=>n*.393701,c:n=>n*9/5+32};const suffix={km:"miles",mi:"kilometres",kg:"pounds",cm:"inches",c:"°F"};$("unitOutput").textContent=f[type](n).toFixed(3)+" "+suffix[type]});
+let timerSeconds=1500,timerInterval=null,focusSessions=Number(read("focusSessions",0))||0;
+function showTimer(){$("timerDisplay").textContent=String(Math.floor(timerSeconds/60)).padStart(2,"0")+":"+String(timerSeconds%60).padStart(2,"0");$("focusSessions").textContent=focusSessions}
+function stopTimer(){clearInterval(timerInterval);timerInterval=null}
+function startTimer(){if(timerInterval)return;if(timerSeconds<=0)timerSeconds=1500;timerInterval=setInterval(()=>{if(timerSeconds>0){timerSeconds--;showTimer()}else{stopTimer();focusSessions++;write("focusSessions",focusSessions);showTimer();$("focusStatus").textContent="Session complete! Take a short break. Completed sessions: "+focusSessions;toast("Focus session complete. Great work!")}},1000);$("focusStatus").textContent="Focus session running • Completed sessions: "+focusSessions}
+$("focusMinutes").addEventListener("change",()=>{const n=Math.max(1,Math.min(180,Number($("focusMinutes").value)||25));$("focusMinutes").value=n;stopTimer();timerSeconds=n*60;showTimer();$("focusStatus").textContent="Timer reset • Completed sessions: "+focusSessions});
+$("startTimer").addEventListener("click",startTimer);
+$("pauseTimer").addEventListener("click",()=>{stopTimer();$("focusStatus").textContent="Timer paused • Completed sessions: "+focusSessions});
+$("resetTimer").addEventListener("click",()=>{stopTimer();timerSeconds=(Math.max(1,Math.min(180,Number($("focusMinutes").value)||25)))*60;showTimer();$("focusStatus").textContent="Timer reset • Completed sessions: "+focusSessions});
+showTimer();
+
+$("themeBtn").addEventListener("click",()=>{document.body.classList.toggle("light");const light=document.body.classList.contains("light");localStorage.setItem("krx-theme",light?"light":"dark");$("themeBtn").textContent=light?"☾ Dark mode":"☼ Light mode";toast(light?"Light theme enabled":"Nebula dark theme enabled")});if(localStorage.getItem("krx-theme")==="light")document.body.classList.add("light");$("themeBtn").textContent=document.body.classList.contains("light")?"☾ Dark mode":"☼ Light mode";
+$("saveProfile").addEventListener("click",()=>{localStorage.setItem("krx-nickname",$("nickname").value.trim());toast("Profile saved on this device.")});$("nickname").value=localStorage.getItem("krx-nickname")||"";
+$("exportData").addEventListener("click",()=>{const data={version:8,notes,tasks,bookmarks,knowledge,checks,learningProgress,chatHistory,focusSessions,habits:read("habits",[]),habitChecks:read("habitChecks",{}),dismissedAlerts:read("dismissed-alerts",[]),focusModeSessions:read("focusModeSessions",0),theme:localStorage.getItem("krx-theme")||"dark",studioProject:{html:$("studioHtml").value,css:$("studioCss").value,js:$("studioJs").value},nickname:localStorage.getItem("krx-nickname")||""};const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="kr-x-backup.json";a.click();URL.revokeObjectURL(url)});
+$("importFile").addEventListener("change",async e=>{const file=e.target.files[0];if(!file)return;try{const d=JSON.parse(await file.text());if(!d||typeof d!=="object")throw Error("Invalid backup");notes=Array.isArray(d.notes)?d.notes:[];tasks=Array.isArray(d.tasks)?d.tasks:[];bookmarks=Array.isArray(d.bookmarks)?d.bookmarks:[];knowledge=Array.isArray(d.knowledge)?d.knowledge:[];checks=d.checks&&typeof d.checks==="object"?d.checks:{};learningProgress=d.learningProgress&&typeof d.learningProgress==="object"?d.learningProgress:{};chatHistory=Array.isArray(d.chatHistory)?d.chatHistory:[];focusSessions=Number(d.focusSessions)||0;if(d.studioProject&&typeof d.studioProject==="object"){["html","css","js"].forEach(k=>{if(typeof d.studioProject[k]==="string")$("studio"+k.charAt(0).toUpperCase()+k.slice(1)).value=d.studioProject[k]});saveStudio();$("studioPreview").srcdoc=studioDocument()}write("chatHistory",chatHistory);write("focusSessions",focusSessions);write("learningProgress",learningProgress);write("notes",notes);write("tasks",tasks);write("bookmarks",bookmarks);write("knowledge",knowledge);write("checks",checks);write("habits",Array.isArray(d.habits)?d.habits:read("habits",[]));write("habitChecks",d.habitChecks&&typeof d.habitChecks==="object"?d.habitChecks:read("habitChecks",{}));write("dismissed-alerts",Array.isArray(d.dismissedAlerts)?d.dismissedAlerts:read("dismissed-alerts",[]));write("focusModeSessions",Number(d.focusModeSessions)||0);if(d.theme==="light"||d.theme==="dark")localStorage.setItem("krx-theme",d.theme);localStorage.setItem("krx-nickname",String(d.nickname||""));$("nickname").value=String(d.nickname||"");renderNotes();renderTasks();renderKnowledge();renderBookmarks();renderChecks();renderLearningProgress();renderChat();showTimer();alert("Backup imported.")}catch(err){alert("Could not import: "+err.message)}e.target.value=""});
+$("resetData").addEventListener("click",()=>{if(!confirm("This will delete KR-X data saved in this browser. Export a backup first if needed. Continue?"))return;Object.keys(localStorage).filter(k=>k.startsWith("krx-")).forEach(k=>localStorage.removeItem(k));location.reload()});
+renderNotes();renderKnowledge();renderBookmarks();renderTasks();refreshStats();renderLearningProgress();
+// --- KR-X PWA install control ---
+const installButton = $("installAppBtn");
+let deferredInstallPrompt = null;
+const isAppInstalled = () =>
+  window.matchMedia("(display-mode: standalone)").matches ||
+  window.navigator.standalone === true;
+function syncInstallButton() {
+  if (installButton) installButton.hidden = isAppInstalled();
+}
+syncInstallButton();
+window.addEventListener("beforeinstallprompt", event => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+  syncInstallButton();
+});
+window.addEventListener("appinstalled", () => {
+  deferredInstallPrompt = null;
+  syncInstallButton();
+});
+if (installButton) installButton.addEventListener("click", async () => {
+  if (isAppInstalled()) { syncInstallButton(); return; }
+  if (!deferredInstallPrompt) {
+    toast("Install KR-X from your browser menu: Add to Home screen or Install app.");
+    return;
+  }
+  deferredInstallPrompt.prompt();
+  try { await deferredInstallPrompt.userChoice; } catch (error) {}
+  deferredInstallPrompt = null;
+  syncInstallButton();
+});
+// --- End KR-X PWA install control ---
+
+// --- KR-X connectivity status ---
+const connectionDot = $("connectionDot");
+const connectionStatus = $("connectionStatus");
+const offlineNotice = $("offlineNotice");
+function updateConnectionStatus() {
+  const isOnline = navigator.onLine !== false;
+  connectionDot.classList.toggle("offline", !isOnline);
+  connectionStatus.classList.toggle("offline", !isOnline);
+  connectionStatus.textContent = isOnline ? "Network: online" : "Network: offline";
+  offlineNotice.hidden = isOnline;
+}
+window.addEventListener("online", updateConnectionStatus);
+window.addEventListener("offline", updateConnectionStatus);
+updateConnectionStatus();
+// --- End KR-X connectivity status ---
+if ("serviceWorker" in navigator && location.protocol !== "file:") {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").catch(error => {
+      console.error("KR-X service worker registration failed:", error);
+    });
+  });
+}
+// --- End KR-X PWA support ---
 </script>
 <script>
 (()=>{
@@ -1361,85 +1469,7 @@ setGate(!!saved());
 })();
 </script>
 
-</body></html>';
-}
-function saveStudio(){write("studioProject",{html:$("studioHtml").value,css:$("studioCss").value,js:$("studioJs").value})}
-["studioHtml","studioCss","studioJs"].forEach(id=>$(id).addEventListener("input",saveStudio));
-$("runStudio").addEventListener("click",()=>{$("studioPreview").srcdoc=studioDocument();saveStudio();toast("Preview updated in the sandbox.")});
-$("resetStudio").addEventListener("click",()=>{$("studioHtml").value=studioDefaults.html;$("studioCss").value=studioDefaults.css;$("studioJs").value=studioDefaults.js;saveStudio();$("studioPreview").srcdoc=studioDocument();toast("Starter project restored.")});
-$("downloadStudio").addEventListener("click",()=>{const blob=new Blob([studioDocument()],{type:"text/html"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="krx-mini-project.html";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast("Project HTML downloaded.")});
-$("studioPreview").srcdoc=studioDocument();
-$("passwordLength").addEventListener("input",()=>{$("passwordLengthLabel").textContent=$("passwordLength").value});
-$("generatePassword").addEventListener("click",()=>{
- const length=Number($("passwordLength").value)||18,chars="ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%&*+-_?";
- if(!window.crypto||!crypto.getRandomValues){$("passwordGenStatus").textContent="Secure random generation is unavailable in this browser.";return}
- const bytes=new Uint32Array(length);crypto.getRandomValues(bytes);
- let value=Array.from(bytes,n=>chars[n%chars.length]).join("");
- $("generatedPassword").value=value;$("passwordGenStatus").textContent="Generated locally. It is not stored in KR-X. Save it only in a trusted password manager.";
-});
-$("copyGeneratedPassword").addEventListener("click",async()=>{
- const value=$("generatedPassword").value;if(!value)return toast("Generate a sample first.");
- try{await navigator.clipboard.writeText(value);toast("Copied. Store it safely and do not share it.");}
- catch{$("generatedPassword").select();toast("Select and copy the generated text manually.");}
-});
-$("checkPassword").addEventListener("click",()=>{const p=$("passwordInput").value;let score=0;if(p.length>=12)score++;if(/[a-z]/.test(p)&&/[A-Z]/.test(p))score++;if(/\d/.test(p))score++;if(/[^A-Za-z0-9]/.test(p))score++;const labels=["Very weak","Weak","Fair","Good","Strong"];$("passwordMeter").style.width=(score*25)+"%";$("passwordFeedback").textContent=p.length?labels[score]+" sample. Use a unique, long passphrase and never reuse passwords.":"Enter a sample first.";});
-document.querySelectorAll("[data-correct]").forEach(b=>b.addEventListener("click",()=>{$("quizFeedback").textContent=b.dataset.correct==="true"?"Correct! Verify independently and never share an OTP.":"Not safe. Never share OTPs; use the official service to verify."; $("quizFeedback").style.color=b.dataset.correct==="true"?"var(--green)":"var(--red)"}));
-document.querySelectorAll("[data-safe]").forEach(c=>{c.checked=!!checks[c.dataset.safe];c.addEventListener("change",()=>{checks[c.dataset.safe]=c.checked;write("checks",checks);renderChecks()})});
-function renderChecks(){const all=[...document.querySelectorAll("[data-safe]")];$("safetyProgress").textContent=all.filter(c=>c.checked).length+" of "+all.length+" completed. Your checklist is saved on this device."}renderChecks();
 
-function parseMath(source){const tokens=source.match(/\d+(?:\.\d+)?|[()+\-*/%]/g)||[];if(tokens.join("")!==source.replace(/\s+/g,""))throw Error("Use numbers and + - * / % ( ) only.");let i=0;function expr(){let v=term();while(tokens[i]==="+"||tokens[i]==="-"){const op=tokens[i++],r=term();v=op==="+"?v+r:v-r}return v}function term(){let v=factor();while(["*","/","%"].includes(tokens[i])){const op=tokens[i++],r=factor();if((op==="/"||op==="%")&&r===0)throw Error("Cannot divide by zero.");v=op==="*"?v*r:op==="/"?v/r:v%r}return v}function factor(){if(tokens[i]==="-"){i++;return-factor()}if(tokens[i]==="+"){i++;return factor()}if(tokens[i]==="("){i++;const v=expr();if(tokens[i++]!==")")throw Error("Missing closing bracket.");return v}const t=tokens[i++];if(!t||!/^\d/.test(t))throw Error("Check your expression.");return Number(t)}const result=expr();if(i!==tokens.length||!Number.isFinite(result))throw Error("Invalid expression.");return result}
-$("calculate").addEventListener("click",()=>{try{$("calcOutput").textContent=String(parseMath($("calcInput").value))}catch(e){$("calcOutput").textContent=e.message}});
-$("clearCalc").addEventListener("click",()=>{$("calcInput").value="";$("calcOutput").textContent="Result appears here."});
-$("counterInput").addEventListener("input",()=>{
- const raw=$("counterInput").value,t=raw.trim(),words=t?t.split(/\s+/).length:0;
- const sentences=t?(t.match(/[.!?]+(?=\s|$)/g)||[]).length:0,paragraphs=t?t.split(/\n\s*\n/).filter(x=>x.trim()).length:0;
- const minutes=words?Math.max(1,Math.ceil(words/200)):0;
- $("counterOutput").textContent="Words: "+words+" • Characters: "+raw.length+" • Sentences: "+sentences+" • Paragraphs: "+paragraphs+" • Reading time: "+minutes+" min";
-});
-document.querySelectorAll("[data-case]").forEach(b=>b.addEventListener("click",()=>{const v=$("caseInput").value;const mode=b.dataset.case;$("caseOutput").value=mode==="upper"?v.toUpperCase():mode==="lower"?v.toLowerCase():v.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase())}));
-$("formatJson").addEventListener("click",()=>{try{$("jsonOutput").textContent=JSON.stringify(JSON.parse($("jsonInput").value),null,2)}catch(e){$("jsonOutput").textContent="Invalid JSON: "+e.message}});
-$("convertUnit").addEventListener("click",()=>{const n=Number($("unitValue").value);if($("unitValue").value.trim()===""||!Number.isFinite(n))return $("unitOutput").textContent="Enter a valid number.";const type=$("unitType").value;const f={km:n=>n*.621371,mi:n=>n*1.60934,kg:n=>n*2.20462,cm:n=>n*.393701,c:n=>n*9/5+32};const suffix={km:"miles",mi:"kilometres",kg:"pounds",cm:"inches",c:"°F"};$("unitOutput").textContent=f[type](n).toFixed(3)+" "+suffix[type]});
-let timerSeconds=1500,timerInterval=null,focusSessions=Number(read("focusSessions",0))||0;
-function showTimer(){$("timerDisplay").textContent=String(Math.floor(timerSeconds/60)).padStart(2,"0")+":"+String(timerSeconds%60).padStart(2,"0");$("focusSessions").textContent=focusSessions}
-function stopTimer(){clearInterval(timerInterval);timerInterval=null}
-function startTimer(){if(timerInterval)return;if(timerSeconds<=0)timerSeconds=1500;timerInterval=setInterval(()=>{if(timerSeconds>0){timerSeconds--;showTimer()}else{stopTimer();focusSessions++;write("focusSessions",focusSessions);showTimer();$("focusStatus").textContent="Session complete! Take a short break. Completed sessions: "+focusSessions;toast("Focus session complete. Great work!")}},1000);$("focusStatus").textContent="Focus session running • Completed sessions: "+focusSessions}
-$("focusMinutes").addEventListener("change",()=>{const n=Math.max(1,Math.min(180,Number($("focusMinutes").value)||25));$("focusMinutes").value=n;stopTimer();timerSeconds=n*60;showTimer();$("focusStatus").textContent="Timer reset • Completed sessions: "+focusSessions});
-$("startTimer").addEventListener("click",startTimer);
-$("pauseTimer").addEventListener("click",()=>{stopTimer();$("focusStatus").textContent="Timer paused • Completed sessions: "+focusSessions});
-$("resetTimer").addEventListener("click",()=>{stopTimer();timerSeconds=(Math.max(1,Math.min(180,Number($("focusMinutes").value)||25)))*60;showTimer();$("focusStatus").textContent="Timer reset • Completed sessions: "+focusSessions});
-showTimer();
-
-$("themeBtn").addEventListener("click",()=>{document.body.classList.toggle("light");const light=document.body.classList.contains("light");localStorage.setItem("krx-theme",light?"light":"dark");$("themeBtn").textContent=light?"☾ Dark mode":"☼ Light mode";toast(light?"Light theme enabled":"Nebula dark theme enabled")});if(localStorage.getItem("krx-theme")==="light")document.body.classList.add("light");$("themeBtn").textContent=document.body.classList.contains("light")?"☾ Dark mode":"☼ Light mode";
-$("saveProfile").addEventListener("click",()=>{localStorage.setItem("krx-nickname",$("nickname").value.trim());toast("Profile saved on this device.")});$("nickname").value=localStorage.getItem("krx-nickname")||"";
-$("exportData").addEventListener("click",()=>{const data={version:8,notes,tasks,bookmarks,knowledge,checks,learningProgress,chatHistory,focusSessions,habits:read("habits",[]),habitChecks:read("habitChecks",{}),dismissedAlerts:read("dismissed-alerts",[]),focusModeSessions:read("focusModeSessions",0),theme:localStorage.getItem("krx-theme")||"dark",studioProject:{html:$("studioHtml").value,css:$("studioCss").value,js:$("studioJs").value},nickname:localStorage.getItem("krx-nickname")||""};const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="kr-x-backup.json";a.click();URL.revokeObjectURL(url)});
-$("importFile").addEventListener("change",async e=>{const file=e.target.files[0];if(!file)return;try{const d=JSON.parse(await file.text());if(!d||typeof d!=="object")throw Error("Invalid backup");notes=Array.isArray(d.notes)?d.notes:[];tasks=Array.isArray(d.tasks)?d.tasks:[];bookmarks=Array.isArray(d.bookmarks)?d.bookmarks:[];knowledge=Array.isArray(d.knowledge)?d.knowledge:[];checks=d.checks&&typeof d.checks==="object"?d.checks:{};learningProgress=d.learningProgress&&typeof d.learningProgress==="object"?d.learningProgress:{};chatHistory=Array.isArray(d.chatHistory)?d.chatHistory:[];focusSessions=Number(d.focusSessions)||0;if(d.studioProject&&typeof d.studioProject==="object"){["html","css","js"].forEach(k=>{if(typeof d.studioProject[k]==="string")$("studio"+k.charAt(0).toUpperCase()+k.slice(1)).value=d.studioProject[k]});saveStudio();$("studioPreview").srcdoc=studioDocument()}write("chatHistory",chatHistory);write("focusSessions",focusSessions);write("learningProgress",learningProgress);write("notes",notes);write("tasks",tasks);write("bookmarks",bookmarks);write("knowledge",knowledge);write("checks",checks);write("habits",Array.isArray(d.habits)?d.habits:read("habits",[]));write("habitChecks",d.habitChecks&&typeof d.habitChecks==="object"?d.habitChecks:read("habitChecks",{}));write("dismissed-alerts",Array.isArray(d.dismissedAlerts)?d.dismissedAlerts:read("dismissed-alerts",[]));write("focusModeSessions",Number(d.focusModeSessions)||0);if(d.theme==="light"||d.theme==="dark")localStorage.setItem("krx-theme",d.theme);localStorage.setItem("krx-nickname",String(d.nickname||""));$("nickname").value=String(d.nickname||"");renderNotes();renderTasks();renderKnowledge();renderBookmarks();renderChecks();renderLearningProgress();renderChat();showTimer();alert("Backup imported.")}catch(err){alert("Could not import: "+err.message)}e.target.value=""});
-$("resetData").addEventListener("click",()=>{if(!confirm("This will delete KR-X data saved in this browser. Export a backup first if needed. Continue?"))return;Object.keys(localStorage).filter(k=>k.startsWith("krx-")).forEach(k=>localStorage.removeItem(k));location.reload()});
-renderNotes();renderKnowledge();renderBookmarks();renderTasks();refreshStats();renderLearningProgress();
-// --- KR-X PWA standalone mode; install prompt button removed ---
-// --- KR-X connectivity status ---
-const connectionDot = $("connectionDot");
-const connectionStatus = $("connectionStatus");
-const offlineNotice = $("offlineNotice");
-function updateConnectionStatus() {
-  const isOnline = navigator.onLine !== false;
-  connectionDot.classList.toggle("offline", !isOnline);
-  connectionStatus.classList.toggle("offline", !isOnline);
-  connectionStatus.textContent = isOnline ? "Network: online" : "Network: offline";
-  offlineNotice.hidden = isOnline;
-}
-window.addEventListener("online", updateConnectionStatus);
-window.addEventListener("offline", updateConnectionStatus);
-updateConnectionStatus();
-// --- End KR-X connectivity status ---
-if ("serviceWorker" in navigator && location.protocol !== "file:") {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js").catch(error => {
-      console.error("KR-X service worker registration failed:", error);
-    });
-  });
-}
-// --- End KR-X PWA support ---
-</script>
 <script>
 (() => {
   "use strict";
