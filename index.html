@@ -1926,6 +1926,7 @@ function applyExperience(){
 }
 $("experienceSave")?.addEventListener("click",()=>{experiencePrefs={density:$("experienceDensity").value==="compact"?"compact":"comfortable",accent:["cyan","violet","emerald","amber"].includes($("experienceAccent").value)?$("experienceAccent").value:"cyan",home:["dashboard","planner","workspace","mission","learning"].includes($("experienceHome").value)?$("experienceHome").value:"dashboard"};write("experiencePrefs",experiencePrefs);applyExperience();$("experienceStatus").textContent="Preferences saved on this device.";toast("KR-X experience updated.");});
 $("experienceReset")?.addEventListener("click",()=>{experiencePrefs={...experienceDefaults};write("experiencePrefs",experiencePrefs);applyExperience();$("experienceStatus").textContent="Default preferences restored.";});applyExperience();
+if(experiencePrefs.home!=="dashboard"&&document.getElementById("page-"+experiencePrefs.home))navigate(experiencePrefs.home);
 /* Batch 4: defensive security and system reliability */
 const securityChecklistDefaults=[["Use a unique password for important accounts","Use a password manager and never reuse passwords."],["Enable two-step verification","Add an extra sign-in layer wherever available."],["Keep browser and device updated","Install updates from official settings and sources."],["Check links before signing in","Open important services using a trusted bookmark."],["Back up important KR-X data","Export a backup and keep it in a private place."]];
 let fortressTasks=read("fortressChecklist",[]);
