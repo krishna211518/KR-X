@@ -25,6 +25,7 @@ footer{border-top:1px solid var(--line);margin-top:35px;padding-top:18px;color:#
 .light{--bg:#edf4fa;--panel:#fff;--panel2:#fff;--line:#cbd9e5;--text:#102338;--muted:#526a80;background:var(--bg);color:var(--text)}.light .sidebar{background:#f7fbff;border-color:var(--line)}.light .nav button{color:#39536b}.light .nav button.active,.light .nav button:hover{background:#e4f1f8;color:#102338}.light .field input,.light .field textarea,.light .field select,.light .output,.light .control,.light .item,.light .tool,.light .quiz-option{background:#f6faff;color:#102338;border-color:#cbd9e5}.light .hero{background:linear-gradient(120deg,#d9f1f6,#e9f1ff)}.light .card{background:#fff}
 .agent-hero{background:linear-gradient(120deg,#102b43,#10213b);border-color:#39708b}.agent-hero h2 span{color:#54eaff}
 .agent-step{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.agent-step:last-child{border-bottom:0}.agent-step input{margin-top:4px;accent-color:var(--accent)}.agent-step label{flex:1;line-height:1.45;cursor:pointer}
+.code-area,.code-output{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}.design-preview{padding:22px;border-radius:14px;background:#17263b;color:#f4fbff;border:1px solid #38516c}.design-preview button{border:0;padding:10px 16px;color:#061521;font-weight:700;cursor:pointer}.flow-node{padding:13px;border:1px solid var(--line);border-radius:12px;background:var(--card);display:flex;align-items:center;gap:10px;margin:8px 0}.flow-node .flow-main{flex:1;min-width:0}.flow-node strong{display:block}.flow-node small{color:var(--muted)}.flow-node button{flex:none}
 .batch-hero{background:linear-gradient(120deg,#102b43,#10213b);border-color:#39708b}.batch-hero h2 span{color:#54eaff}
 .widget-grid,.quick-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:14px}.widget-tile,.quick-tile{padding:16px;border:1px solid var(--line);border-radius:13px;background:var(--card);min-width:0}.widget-tile strong,.quick-tile strong{display:block}.widget-value{font-size:28px;font-weight:750;margin:9px 0;color:var(--cyan)}.profile-checks{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:9px}.profile-checks label{display:flex;gap:8px;align-items:center;padding:9px;border:1px solid var(--line);border-radius:9px}.profile-checks input{accent-color:var(--accent)}.quick-tile{display:flex;align-items:center;gap:10px}.quick-tile .quick-main{flex:1;min-width:0}.quick-tile small{display:block;color:var(--muted)}.quick-tile button{flex:none}
 .memory-hero,.decision-hero,.predict-hero,.voice-hero{background:linear-gradient(120deg,#102b43,#10213b);border-color:#39708b}.memory-hero h2 span,.decision-hero h2 span,.predict-hero h2 span,.voice-hero h2 span{color:#54eaff}.memory-entry{padding:12px;border:1px solid var(--line);border-radius:10px;margin-top:9px}.memory-entry strong{display:block}.memory-entry p{white-space:pre-wrap;margin:7px 0}.memory-entry .row{justify-content:flex-end}
@@ -1052,6 +1053,13 @@ body{
   <button data-page="clipboard"><span class="ico">▣</span>Smart Clipboard</button>
   <button data-page="events"><span class="ico">◷</span>Event Horizon</button>
   <button data-page="plugins"><span class="ico">◇</span>Plugin Universe</button>
+  <button data-page="appbuilder"><span class="ico">⌘</span>App Builder</button>
+  <button data-page="api"><span class="ico">⇄</span>API Studio</button>
+  <button data-page="database"><span class="ico">▤</span>Database Lab</button>
+  <button data-page="design"><span class="ico">✧</span>Design Engine</button>
+  <button data-page="flow"><span class="ico">⑂</span>Flow Builder</button>
+  <button data-page="documents"><span class="ico">▧</span>Document Forge</button>
+  <button data-page="media"><span class="ico">▣</span>Media Studio</button>
   <button data-page="assistant"><span class="ico"><svg class="krx-ai-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3.5 19.2 12.8 28.5 16 19.2 19.2 16 28.5 12.8 19.2 3.5 16 12.8 12.8Z"/><path d="M25.5 3.5v5M23 6h5M6.5 23.5v5M4 26h5"/></svg></span>AI Assistant</button>
   <button data-page="security"><span class="ico">◈</span>Security Center</button>
   <button data-page="workspace"><span class="ico">▤</span>Workspace</button>
@@ -1176,6 +1184,42 @@ body{
  <div class="hero batch-hero"><div class="eyebrow">MODULAR KR-X</div><h2>Extend your <span>workspace.</span></h2><p>Enable or disable local KR-X extensions. These are built-in modules, not third-party cloud integrations.</p></div>
  <div class="card full"><div class="row" style="justify-content:space-between"><h3>Available extensions</h3><span class="pill" id="pluginEnabledCount">0 ENABLED</span></div><div class="list" id="pluginList"></div></div>
  <p class="small-note">External plugins and connected services require a secure integration and their own permissions. No external account is accessed from this page.</p>
+</section>
+
+<section class="page" id="page-appbuilder">
+ <div class="section-head"><div><h2>APP BUILDER</h2><p>Create a small HTML, CSS and JavaScript app with a sandboxed live preview.</p></div><span class="pill">LOCAL IDE</span></div>
+ <div class="hero batch-hero"><div class="eyebrow">BUILD • PREVIEW • SAVE</div><h2>Turn code into <span>something real.</span></h2><p>Write front-end code, preview it safely in an isolated frame and save your project locally.</p></div>
+ <div class="grid"><div class="card full"><div class="field"><label for="appProjectName">Project name</label><input class="control" id="appProjectName" maxlength="60" value="My KR-X App"></div><div class="field"><label for="appHtml">HTML</label><textarea class="control code-area" id="appHtml" rows="7"><main><h1>Hello, KR-X!</h1><p>My first app.</p><button onclick="document.querySelector('p').textContent='It works!'">Test button</button></main></textarea></div><div class="field"><label for="appCss">CSS</label><textarea class="control code-area" id="appCss" rows="5">body{font-family:system-ui;padding:24px;background:#101827;color:#eaf6ff}button{padding:10px 16px;border:0;border-radius:9px;background:#32c9e8}</textarea></div><div class="field"><label for="appJs">JavaScript</label><textarea class="control code-area" id="appJs" rows="5">console.log('Hello from KR-X App Builder');</textarea></div><div class="row"><button class="btn primary" id="appRun" type="button">▶ Run preview</button><button class="btn" id="appSave" type="button">Save project</button><button class="btn" id="appExport" type="button">Export HTML</button><button class="btn" id="appReset" type="button">Reset</button></div></div><div class="card full"><h3>Live preview</h3><iframe id="appPreview" title="App preview" sandbox="allow-scripts" style="width:100%;height:360px;background:#fff;border:1px solid var(--line);border-radius:12px"></iframe></div></div>
+</section>
+<section class="page" id="page-api">
+ <div class="section-head"><div><h2>API STUDIO</h2><p>Learn and test HTTP endpoints from your browser.</p></div><span class="pill">API WORKBENCH</span></div>
+ <div class="hero batch-hero"><div class="eyebrow">REQUEST • RESPONSE</div><h2>Explore web <span>APIs.</span></h2><p>Send a request to an API you are authorized to use. Browser CORS and endpoint permissions still apply.</p></div>
+ <div class="card full"><div class="field"><label for="apiMethod">Method</label><select id="apiMethod" class="control"><option>GET</option><option>POST</option></select></div><div class="field"><label for="apiUrl">Endpoint URL</label><input id="apiUrl" class="control" type="url" placeholder="https://api.example.com/data"></div><div class="field"><label for="apiBody">JSON body (POST only)</label><textarea id="apiBody" class="control code-area" rows="4" placeholder='{"message":"hello"}'></textarea></div><div class="row"><button class="btn primary" id="apiSend" type="button">Send request</button><button class="btn" id="apiClear" type="button">Clear response</button></div><p class="muted" id="apiStatus">Ready. Avoid entering passwords, private tokens or personal data.</p><pre class="output code-output" id="apiResponse">Response will appear here.</pre></div>
+</section>
+<section class="page" id="page-database">
+ <div class="section-head"><div><h2>DATABASE LAB</h2><p>Practice CRUD operations using a local JSON collection.</p></div><span class="pill">LOCAL DATABASE</span></div>
+ <div class="hero batch-hero"><div class="eyebrow">CREATE • READ • UPDATE • DELETE</div><h2>Learn data <span>management.</span></h2><p>This is a local learning database stored in this browser, not a remote server database.</p></div>
+ <div class="card full"><div class="field"><label for="dbName">Record name</label><input id="dbName" class="control" maxlength="80" placeholder="e.g. Science notes"></div><div class="field"><label for="dbValue">Record data (text or JSON)</label><textarea id="dbValue" class="control" rows="3" maxlength="3000" placeholder="Enter record details..."></textarea></div><div class="row"><button class="btn primary" id="dbAdd" type="button">＋ Add record</button><button class="btn" id="dbExport" type="button">Export JSON</button><button class="btn" id="dbImport" type="button">Import JSON</button><input type="file" id="dbFile" accept="application/json,.json" hidden></div><input class="control" id="dbSearch" placeholder="Search records..."><div class="list" id="dbRecords"></div></div>
+</section>
+<section class="page" id="page-design">
+ <div class="section-head"><div><h2>DESIGN ENGINE</h2><p>Generate a reusable color theme and CSS design tokens.</p></div><span class="pill">VISUAL DESIGN</span></div>
+ <div class="hero batch-hero"><div class="eyebrow">STYLE SYSTEM GENERATOR</div><h2>Design with <span>consistency.</span></h2><p>Choose a brand color, radius and style. Preview the theme and copy or export its CSS.</p></div>
+ <div class="grid"><div class="card"><div class="field"><label for="designColor">Accent color</label><input id="designColor" type="color" value="#35c9e8" class="control"></div><div class="field"><label for="designRadius">Corner radius</label><input id="designRadius" type="range" min="4" max="28" value="14" class="control"></div><div class="field"><label for="designStyle">Surface style</label><select id="designStyle" class="control"><option value="solid">Solid</option><option value="glass">Glass</option><option value="soft">Soft</option></select></div><button class="btn primary" id="designGenerate" type="button">Generate theme</button><button class="btn" id="designCopy" type="button">Copy CSS</button><button class="btn" id="designExport" type="button">Export CSS</button></div><div class="card"><h3>Live preview</h3><div id="designPreview" class="design-preview"><h3>KR-X Design</h3><p>A consistent interface starts with a small set of design tokens.</p><button type="button">Primary action</button></div><pre class="output code-output" id="designCss"></pre></div></div>
+</section>
+<section class="page" id="page-flow">
+ <div class="section-head"><div><h2>FLOW BUILDER</h2><p>Arrange simple workflow steps and export them as JSON.</p></div><span class="pill">VISUAL WORKFLOWS</span></div>
+ <div class="hero batch-hero"><div class="eyebrow">MAP YOUR PROCESS</div><h2>Connect the <span>steps.</span></h2><p>Create a sequence, reorder it and save a reusable flow definition. This builder does not execute external actions.</p></div>
+ <div class="card full"><div class="row"><input id="flowName" class="control" maxlength="60" placeholder="Flow name"><select id="flowStepType" class="control"><option>Start</option><option>Action</option><option>Condition</option><option>Review</option><option>End</option></select><input id="flowStepText" class="control" maxlength="120" placeholder="Describe this step"><button class="btn primary" id="flowAdd" type="button">＋ Add step</button></div><div class="list" id="flowSteps"></div><div class="row"><button class="btn" id="flowSave" type="button">Save flow</button><button class="btn" id="flowExport" type="button">Export JSON</button><button class="btn" id="flowClear" type="button">Clear</button></div><div class="list" id="flowSaved"></div></div>
+</section>
+<section class="page" id="page-documents">
+ <div class="section-head"><div><h2>DOCUMENT FORGE</h2><p>Draft, format, save and export text documents.</p></div><span class="pill">DOCUMENT WORKSPACE</span></div>
+ <div class="hero batch-hero"><div class="eyebrow">WRITE • ORGANIZE • EXPORT</div><h2>Your ideas, <span>well formed.</span></h2><p>A lightweight local document editor for notes, project drafts and study material.</p></div>
+ <div class="card full"><div class="field"><label for="docTitle">Document title</label><input id="docTitle" class="control" maxlength="100" placeholder="Untitled document"></div><div class="row"><button class="btn" data-doc-insert="**Bold**" type="button">Insert bold marker</button><button class="btn" data-doc-insert="## Heading" type="button">Insert heading</button><button class="btn" data-doc-insert="\n- List item" type="button">Insert list</button></div><textarea id="docBody" class="control" rows="16" maxlength="30000" placeholder="Start writing..."></textarea><div class="row"><button class="btn primary" id="docSave" type="button">Save document</button><button class="btn" id="docExport" type="button">Export .txt</button><button class="btn" id="docClear" type="button">New document</button></div><div class="list" id="docSaved"></div></div>
+</section>
+<section class="page" id="page-media">
+ <div class="section-head"><div><h2>MEDIA STUDIO</h2><p>Preview an image, adjust its appearance and export a processed copy.</p></div><span class="pill">LOCAL MEDIA TOOLS</span></div>
+ <div class="hero batch-hero"><div class="eyebrow">IMAGE WORKBENCH</div><h2>Refine your <span>visuals.</span></h2><p>Choose an image from your device. Processing stays in your browser and the original file is not changed.</p></div>
+ <div class="grid"><div class="card"><div class="field"><label for="mediaFile">Choose image</label><input id="mediaFile" type="file" class="control" accept="image/*"></div><div class="field"><label for="mediaWidth">Export width (px)</label><input id="mediaWidth" class="control" type="number" min="1" max="3000" value="800"></div><div class="field"><label for="mediaQuality">JPEG quality</label><input id="mediaQuality" class="control" type="range" min="30" max="100" value="85"></div><div class="field"><label for="mediaFilter">Preview filter</label><select id="mediaFilter" class="control"><option value="none">Original</option><option value="grayscale(1)">Grayscale</option><option value="sepia(1)">Sepia</option><option value="contrast(1.25)">High contrast</option><option value="saturate(1.5)">Vibrant</option></select></div><button class="btn primary" id="mediaExport" type="button">Export processed JPG</button><p class="muted" id="mediaInfo">No image selected.</p></div><div class="card"><h3>Preview</h3><img id="mediaPreview" alt="Selected image preview" style="max-width:100%;max-height:420px;object-fit:contain;border-radius:12px;filter:none"></div></div>
 </section>
 
 <section class="page" id="page-agent">
@@ -1705,6 +1749,78 @@ function renderPlugins(){
 }
 renderPlugins();
 
+
+/* Batch 3: local-first creation and developer workbenches */
+function downloadText(name,textValue,type="text/plain"){
+ const blob=new Blob([textValue],{type}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+/* App Builder — isolated preview frame */
+const appDefault={name:"My KR-X App",html:$("appHtml").value,css:$("appCss").value,js:$("appJs").value};
+let appProject=read("appBuilderProject",appDefault);
+$("appProjectName").value=appProject.name||appDefault.name;$("appHtml").value=appProject.html||appDefault.html;$("appCss").value=appProject.css||appDefault.css;$("appJs").value=appProject.js||appDefault.js;
+function runAppPreview(){
+ const html=$("appHtml").value,css=$("appCss").value,code=$("appJs").value;
+ $("appPreview").srcdoc="<!doctype html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><style>"+css.replace(/<\/style/gi,"<\\/style")+"</style></head><body>"+html+"<script>"+code.replace(/<\/script/gi,"<\\/script")+"<\\/script></body></html>";
+}
+$("appRun")?.addEventListener("click",runAppPreview);
+$("appSave")?.addEventListener("click",()=>{appProject={name:$("appProjectName").value.trim()||"Untitled App",html:$("appHtml").value,css:$("appCss").value,js:$("appJs").value};write("appBuilderProject",appProject);toast("App project saved locally.");});
+$("appExport")?.addEventListener("click",()=>downloadText((($("appProjectName").value.trim()||"krx-app").replace(/[^a-z0-9-_]/gi,"-"))+".html",$("appPreview").srcdoc,"text/html"));
+$("appReset")?.addEventListener("click",()=>{if(!confirm("Reset the editor to its starter code?"))return;$("appHtml").value=appDefault.html;$("appCss").value=appDefault.css;$("appJs").value=appDefault.js;runAppPreview();});runAppPreview();
+/* API Studio: only explicit user-triggered GET/POST requests. */
+$("apiSend")?.addEventListener("click",async()=>{
+ const raw=$("apiUrl").value.trim(),method=$("apiMethod").value,status=$("apiStatus"),out=$("apiResponse");
+ let url;try{url=new URL(raw);if(!["http:","https:"].includes(url.protocol))throw 0;}catch{status.textContent="Enter a valid http(s) endpoint.";return;}
+ let body; if(method==="POST"){try{body=JSON.parse($("apiBody").value||"{}");}catch{status.textContent="Request body must be valid JSON.";return;}}
+ $("apiSend").disabled=true;status.textContent="Sending request…";out.textContent="";
+ try{const response=await fetch(url.href,{method,headers:method==="POST"?{"Content-Type":"application/json"}:{},body:method==="POST"?JSON.stringify(body):undefined,signal:AbortSignal.timeout(12000)});const textBody=await response.text();status.textContent="HTTP "+response.status+" "+response.statusText;try{out.textContent=JSON.stringify(JSON.parse(textBody),null,2);}catch{out.textContent=textBody.slice(0,12000);}}
+ catch(e){status.textContent="Request failed: "+e.message+" (CORS, network or endpoint restrictions may apply).";out.textContent="No response received.";}
+ finally{$("apiSend").disabled=false;}
+});
+$("apiClear")?.addEventListener("click",()=>{$("apiStatus").textContent="Ready.";$("apiResponse").textContent="Response will appear here.";});
+/* Database Lab: simple JSON record store */
+let dbRecords=read("databaseLab",[]);
+function renderDb(){
+ const box=$("dbRecords"),q=$("dbSearch").value.toLowerCase();box.replaceChildren();const matches=dbRecords.filter(r=>(r.name+" "+r.value).toLowerCase().includes(q));
+ if(!matches.length){const e=document.createElement("div");e.className="empty";e.textContent="No matching records.";box.append(e);return;}
+ matches.forEach(r=>{const row=document.createElement("article");row.className="memory-entry";const title=document.createElement("strong");title.textContent=r.name;const body=document.createElement("p");body.textContent=r.value;const actions=document.createElement("div");actions.className="row";const edit=document.createElement("button");edit.className="btn small";edit.textContent="Edit";edit.addEventListener("click",()=>{const n=prompt("Record name",r.name);if(n===null)return;const v=prompt("Record data",r.value);if(v===null)return;if(!n.trim())return toast("Record name cannot be empty.");r.name=n.trim().slice(0,80);r.value=v.slice(0,3000);write("databaseLab",dbRecords);renderDb();});const del=document.createElement("button");del.className="btn small danger";del.textContent="Delete";del.addEventListener("click",()=>{dbRecords=dbRecords.filter(x=>x.id!==r.id);write("databaseLab",dbRecords);renderDb();});actions.append(edit,del);row.append(title,body,actions);box.append(row);});
+}
+$("dbAdd")?.addEventListener("click",()=>{const name=$("dbName").value.trim(),value=$("dbValue").value.trim();if(!name||!value)return toast("Enter a record name and data.");dbRecords.unshift({id:uid(),name:name.slice(0,80),value:value.slice(0,3000),createdAt:new Date().toISOString()});write("databaseLab",dbRecords);$("dbName").value="";$("dbValue").value="";renderDb();});
+$("dbSearch")?.addEventListener("input",renderDb);
+$("dbExport")?.addEventListener("click",()=>downloadText("krx-database.json",JSON.stringify(dbRecords,null,2),"application/json"));
+$("dbImport")?.addEventListener("click",()=>$("dbFile").click());
+$("dbFile")?.addEventListener("change",async e=>{const f=e.target.files[0];if(!f)return;try{const data=JSON.parse(await f.text());if(!Array.isArray(data)||data.length>1000||!data.every(x=>x&&typeof x.name==="string"&&typeof x.value==="string"))throw 0;dbRecords=data.map(x=>({id:typeof x.id==="string"?x.id:uid(),name:x.name.slice(0,80),value:x.value.slice(0,3000)}));write("databaseLab",dbRecords);renderDb();toast("JSON records imported.");}catch{toast("Invalid JSON database file.");}e.target.value="";});renderDb();
+/* Design Engine */
+function makeDesignCss(){const color=$("designColor").value,r=$("designRadius").value,style=$("designStyle").value,bg=style==="glass"?"rgba(20,35,55,.72)":style==="soft"?"#edf3fa":"#17263b";return ":root{--brand:"+color+";--radius:"+r+"px;--surface:"+bg+";}\n.krx-card{background:var(--surface);border:1px solid "+color+"55;border-radius:var(--radius);padding:20px;}\n.krx-button{background:var(--brand);color:#071521;border:0;border-radius:var(--radius);padding:10px 16px;font-weight:700;}";}
+function renderDesign(){const css=makeDesignCss(),preview=$("designPreview");preview.style.borderRadius=$("designRadius").value+"px";preview.style.borderColor=$("designColor").value;preview.style.background=$("designStyle").value==="soft"?"#edf3fa":$("designStyle").value==="glass"?"rgba(20,35,55,.72)":"#17263b";preview.querySelector("button").style.background=$("designColor").value;$("designCss").textContent=css;}
+$("designGenerate")?.addEventListener("click",renderDesign);
+["designColor","designRadius","designStyle"].forEach(id=>$(id)?.addEventListener("input",renderDesign));
+$("designCopy")?.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(makeDesignCss());toast("CSS copied.");}catch{toast("Clipboard permission unavailable.");}});
+$("designExport")?.addEventListener("click",()=>downloadText("krx-theme.css",makeDesignCss(),"text/css"));renderDesign();
+/* Flow Builder */
+let flowSteps=read("flowBuilderSteps",[]),savedFlows=read("savedFlows",[]);
+function renderFlow(){
+ const box=$("flowSteps");box.replaceChildren();
+ if(!flowSteps.length){const e=document.createElement("div");e.className="empty";e.textContent="Add a step to begin building your flow.";box.append(e);}
+ flowSteps.forEach((step,i)=>{const row=document.createElement("div");row.className="flow-node";const main=document.createElement("div");main.className="flow-main";const title=document.createElement("strong");title.textContent=(i+1)+". "+step.text;const meta=document.createElement("small");meta.textContent=step.type;main.append(title,meta);const up=document.createElement("button");up.className="btn small";up.textContent="↑";up.disabled=i===0;up.addEventListener("click",()=>{[flowSteps[i-1],flowSteps[i]]=[flowSteps[i],flowSteps[i-1]];renderFlow();});const down=document.createElement("button");down.className="btn small";down.textContent="↓";down.disabled=i===flowSteps.length-1;down.addEventListener("click",()=>{[flowSteps[i+1],flowSteps[i]]=[flowSteps[i],flowSteps[i+1]];renderFlow();});const del=document.createElement("button");del.className="btn small danger";del.textContent="×";del.addEventListener("click",()=>{flowSteps.splice(i,1);renderFlow();});row.append(main,up,down,del);box.append(row);});
+ const saved=$("flowSaved");saved.replaceChildren();savedFlows.forEach(f=>{const row=document.createElement("div");row.className="auto-item";const t=document.createElement("strong");t.textContent=f.name+" · "+f.steps.length+" steps";const del=document.createElement("button");del.className="btn small danger";del.textContent="Delete";del.addEventListener("click",()=>{savedFlows=savedFlows.filter(x=>x.id!==f.id);write("savedFlows",savedFlows);renderFlow();});row.append(t,del);saved.append(row);});
+}
+$("flowAdd")?.addEventListener("click",()=>{const textValue=$("flowStepText").value.trim();if(!textValue)return toast("Describe the step first.");flowSteps.push({id:uid(),type:$("flowStepType").value,text:textValue.slice(0,120)});write("flowBuilderSteps",flowSteps);$("flowStepText").value="";renderFlow();});
+$("flowSave")?.addEventListener("click",()=>{const name=$("flowName").value.trim();if(!name||!flowSteps.length)return toast("Add a flow name and at least one step.");savedFlows.unshift({id:uid(),name:name.slice(0,60),steps:flowSteps.map(x=>({...x})),createdAt:new Date().toISOString()});write("savedFlows",savedFlows);renderFlow();toast("Flow saved locally.");});
+$("flowExport")?.addEventListener("click",()=>downloadText("krx-flow.json",JSON.stringify({name:$("flowName").value,steps:flowSteps},null,2),"application/json"));
+$("flowClear")?.addEventListener("click",()=>{flowSteps=[];write("flowBuilderSteps",flowSteps);renderFlow();});renderFlow();
+/* Document Forge */
+let savedDocs=read("documents",[]);
+function renderDocs(){const box=$("docSaved");box.replaceChildren();savedDocs.forEach(d=>{const row=document.createElement("div");row.className="auto-item";const title=document.createElement("strong");title.textContent=d.title;const open=document.createElement("button");open.className="btn small";open.textContent="Open";open.addEventListener("click",()=>{$("docTitle").value=d.title;$("docBody").value=d.body;});const del=document.createElement("button");del.className="btn small danger";del.textContent="Delete";del.addEventListener("click",()=>{savedDocs=savedDocs.filter(x=>x.id!==d.id);write("documents",savedDocs);renderDocs();});row.append(title,open,del);box.append(row);});}
+$("docSave")?.addEventListener("click",()=>{const title=$("docTitle").value.trim()||"Untitled document",body=$("docBody").value;if(!body.trim())return toast("Write something before saving.");const existing=savedDocs.find(x=>x.title===title);if(existing){existing.body=body;existing.updatedAt=new Date().toISOString();}else savedDocs.unshift({id:uid(),title:title.slice(0,100),body,updatedAt:new Date().toISOString()});write("documents",savedDocs);renderDocs();toast("Document saved locally.");});
+$("docExport")?.addEventListener("click",()=>downloadText((($("docTitle").value.trim()||"document").replace(/[^a-z0-9-_]/gi,"-"))+".txt",$("docBody").value));
+$("docClear")?.addEventListener("click",()=>{$("docTitle").value="";$("docBody").value="";});
+document.querySelectorAll("[data-doc-insert]").forEach(b=>b.addEventListener("click",()=>{const el=$("docBody"),start=el.selectionStart,end=el.selectionEnd,insert=b.dataset.docInsert;el.setRangeText(insert,start,end,"end");el.focus();}));renderDocs();
+/* Media Studio: decode and export locally using canvas. */
+let mediaImage=null,mediaObjectUrl=null;
+$("mediaFile")?.addEventListener("change",e=>{const file=e.target.files[0];if(!file)return;if(!file.type.startsWith("image/")||file.size>12*1024*1024){toast("Choose an image under 12 MB.");return;}if(mediaObjectUrl)URL.revokeObjectURL(mediaObjectUrl);mediaObjectUrl=URL.createObjectURL(file);mediaImage=new Image();mediaImage.onload=()=>{$("mediaPreview").src=mediaObjectUrl;$("mediaInfo").textContent=mediaImage.naturalWidth+" × "+mediaImage.naturalHeight+" px · "+(file.size/1024).toFixed(0)+" KB";};mediaImage.onerror=()=>toast("Could not read this image.");mediaImage.src=mediaObjectUrl;});
+$("mediaFilter")?.addEventListener("change",e=>{$("mediaPreview").style.filter=e.target.value;});
+$("mediaExport")?.addEventListener("click",()=>{if(!mediaImage||!mediaImage.naturalWidth)return toast("Choose an image first.");const width=Math.max(1,Math.min(3000,Number($("mediaWidth").value)||800)),height=Math.round(mediaImage.naturalHeight*(width/mediaImage.naturalWidth)),canvas=document.createElement("canvas");canvas.width=width;canvas.height=height;const ctx=canvas.getContext("2d");ctx.filter=$("mediaFilter").value;ctx.drawImage(mediaImage,0,0,width,height);canvas.toBlob(blob=>{if(!blob)return toast("Image export failed.");const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="krx-edited-image.jpg";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);},"image/jpeg",Math.max(.3,Math.min(1,Number($("mediaQuality").value)/100)));});
+
 let chatHistory=read("chatHistory",[]);
 function assistantReply(q){
  const raw=String(q||"").trim(),s=raw.toLowerCase()
@@ -1823,7 +1939,14 @@ function studioDocument(){
   ["Quick Launch","quicklaunch","⚡","Pin favourite KR-X modules"],
   ["Smart Clipboard","clipboard","▣","Save reusable local text snippets"],
   ["Event Horizon","events","◷","Track upcoming dates and deadlines"],
-  ["Plugin Universe","plugins","◇","Manage built-in KR-X extensions"]
+  ["Plugin Universe","plugins","◇","Manage built-in KR-X extensions"],
+  ["App Builder","appbuilder","⌘","Build and preview sandboxed HTML apps"],
+  ["API Studio","api","⇄","Test authorized HTTP endpoints"],
+  ["Database Lab","database","▤","Practice local JSON CRUD operations"],
+  ["Design Engine","design","✧","Generate themes and CSS tokens"],
+  ["Flow Builder","flow","⑂","Create and export workflow diagrams"],
+  ["Document Forge","documents","▧","Write and export documents"],
+  ["Media Studio","media","▣","Process images locally in your browser"]
  ];
  const actions = [
   ["Create a note","new-note","＋","Open Workspace and focus the note title"],
@@ -1845,7 +1968,14 @@ function studioDocument(){
   ["Open Quick Launch","open-quicklaunch","⚡","Open pinned module shortcuts"],
   ["Open Smart Clipboard","open-clipboard","▣","Manage saved snippets"],
   ["Open Event Horizon","open-events","◷","View upcoming events"],
-  ["Open Plugin Universe","open-plugins","◇","Manage built-in extensions"]
+  ["Open Plugin Universe","open-plugins","◇","Manage built-in extensions"],
+  ["Open App Builder","open-appbuilder","⌘","Build and preview a small web app"],
+  ["Open API Studio","open-api","⇄","Test an API endpoint"],
+  ["Open Database Lab","open-database","▤","Manage local JSON records"],
+  ["Open Design Engine","open-design","✧","Generate CSS themes"],
+  ["Open Flow Builder","open-flow","⑂","Build a reusable workflow"],
+  ["Open Document Forge","open-documents","▧","Create a text document"],
+  ["Open Media Studio","open-media","▣","Edit and export an image"]
  ];
  let recent = [];
  try { recent = JSON.parse(localStorage.getItem("krx-recent-pages") || "[]"); if(!Array.isArray(recent)) recent=[]; } catch { recent=[]; }
@@ -1885,6 +2015,13 @@ function studioDocument(){
   if(id==="open-clipboard"){window.navigate("clipboard");return;}
   if(id==="open-events"){window.navigate("events");return;}
   if(id==="open-plugins"){window.navigate("plugins");return;}
+  if(id==="open-appbuilder"){window.navigate("appbuilder");return;}
+  if(id==="open-api"){window.navigate("api");return;}
+  if(id==="open-database"){window.navigate("database");return;}
+  if(id==="open-design"){window.navigate("design");return;}
+  if(id==="open-flow"){window.navigate("flow");return;}
+  if(id==="open-documents"){window.navigate("documents");return;}
+  if(id==="open-media"){window.navigate("media");return;}
   const page=pages.find(p=>p[1]===id);if(page)window.navigate(id);
  }
  function renderCommands(){
@@ -1933,7 +2070,7 @@ function studioDocument(){
   ["Workspace","workspace"],["Planner","planner"],["Tools Lab","tools"],
   ["Learning Hub","learning"],["Advanced Tools","advanced"],["Habits & Insights","routines"],
   ["Notification Center","notifications"],["Focus Mode","focus"],["KR-X Brain","brain"],
-  ["KR-X Vault","vault"],["Settings","settings"],["Command Center","command"],["NEXUS CORE","nexus"],["Automation Engine","automation"],["AI Agent","agent"],["Smart Memory Bank","memory"],["Decision Engine","decision"],["Predict Engine","predict"],["Voice Command","voice"],["Widget Engine","widgets"],["Workspace Profiles","profiles"],["Quick Launch","quicklaunch"],["Smart Clipboard","clipboard"],["Event Horizon","events"],["Plugin Universe","plugins"]
+  ["KR-X Vault","vault"],["Settings","settings"],["Command Center","command"],["NEXUS CORE","nexus"],["Automation Engine","automation"],["AI Agent","agent"],["Smart Memory Bank","memory"],["Decision Engine","decision"],["Predict Engine","predict"],["Voice Command","voice"],["Widget Engine","widgets"],["Workspace Profiles","profiles"],["Quick Launch","quicklaunch"],["Smart Clipboard","clipboard"],["Event Horizon","events"],["Plugin Universe","plugins"],["App Builder","appbuilder"],["API Studio","api"],["Database Lab","database"],["Design Engine","design"],["Flow Builder","flow"],["Document Forge","documents"],["Media Studio","media"]
  ];
  let z=20,serial=0,layouts={};
  try{layouts=JSON.parse(localStorage.getItem("krx-window-layouts")||"{}");if(!layouts||typeof layouts!=="object")layouts={};}catch{layouts={};}
