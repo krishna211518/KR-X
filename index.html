@@ -25,6 +25,8 @@ footer{border-top:1px solid var(--line);margin-top:35px;padding-top:18px;color:#
 .light{--bg:#edf4fa;--panel:#fff;--panel2:#fff;--line:#cbd9e5;--text:#102338;--muted:#526a80;background:var(--bg);color:var(--text)}.light .sidebar{background:#f7fbff;border-color:var(--line)}.light .nav button{color:#39536b}.light .nav button.active,.light .nav button:hover{background:#e4f1f8;color:#102338}.light .field input,.light .field textarea,.light .field select,.light .output,.light .control,.light .item,.light .tool,.light .quiz-option{background:#f6faff;color:#102338;border-color:#cbd9e5}.light .hero{background:linear-gradient(120deg,#d9f1f6,#e9f1ff)}.light .card{background:#fff}
 .agent-hero{background:linear-gradient(120deg,#102b43,#10213b);border-color:#39708b}.agent-hero h2 span{color:#54eaff}
 .agent-step{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.agent-step:last-child{border-bottom:0}.agent-step input{margin-top:4px;accent-color:var(--accent)}.agent-step label{flex:1;line-height:1.45;cursor:pointer}
+.batch-hero{background:linear-gradient(120deg,#102b43,#10213b);border-color:#39708b}.batch-hero h2 span{color:#54eaff}
+.widget-grid,.quick-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:14px}.widget-tile,.quick-tile{padding:16px;border:1px solid var(--line);border-radius:13px;background:var(--card);min-width:0}.widget-tile strong,.quick-tile strong{display:block}.widget-value{font-size:28px;font-weight:750;margin:9px 0;color:var(--cyan)}.profile-checks{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:9px}.profile-checks label{display:flex;gap:8px;align-items:center;padding:9px;border:1px solid var(--line);border-radius:9px}.profile-checks input{accent-color:var(--accent)}.quick-tile{display:flex;align-items:center;gap:10px}.quick-tile .quick-main{flex:1;min-width:0}.quick-tile small{display:block;color:var(--muted)}.quick-tile button{flex:none}
 .memory-hero,.decision-hero,.predict-hero,.voice-hero{background:linear-gradient(120deg,#102b43,#10213b);border-color:#39708b}.memory-hero h2 span,.decision-hero h2 span,.predict-hero h2 span,.voice-hero h2 span{color:#54eaff}.memory-entry{padding:12px;border:1px solid var(--line);border-radius:10px;margin-top:9px}.memory-entry strong{display:block}.memory-entry p{white-space:pre-wrap;margin:7px 0}.memory-entry .row{justify-content:flex-end}
 .automation-hero{background:linear-gradient(120deg,#102b43,#10213b);border-color:#39708b}.automation-hero h2 span{color:#54eaff}
 .auto-item{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}.auto-item .item-main{min-width:160px;flex:1}.auto-actions{display:flex;gap:6px;flex-wrap:wrap}
@@ -1044,6 +1046,12 @@ body{
   <button data-page="decision"><span class="ico">⚖</span>Decision Engine</button>
   <button data-page="predict"><span class="ico">◷</span>Predict Engine</button>
   <button data-page="voice"><span class="ico">🎙</span>Voice Command</button>
+  <button data-page="widgets"><span class="ico">▦</span>Widget Engine</button>
+  <button data-page="profiles"><span class="ico">◫</span>Workspace Profiles</button>
+  <button data-page="quicklaunch"><span class="ico">⚡</span>Quick Launch</button>
+  <button data-page="clipboard"><span class="ico">▣</span>Smart Clipboard</button>
+  <button data-page="events"><span class="ico">◷</span>Event Horizon</button>
+  <button data-page="plugins"><span class="ico">◇</span>Plugin Universe</button>
   <button data-page="assistant"><span class="ico"><svg class="krx-ai-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3.5 19.2 12.8 28.5 16 19.2 19.2 16 28.5 12.8 19.2 3.5 16 12.8 12.8Z"/><path d="M25.5 3.5v5M23 6h5M6.5 23.5v5M4 26h5"/></svg></span>AI Assistant</button>
   <button data-page="security"><span class="ico">◈</span>Security Center</button>
   <button data-page="workspace"><span class="ico">▤</span>Workspace</button>
@@ -1126,6 +1134,48 @@ body{
  <div class="hero voice-hero"><div class="eyebrow">HANDS-FREE INTERACTION</div><h2>Speak to <span>KR-X.</span></h2><p>Microphone access starts only when you press the button. Speech is processed by the browser's recognition service where supported.</p></div>
  <div class="grid"><div class="card full"><div class="row" style="align-items:center;justify-content:space-between"><h3>Voice control</h3><span class="pill" id="voiceStatus">READY</span></div><p class="muted">Try saying: “Open Planner”, “Open Workspace”, “Open AI Agent” or dictate a question.</p><div class="row"><button class="btn primary" id="voiceStart" type="button">🎙 Start listening</button><button class="btn" id="voiceStop" type="button" disabled>Stop</button></div><div class="output" id="voiceTranscript" aria-live="polite">Your recognized words will appear here.</div><div class="row"><button class="btn" id="voiceSendChat" type="button" disabled>Send transcript to AI Assistant</button><button class="btn" id="voiceClear" type="button">Clear</button></div></div>
  <div class="card"><h3>Privacy & compatibility</h3><p class="muted">Voice recognition may not be available in every browser or region. The browser may send audio to its speech service. KR-X does not record or save audio. You can use typed commands anytime.</p></div></div>
+</section>
+
+<section class="page" id="page-widgets">
+ <div class="section-head"><div><h2>WIDGET ENGINE</h2><p>Build a compact dashboard from useful KR-X data widgets.</p></div><span class="pill">CUSTOM DASHBOARD</span></div>
+ <div class="hero batch-hero"><div class="eyebrow">PERSONAL CONTROL PANEL</div><h2>Your data. <span>Your layout.</span></h2><p>Add or remove widgets and refresh them whenever you need. Widget preferences are stored locally.</p></div>
+ <div class="card full"><div class="row" style="justify-content:space-between;align-items:center"><h3>Widget gallery</h3><select id="widgetPicker" class="control" style="max-width:220px"><option value="tasks">Planner summary</option><option value="notes">Notes snapshot</option><option value="habits">Habit tracker</option><option value="memory">Memory count</option><option value="focus">Focus sessions</option><option value="date">Date & time</option></select><button class="btn primary" id="widgetAdd" type="button">＋ Add widget</button></div></div>
+ <div class="widget-grid" id="widgetGrid"></div>
+</section>
+
+<section class="page" id="page-profiles">
+ <div class="section-head"><div><h2>WORKSPACE PROFILES</h2><p>Save groups of modules for different kinds of work.</p></div><span class="pill">WORKSPACE PRESETS</span></div>
+ <div class="hero batch-hero"><div class="eyebrow">SWITCH YOUR WORKFLOW</div><h2>One hub. <span>Different modes.</span></h2><p>Create profiles such as Study, Build or Focus. A profile opens its chosen modules in your KR-X workspace.</p></div>
+ <div class="card full"><h3>Create a profile</h3><div class="field"><label for="profileName">Profile name</label><input class="control" id="profileName" maxlength="50" placeholder="e.g. Study Mode"></div><div class="field"><label>Choose modules</label><div class="profile-checks" id="profileModuleChoices"></div></div><button class="btn primary" id="profileSave" type="button">Save profile</button></div>
+ <div class="card full"><h3>Saved profiles</h3><div class="list" id="profileList"><div class="empty">No profiles yet.</div></div></div>
+</section>
+
+<section class="page" id="page-quicklaunch">
+ <div class="section-head"><div><h2>QUICK LAUNCH</h2><p>Pin your favourite KR-X modules for one-tap access.</p></div><span class="pill">SHORTCUT DECK</span></div>
+ <div class="hero batch-hero"><div class="eyebrow">FAST ACCESS</div><h2>Less searching. <span>More doing.</span></h2><p>Add module shortcuts and arrange your personal launch deck.</p></div>
+ <div class="card full"><div class="row"><select id="quickPagePicker" class="control"><option value="dashboard">Dashboard</option><option value="assistant">AI Assistant</option><option value="workspace">Workspace</option><option value="planner">Planner</option><option value="learning">Learning Hub</option><option value="focus">Focus Mode</option><option value="agent">AI Agent</option><option value="memory">Smart Memory Bank</option><option value="decision">Decision Engine</option><option value="predict">Predict Engine</option><option value="widgets">Widget Engine</option><option value="events">Event Horizon</option><option value="plugins">Plugin Universe</option></select><button class="btn primary" id="quickAdd" type="button">＋ Pin shortcut</button></div></div>
+ <div class="quick-grid" id="quickGrid"></div>
+</section>
+
+<section class="page" id="page-clipboard">
+ <div class="section-head"><div><h2>SMART CLIPBOARD</h2><p>Keep reusable text snippets in a private local collection.</p></div><span class="pill">LOCAL SNIPPETS</span></div>
+ <div class="hero batch-hero"><div class="eyebrow">YOUR PERSONAL SNIPPET BOARD</div><h2>Save once. <span>Reuse anytime.</span></h2><p>Store study definitions, code fragments and frequently used text. Clipboard history is not monitored automatically.</p></div>
+ <div class="card full"><div class="field"><label for="clipTitle">Snippet title</label><input class="control" id="clipTitle" maxlength="70" placeholder="e.g. HTML starter"></div><div class="field"><label for="clipText">Snippet text</label><textarea class="control" id="clipText" rows="4" maxlength="4000" placeholder="Paste or write text here..."></textarea></div><button class="btn primary" id="clipSave" type="button">Save snippet</button></div>
+ <div class="card full"><div class="row" style="justify-content:space-between"><h3>Saved snippets</h3><span class="pill" id="clipCount">0 SAVED</span></div><input class="control" id="clipSearch" placeholder="Search snippets..."><div class="list" id="clipList"></div></div>
+</section>
+
+<section class="page" id="page-events">
+ <div class="section-head"><div><h2>EVENT HORIZON</h2><p>Keep track of important dates, deadlines and personal milestones.</p></div><span class="pill">TIMELINE</span></div>
+ <div class="hero batch-hero"><div class="eyebrow">LOOK AHEAD</div><h2>Know what's <span>coming next.</span></h2><p>Add your own events and see them ordered by date. Planner task deadlines appear in the timeline too.</p></div>
+ <div class="card full"><h3>Add an event</h3><div class="field"><label for="eventTitle">Event title</label><input class="control" id="eventTitle" maxlength="100" placeholder="e.g. Science project submission"></div><div class="field"><label for="eventDate">Date</label><input class="control" id="eventDate" type="date"></div><div class="field"><label for="eventNote">Notes (optional)</label><input class="control" id="eventNote" maxlength="180" placeholder="What should you remember?"></div><button class="btn primary" id="eventSave" type="button">Add to timeline</button></div>
+ <div class="card full"><div class="row" style="justify-content:space-between"><h3>Upcoming timeline</h3><button class="btn" id="eventRefresh" type="button">↻ Refresh</button></div><div class="list" id="eventList"></div></div>
+</section>
+
+<section class="page" id="page-plugins">
+ <div class="section-head"><div><h2>PLUGIN UNIVERSE</h2><p>Manage KR-X built-in extensions and open their modules.</p></div><span class="pill">EXTENSION MANAGER</span></div>
+ <div class="hero batch-hero"><div class="eyebrow">MODULAR KR-X</div><h2>Extend your <span>workspace.</span></h2><p>Enable or disable local KR-X extensions. These are built-in modules, not third-party cloud integrations.</p></div>
+ <div class="card full"><div class="row" style="justify-content:space-between"><h3>Available extensions</h3><span class="pill" id="pluginEnabledCount">0 ENABLED</span></div><div class="list" id="pluginList"></div></div>
+ <p class="small-note">External plugins and connected services require a secure integration and their own permissions. No external account is accessed from this page.</p>
 </section>
 
 <section class="page" id="page-agent">
@@ -1586,6 +1636,75 @@ $("voiceStop")?.addEventListener("click",()=>voiceRecognition?.stop());
 $("voiceClear")?.addEventListener("click",()=>{voiceText="";$("voiceTranscript").textContent="Your recognized words will appear here.";$("voiceSendChat").disabled=true;});
 $("voiceSendChat")?.addEventListener("click",()=>{if(!voiceText.trim())return;$("chatInput").value=voiceText;voiceText="";navigate("assistant");$("voiceSendChat").disabled=true;toast("Transcript placed in AI Assistant. Press Send to submit.");});
 
+
+/* Batch 2 local productivity engines */
+const batchModules=[["Dashboard","dashboard"],["AI Assistant","assistant"],["Workspace","workspace"],["Planner","planner"],["Learning Hub","learning"],["Focus Mode","focus"],["AI Agent","agent"],["Smart Memory Bank","memory"],["Decision Engine","decision"],["Predict Engine","predict"],["Widget Engine","widgets"],["Event Horizon","events"],["Plugin Universe","plugins"]];
+let krxWidgets=read("widgets",["tasks","notes","habits","memory"]);
+const widgetInfo={tasks:["Planner summary","Tasks saved in Planner"],notes:["Notes snapshot","Notes saved in Workspace"],habits:["Habit tracker","Habits recorded in KR-X"],memory:["Memory bank","Saved personal memories"],focus:["Focus sessions","Completed focus sessions"],date:["Date & time","Current local date and time"]};
+function widgetValue(key){
+ if(key==="tasks")return tasks.filter(t=>!t.done).length+" pending / "+tasks.length+" total";
+ if(key==="notes")return notes.length+" notes saved";
+ if(key==="habits")return (read("habits",[]).length||0)+" habits tracked";
+ if(key==="memory")return read("smartMemories",[]).length+" memories saved";
+ if(key==="focus")return (read("focusSessions",0)||0)+" completed sessions";
+ return new Date().toLocaleString();
+}
+function renderWidgets(){
+ const grid=$("widgetGrid");if(!grid)return;grid.replaceChildren();
+ if(!krxWidgets.length){const e=document.createElement("div");e.className="empty";e.textContent="Add a widget from the gallery.";grid.append(e);}
+ krxWidgets.forEach((key,index)=>{const info=widgetInfo[key];if(!info)return;const tile=document.createElement("article");tile.className="widget-tile";const title=document.createElement("strong");title.textContent=info[0];const value=document.createElement("div");value.className="widget-value";value.textContent=widgetValue(key);const desc=document.createElement("small");desc.className="muted";desc.textContent=info[1];const remove=document.createElement("button");remove.className="btn small";remove.textContent="Remove";remove.addEventListener("click",()=>{krxWidgets.splice(index,1);write("widgets",krxWidgets);renderWidgets();});tile.append(title,value,desc,remove);grid.append(tile);});
+}
+$("widgetAdd")?.addEventListener("click",()=>{const key=$("widgetPicker").value;if(krxWidgets.includes(key))return toast("That widget is already on your dashboard.");krxWidgets.push(key);write("widgets",krxWidgets);renderWidgets();toast("Widget added.");});renderWidgets();
+/* Workspace profiles are collections of module links; launch opens the first module and keeps the list available. */
+let krxProfiles=read("workspaceProfiles",[]);
+function renderProfileChoices(){
+ const box=$("profileModuleChoices");if(!box)return;box.replaceChildren();
+ batchModules.forEach(([name,id])=>{const label=document.createElement("label"),check=document.createElement("input");check.type="checkbox";check.value=id;check.checked=["workspace","planner"].includes(id);label.append(check,document.createTextNode(name));box.append(label);});
+}
+function renderProfiles(){
+ const box=$("profileList");if(!box)return;box.replaceChildren();
+ if(!krxProfiles.length){const e=document.createElement("div");e.className="empty";e.textContent="No profiles saved yet.";box.append(e);return;}
+ krxProfiles.forEach(p=>{const row=document.createElement("div");row.className="auto-item";const main=document.createElement("div");main.className="item-main";const title=document.createElement("strong");title.textContent=p.name;const desc=document.createElement("small");desc.className="muted";desc.textContent=p.pages.map(id=>(batchModules.find(x=>x[1]===id)||[id])[0]).join(" · ");main.append(title,desc);const actions=document.createElement("div");actions.className="auto-actions";p.pages.forEach(id=>{const b=document.createElement("button");b.className="btn small";b.textContent=(batchModules.find(x=>x[1]===id)||[id])[0];b.addEventListener("click",()=>navigate(id));actions.append(b);});const del=document.createElement("button");del.className="btn small danger";del.textContent="Delete";del.addEventListener("click",()=>{krxProfiles=krxProfiles.filter(x=>x.id!==p.id);write("workspaceProfiles",krxProfiles);renderProfiles();});actions.append(del);row.append(main,actions);box.append(row);});
+}
+$("profileSave")?.addEventListener("click",()=>{const name=$("profileName").value.trim(),pages=[...$("profileModuleChoices").querySelectorAll("input:checked")].map(x=>x.value);if(!name||!pages.length)return toast("Add a name and select at least one module.");krxProfiles.unshift({id:uid(),name:name.slice(0,50),pages});write("workspaceProfiles",krxProfiles);$("profileName").value="";renderProfiles();toast("Workspace profile saved.");});
+renderProfileChoices();renderProfiles();
+/* Quick Launch shortcuts */
+let krxQuick=read("quickLaunch",["dashboard","planner","workspace","assistant"]);
+function renderQuick(){
+ const box=$("quickGrid");if(!box)return;box.replaceChildren();
+ krxQuick.forEach((id,index)=>{const mod=batchModules.find(x=>x[1]===id);if(!mod)return;const tile=document.createElement("div");tile.className="quick-tile";const main=document.createElement("div");main.className="quick-main";const name=document.createElement("strong");name.textContent=mod[0];const small=document.createElement("small");small.textContent="KR-X module shortcut";main.append(name,small);const open=document.createElement("button");open.className="btn primary small";open.textContent="Open";open.addEventListener("click",()=>navigate(id));const remove=document.createElement("button");remove.className="btn small";remove.textContent="×";remove.title="Remove shortcut";remove.addEventListener("click",()=>{krxQuick.splice(index,1);write("quickLaunch",krxQuick);renderQuick();});tile.append(main,open,remove);box.append(tile);});
+ if(!krxQuick.length){const e=document.createElement("div");e.className="empty";e.textContent="No shortcuts pinned.";box.append(e);}
+}
+$("quickAdd")?.addEventListener("click",()=>{const id=$("quickPagePicker").value;if(krxQuick.includes(id))return toast("Already pinned.");krxQuick.push(id);write("quickLaunch",krxQuick);renderQuick();});renderQuick();
+/* Smart Clipboard: user-created snippets only; never monitors system clipboard. */
+let krxClips=read("smartClips",[]);
+function renderClips(){
+ const box=$("clipList");if(!box)return;const q=$("clipSearch").value.toLowerCase();const arr=krxClips.filter(x=>(x.title+" "+x.text).toLowerCase().includes(q));$("clipCount").textContent=krxClips.length+" SAVED";box.replaceChildren();
+ if(!arr.length){const e=document.createElement("div");e.className="empty";e.textContent="No matching snippets.";box.append(e);return;}
+ arr.forEach(c=>{const card=document.createElement("article");card.className="memory-entry";const title=document.createElement("strong");title.textContent=c.title;const body=document.createElement("p");body.textContent=c.text;const row=document.createElement("div");row.className="row";const copy=document.createElement("button");copy.className="btn small primary";copy.textContent="Copy";copy.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(c.text);toast("Copied to clipboard.");}catch{toast("Clipboard permission unavailable. Select and copy the text manually.");}});const del=document.createElement("button");del.className="btn small danger";del.textContent="Delete";del.addEventListener("click",()=>{krxClips=krxClips.filter(x=>x.id!==c.id);write("smartClips",krxClips);renderClips();});row.append(copy,del);card.append(title,body,row);box.append(card);});
+}
+$("clipSave")?.addEventListener("click",()=>{const title=$("clipTitle").value.trim(),textValue=$("clipText").value;if(!title||!textValue.trim())return toast("Add a title and snippet text.");krxClips.unshift({id:uid(),title:title.slice(0,70),text:textValue.slice(0,4000),createdAt:new Date().toISOString()});write("smartClips",krxClips);$("clipTitle").value="";$("clipText").value="";renderClips();toast("Snippet saved locally.");});
+$("clipSearch")?.addEventListener("input",renderClips);renderClips();
+/* Event Horizon merges user events with Planner due dates. */
+let krxEvents=read("events",[]);
+function renderEvents(){
+ const box=$("eventList");if(!box)return;box.replaceChildren();
+ const all=[...krxEvents.map(e=>({...e,kind:"event"})),...tasks.filter(t=>!t.done&&t.due).map(t=>({id:"task-"+t.id,title:t.text,date:t.due,note:"Planner task deadline",kind:"task"}))].filter(e=>e.date).sort((a,b)=>a.date.localeCompare(b.date));
+ if(!all.length){const e=document.createElement("div");e.className="empty";e.textContent="No upcoming events or task deadlines. Add an event above.";box.append(e);return;}
+ all.forEach(e=>{const row=document.createElement("div");row.className="auto-item";const main=document.createElement("div");main.className="item-main";const title=document.createElement("strong");title.textContent=e.title;const meta=document.createElement("small");meta.className="muted";meta.textContent=new Date(e.date+"T00:00:00").toLocaleDateString()+" · "+(e.kind==="task"?"Planner deadline":e.note||"Personal event");main.append(title,meta);row.append(main);if(e.kind==="event"){const del=document.createElement("button");del.className="btn small danger";del.textContent="Delete";del.addEventListener("click",()=>{krxEvents=krxEvents.filter(x=>x.id!==e.id);write("events",krxEvents);renderEvents();});row.append(del);}box.append(row);});
+}
+$("eventSave")?.addEventListener("click",()=>{const title=$("eventTitle").value.trim(),date=$("eventDate").value,note=$("eventNote").value.trim();if(!title||!date)return toast("Add an event title and date.");krxEvents.push({id:uid(),title:title.slice(0,100),date,note:note.slice(0,180)});write("events",krxEvents);$("eventTitle").value="";$("eventDate").value="";$("eventNote").value="";renderEvents();toast("Event added to timeline.");});
+$("eventRefresh")?.addEventListener("click",renderEvents);renderEvents();
+/* Plugin Universe manages built-in KR-X modules, not remote extensions. */
+const pluginCatalog=[["AI Agent","agent","Goal planning tools"],["Smart Memory Bank","memory","Local memory store"],["Decision Engine","decision","Option scoring"],["Predict Engine","predict","Planner progress outlook"],["Widget Engine","widgets","Dashboard widgets"],["Workspace Profiles","profiles","Saved module groups"],["Quick Launch","quicklaunch","Pinned shortcuts"],["Smart Clipboard","clipboard","Reusable text snippets"],["Event Horizon","events","Timeline and deadlines"]];
+let krxPlugins=read("plugins",Object.fromEntries(pluginCatalog.map(x=>[x[1],true])));
+function renderPlugins(){
+ const box=$("pluginList");if(!box)return;box.replaceChildren();let enabled=0;
+ pluginCatalog.forEach(([name,id,desc])=>{const row=document.createElement("div");row.className="auto-item";const main=document.createElement("div");main.className="item-main";const title=document.createElement("strong");title.textContent=name;const small=document.createElement("small");small.className="muted";small.textContent=desc;main.append(title,small);const toggle=document.createElement("input");toggle.type="checkbox";toggle.checked=krxPlugins[id]!==false;if(toggle.checked)enabled++;toggle.setAttribute("aria-label","Enable "+name);toggle.addEventListener("change",()=>{krxPlugins[id]=toggle.checked;write("plugins",krxPlugins);renderPlugins();});const open=document.createElement("button");open.className="btn small";open.textContent="Open";open.disabled=!toggle.checked;open.addEventListener("click",()=>navigate(id));row.append(main,toggle,open);box.append(row);});
+ $("pluginEnabledCount").textContent=enabled+" ENABLED";
+}
+renderPlugins();
+
 let chatHistory=read("chatHistory",[]);
 function assistantReply(q){
  const raw=String(q||"").trim(),s=raw.toLowerCase()
@@ -1698,7 +1817,13 @@ function studioDocument(){
   ["Smart Memory Bank","memory","▤","Save and search your private local memories"],
   ["Decision Engine","decision","⚖","Compare options using transparent ratings"],
   ["Predict Engine","predict","◷","View a progress estimate from Planner data"],
-  ["Voice Command","voice","🎙","Navigate and dictate using browser speech recognition"]
+  ["Voice Command","voice","🎙","Navigate and dictate using browser speech recognition"],
+  ["Widget Engine","widgets","▦","Build a personal dashboard from local data"],
+  ["Workspace Profiles","profiles","◫","Save and switch module groups"],
+  ["Quick Launch","quicklaunch","⚡","Pin favourite KR-X modules"],
+  ["Smart Clipboard","clipboard","▣","Save reusable local text snippets"],
+  ["Event Horizon","events","◷","Track upcoming dates and deadlines"],
+  ["Plugin Universe","plugins","◇","Manage built-in KR-X extensions"]
  ];
  const actions = [
   ["Create a note","new-note","＋","Open Workspace and focus the note title"],
@@ -1714,7 +1839,13 @@ function studioDocument(){
   ["Open Smart Memory Bank","open-memory","▤","Save and find local memories"],
   ["Open Decision Engine","open-decision","⚖","Compare two choices"],
   ["Open Predict Engine","open-predict","◷","Review your Planner progress outlook"],
-  ["Open Voice Command","open-voice","🎙","Use speech navigation and dictation"]
+  ["Open Voice Command","open-voice","🎙","Use speech navigation and dictation"],
+  ["Open Widget Engine","open-widgets","▦","Customize your dashboard widgets"],
+  ["Open Workspace Profiles","open-profiles","◫","Switch workspace profiles"],
+  ["Open Quick Launch","open-quicklaunch","⚡","Open pinned module shortcuts"],
+  ["Open Smart Clipboard","open-clipboard","▣","Manage saved snippets"],
+  ["Open Event Horizon","open-events","◷","View upcoming events"],
+  ["Open Plugin Universe","open-plugins","◇","Manage built-in extensions"]
  ];
  let recent = [];
  try { recent = JSON.parse(localStorage.getItem("krx-recent-pages") || "[]"); if(!Array.isArray(recent)) recent=[]; } catch { recent=[]; }
@@ -1748,6 +1879,12 @@ function studioDocument(){
   if(id==="open-decision"){window.navigate("decision");return;}
   if(id==="open-predict"){window.navigate("predict");return;}
   if(id==="open-voice"){window.navigate("voice");return;}
+  if(id==="open-widgets"){window.navigate("widgets");return;}
+  if(id==="open-profiles"){window.navigate("profiles");return;}
+  if(id==="open-quicklaunch"){window.navigate("quicklaunch");return;}
+  if(id==="open-clipboard"){window.navigate("clipboard");return;}
+  if(id==="open-events"){window.navigate("events");return;}
+  if(id==="open-plugins"){window.navigate("plugins");return;}
   const page=pages.find(p=>p[1]===id);if(page)window.navigate(id);
  }
  function renderCommands(){
@@ -1796,7 +1933,7 @@ function studioDocument(){
   ["Workspace","workspace"],["Planner","planner"],["Tools Lab","tools"],
   ["Learning Hub","learning"],["Advanced Tools","advanced"],["Habits & Insights","routines"],
   ["Notification Center","notifications"],["Focus Mode","focus"],["KR-X Brain","brain"],
-  ["KR-X Vault","vault"],["Settings","settings"],["Command Center","command"],["NEXUS CORE","nexus"],["Automation Engine","automation"],["AI Agent","agent"],["Smart Memory Bank","memory"],["Decision Engine","decision"],["Predict Engine","predict"],["Voice Command","voice"]
+  ["KR-X Vault","vault"],["Settings","settings"],["Command Center","command"],["NEXUS CORE","nexus"],["Automation Engine","automation"],["AI Agent","agent"],["Smart Memory Bank","memory"],["Decision Engine","decision"],["Predict Engine","predict"],["Voice Command","voice"],["Widget Engine","widgets"],["Workspace Profiles","profiles"],["Quick Launch","quicklaunch"],["Smart Clipboard","clipboard"],["Event Horizon","events"],["Plugin Universe","plugins"]
  ];
  let z=20,serial=0,layouts={};
  try{layouts=JSON.parse(localStorage.getItem("krx-window-layouts")||"{}");if(!layouts||typeof layouts!=="object")layouts={};}catch{layouts={};}
