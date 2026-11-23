@@ -1195,6 +1195,11 @@ body.krx-a11y-motion-reduce *{scroll-behavior:auto!important;animation-duration:
 <button data-page="transfervalidator"><span class="ico">✓</span>Transfer Validator</button>
 <button data-page="devicereadiness"><span class="ico">◉</span>Device Readiness Check</button>
 <button data-page="workspaceaudit"><span class="ico">⌕</span>Workspace Audit</button>
+<button data-page="systemmetrics"><span class="ico">◈</span>System Metrics Dashboard</button>
+<button data-page="localdatahealth"><span class="ico">♥</span>Local Data Health</button>
+<button data-page="performancewatch"><span class="ico">⌁</span>Performance Watch</button>
+<button data-page="cleanupadvisor"><span class="ico">✧</span>Cleanup Advisor</button>
+<button data-page="optimizationadvisor"><span class="ico">⚙</span>Self-Optimization Advisor</button>
   <button data-page="assistant"><span class="ico"><svg class="krx-ai-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3.5 19.2 12.8 28.5 16 19.2 19.2 16 28.5 12.8 19.2 3.5 16 12.8 12.8Z"/><path d="M25.5 3.5v5M23 6h5M6.5 23.5v5M4 26h5"/></svg></span>AI Assistant</button>
   <button data-page="security"><span class="ico">◈</span>Security Center</button>
   <button data-page="workspace"><span class="ico">▤</span>Workspace</button>
@@ -1814,6 +1819,12 @@ button{padding:10px 16px;border:0;border-radius:8px;background:#35e6ff;color:#06
 <section class="page" id="page-transfervalidator"><div class="section-head"><div><h2>TRANSFER VALIDATOR</h2><p>Inspect a JSON file before using KR-X's import tools.</p></div><span class="pill">READ-ONLY CHECK</span></div><div class="card full"><label>Select a JSON file<input class="input" id="tvFile" type="file" accept=".json,application/json"></label><div class="list" id="tvResult" style="margin-top:14px"><div class="empty">Choose a JSON file to inspect its structure.</div></div><p class="small-note">The file is read locally in this browser. Nothing is uploaded or imported.</p></div></section>
 <section class="page" id="page-devicereadiness"><div class="section-head"><div><h2>DEVICE READINESS CHECK</h2><p>Review browser capabilities that may affect KR-X features.</p></div><span class="pill">DEVICE STATUS</span></div><div class="card full"><button class="btn primary" id="drRun">Run readiness check</button><div class="list" id="drList" style="margin-top:14px"></div></div></section>
 <section class="page" id="page-workspaceaudit"><div class="section-head"><div><h2>WORKSPACE AUDIT</h2><p>Check that KR-X navigation entries point to existing page sections.</p></div><span class="pill">LOCAL STRUCTURE CHECK</span></div><div class="card full"><button class="btn primary" id="waRun">Run workspace audit</button><div class="list" id="waList" style="margin-top:14px"></div></div></section>
+
+<section class="page" id="page-systemmetrics"><div class="section-head"><div><h2>SYSTEM METRICS DASHBOARD</h2><p>Local browser and KR-X storage measurements, not device-wide diagnostics.</p></div><span class="pill">LIVE SNAPSHOT</span></div><div class="grid"><div class="card"><div class="stat" id="smKeys">—</div><div class="stat-label">KR-X storage keys</div></div><div class="card"><div class="stat" id="smBytes">—</div><div class="stat-label">Estimated stored characters</div></div><div class="card"><div class="stat" id="smPages">—</div><div class="stat-label">Sidebar pages</div></div><div class="card"><div class="stat" id="smOnline">—</div><div class="stat-label">Connection status</div></div><div class="card full"><button class="btn primary" id="smRefresh">Refresh metrics</button><div class="list" id="smList" style="margin-top:12px"></div></div></div></section>
+<section class="page" id="page-localdatahealth"><div class="section-head"><div><h2>LOCAL DATA HEALTH</h2><p>Read-only inspection of KR-X browser storage entries.</p></div><span class="pill">READ ONLY</span></div><div class="card full"><button class="btn primary" id="ldhRun">Scan local data</button><div class="list" id="ldhList" style="margin-top:14px"></div><p class="small-note">Some entries may intentionally be plain text. A parse warning does not automatically mean data is damaged.</p></div></section>
+<section class="page" id="page-performancewatch"><div class="section-head"><div><h2>PERFORMANCE WATCH</h2><p>Measure page timing and supported browser performance indicators.</p></div><span class="pill">BROWSER METRICS</span></div><div class="card full"><button class="btn primary" id="pwRun">Measure now</button><div class="list" id="pwList" style="margin-top:14px"></div><p class="small-note">Results are estimates from this browser session, not a full device benchmark.</p></div></section>
+<section class="page" id="page-cleanupadvisor"><div class="section-head"><div><h2>CLEANUP ADVISOR</h2><p>Find possible cleanup opportunities. Nothing is deleted automatically.</p></div><span class="pill">SAFE REVIEW</span></div><div class="card full"><button class="btn primary" id="caRun">Analyze local data</button><div class="list" id="caList" style="margin-top:14px"></div></div></section>
+<section class="page" id="page-optimizationadvisor"><div class="section-head"><div><h2>SELF-OPTIMIZATION ADVISOR</h2><p>Transparent suggestions based on simple local rules and available KR-X settings.</p></div><span class="pill">RULE-BASED</span></div><div class="card full"><button class="btn primary" id="oaRun">Generate suggestions</button><div class="list" id="oaList" style="margin-top:14px"></div><p class="small-note">Suggestions are not machine learning or automatic system changes. You stay in control.</p></div></section>
 </section>
 </footer>
 </main>
@@ -2523,7 +2534,12 @@ function studioDocument(){
   ["Device Handoff Center","handoffcenter","⇄","Prepare a manual handoff note for another device"],
   ["Transfer Validator","transfervalidator","✓","Inspect a KR-X JSON transfer file before import"],
   ["Device Readiness Check","devicereadiness","◉","Review browser and device capabilities"],
-  ["Workspace Audit","workspaceaudit","⌕","Check navigation and module page consistency"]
+  ["Workspace Audit","workspaceaudit","⌕","Check navigation and module page consistency"],
+  ["System Metrics Dashboard","systemmetrics","◈","View browser storage and workspace record metrics"],
+  ["Local Data Health","localdatahealth","♥","Inspect KR-X local data structure and parse health"],
+  ["Performance Watch","performancewatch","⌁","Review page timing and browser performance indicators"],
+  ["Cleanup Advisor","cleanupadvisor","✧","Find possible local data cleanup opportunities without deleting anything"],
+  ["Self-Optimization Advisor","optimizationadvisor","⚙","Get transparent rule-based suggestions for improving your KR-X setup"]
  ];
  const actions = [
   ["Create a note","new-note","＋","Open Workspace and focus the note title"],
@@ -2642,7 +2658,12 @@ function studioDocument(){
   ["Open Device Handoff Center","handoffcenter","⇄","Prepare a manual handoff note for another device"],
   ["Open Transfer Validator","transfervalidator","✓","Inspect a KR-X JSON transfer file before import"],
   ["Open Device Readiness Check","devicereadiness","◉","Review browser and device capabilities"],
-  ["Open Workspace Audit","workspaceaudit","⌕","Check navigation and module page consistency"]
+  ["Open Workspace Audit","workspaceaudit","⌕","Check navigation and module page consistency"],
+  ["Open System Metrics Dashboard","systemmetrics","◈","View browser storage and workspace record metrics"],
+  ["Open Local Data Health","localdatahealth","♥","Inspect KR-X local data structure and parse health"],
+  ["Open Performance Watch","performancewatch","⌁","Review page timing and browser performance indicators"],
+  ["Open Cleanup Advisor","cleanupadvisor","✧","Find possible local data cleanup opportunities without deleting anything"],
+  ["Open Self-Optimization Advisor","optimizationadvisor","⚙","Get transparent rule-based suggestions for improving your KR-X setup"]
  ];
  let recent = [];
  try { recent = JSON.parse(localStorage.getItem("krx-recent-pages") || "[]"); if(!Array.isArray(recent)) recent=[]; } catch { recent=[]; }
@@ -2835,7 +2856,12 @@ function studioDocument(){
   ["Device Handoff Center","handoffcenter"],
   ["Transfer Validator","transfervalidator"],
   ["Device Readiness Check","devicereadiness"],
-  ["Workspace Audit","workspaceaudit"]
+  ["Workspace Audit","workspaceaudit"],
+  ["System Metrics Dashboard","systemmetrics"],
+  ["Local Data Health","localdatahealth"],
+  ["Performance Watch","performancewatch"],
+  ["Cleanup Advisor","cleanupadvisor"],
+  ["Self-Optimization Advisor","optimizationadvisor"]
  ];
  let z=20,serial=0,layouts={};
  try{layouts=JSON.parse(localStorage.getItem("krx-window-layouts")||"{}");if(!layouts||typeof layouts!=="object")layouts={};}catch{layouts={};}
@@ -3323,7 +3349,7 @@ setGate(!!saved());
 ["Reflection Insights","reflectioninsights","✧"],
 ["Preference Lab","preferencelab","⚙"],
 ["Knowledge Curator","knowledgecurator","▣"],
-["Personal Operating Manual","operatingmanual","▤"],["Command History","commandhistory","◷"],["System Switchboard","systemswitchboard","⛭"],["Session Recorder","sessionrecorder","▤"],["Control Profiles","controlprofiles","◫"],["Quick Action Builder","quickactionbuilder","⚡"],["Workspace Blueprint Studio","workspaceblueprints","▦"],["Device Handoff Center","handoffcenter","⇄"],["Transfer Validator","transfervalidator","✓"],["Device Readiness Check","devicereadiness","◉"],["Workspace Audit","workspaceaudit","⌕"]];
+["Personal Operating Manual","operatingmanual","▤"],["Command History","commandhistory","◷"],["System Switchboard","systemswitchboard","⛭"],["Session Recorder","sessionrecorder","▤"],["Control Profiles","controlprofiles","◫"],["Quick Action Builder","quickactionbuilder","⚡"],["Workspace Blueprint Studio","workspaceblueprints","▦"],["Device Handoff Center","handoffcenter","⇄"],["Transfer Validator","transfervalidator","✓"],["Device Readiness Check","devicereadiness","◉"],["Workspace Audit","workspaceaudit","⌕"],["System Metrics Dashboard","systemmetrics","◈"],["Local Data Health","localdatahealth","♥"],["Performance Watch","performancewatch","⌁"],["Cleanup Advisor","cleanupadvisor","✧"],["Self-Optimization Advisor","optimizationadvisor","⚙"]];
  const dataKeys=[["Notes","notes"],["Tasks","tasks"],["Bookmarks","bookmarks"],["Knowledge notes","knowledge"],["Learning progress","learningProgress"],["Chat history","chatHistory"],["Habits","habits"],["Notifications","notifications"],["Accessibility preferences","accessibilityPrefs"],["Onboarding progress","onboardingProgress"]];
  function readLocal(key){try{return JSON.parse(localStorage.getItem("krx-"+key));}catch{return null;}}
  function countRecords(value){if(Array.isArray(value))return value.length;if(value&&typeof value==="object")return Object.keys(value).length;return value==null?0:1;}
@@ -3876,6 +3902,19 @@ bind("hcExport",()=>{const title=$("hcTitle").value.trim();if(!title)return;cons
 const file=$("tvFile");if(file)file.addEventListener("change",async()=>{const out=$("tvResult"),f=file.files?.[0];if(!f)return;try{const raw=await f.text(),v=JSON.parse(raw);let checks=[];checks.push(["Valid JSON","Passed"]);checks.push(["Top-level type",Array.isArray(v)?"Array":typeof v]);if(v&&typeof v==="object"&&!Array.isArray(v)){checks.push(["Recognized KR-X export",!!(v.data||v.records||v.version||v.exportedAt||v.app)]);checks.push(["Top-level keys",Object.keys(v).slice(0,20).join(", ")||"None"]);}out.innerHTML=checks.map(x=>'<div class="item"><div class="item-title">'+esc(x[0])+'</div><div class="item-meta">'+esc(x[1])+'</div></div>').join("")+'<div class="item"><div class="item-meta">File size: '+esc(f.size)+' bytes. This is a structural check only, not a guarantee that the file is safe or compatible.</div></div>';}catch(e){out.innerHTML='<div class="item"><div class="item-title">Could not parse JSON</div><div class="item-meta">Check that the selected file is valid JSON.</div></div>'}});
 bind("drRun",()=>{const rows=[["Internet",navigator.onLine?"Online":"Offline"],["Local storage",(()=>{try{localStorage.setItem(K+"test","1");localStorage.removeItem(K+"test");return"Available"}catch{return"Unavailable"}})()],["Clipboard API",navigator.clipboard?"Available (permission may be required)":"Not available"],["Service worker",("serviceWorker" in navigator)?"Supported by browser":"Not supported"],["Screen",screen.width+" × "+screen.height],["Browser language",navigator.language||"Unknown"]];$("drList").innerHTML=rows.map(x=>'<div class="item"><div class="item-title">'+esc(x[0])+'</div><div class="item-meta">'+esc(x[1])+'</div></div>').join("")});$("drRun")?.click();
 bind("waRun",()=>{const nav=[...document.querySelectorAll("#navigation [data-page]")],rows=nav.map(b=>{const id=b.dataset.page;return [b.textContent.trim(),!!document.getElementById("page-"+id)]});const ok=rows.filter(x=>x[1]).length,box=$("waList");box.innerHTML='<div class="item"><div class="item-title">Navigation check: '+ok+'/'+rows.length+' pages found</div><div class="item-meta">Checks sidebar targets against page section IDs.</div></div>'+rows.filter(x=>!x[1]).map(x=>'<div class="item"><div class="item-title">'+esc(x[0])+'</div><div class="item-meta">Page section missing</div></div>').join("")+(ok===rows.length?'<div class="item"><div class="item-title">All sidebar targets have matching sections.</div></div>':"")});$("waRun")?.click();
+})();
+</script>
+
+<script>
+(()=>{"use strict";
+const $=id=>document.getElementById(id),esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const bind=(id,fn)=>$(id)&&$(id).addEventListener("click",fn);
+function metric(){let keys=0,chars=0;const rows=[];for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(!k||!k.startsWith("krx-"))continue;const v=localStorage.getItem(k)||"";keys++;chars+=k.length+v.length;rows.push({k,v})}const pages=document.querySelectorAll("#navigation [data-page]").length;$("smKeys").textContent=keys;$("smBytes").textContent=chars.toLocaleString();$("smPages").textContent=pages;$("smOnline").textContent=navigator.onLine?"Online":"Offline";$("smList").innerHTML=[["Browser storage estimate",chars.toLocaleString()+" characters"],["Storage API",typeof localStorage!=="undefined"?"Available":"Unavailable"],["Last refreshed",new Date().toLocaleString()]].map(x=>'<div class="item"><div class="item-title">'+esc(x[0])+'</div><div class="item-meta">'+esc(x[1])+'</div></div>').join("")}
+bind("smRefresh",metric);metric();
+bind("ldhRun",()=>{let good=0,plain=0,empty=0,bad=0,items=[];for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(!k?.startsWith("krx-"))continue;const raw=localStorage.getItem(k)??"";if(!raw){empty++;items.push([k,"Empty value"]);continue}try{JSON.parse(raw);good++}catch{plain++;items.push([k,"Plain text or non-JSON value"])}}$("ldhList").innerHTML='<div class="item"><div class="item-title">JSON-readable entries: '+good+'</div><div class="item-meta">Plain-text entries: '+plain+' · Empty entries: '+empty+'</div></div>'+items.slice(0,40).map(x=>'<div class="item"><div class="item-title">'+esc(x[0])+'</div><div class="item-meta">'+esc(x[1])+'</div></div>').join("")});$("ldhRun")?.click();
+bind("pwRun",()=>{const nav=performance.getEntriesByType?.("navigation")?.[0],mem=performance.memory,rows=[["Page load duration",nav?Math.round(nav.loadEventEnd||nav.duration)+" ms":"Not available"],["DOM content loaded",nav?Math.round(nav.domContentLoadedEventEnd)+" ms":"Not available"],["JS heap used",mem?Math.round(mem.usedJSHeapSize/1048576)+" MB":"Not exposed by this browser"],["JS heap limit",mem?Math.round(mem.jsHeapSizeLimit/1048576)+" MB":"Not exposed by this browser"],["Frame timing API",typeof PerformanceObserver!=="undefined"?"Supported":"Unavailable"]];$("pwList").innerHTML=rows.map(x=>'<div class="item"><div class="item-title">'+esc(x[0])+'</div><div class="item-meta">'+esc(x[1])+'</div></div>').join("")});$("pwRun")?.click();
+bind("caRun",()=>{let candidates=[];for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i),v=localStorage.getItem(k)||"";if(k?.startsWith("krx-")&&!v.trim())candidates.push([k,"Empty storage value"]);}const b=$("caList");b.innerHTML='<div class="item"><div class="item-title">Potential cleanup candidates: '+candidates.length+'</div><div class="item-meta">Only empty KR-X storage values are listed. No data was changed.</div></div>'+(candidates.map(x=>'<div class="item"><div class="item-title">'+esc(x[0])+'</div><div class="item-meta">'+esc(x[1])+'</div></div>').join("")||'<div class="empty">No obvious empty KR-X values found.</div>')});$("caRun")?.click();
+bind("oaRun",()=>{const tips=[];const tasks=(()=>{try{return JSON.parse(localStorage.getItem("krx-tasks")||"[]")}catch{return[]}})();const notes=(()=>{try{return JSON.parse(localStorage.getItem("krx-notes")||"[]")}catch{return[]}})();if(!tasks.length)tips.push("Add your current tasks in Planner so KR-X can show more useful task summaries.");else tips.push("Review Planner tasks regularly and archive completed items when appropriate.");if(!notes.length)tips.push("Use Workspace or Quick Capture to keep important project notes in one place.");if(!localStorage.getItem("krx-experience"))tips.push("Set your preferred layout and start page in Experience Engine.");if(!localStorage.getItem("krx-b16-profiles"))tips.push("Create a Control Profile for your most-used pages.");if(navigator.storage?.estimate)tips.push("Browser storage estimate is available; keep important data backed up with Data Manager.");tips.push("Use manual exports as backups. KR-X does not automatically sync browser storage to other devices.");$("oaList").innerHTML=tips.map(x=>'<div class="item"><div class="item-title">Suggestion</div><div class="item-meta">'+esc(x)+'</div></div>').join("")});$("oaRun")?.click();
 })();
 </script>
 </html>
