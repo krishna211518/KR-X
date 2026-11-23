@@ -654,7 +654,7 @@ main{margin-left:216px;width:calc(100% - 216px);max-width:1500px;padding:24px cl
 .dash-welcome-mark{font-size:30px;font-weight:950;letter-spacing:-2px;color:#9cc5ff;text-shadow:0 0 30px #4d8dff66;opacity:.85}
 .dash-search{padding:15px 18px 13px;border:1px solid #45649b;border-radius:17px;background:linear-gradient(120deg,#071b39ed,#071a39eF);box-shadow:0 15px 40px #0003,inset 0 1px #ffffff10;margin-bottom:18px}
 .dash-search-input{display:flex;align-items:center;gap:12px}.dash-search-input>span{font-size:28px;color:#a9c9ff}.dash-search-input input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:#fff;font-size:17px;padding:10px 0}.dash-search-input input::placeholder{color:#9aacca}
-.dash-search-go{width:48px;height:43px;border:0;border-radius:11px;background:linear-gradient(120deg,#376cff,#294ce0);color:#fff;font-size:25px}
+.dash-search-clear{width:38px;height:38px;border:1px solid #36557a;border-radius:10px;background:#102744;color:#dceaff;font-size:23px;line-height:1}.dash-search-clear:hover{border-color:var(--cyan);color:#fff}.dash-search-go{width:48px;height:43px;border:0;border-radius:11px;background:linear-gradient(120deg,#376cff,#294ce0);color:#fff;font-size:25px}
 .dash-search-shortcuts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.dash-search-shortcuts button{padding:7px 12px;border:1px solid #294777;border-radius:9px;background:#0b2245;color:#e5efff;font-size:12px}.dash-search-shortcuts button:hover{border-color:#75aaff;background:#12366b}
 .dash-search-results{margin-top:10px}.dash-search-results:empty{display:none}.dash-search-results .empty{padding:8px;border:0;text-align:left}
 .dash-quick-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin:0 0 18px}
@@ -744,7 +744,7 @@ main{margin-left:216px;width:calc(100% - 216px);max-width:1500px;padding:24px cl
   <div class="dash-welcome-mark">KR-X</div>
  </div>
  <div class="dash-search">
-  <div class="dash-search-input"><span>⌕</span><input id="globalSearch" type="search" placeholder="Search anything in KR-X..." aria-label="Search KR-X"><button class="dash-search-go" type="button" onclick="document.getElementById('globalSearch').focus()">→</button></div>
+  <div class="dash-search-input"><span>⌕</span><input id="globalSearch" type="search" placeholder="Search anything in KR-X..." aria-label="Search KR-X"><button id="clearGlobalSearch" class="dash-search-clear" type="button" aria-label="Clear search" title="Clear search">×</button><button class="dash-search-go" type="button" onclick="document.getElementById('globalSearch').focus()" aria-label="Focus search">→</button></div>
   <div class="dash-search-shortcuts"><button type="button" data-go="assistant">✦ Ask KR-X</button><button type="button" data-go="workspace">▤ Notes</button><button type="button" data-go="planner">✓ Tasks</button><button type="button" data-go="focus">◷ Focus</button><button type="button" data-go="tools">⌘ Tools</button></div>
   <div id="globalSearchResults" class="list dash-search-results" aria-live="polite"><div class="empty">Search your notes, tasks, learning and KR-X tools.</div></div>
  </div>
