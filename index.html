@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#07111f">
 <meta name="description" content="KR-X NEBULA X — technology learning, productivity, tools and digital safety in one responsive workspace.">
+<meta name="krx-build" content="2026-11-23-batch6">
 <title>KR-X | NEBULA X Technology Workspace</title>
 <style>
 :root{--bg:#07111f;--panel:#0d1b2d;--panel2:#10243a;--line:#203b55;--text:#edf6ff;--muted:#9bb0c5;--cyan:#48d9e8;--blue:#5597ff;--green:#6ce6b0;--red:#ff8585;--shadow:0 18px 55px #0005}
@@ -1019,6 +1020,27 @@ body{
 .light .window-launch small{color:#526c85}
 </style>
 
+/* Batch 6 local-first polish */
+body.krx-a11y-large{font-size:17px}
+body.krx-a11y-contrast:not(.light){--muted:#c5d7e8;--line:#557893}
+body.light.krx-a11y-contrast{--muted:#344c63;--line:#657f97}
+body.krx-a11y-motion-reduce *{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+@media(prefers-reduced-motion:reduce){body:not(.krx-a11y-motion-allow) *{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+.batch6-note{font-size:12px;color:var(--muted);margin:10px 0 0}
+.batch6-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.batch6-metric{padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+.batch6-metric strong{display:block;font-size:22px;color:var(--cyan);overflow-wrap:anywhere}
+.batch6-metric span{font-size:12px;color:var(--muted)}
+.batch6-status{padding:11px;border:1px solid var(--line);border-radius:10px;background:var(--card);margin:10px 0}
+.batch6-help{padding:13px;border:1px solid var(--line);border-radius:11px;background:var(--card);margin:9px 0}
+.batch6-help h3{margin:0 0 6px}.batch6-help p{margin:0;color:var(--muted)}
+.batch6-data-key{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--line);border-radius:9px;background:var(--card);overflow-wrap:anywhere}
+.batch6-data-key input{accent-color:var(--cyan);flex:none}
+.batch6-data-key span{flex:1;min-width:0}.batch6-data-key small{color:var(--muted);white-space:nowrap}
+#helpResults{display:grid;gap:8px}
+.sidebar>div:has(.nav){flex:1;min-height:0;overflow-y:auto;scrollbar-width:thin}
+@media(max-width:850px){.sidebar>div:has(.nav){flex:initial;min-height:auto;overflow-y:visible}}
+
 </head>
 <body>
 
@@ -1078,6 +1100,14 @@ body{
   <button data-page="ambient"><span class="ico">☾</span>Ambient Mode</button>
   <button data-page="bridge"><span class="ico">⇄</span>Multi-Device Bridge</button>
   <button data-page="experience"><span class="ico">✧</span>Experience Engine</button>
+  <button data-page="updates"><span class="ico">↻</span>Update Center</button>
+  <button data-page="diagnostics"><span class="ico">◉</span>Diagnostics Center</button>
+  <button data-page="performance"><span class="ico">⌁</span>Performance Engine</button>
+  <button data-page="offline"><span class="ico">◌</span>Offline Engine</button>
+  <button data-page="accessibility"><span class="ico">◎</span>Accessibility Engine</button>
+  <button data-page="onboarding"><span class="ico">✦</span>Smart Onboarding</button>
+  <button data-page="datamanager"><span class="ico">▤</span>Data Manager</button>
+  <button data-page="help"><span class="ico">?</span>Help Center</button>
   <button data-page="assistant"><span class="ico"><svg class="krx-ai-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3.5 19.2 12.8 28.5 16 19.2 19.2 16 28.5 12.8 19.2 3.5 16 12.8 12.8Z"/><path d="M25.5 3.5v5M23 6h5M6.5 23.5v5M4 26h5"/></svg></span>AI Assistant</button>
   <button data-page="security"><span class="ico">◈</span>Security Center</button>
   <button data-page="workspace"><span class="ico">▤</span>Workspace</button>
@@ -1286,6 +1316,15 @@ body{
  <div class="card full"><div class="field"><label for="experienceDensity">Layout density</label><select id="experienceDensity" class="control"><option value="comfortable">Comfortable</option><option value="compact">Compact</option></select></div><div class="field"><label for="experienceAccent">Accent color</label><select id="experienceAccent" class="control"><option value="cyan">Ocean cyan</option><option value="violet">Violet</option><option value="emerald">Emerald</option><option value="amber">Amber</option></select></div><div class="field"><label for="experienceHome">Preferred start page</label><select id="experienceHome" class="control"><option value="dashboard">Dashboard</option><option value="planner">Planner</option><option value="workspace">Workspace</option><option value="mission">Mission Control</option><option value="learning">Learning Hub</option></select></div><div class="row"><button class="btn primary" id="experienceSave" type="button">Save preferences</button><button class="btn" id="experienceReset" type="button">Reset preferences</button></div><p class="muted" id="experienceStatus"></p></div>
 </section>
 
+
+<section class="page" id="page-updates"><div class="section-head"><div><h2>UPDATE CENTER</h2><p>Check the published KR-X source and refresh this app when a newer build is available.</p></div><span class="pill">MANUAL UPDATE CHECK</span></div><div class="hero batch-hero"><div class="eyebrow">CHECK • REVIEW • RELOAD</div><h2>Keep KR-X <span>up to date.</span></h2><p>Updates are checked only when you ask. The check reads the public KR-X source version; it never sends your browser data.</p></div><div class="grid"><div class="card"><h3>Installed build</h3><div class="stat" id="updateCurrentBuild">—</div><div class="stat-label">Build marker embedded in this page</div></div><div class="card"><h3>Connection</h3><div class="stat" id="updateNetworkState">—</div><div class="stat-label">Browser network status</div></div><div class="card full"><h3>Update check</h3><p class="muted">A newer source can appear before GitHub Pages finishes publishing it. Wait for the site deployment, then reload.</p><div class="row"><button class="btn primary" id="updateCheck" type="button">↻ Check for updates</button><button class="btn" id="updateReload" type="button">Reload KR-X</button></div><div class="batch6-status" id="updateStatus" role="status" aria-live="polite">No update check has been run.</div><p class="batch6-note">Manual checks contact raw.githubusercontent.com for the public index.html only. Your notes, tasks and other local records are not included.</p></div></div></section>
+<section class="page" id="page-diagnostics"><div class="section-head"><div><h2>DIAGNOSTICS CENTER</h2><p>Review this browser session and KR-X storage health without displaying stored values.</p></div><span class="pill">LOCAL DIAGNOSTICS</span></div><div class="hero batch-hero"><div class="eyebrow">INSPECT • SUMMARIZE • EXPORT</div><h2>See how KR-X <span>is running.</span></h2><p>Diagnostics use browser-reported capabilities and KR-X key names. The report excludes the contents of your saved records.</p></div><div class="card full"><div class="row"><button class="btn primary" id="diagnosticsRun" type="button">↻ Refresh diagnostics</button><button class="btn" id="diagnosticsExport" type="button">Export summary</button><span class="muted" id="diagnosticsUpdated">Not collected yet.</span></div><div class="batch6-metrics" id="diagnosticsMetrics"></div><div class="list" id="diagnosticsDetails"></div><p class="batch6-note">This is a browser-level snapshot, not a security scan or operating-system report. Exported diagnostics include KR-X key names only, never saved values.</p></div></section>
+<section class="page" id="page-performance"><div class="section-head"><div><h2>PERFORMANCE ENGINE</h2><p>Measure page timing and a short animation-frame sample in this tab.</p></div><span class="pill">BROWSER TIMING</span></div><div class="hero batch-hero"><div class="eyebrow">MEASURE • UNDERSTAND • IMPROVE</div><h2>Check your workspace <span>performance.</span></h2><p>These estimates come from the browser Performance API. They are not a hardware benchmark and may vary with other open tabs.</p></div><div class="card full"><div class="row"><button class="btn" id="performanceRefresh" type="button">↻ Refresh page metrics</button><button class="btn primary" id="performanceFrames" type="button">Measure animation frames</button></div><div class="batch6-metrics" id="performanceMetrics"></div><div class="batch6-status" id="performanceStatus" role="status" aria-live="polite">Page metrics are ready.</div><p class="batch6-note">The frame sample runs for about one second and stays in this browser tab. Resource transfer sizes can be unavailable for cached or cross-origin files.</p></div></section>
+<section class="page" id="page-offline"><div class="section-head"><div><h2>OFFLINE ENGINE</h2><p>Check whether this browser has KR-X's service worker and cached app shell.</p></div><span class="pill">DEVICE-LOCAL STATUS</span></div><div class="hero batch-hero"><div class="eyebrow">CONNECT • CACHE • CONTINUE</div><h2>Know what works <span>offline.</span></h2><p>KR-X can use its cached app shell when offline after it has loaded successfully online. Browser online status does not prove that the internet is reachable.</p></div><div class="card full"><div class="row"><button class="btn primary" id="offlineRefresh" type="button">↻ Check offline readiness</button><span class="pill" id="offlineNetworkState">—</span></div><div class="batch6-status" id="offlineStatus" role="status" aria-live="polite">Not checked yet.</div><div class="list" id="offlineDetails"></div><p class="batch6-note">This page reports browser cache metadata only. It does not clear caches or promise every external link will work offline.</p></div></section>
+<section class="page" id="page-accessibility"><div class="section-head"><div><h2>ACCESSIBILITY ENGINE</h2><p>Set local reading preferences and run a lightweight page markup review.</p></div><span class="pill">USER-CONTROLLED</span></div><div class="hero batch-hero"><div class="eyebrow">ADAPT • REVIEW • SAVE</div><h2>Make KR-X easier <span>to use.</span></h2><p>Preferences apply to this browser and can be reset at any time. The markup review is a helpful snapshot, not a full accessibility certification.</p></div><div class="grid"><div class="card"><h3>Reading preferences</h3><div class="field"><label for="a11yTextSize">Text size</label><select id="a11yTextSize" class="control"><option value="normal">Default</option><option value="large">Larger text</option></select></div><label class="check-row"><input id="a11yContrast" type="checkbox"> Increase contrast</label><div class="field"><label for="a11yMotion">Motion</label><select id="a11yMotion" class="control"><option value="system">Follow device setting</option><option value="reduce">Reduce motion</option><option value="allow">Allow motion</option></select></div><div class="row"><button class="btn primary" id="a11ySave" type="button">Save preferences</button><button class="btn" id="a11yReset" type="button">Reset</button></div><p class="muted" id="a11yStatus" role="status" aria-live="polite"></p></div><div class="card"><h3>Markup snapshot</h3><p class="muted">Counts missing page language, image text alternatives and form labels. Review results manually.</p><button class="btn" id="a11yAudit" type="button">Run markup snapshot</button><div class="list" id="a11yResults"></div></div></div></section>
+<section class="page" id="page-onboarding"><div class="section-head"><div><h2>SMART ONBOARDING</h2><p>A short, editable checklist for setting up your KR-X workspace.</p></div><span class="pill">SAVED ON THIS DEVICE</span></div><div class="hero batch-hero"><div class="eyebrow">START SMALL • MAKE IT YOURS</div><h2>Your KR-X setup, <span>one step at a time.</span></h2><p>Mark steps complete when they suit you. Progress is stored locally and does not change existing notes or tasks.</p></div><div class="card full"><div class="row" style="justify-content:space-between"><h3>Getting started</h3><span class="pill" id="onboardingCount">0 / 0 COMPLETE</span></div><div class="meter" id="onboardingMeter" role="progressbar" aria-label="Onboarding progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="onboardingMeterFill"></span></div><div class="list" id="onboardingSteps"></div><div class="row"><button class="btn" id="onboardingReset" type="button">Reset checklist</button></div><p class="batch6-note">Checklist progress is separate from your workspace records.</p></div></section>
+<section class="page" id="page-datamanager"><div class="section-head"><div><h2>DATA MANAGER</h2><p>Review, export, import or remove KR-X browser records with explicit controls.</p></div><span class="pill">LOCAL STORAGE ONLY</span></div><div class="hero batch-hero"><div class="eyebrow">REVIEW • EXPORT • RESTORE</div><h2>Your data stays <span>in your hands.</span></h2><p>Only keys beginning with krx- are listed. Values stay hidden until you export them. Import defaults to adding missing records without replacing existing data.</p></div><div class="grid"><div class="card full"><div class="row"><button class="btn" id="dmRefresh" type="button">↻ Refresh inventory</button><button class="btn" id="dmSelectAll" type="button">Select all</button><button class="btn primary" id="dmExport" type="button">↓ Export selected</button><button class="btn danger" id="dmClear" type="button">Delete selected</button><span class="pill" id="dmCount">0 RECORDS</span></div><div class="list" id="dmList"></div><p class="batch6-note">Exports may contain private notes or encrypted vault data. Keep backup files somewhere private.</p></div><div class="card full"><h3>Import a KR-X Data Manager file</h3><div class="field"><label for="dmFile">Backup JSON file</label><input id="dmFile" class="control" type="file" accept="application/json,.json"></div><div class="field"><label for="dmImportMode">Restore mode</label><select id="dmImportMode" class="control"><option value="merge">Add missing records only (recommended)</option><option value="replace">Replace matching KR-X records</option></select></div><div class="row"><button class="btn primary" id="dmImport" type="button" disabled>Restore previewed file</button></div><div class="batch6-status" id="dmStatus" role="status" aria-live="polite">No file selected.</div><p class="batch6-note">The file is parsed locally. Nothing changes until you choose Restore. Replace mode overwrites matching krx- keys.</p></div></div></section>
+<section class="page" id="page-help"><div class="section-head"><div><h2>HELP CENTER</h2><p>Search quick answers about KR-X features, data and browser support.</p></div><span class="pill">OFFLINE FAQ</span></div><div class="hero batch-hero"><div class="eyebrow">FIND AN ANSWER</div><h2>Help for your <span>KR-X workspace.</span></h2><p>These guides are built into the app and remain available offline after the page is cached.</p></div><div class="card full"><div class="field"><label for="helpSearch">Search help topics</label><input id="helpSearch" class="control" type="search" placeholder="Try data, updates, offline, or accessibility"></div><div id="helpResults"></div><p class="batch6-note">KR-X is a static GitHub Pages app. It has no account service or automatic cloud sync.</p></div></section>
 <section class="page" id="page-appbuilder">
  <div class="section-head"><div><h2>APP BUILDER</h2><p>Create a small HTML, CSS and JavaScript app with a sandboxed live preview.</p></div><span class="pill">LOCAL IDE</span></div>
  <div class="hero batch-hero"><div class="eyebrow">BUILD • PREVIEW • SAVE</div><h2>Turn code into <span>something real.</span></h2><p>Write front-end code, preview it safely in an isolated frame and save your project locally.</p></div>
@@ -1576,6 +1615,14 @@ button{padding:10px 16px;border:0;border-radius:8px;background:#35e6ff;color:#06
   <button class="window-launch" data-open-window="vault">▣ <strong>KR-X Vault</strong><small>Private records</small></button>
   <button class="window-launch" data-open-window="command">⌘ <strong>Command Center</strong><small>Quick actions</small></button>
   <button class="window-launch" data-open-window="settings">⚙ <strong>Settings</strong><small>Preferences</small></button>
+ <button class="window-launch" data-open-window="updates">↻ <strong>Update Center</strong><small>Check published source</small></button>
+ <button class="window-launch" data-open-window="diagnostics">◉ <strong>Diagnostics Center</strong><small>Browser and storage summary</small></button>
+ <button class="window-launch" data-open-window="performance">⌁ <strong>Performance Engine</strong><small>Page timing and frame sample</small></button>
+ <button class="window-launch" data-open-window="offline">◌ <strong>Offline Engine</strong><small>Cache and connection status</small></button>
+ <button class="window-launch" data-open-window="accessibility">◎ <strong>Accessibility Engine</strong><small>Reading preferences and review</small></button>
+ <button class="window-launch" data-open-window="onboarding">✦ <strong>Smart Onboarding</strong><small>Workspace setup checklist</small></button>
+ <button class="window-launch" data-open-window="datamanager">▤ <strong>Data Manager</strong><small>Review and transfer records</small></button>
+ <button class="window-launch" data-open-window="help">? <strong>Help Center</strong><small>Offline answers and guides</small></button>
  </div></div>
  <p class="small-note">Window content runs inside KR-X itself, so supported module controls continue to work and use the same local saved data.</p>
 </section>
@@ -1994,10 +2041,12 @@ $("safeModeToggle")?.addEventListener("click",()=>{write("krxSafeMode",!isKrxSaf
 /* Self-Check */
 let selfCheckReport=[];
 function runSelfCheck(){
- const pageIds=["dashboard","assistant","security","workspace","planner","tools","learning","advanced","routines","notifications","focus","brain","vault","settings","command","nexus","automation","agent","memory","decision","predict","voice","widgets","profiles","quicklaunch","clipboard","events","plugins","appbuilder","api","database","design","flow","documents","media","fortress","sandbox","privacy","integrity","recovery","watch","safemode","selfcheck","synapse","twin","visual","mission","spatial","ambient","bridge","experience"];
+ const pageIds=["dashboard","assistant","security","workspace","planner","tools","learning","advanced","routines","notifications","focus","brain","vault","settings","command","nexus","automation","agent","memory","decision","predict","voice","widgets","profiles","quicklaunch","clipboard","events","plugins","appbuilder","api","database","design","flow","documents","media","fortress","sandbox","privacy","integrity","recovery","watch","safemode","selfcheck","synapse","twin","visual","mission","spatial","ambient","bridge","experience","windows","updates","diagnostics","performance","offline","accessibility","onboarding","datamanager","help"];
  selfCheckReport=[];const add=(name,ok,detail)=>selfCheckReport.push({name,status:ok?"PASS":"CHECK",detail});
  add("Core page sections",pageIds.every(id=>document.getElementById("page-"+id)), "Checks that expected module sections exist in the loaded document.");
  add("Sidebar navigation",pageIds.every(id=>document.querySelector('[data-page="'+id+'"]')), "Checks that each module has a sidebar entry.");
+ const polishControls=["updateCheck","diagnosticsRun","performanceFrames","offlineRefresh","a11ySave","onboardingSteps","dmExport","helpSearch"];
+ add("Final polish module controls",polishControls.every(id=>document.getElementById(id)),"Checks that each Batch 6 page includes its primary control.");
  let storageOK=false;try{localStorage.setItem("__krx_selfcheck","ok");storageOK=localStorage.getItem("__krx_selfcheck")==="ok";localStorage.removeItem("__krx_selfcheck");}catch{}add("Local storage read/write",storageOK,"Temporary test key is removed after the check.");
  add("Web Crypto API",!!crypto?.subtle,"Used for local SHA-256 hashing when supported.");
  add("Sandboxed app preview",!!document.querySelector('#appPreview[sandbox]'),"App Builder preview iframe sandbox attribute.");
@@ -2221,7 +2270,15 @@ function studioDocument(){
   ["Spatial Workspace","spatial","▦","Arrange favourite modules"],
   ["Ambient Mode","ambient","☾","Choose a session appearance"],
   ["Multi-Device Bridge","bridge","⇄","Transfer selected data between devices"],
-  ["Experience Engine","experience","✧","Customize layout and start page"]
+  ["Experience Engine","experience","✧","Customize layout and start page"],
+  ["Update Center","updates","↻","Check the public KR-X source version"],
+  ["Diagnostics Center","diagnostics","◉","Review local browser and storage health"],
+  ["Performance Engine","performance","⌁","Measure page timing and animation frames"],
+  ["Offline Engine","offline","◌","Review service worker and app cache status"],
+  ["Accessibility Engine","accessibility","◎","Set reading preferences and review page markup"],
+  ["Smart Onboarding","onboarding","✦","Follow a local workspace setup checklist"],
+  ["Data Manager","datamanager","▤","Export, restore or remove local KR-X records"],
+  ["Help Center","help","?","Search offline KR-X help topics"]
  ];
  const actions = [
   ["Create a note","new-note","＋","Open Workspace and focus the note title"],
@@ -2266,7 +2323,15 @@ function studioDocument(){
   ["Open Spatial Workspace","open-spatial","▦","Arrange module tiles"],
   ["Open Ambient Mode","open-ambient","☾","Change session appearance"],
   ["Open Multi-Device Bridge","open-bridge","⇄","Transfer selected KR-X data"],
-  ["Open Experience Engine","open-experience","✧","Customize KR-X preferences"]
+  ["Open Experience Engine","open-experience","✧","Customize KR-X preferences"],
+  ["Open Update Center","open-updates","↻","Check for a published KR-X source build"],
+  ["Open Diagnostics Center","open-diagnostics","◉","Review local browser diagnostics"],
+  ["Open Performance Engine","open-performance","⌁","Measure page and frame timing"],
+  ["Open Offline Engine","open-offline","◌","Check the KR-X cached app shell"],
+  ["Open Accessibility Engine","open-accessibility","◎","Set reading and motion preferences"],
+  ["Open Smart Onboarding","open-onboarding","✦","Open the workspace setup checklist"],
+  ["Open Data Manager","open-datamanager","▤","Manage local KR-X records"],
+  ["Open Help Center","open-help","?","Search built-in KR-X help"]
  ];
  let recent = [];
  try { recent = JSON.parse(localStorage.getItem("krx-recent-pages") || "[]"); if(!Array.isArray(recent)) recent=[]; } catch { recent=[]; }
@@ -2329,6 +2394,14 @@ function studioDocument(){
   if(id==="open-ambient"){window.navigate("ambient");return;}
   if(id==="open-bridge"){window.navigate("bridge");return;}
   if(id==="open-experience"){window.navigate("experience");return;}
+  if(id==="open-updates"){window.navigate("updates");return;}
+  if(id==="open-diagnostics"){window.navigate("diagnostics");return;}
+  if(id==="open-performance"){window.navigate("performance");return;}
+  if(id==="open-offline"){window.navigate("offline");return;}
+  if(id==="open-accessibility"){window.navigate("accessibility");return;}
+  if(id==="open-onboarding"){window.navigate("onboarding");return;}
+  if(id==="open-datamanager"){window.navigate("datamanager");return;}
+  if(id==="open-help"){window.navigate("help");return;}
   const page=pages.find(p=>p[1]===id);if(page)window.navigate(id);
  }
  function renderCommands(){
@@ -2377,7 +2450,7 @@ function studioDocument(){
   ["Workspace","workspace"],["Planner","planner"],["Tools Lab","tools"],
   ["Learning Hub","learning"],["Advanced Tools","advanced"],["Habits & Insights","routines"],
   ["Notification Center","notifications"],["Focus Mode","focus"],["KR-X Brain","brain"],
-  ["KR-X Vault","vault"],["Settings","settings"],["Command Center","command"],["NEXUS CORE","nexus"],["Automation Engine","automation"],["AI Agent","agent"],["Smart Memory Bank","memory"],["Decision Engine","decision"],["Predict Engine","predict"],["Voice Command","voice"],["Widget Engine","widgets"],["Workspace Profiles","profiles"],["Quick Launch","quicklaunch"],["Smart Clipboard","clipboard"],["Event Horizon","events"],["Plugin Universe","plugins"],["App Builder","appbuilder"],["API Studio","api"],["Database Lab","database"],["Design Engine","design"],["Flow Builder","flow"],["Document Forge","documents"],["Media Studio","media"],["Fortress","fortress"],["Security Sandbox","sandbox"],["Privacy Radar","privacy"],["Integrity Guard","integrity"],["Recovery Center","recovery"],["System Watch","watch"],["Safe Mode","safemode"],["Self-Check","selfcheck"],["Synapse","synapse"],["Digital Twin","twin"],["Visual Intelligence","visual"],["Mission Control","mission"],["Spatial Workspace","spatial"],["Ambient Mode","ambient"],["Multi-Device Bridge","bridge"],["Experience Engine","experience"]
+  ["KR-X Vault","vault"],["Settings","settings"],["Command Center","command"],["NEXUS CORE","nexus"],["Automation Engine","automation"],["AI Agent","agent"],["Smart Memory Bank","memory"],["Decision Engine","decision"],["Predict Engine","predict"],["Voice Command","voice"],["Widget Engine","widgets"],["Workspace Profiles","profiles"],["Quick Launch","quicklaunch"],["Smart Clipboard","clipboard"],["Event Horizon","events"],["Plugin Universe","plugins"],["App Builder","appbuilder"],["API Studio","api"],["Database Lab","database"],["Design Engine","design"],["Flow Builder","flow"],["Document Forge","documents"],["Media Studio","media"],["Fortress","fortress"],["Security Sandbox","sandbox"],["Privacy Radar","privacy"],["Integrity Guard","integrity"],["Recovery Center","recovery"],["System Watch","watch"],["Safe Mode","safemode"],["Self-Check","selfcheck"],["Synapse","synapse"],["Digital Twin","twin"],["Visual Intelligence","visual"],["Mission Control","mission"],["Spatial Workspace","spatial"],["Ambient Mode","ambient"],["Multi-Device Bridge","bridge"],["Experience Engine","experience"],["Update Center","updates"],["Diagnostics Center","diagnostics"],["Performance Engine","performance"],["Offline Engine","offline"],["Accessibility Engine","accessibility"],["Smart Onboarding","onboarding"],["Data Manager","datamanager"],["Help Center","help"]
  ];
  let z=20,serial=0,layouts={};
  try{layouts=JSON.parse(localStorage.getItem("krx-window-layouts")||"{}");if(!layouts||typeof layouts!=="object")layouts={};}catch{layouts={};}
@@ -2841,8 +2914,8 @@ setGate(!!saved());
 (()=> {
  "use strict";
  const $=id=>document.getElementById(id);
- const modules=[["Dashboard","dashboard","Overview and quick links"],["Command Center","command","Quick actions and navigation"],["Multi-Window","windows","Floating module workspace"],["AI Assistant","assistant","Offline assistant and notebook"],["Security Center","security","Digital safety tools"],["Workspace","workspace","Notes and knowledge"],["Planner","planner","Tasks and deadlines"],["Tools Lab","tools","Calculators and utilities"],["Learning Hub","learning","Lessons and progress"],["Advanced Tools","advanced","Developer utilities"],["Habits & Insights","routines","Habits and progress"],["Notifications","notifications","Alerts and reminders"],["Focus Mode","focus","Focus sessions"],["KR-X Brain","brain","Knowledge search"],["KR-X Vault","vault","Encrypted private notes"],["Settings","settings","Preferences and data controls"]];
- const dataKeys=[["Notes","notes"],["Tasks","tasks"],["Bookmarks","bookmarks"],["Knowledge notes","knowledge"],["Learning progress","learningProgress"],["Chat history","chatHistory"],["Habits","habits"],["Notifications","notifications"]];
+ const modules=[["Dashboard","dashboard","Overview and quick links"],["Command Center","command","Quick actions and navigation"],["Multi-Window","windows","Floating module workspace"],["AI Assistant","assistant","Offline assistant and notebook"],["Security Center","security","Digital safety tools"],["Workspace","workspace","Notes and knowledge"],["Planner","planner","Tasks and deadlines"],["Tools Lab","tools","Calculators and utilities"],["Learning Hub","learning","Lessons and progress"],["Advanced Tools","advanced","Developer utilities"],["Habits & Insights","routines","Habits and progress"],["Notifications","notifications","Alerts and reminders"],["Focus Mode","focus","Focus sessions"],["KR-X Brain","brain","Knowledge search"],["KR-X Vault","vault","Encrypted private notes"],["Settings","settings","Preferences and data controls"],["Update Center","updates","Check the published app source"],["Diagnostics Center","diagnostics","Browser and storage health"],["Performance Engine","performance","Page timing and frame sample"],["Offline Engine","offline","Service worker and cache status"],["Accessibility Engine","accessibility","Reading preferences and markup snapshot"],["Smart Onboarding","onboarding","Workspace setup checklist"],["Data Manager","datamanager","Local records and backup files"],["Help Center","help","Offline guides and answers"]];
+ const dataKeys=[["Notes","notes"],["Tasks","tasks"],["Bookmarks","bookmarks"],["Knowledge notes","knowledge"],["Learning progress","learningProgress"],["Chat history","chatHistory"],["Habits","habits"],["Notifications","notifications"],["Accessibility preferences","accessibilityPrefs"],["Onboarding progress","onboardingProgress"]];
  function readLocal(key){try{return JSON.parse(localStorage.getItem("krx-"+key));}catch{return null;}}
  function countRecords(value){if(Array.isArray(value))return value.length;if(value&&typeof value==="object")return Object.keys(value).length;return value==null?0:1;}
  function render(){
@@ -2932,5 +3005,168 @@ setGate(!!saved());
 </script>
 
 </body>
+
+<script>
+(()=> {
+ "use strict";
+ const byId=id=>document.getElementById(id),BUILD=document.querySelector('meta[name="krx-build"]')?.content||"unknown";
+ const sizeOf=value=>new Blob([value]).size;
+ const setText=(id,value)=>{const node=byId(id);if(node)node.textContent=String(value);};
+ const downloadJson=(name,value)=>{const blob=new Blob([JSON.stringify(value,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),link=document.createElement("a");link.href=url;link.download=name;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+ const currentLocalKeys=()=>{const keys=[];try{for(let i=0;i<localStorage.length;i++){const key=localStorage.key(i);if(key&&key.startsWith("krx-"))keys.push(key);}}catch{}return keys.sort();};
+
+ /* Update Center */
+ setText("updateCurrentBuild",BUILD);setText("updateNetworkState",navigator.onLine?"ONLINE":"OFFLINE");
+ const updateStatus=message=>setText("updateStatus",message);
+ byId("updateCheck")?.addEventListener("click",async()=>{
+  const button=byId("updateCheck");button.disabled=true;updateStatus("Checking the public KR-X source…");
+  try{
+   if(!navigator.onLine){updateStatus("This browser reports offline. Connect to the internet, then try again.");return;}
+   const response=await fetch("https://raw.githubusercontent.com/krishna211518/KR-X/main/index.html?check="+Date.now(),{cache:"no-store"});
+   if(!response.ok)throw new Error("Source returned HTTP "+response.status);
+   const markup=await response.text(),match=markup.match(/<meta\s+name=["']krx-build["']\s+content=["']([^"']+)["']/i);
+   if(!match){updateStatus("The public source did not include a build marker. Try again after the site is updated.");return;}
+   if(match[1]===BUILD)updateStatus("You're on the latest marked source build ("+BUILD+"). GitHub Pages may still have its own publishing delay.");
+   else updateStatus("A newer source build is available ("+match[1]+"). Wait for GitHub Pages to finish publishing, then reload KR-X.");
+  }catch(error){updateStatus("Update check could not reach the public source. Check the connection and try again.");}
+  finally{button.disabled=false;}
+ });
+ byId("updateReload")?.addEventListener("click",()=>location.reload());
+ window.addEventListener("online",()=>setText("updateNetworkState","ONLINE"));window.addEventListener("offline",()=>setText("updateNetworkState","OFFLINE"));
+
+ /* Diagnostics Center: metadata only, never saved values. */
+ let lastDiagnostic=null;
+ function collectDiagnostics(){
+  const keys=currentLocalKeys();
+  const nav=performance.getEntriesByType?.("navigation")?.[0],memory=performance.memory;
+  return {createdAt:new Date().toISOString(),scope:"This tab and krx- localStorage key metadata only",online:!!navigator.onLine,secureContext:!!window.isSecureContext,serviceWorker:!!navigator.serviceWorker,cacheStorage:!!window.caches,viewport:{width:innerWidth,height:innerHeight,devicePixelRatio:devicePixelRatio||1},timing:{domContentLoadedMs:nav?Math.round(nav.domContentLoadedEventEnd):null,loadMs:nav&&nav.loadEventEnd?Math.round(nav.loadEventEnd):null},memory:{jsHeapUsedBytes:memory?memory.usedJSHeapSize:null,jsHeapLimitBytes:memory?memory.jsHeapSizeLimit:null},krxStorage:{keyCount:keys.length,keys}};
+ }
+ function renderDiagnostics(){
+  lastDiagnostic=collectDiagnostics();const d=lastDiagnostic,metrics=byId("diagnosticsMetrics"),details=byId("diagnosticsDetails");metrics.replaceChildren();details.replaceChildren();
+  [["Network",d.online?"Online":"Offline"],["KR-X keys",d.krxStorage.keyCount],["Page load",d.timing.loadMs==null?"Unavailable":d.timing.loadMs+" ms"],["JS heap",d.memory.jsHeapUsedBytes==null?"Unavailable":Math.round(d.memory.jsHeapUsedBytes/1048576)+" MB"],["Secure context",d.secureContext?"Yes":"No"]].forEach(([label,value])=>{const card=document.createElement("div");card.className="batch6-metric";const strong=document.createElement("strong");strong.textContent=String(value);const small=document.createElement("span");small.textContent=label;card.append(strong,small);metrics.append(card);});
+  [["Viewport",d.viewport.width+" × "+d.viewport.height+" at "+d.viewport.devicePixelRatio+"×"],["DOM content loaded",d.timing.domContentLoadedMs==null?"Timing not exposed":d.timing.domContentLoadedMs+" ms"],["Service worker API",d.serviceWorker?"Available":"Unavailable"],["Cache Storage API",d.cacheStorage?"Available":"Unavailable"],["Data disclosure","Export includes key names and approximate sizes only; values are excluded."]].forEach(([label,value])=>{const row=document.createElement("div");row.className="item";const main=document.createElement("div");main.className="item-main";const title=document.createElement("div");title.className="item-title";title.textContent=label;const meta=document.createElement("div");meta.className="item-meta";meta.textContent=value;main.append(title,meta);row.append(main);details.append(row);});
+  setText("diagnosticsUpdated","Collected "+new Date(d.createdAt).toLocaleTimeString());
+ }
+ byId("diagnosticsRun")?.addEventListener("click",renderDiagnostics);
+ byId("diagnosticsExport")?.addEventListener("click",()=>downloadJson("krx-diagnostics-summary.json",lastDiagnostic||collectDiagnostics()));
+ renderDiagnostics();
+
+ /* Performance Engine */
+ function renderPerformance(){
+  const nav=performance.getEntriesByType?.("navigation")?.[0],resources=performance.getEntriesByType?.("resource")||[];
+  const transfer=resources.reduce((sum,item)=>sum+(Number(item.transferSize)||0),0),available=resources.some(item=>Number(item.transferSize)>0);
+  const items=[["DOM ready",nav&&nav.domContentLoadedEventEnd?Math.round(nav.domContentLoadedEventEnd)+" ms":"Unavailable"],["Page load",nav&&nav.loadEventEnd?Math.round(nav.loadEventEnd)+" ms":"Unavailable"],["Resources",resources.length],["Reported transfer",available?Math.round(transfer/1024)+" KB":"Unavailable"]];
+  const box=byId("performanceMetrics");box.replaceChildren();items.forEach(([label,value])=>{const card=document.createElement("div");card.className="batch6-metric";const strong=document.createElement("strong");strong.textContent=String(value);const small=document.createElement("span");small.textContent=label;card.append(strong,small);box.append(card);});
+ }
+ renderPerformance();byId("performanceRefresh")?.addEventListener("click",()=>{renderPerformance();setText("performanceStatus","Page timing snapshot refreshed.");});
+ byId("performanceFrames")?.addEventListener("click",async()=>{
+  const button=byId("performanceFrames"),samples=[];button.disabled=true;setText("performanceStatus","Sampling 60 animation frames…");
+  try{let previous=null;for(let i=0;i<60;i++)await new Promise(resolve=>requestAnimationFrame(now=>{if(previous!==null)samples.push(now-previous);previous=now;resolve();}));
+   const average=samples.reduce((a,b)=>a+b,0)/Math.max(1,samples.length),sorted=samples.slice().sort((a,b)=>a-b),p95=sorted[Math.floor((sorted.length-1)*.95)]||0,slow=samples.filter(ms=>ms>24).length;
+   setText("performanceStatus","Average frame interval "+average.toFixed(1)+" ms; 95th percentile "+p95.toFixed(1)+" ms; "+slow+" of 59 intervals exceeded 24 ms.");
+  }catch(error){setText("performanceStatus","Animation frame timing is unavailable in this browser.");}finally{button.disabled=false;}
+ });
+
+ /* Offline Engine */
+ async function renderOffline(){
+  const details=byId("offlineDetails");details.replaceChildren();const online=!!navigator.onLine,network=byId("offlineNetworkState");network.textContent=online?"ONLINE":"OFFLINE";network.classList.toggle("offline",!online);
+  const rows=[["Network indicator",online?"Browser reports online":"Browser reports offline"],["Service worker API",navigator.serviceWorker?"Available":"Unavailable"],["Cache Storage API",window.caches?"Available":"Unavailable"]];
+  let registration=null;try{registration=navigator.serviceWorker?await navigator.serviceWorker.getRegistration():null;}catch{}
+  rows.push(["KR-X service worker",registration?(registration.active?"Active":registration.installing?"Installing":registration.waiting?"Waiting":"Registered"):"Not registered"]);
+  try{if(window.caches){const names=(await caches.keys()).filter(name=>name.startsWith("krx-pwa-"));rows.push(["KR-X app caches",names.length?names.join(", "):"No KR-X app cache found"]);for(const name of names){const cache=await caches.open(name),entries=await cache.keys();rows.push([name,entries.length+" cached request(s)"]);}}}
+  catch(error){rows.push(["Cache inspection","The browser did not allow cache metadata access."]);}
+  rows.forEach(([label,value])=>{const row=document.createElement("div");row.className="item";const main=document.createElement("div");main.className="item-main";const title=document.createElement("div");title.className="item-title";title.textContent=label;const meta=document.createElement("div");meta.className="item-meta";meta.textContent=value;main.append(title,meta);row.append(main);details.append(row);});
+  setText("offlineStatus",online?"Browser reports online. Cache details are shown below; this does not verify every external connection.":"Browser reports offline. KR-X may still open if its app shell was cached on this device.");
+ }
+ byId("offlineRefresh")?.addEventListener("click",renderOffline);window.addEventListener("online",renderOffline);window.addEventListener("offline",renderOffline);renderOffline();
+
+ /* Accessibility Engine */
+ const a11yDefaults={textSize:"normal",contrast:false,motion:"system"};
+ function readA11y(){try{const value=JSON.parse(localStorage.getItem("krx-accessibilityPrefs")||"null");return value&&typeof value==="object"?{...a11yDefaults,...value}:{...a11yDefaults};}catch{return {...a11yDefaults};}}
+ let a11yPrefs=readA11y();
+ function applyA11y(){document.body.classList.toggle("krx-a11y-large",a11yPrefs.textSize==="large");document.body.classList.toggle("krx-a11y-contrast",!!a11yPrefs.contrast);document.body.classList.toggle("krx-a11y-motion-reduce",a11yPrefs.motion==="reduce");document.body.classList.toggle("krx-a11y-motion-allow",a11yPrefs.motion==="allow");}
+ function syncA11y(){byId("a11yTextSize").value=a11yPrefs.textSize==="large"?"large":"normal";byId("a11yContrast").checked=!!a11yPrefs.contrast;byId("a11yMotion").value=["system","reduce","allow"].includes(a11yPrefs.motion)?a11yPrefs.motion:"system";}
+ applyA11y();syncA11y();
+ byId("a11ySave")?.addEventListener("click",()=>{
+  a11yPrefs={textSize:byId("a11yTextSize").value==="large"?"large":"normal",contrast:byId("a11yContrast").checked,motion:["system","reduce","allow"].includes(byId("a11yMotion").value)?byId("a11yMotion").value:"system"};
+  try{localStorage.setItem("krx-accessibilityPrefs",JSON.stringify(a11yPrefs));applyA11y();setText("a11yStatus","Preferences saved on this device.");}catch(error){setText("a11yStatus","Could not save preferences in this browser.");}
+ });
+ byId("a11yReset")?.addEventListener("click",()=>{a11yPrefs={...a11yDefaults};syncA11y();applyA11y();try{localStorage.removeItem("krx-accessibilityPrefs");setText("a11yStatus","Default preferences restored.");}catch{setText("a11yStatus","Preferences reset for this session.");}});
+ byId("a11yAudit")?.addEventListener("click",()=>{
+  const images=[...document.images],missingAlt=images.filter(image=>!image.hasAttribute("alt")&&image.getAttribute("aria-hidden")!=="true").length;
+  const fields=[...document.querySelectorAll("input:not([type=hidden]),select,textarea")],missingLabels=fields.filter(field=>!field.labels?.length&&!field.hasAttribute("aria-label")&&!field.hasAttribute("aria-labelledby")).length,list=byId("a11yResults");list.replaceChildren();
+  [["Document language",document.documentElement.lang?"Present ("+document.documentElement.lang+")":"Missing"],["Images without alt text",String(missingAlt)],["Form controls without a programmatic label",String(missingLabels)]].forEach(([label,value])=>{const row=document.createElement("div");row.className="item";const main=document.createElement("div");main.className="item-main";const title=document.createElement("div");title.className="item-title";title.textContent=label;const meta=document.createElement("div");meta.className="item-meta";meta.textContent=value;main.append(title,meta);row.append(main);list.append(row);});
+  setText("a11yStatus","Markup snapshot collected. Review keyboard use, focus order, contrast and screen-reader behavior manually.");
+ });
+
+ /* Smart Onboarding */
+ const onboardingSteps=[["profile","Choose a preferred start page","experience"],["note","Save a first note","workspace"],["task","Add a Planner task","planner"],["backup","Review or export local data","datamanager"],["health","Run KR-X Self-Check","selfcheck"]];
+ let onboardingProgress={};try{const saved=JSON.parse(localStorage.getItem("krx-onboardingProgress")||"null");if(saved&&typeof saved==="object"&&!Array.isArray(saved))onboardingProgress=saved;}catch{}
+ function saveOnboarding(){try{localStorage.setItem("krx-onboardingProgress",JSON.stringify(onboardingProgress));}catch{setText("onboardingCount","Storage unavailable");}}
+ function renderOnboarding(){
+  const box=byId("onboardingSteps");box.replaceChildren();let complete=0;
+  onboardingSteps.forEach(([id,label,page])=>{const done=!!onboardingProgress[id];if(done)complete++;const row=document.createElement("div");row.className="item";const check=document.createElement("input");check.type="checkbox";check.id="onboarding-"+id;check.checked=done;check.setAttribute("aria-label","Mark "+label+" complete");check.addEventListener("change",()=>{onboardingProgress[id]=check.checked;saveOnboarding();renderOnboarding();});
+   const main=document.createElement("div");main.className="item-main";const title=document.createElement("label");title.className="item-title";title.htmlFor=check.id;title.textContent=label;const meta=document.createElement("div");meta.className="item-meta";meta.textContent=done?"Completed":"Suggested next step";main.append(title,meta);
+   const open=document.createElement("button");open.className="btn small";open.type="button";open.textContent="Open";open.addEventListener("click",()=>navigate(page));row.append(check,main,open);box.append(row);
+  });
+  const percent=Math.round(complete/onboardingSteps.length*100);setText("onboardingCount",complete+" / "+onboardingSteps.length+" COMPLETE");byId("onboardingMeter").setAttribute("aria-valuenow",String(percent));byId("onboardingMeterFill").style.width=percent+"%";
+ }
+ byId("onboardingReset")?.addEventListener("click",()=>{onboardingProgress={};saveOnboarding();renderOnboarding();});renderOnboarding();
+
+ /* Data Manager */
+ let importRecords=null;
+ function renderDataInventory(){
+  const list=byId("dmList");list.replaceChildren();const keys=currentLocalKeys();setText("dmCount",keys.length+" RECORD"+(keys.length===1?"":"S"));
+  if(!keys.length){const empty=document.createElement("div");empty.className="empty";empty.textContent="No KR-X local records found in this browser.";list.append(empty);return;}
+  keys.forEach(key=>{let raw="";try{raw=localStorage.getItem(key)||"";}catch{}const row=document.createElement("label");row.className="batch6-data-key";const check=document.createElement("input");check.type="checkbox";check.dataset.dmKey=key;check.setAttribute("aria-label","Select "+key);const name=document.createElement("span");name.textContent=key;const bytes=document.createElement("small");bytes.textContent=sizeOf(key)+sizeOf(raw)+" B";row.append(check,name,bytes);list.append(row);});
+ }
+ function selectedDataKeys(){return [...document.querySelectorAll("[data-dm-key]:checked")].map(input=>input.dataset.dmKey).filter(key=>key&&key.startsWith("krx-"));}
+ byId("dmRefresh")?.addEventListener("click",renderDataInventory);
+ byId("dmSelectAll")?.addEventListener("click",()=>document.querySelectorAll("[data-dm-key]").forEach(input=>input.checked=true));
+ byId("dmExport")?.addEventListener("click",()=>{
+  const keys=selectedDataKeys();if(!keys.length){setText("dmStatus","Select at least one record to export.");return;}const records={};keys.forEach(key=>{try{records[key]=localStorage.getItem(key);}catch{}});
+  downloadJson("krx-selected-data.json",{app:"KR-X Data Manager",version:1,exportedAt:new Date().toISOString(),sourceOrigin:location.origin,records});setText("dmStatus",keys.length+" selected KR-X record(s) exported. Keep the file private.");
+ });
+ byId("dmClear")?.addEventListener("click",()=>{
+  const keys=selectedDataKeys();if(!keys.length){setText("dmStatus","Select at least one record to delete.");return;}
+  if(!confirm("Permanently delete "+keys.length+" selected KR-X local record(s) from this browser? Export a backup first if needed."))return;
+  let removed=0;keys.forEach(key=>{try{localStorage.removeItem(key);removed++;}catch{}});renderDataInventory();setText("dmStatus",removed+" selected record(s) deleted. Reload KR-X to refresh any module views that were already open.");
+ });
+ byId("dmFile")?.addEventListener("change",async event=>{
+  importRecords=null;byId("dmImport").disabled=true;const file=event.target.files?.[0];if(!file){setText("dmStatus","No file selected.");return;}
+  if(file.size>10*1024*1024){setText("dmStatus","File exceeds the 10 MB import limit.");return;}
+  try{const parsed=JSON.parse(await file.text()),sourceRecords=parsed&&parsed.app==="KR-X Data Manager"&&parsed.version===1?parsed.records:null;
+   if(!sourceRecords||typeof sourceRecords!=="object"||Array.isArray(sourceRecords))throw new Error("Unsupported backup format.");
+   const entries=Object.entries(sourceRecords).filter(([key,value])=>key.startsWith("krx-")&&typeof value==="string");if(!entries.length)throw new Error("No valid KR-X records were found.");
+   importRecords=Object.fromEntries(entries);byId("dmImport").disabled=false;const existing=entries.filter(([key])=>localStorage.getItem(key)!==null).length;setText("dmStatus","Preview ready: "+entries.length+" KR-X record(s), "+existing+" already exist. Merge keeps existing values; Replace overwrites matching keys.");
+  }catch(error){setText("dmStatus","Could not read this KR-X Data Manager file: "+error.message);}
+ });
+ byId("dmImport")?.addEventListener("click",()=>{
+  if(!importRecords){setText("dmStatus","Choose a valid KR-X Data Manager file first.");return;}const mode=byId("dmImportMode").value,original=new Map();let written=0,skipped=0;
+  try{for(const [key,value] of Object.entries(importRecords)){const old=localStorage.getItem(key);if(mode==="merge"&&old!==null){skipped++;continue;}original.set(key,old);localStorage.setItem(key,value);written++;}
+   setText("dmStatus","Restore complete: "+written+" record(s) written, "+skipped+" existing record(s) kept. Reload KR-X to refresh already-open module views.");importRecords=null;byId("dmImport").disabled=true;byId("dmFile").value="";renderDataInventory();
+  }catch(error){for(const [key,old] of original){try{if(old===null)localStorage.removeItem(key);else localStorage.setItem(key,old);}catch{}}setText("dmStatus","Restore stopped and saved changes were rolled back where possible. Check available browser storage.");}
+ });
+ renderDataInventory();
+
+ /* Help Center: bundled FAQ */
+ const helpArticles=[
+  ["Where is my KR-X data stored?","Notes, tasks, settings and other KR-X records are stored in this browser on this device. They are not automatically synced to another device.","datamanager","data local storage privacy"],
+  ["How do I move data to another device?","Use Data Manager to export selected records, or Multi-Device Bridge for its guided transfer format. Move the downloaded file privately and import it on the other device.","bridge","transfer export import"],
+  ["Can KR-X work offline?","The app shell may work offline after KR-X has loaded online and the service worker cached it. External links and features that need network access may not work.","offline","offline cache service worker"],
+  ["How do updates work?","Open Update Center and run a manual check. A new source build can appear before GitHub Pages finishes publishing it; reload after publication.","updates","update deploy reload"],
+  ["What does Self-Check inspect?","Self-Check checks page wiring and a few browser APIs. It is a lightweight health check, not a vulnerability scan or accessibility certification.","selfcheck","diagnostics security health"],
+  ["How can I change text size or motion?","Open Accessibility Engine to set larger text, stronger contrast or motion preferences. These settings are saved only in this browser.","accessibility","text contrast reduced motion"],
+  ["What is included in a diagnostics export?","Diagnostics exports browser status, timing estimates and KR-X storage key names and sizes. Saved record values are excluded.","diagnostics","export report privacy"],
+  ["Why are some browser features unavailable?","Support depends on the browser, device, secure HTTPS context and permissions. KR-X reports limited support instead of promising that every API is present.","performance","browser compatibility features"]
+ ];
+ function renderHelp(){
+  const query=byId("helpSearch").value.trim().toLowerCase(),box=byId("helpResults");box.replaceChildren();const matches=helpArticles.filter(item=>item.join(" ").toLowerCase().includes(query));
+  if(!matches.length){const empty=document.createElement("div");empty.className="empty";empty.textContent="No matching help topic. Try a shorter search.";box.append(empty);return;}
+  matches.forEach(([question,answer,page])=>{const article=document.createElement("article");article.className="batch6-help";const title=document.createElement("h3");title.textContent=question;const body=document.createElement("p");body.textContent=answer;const button=document.createElement("button");button.className="btn small";button.type="button";button.textContent="Open related module";button.style.marginTop="10px";button.addEventListener("click",()=>navigate(page));article.append(title,body,button);box.append(article);});
+ }
+ byId("helpSearch")?.addEventListener("input",renderHelp);renderHelp();
+})();
+</script>
 </html>
 
