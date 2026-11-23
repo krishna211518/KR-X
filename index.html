@@ -23,6 +23,13 @@ main{min-width:0;padding:28px clamp(16px,3vw,42px) 60px;max-width:1500px;width:1
 .tool-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.tool{background:#0a1929;border:1px solid var(--line);border-radius:12px;padding:15px;min-width:0}.tool h3{font-size:14px;margin:0 0 10px}.tool .control{margin-bottom:8px}.tool-actions{display:flex;gap:7px;flex-wrap:wrap}.small-note{font-size:11px;color:#829ab0;margin-top:8px}.checkline{display:flex;align-items:center;gap:9px;color:#c5d8e8;font-size:13px;padding:7px 0}.checkline input{accent-color:var(--cyan)}
 footer{border-top:1px solid var(--line);margin-top:35px;padding-top:18px;color:#718ba3;font-size:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .light{--bg:#edf4fa;--panel:#fff;--panel2:#fff;--line:#cbd9e5;--text:#102338;--muted:#526a80;background:var(--bg);color:var(--text)}.light .sidebar{background:#f7fbff;border-color:var(--line)}.light .nav button{color:#39536b}.light .nav button.active,.light .nav button:hover{background:#e4f1f8;color:#102338}.light .field input,.light .field textarea,.light .field select,.light .output,.light .control,.light .item,.light .tool,.light .quiz-option{background:#f6faff;color:#102338;border-color:#cbd9e5}.light .hero{background:linear-gradient(120deg,#d9f1f6,#e9f1ff)}.light .card{background:#fff}
+.nexus-hero{background:linear-gradient(120deg,#102b43,#10213b);border-color:#39708b}
+.nexus-module-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.nexus-module{display:flex;align-items:center;gap:10px;padding:11px;background:#091827;border:1px solid #203a52;border-radius:10px;min-width:0}
+.nexus-module strong{display:block;font-size:13px}.nexus-module small{display:block;color:var(--muted);font-size:11px}
+.nexus-module button{margin-left:auto;flex:none}.nexus-dot{width:9px;height:9px;border-radius:50%;background:var(--green);flex:none;box-shadow:0 0 10px #6ce6b077}
+.light .nexus-module{background:#f6faff;border-color:#cbd9e5}
+@media(max-width:560px){.nexus-module-grid{grid-template-columns:1fr}}
 @media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{height:auto;position:relative;padding:12px;gap:12px;border-right:0;border-bottom:1px solid var(--line)}.brand{padding:4px 8px}.nav-label,.side-bottom{display:none}.nav{display:flex;overflow:auto;padding-bottom:4px}.nav button{white-space:nowrap;padding:9px}.nav button.active{box-shadow:inset 0 -3px var(--cyan)}main{padding:20px 14px 45px}.card{grid-column:span 6}.card.wide{grid-column:span 12}}
 @media(max-width:560px){.topbar{align-items:flex-start;flex-direction:column}.top-actions{width:100%;justify-content:space-between}.card,.card.half{grid-column:span 12}.tool-grid{grid-template-columns:1fr}.hero{padding:21px}.clock{font-size:12px}}
 
@@ -1024,6 +1031,7 @@ body{
   <button class="active" data-page="dashboard"><span class="ico">⌂</span>Dashboard</button>
   <button data-page="command"><span class="ico">⌘</span>Command Center</button>
   <button data-page="windows"><span class="ico">▣</span>Multi-Window</button>
+  <button data-page="nexus"><span class="ico">✧</span>NEXUS Core</button>
   <button data-page="assistant"><span class="ico"><svg class="krx-ai-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3.5 19.2 12.8 28.5 16 19.2 19.2 16 28.5 12.8 19.2 3.5 16 12.8 12.8Z"/><path d="M25.5 3.5v5M23 6h5M6.5 23.5v5M4 26h5"/></svg></span>AI Assistant</button>
   <button data-page="security"><span class="ico">◈</span>Security Center</button>
   <button data-page="workspace"><span class="ico">▤</span>Workspace</button>
@@ -1275,6 +1283,20 @@ button{padding:10px 16px;border:0;border-radius:8px;background:#35e6ff;color:#06
 </section>
 
 
+<section class="page" id="page-nexus">
+ <div class="section-head"><div><h2>NEXUS CORE</h2><p>KR-X ka central overview — modules, local data aur quick navigation ek jagah.</p></div><span class="pill" id="nexusCoreStatus">LOCAL CORE READY</span></div>
+ <div class="hero nexus-hero"><div class="eyebrow">KR-X CENTRAL INTELLIGENCE</div><h2>One core. <span>Every module connected.</span></h2><p>NEXUS abhi browser ke andar locally kaam karta hai. Ye KR-X modules ka overview deta hai; bina permission ke koi external service ya hidden data access nahi karta.</p><div class="hero-actions"><button class="btn primary" type="button" id="nexusRefresh">↻ Refresh system overview</button><button class="btn" type="button" id="nexusReport">Export system report</button></div></div>
+ <div class="grid">
+  <div class="card"><div class="stat-icon">◈</div><div class="stat" id="nexusModuleCount">—</div><div class="stat-label">Connected KR-X modules</div></div>
+  <div class="card"><div class="stat-icon">▤</div><div class="stat" id="nexusDataCount">—</div><div class="stat-label">Local records detected</div></div>
+  <div class="card"><div class="stat-icon">◷</div><div class="stat" id="nexusLastScan">—</div><div class="stat-label">Last local scan</div></div>
+  <div class="card wide"><h3>Module Network</h3><div class="nexus-module-grid" id="nexusModules"></div></div>
+  <div class="card"><h3>Local Data Overview</h3><div class="list" id="nexusDataOverview"></div></div>
+  <div class="card full"><h3>Core Activity Log</h3><div class="list" id="nexusActivity"><div class="empty">Refresh the overview to create the first local status report.</div></div></div>
+ </div>
+ <p class="small-note">Privacy note: this dashboard reads only KR-X localStorage keys in this browser. It does not inspect other apps, websites, files or devices. Clearing browser data may remove local records.</p>
+</section>
+
 <section class="page" id="page-windows">
  <div class="section-head"><div><h2>Multi-Window Workspace</h2><p>Open KR-X modules side by side in movable, resizable windows.</p></div><span class="pill" id="windowCountLabel">0 OPEN</span></div>
  <div class="hero window-hero"><div class="eyebrow">KR-X LIVE WORKSPACE</div><h2>More space. <span>More possibilities.</span></h2><p>Launch multiple modules at once. Move, resize, minimize, or close each window independently.</p><div class="hero-actions"><button class="btn primary" type="button" data-open-window="workspace">＋ Open Workspace</button><button class="btn" type="button" data-open-window="planner">Open Planner</button><button class="btn" type="button" id="closeAllWindows">Close all windows</button></div></div>
@@ -1513,7 +1535,8 @@ function studioDocument(){
   ["KR-X Vault","vault","▣","Encrypted private notes"],
   ["Settings","settings","⚙","Preferences and data controls"],
   ["Command Center","command","⌘","Quick actions and recent pages"],
-  ["Multi-Window","windows","▣","Open and manage floating module windows"]
+  ["Multi-Window","windows","▣","Open and manage floating module windows"],
+  ["NEXUS CORE","nexus","✧","Central overview of KR-X modules and local data"]
  ];
  const actions = [
   ["Create a note","new-note","＋","Open Workspace and focus the note title"],
@@ -1522,7 +1545,8 @@ function studioDocument(){
   ["Search KR-X","global-search","⌕","Search pages, notes, tasks and saved links"],
   ["Toggle theme","toggle-theme","☼","Switch between light and dark theme"],
   ["Open Security Center","open-security","◈","Go to Security Center"],
-  ["Open Command Center","open-command","⌘","View quick actions and recent pages"]
+  ["Open Command Center","open-command","⌘","View quick actions and recent pages"],
+  ["Open NEXUS CORE","open-nexus","✧","View connected modules and local system overview"]
  ];
  let recent = [];
  try { recent = JSON.parse(localStorage.getItem("krx-recent-pages") || "[]"); if(!Array.isArray(recent)) recent=[]; } catch { recent=[]; }
@@ -1600,7 +1624,7 @@ function studioDocument(){
   ["Workspace","workspace"],["Planner","planner"],["Tools Lab","tools"],
   ["Learning Hub","learning"],["Advanced Tools","advanced"],["Habits & Insights","routines"],
   ["Notification Center","notifications"],["Focus Mode","focus"],["KR-X Brain","brain"],
-  ["KR-X Vault","vault"],["Settings","settings"],["Command Center","command"]
+  ["KR-X Vault","vault"],["Settings","settings"],["Command Center","command"],["NEXUS CORE","nexus"]
  ];
  let z=20,serial=0,layouts={};
  try{layouts=JSON.parse(localStorage.getItem("krx-window-layouts")||"{}");if(!layouts||typeof layouts!=="object")layouts={};}catch{layouts={};}
@@ -2059,6 +2083,57 @@ setGate(!!saved());
   updateReadout();
 })();
 </script>
+
+<script>
+(()=> {
+ "use strict";
+ const $=id=>document.getElementById(id);
+ const modules=[["Dashboard","dashboard","Overview and quick links"],["Command Center","command","Quick actions and navigation"],["Multi-Window","windows","Floating module workspace"],["AI Assistant","assistant","Offline assistant and notebook"],["Security Center","security","Digital safety tools"],["Workspace","workspace","Notes and knowledge"],["Planner","planner","Tasks and deadlines"],["Tools Lab","tools","Calculators and utilities"],["Learning Hub","learning","Lessons and progress"],["Advanced Tools","advanced","Developer utilities"],["Habits & Insights","routines","Habits and progress"],["Notifications","notifications","Alerts and reminders"],["Focus Mode","focus","Focus sessions"],["KR-X Brain","brain","Knowledge search"],["KR-X Vault","vault","Encrypted private notes"],["Settings","settings","Preferences and data controls"]];
+ const dataKeys=[["Notes","notes"],["Tasks","tasks"],["Bookmarks","bookmarks"],["Knowledge notes","knowledge"],["Learning progress","learningProgress"],["Chat history","chatHistory"],["Habits","habits"],["Notifications","notifications"]];
+ function readLocal(key){try{return JSON.parse(localStorage.getItem("krx-"+key));}catch{return null;}}
+ function countRecords(value){if(Array.isArray(value))return value.length;if(value&&typeof value==="object")return Object.keys(value).length;return value==null?0:1;}
+ function render(){
+  const moduleBox=$("nexusModules"),dataBox=$("nexusDataOverview");if(!moduleBox||!dataBox)return;
+  moduleBox.replaceChildren();
+  modules.forEach(([name,page,desc])=>{
+   const item=document.createElement("div");item.className="nexus-module";
+   const dot=document.createElement("span");dot.className="nexus-dot";dot.setAttribute("aria-hidden","true");
+   const info=document.createElement("div");info.style.minWidth="0";
+   const strong=document.createElement("strong");strong.textContent=name;
+   const small=document.createElement("small");small.textContent=desc;info.append(strong,small);
+   const button=document.createElement("button");button.className="btn small";button.type="button";button.textContent="Open";
+   button.addEventListener("click",()=>{if(typeof navigate==="function")navigate(page);});
+   item.append(dot,info,button);moduleBox.append(item);
+  });
+  dataBox.replaceChildren();let total=0;
+  dataKeys.forEach(([label,key])=>{
+   const count=countRecords(readLocal(key));total+=count;
+   const item=document.createElement("div");item.className="item";
+   const main=document.createElement("div");main.className="item-main";
+   const title=document.createElement("div");title.className="item-title";title.textContent=label;
+   const meta=document.createElement("div");meta.className="item-meta";meta.textContent="Local records";
+   const value=document.createElement("strong");value.textContent=String(count);
+   main.append(title,meta);item.append(main,value);dataBox.append(item);
+  });
+  $("nexusModuleCount").textContent=String(modules.length);$("nexusDataCount").textContent=String(total);
+  $("nexusLastScan").textContent=new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
+  $("nexusCoreStatus").textContent="LOCAL CORE READY";
+  const activity=$("nexusActivity");activity.replaceChildren();
+  const log=document.createElement("div");log.className="item";const main=document.createElement("div");main.className="item-main";
+  const title=document.createElement("div");title.className="item-title";title.textContent="System overview refreshed";
+  const meta=document.createElement("div");meta.className="item-meta";meta.textContent=new Date().toLocaleString()+" · "+modules.length+" modules · "+total+" local records";
+  main.append(title,meta);log.append(main);activity.append(log);
+ }
+ $("nexusRefresh")?.addEventListener("click",()=>{render();if(typeof toast==="function")toast("NEXUS CORE overview refreshed.");});
+ $("nexusReport")?.addEventListener("click",()=>{
+  const report={product:"KR-X NEXUS CORE",generatedAt:new Date().toISOString(),scope:"This browser's KR-X localStorage only",modules:modules.map(([name,page])=>({name,page})),localRecords:Object.fromEntries(dataKeys.map(([label,key])=>[label,countRecords(readLocal(key))]))};
+  const blob=new Blob([JSON.stringify(report,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="krx-nexus-system-report.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  if(typeof toast==="function")toast("System report exported.");
+ });
+ render();
+})();
+</script>
+
 </body>
 </html>
 
