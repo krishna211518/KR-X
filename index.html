@@ -730,6 +730,7 @@ main{margin-left:216px;width:calc(100% - 216px);max-width:1500px;padding:24px cl
   <button data-page="notifications"><span class="ico">◉</span>Notification Center</button>
   <button data-page="focus"><span class="ico">◷</span>Focus Mode</button>
   <button data-page="brain"><span class="ico">✧</span>KR-X Brain</button>
+  <button data-page="vault"><span class="ico">▣</span>KR-X Vault</button>
   <button data-page="settings"><span class="ico">⚙</span>Settings</button>
  </nav></div>
  <div class="side-bottom"><span class="status-dot" id="connectionDot" aria-hidden="true"></span><span class="connection-label" id="connectionStatus" role="status" aria-live="polite">Network: online</span><br><span>Local workspace active</span><br><span id="sideDate"></span></div>
@@ -914,6 +915,29 @@ button{padding:10px 16px;border:0;border-radius:8px;background:#35e6ff;color:#06
  <p class="small-note">KR-X Brain is a local search and memory organizer, not a trained or generative AI model.</p>
 </section>
 
+
+<section class="page" id="page-vault">
+ <div class="section-head"><div><h2>KR-X Vault</h2><p>Keep short private notes encrypted on this device.</p></div><span class="pill">AES-GCM • LOCAL ONLY</span></div>
+ <div class="grid">
+  <div class="card full" id="vaultGate">
+   <h3 id="vaultGateTitle">Set up your encrypted vault</h3>
+   <p class="muted" id="vaultGateHelp">Choose a strong, unique passphrase. KR-X never sends it anywhere and does not store it.</p>
+   <div class="field"><label for="vaultPass">Vault passphrase</label><input class="control" id="vaultPass" type="password" autocomplete="new-password" minlength="10" maxlength="128" placeholder="At least 10 characters"></div>
+   <div class="row"><button class="btn primary" id="vaultUnlock" type="button">Create vault</button><button class="btn" id="vaultClear" type="button" hidden>Delete encrypted vault</button></div>
+   <p class="small-note" id="vaultGateStatus" role="status" aria-live="polite">Your passphrase cannot be recovered if you forget it.</p>
+  </div>
+  <div class="card full" id="vaultWorkspace" hidden>
+   <div class="row" style="justify-content:space-between"><div><h3>Private notes</h3><p class="muted">Unlocked in memory for this session only.</p></div><button class="btn" id="vaultLock" type="button">Lock vault</button></div>
+   <div class="field"><label for="vaultTitle">Note title</label><input class="control" id="vaultTitle" maxlength="80" placeholder="e.g. Project idea"></div>
+   <div class="field"><label for="vaultBody">Note</label><textarea class="control" id="vaultBody" rows="4" maxlength="4000" placeholder="Write a short private note..."></textarea></div>
+   <div class="row"><button class="btn primary" id="vaultAdd" type="button">Add encrypted note</button><button class="btn" id="vaultExport" type="button">Export encrypted file</button></div>
+   <div class="list" id="vaultNotes" style="margin-top:14px" aria-live="polite"><div class="empty">No notes saved yet.</div></div>
+   <p class="small-note">Notes are encrypted before saving. Locking clears the in-memory copy.</p>
+  </div>
+  <div class="card full"><h3>Privacy & recovery</h3><p class="muted">Uses browser Web Crypto (PBKDF2 + AES-256-GCM). The encrypted vault stays in this browser's local storage. If you forget the passphrase or clear this browser's site data, the notes may be permanently unrecoverable. Export the encrypted file and keep it somewhere safe. This is not a password manager; don't store account passwords, financial details or emergency information here.</p></div>
+ </div>
+</section>
+
 <section class="page" id="page-settings">
  <div class="section-head"><div><h2>Settings & data</h2><p>Manage this browser's local KR-X workspace.</p></div></div>
  <div class="grid">
@@ -963,7 +987,7 @@ function runGlobalSearch(){
  const q=$("globalSearch").value.trim().toLowerCase(),out=$("globalSearchResults");
  if(!q){out.innerHTML='<div class="empty">Start typing to search your KR-X workspace.</div>';return}
  const results=[];
- const sections=[["Dashboard","dashboard"],["AI Assistant","assistant"],["Security Center","security"],["Workspace","workspace"],["Planner","planner"],["Tools Lab","tools"],["Learning Hub","learning"],["Advanced Tools","advanced"],["Habits & Insights","routines"],["Notification Center","notifications"],["Focus Mode","focus"],["KR-X Brain","brain"],["Settings","settings"]];
+ const sections=[["Dashboard","dashboard"],["AI Assistant","assistant"],["Security Center","security"],["Workspace","workspace"],["Planner","planner"],["Tools Lab","tools"],["Learning Hub","learning"],["Advanced Tools","advanced"],["Habits & Insights","routines"],["Notification Center","notifications"],["Focus Mode","focus"],["KR-X Brain","brain"],["KR-X Vault","vault"],["Settings","settings"]];
  sections.forEach(([name,page])=>{if(name.toLowerCase().includes(q))results.push({title:name,meta:"Open app section",page})});
  notes.forEach(n=>{if((n.title+" "+n.body).toLowerCase().includes(q))results.push({title:n.title,meta:"Saved note",page:"workspace"})});
  tasks.forEach(t=>{if(t.text.toLowerCase().includes(q))results.push({title:t.text,meta:t.done?"Completed task":"Pending task",page:"planner"})});
@@ -1261,6 +1285,37 @@ renderHabits();renderCalendar();
  snapshot();
 })();
 </script>
+
+<script>
+(()=>{
+"use strict";
+const $=id=>document.getElementById(id);
+const STORE="krx-vault-ciphertext";
+const encoder=new TextEncoder(),decoder=new TextDecoder();
+let key=null,notes=[];
+const b64=bytes=>{let binary="";for(const byte of bytes)binary+=String.fromCharCode(byte);return btoa(binary)};
+const un64=value=>Uint8Array.from(atob(value),c=>c.charCodeAt(0));
+const randomBytes=n=>crypto.getRandomValues(new Uint8Array(n));
+const derive=async(pass,salt)=>{const material=await crypto.subtle.importKey("raw",encoder.encode(pass),"PBKDF2",false,["deriveKey"]);return crypto.subtle.deriveKey({name:"PBKDF2",salt,iterations:250000,hash:"SHA-256"},material,{name:"AES-GCM",length:256},false,["encrypt","decrypt"])};
+const status=message=>{$("vaultGateStatus").textContent=message};
+const saved=()=>localStorage.getItem(STORE);
+const setGate=(exists)=>{$("vaultGateTitle").textContent=exists?"Unlock your encrypted vault":"Set up your encrypted vault";$("vaultGateHelp").textContent=exists?"Enter your passphrase to decrypt notes on this device.":"Choose a strong, unique passphrase. KR-X never sends it anywhere and does not store it.";$("vaultUnlock").textContent=exists?"Unlock vault":"Create vault";$("vaultPass").setAttribute("autocomplete",exists?"current-password":"new-password");$("vaultClear").hidden=!exists;$("vaultWorkspace").hidden=true;$("vaultGate").hidden=false;};
+const encrypt=async()=>{const salt=randomBytes(16),iv=randomBytes(12);key=await derive($("vaultPass").value,salt);const plain=encoder.encode(JSON.stringify(notes));const cipher=await crypto.subtle.encrypt({name:"AES-GCM",iv},key,plain);localStorage.setItem(STORE,JSON.stringify({version:1,salt:b64(salt),iv:b64(iv),ciphertext:b64(new Uint8Array(cipher))}));};
+const decrypt=async record=>{if(!record||record.version!==1)throw new Error("Unsupported vault file.");const salt=un64(record.salt),iv=un64(record.iv),cipher=un64(record.ciphertext);key=await derive($("vaultPass").value,salt);const plain=await crypto.subtle.decrypt({name:"AES-GCM",iv},key,cipher);const data=JSON.parse(decoder.decode(plain));if(!Array.isArray(data))throw new Error("Vault data is invalid.");notes=data;};
+const safe=value=>String(value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function render(){const out=$("vaultNotes");out.innerHTML=notes.length?notes.map((n,i)=>'<article class="item"><div class="item-main"><div class="item-title">'+safe(n.title||"Untitled")+'</div><div class="item-meta">'+safe(n.body)+'</div></div><button class="btn small danger" type="button" data-vault-delete="'+i+'">Delete</button></article>').join(""):'<div class="empty">No private notes yet. Add one above.</div>';}
+async function unlock(){const pass=$("vaultPass").value;if(pass.length<10){status("Use a passphrase with at least 10 characters.");return;}if(!window.crypto?.subtle||!window.isSecureContext){status("Web Crypto needs a secure browser context (HTTPS).");return;}try{if(saved()){await decrypt(JSON.parse(saved()));}else{notes=[];await encrypt();} $("vaultPass").value="";$("vaultGate").hidden=true;$("vaultWorkspace").hidden=false;status("Vault unlocked.");render();}catch(error){key=null;notes=[];status("Could not unlock. Check the passphrase or encrypted data.");}}
+$("vaultUnlock").addEventListener("click",unlock);
+$("vaultPass").addEventListener("keydown",e=>{if(e.key==="Enter")unlock();});
+$("vaultAdd").addEventListener("click",async()=>{const title=$("vaultTitle").value.trim(),body=$("vaultBody").value.trim();if(!body){status("Write a note before saving.");return;}notes.unshift({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),title:title||"Private note",body,createdAt:new Date().toISOString()});try{await encrypt();$("vaultTitle").value="";$("vaultBody").value="";render();toast("Encrypted note saved.");}catch(error){notes.shift();toast("Could not save encrypted note.");}});
+$("vaultNotes").addEventListener("click",async e=>{const b=e.target.closest("[data-vault-delete]");if(!b)return;const index=Number(b.dataset.vaultDelete);if(!Number.isInteger(index)||index<0||index>=notes.length)return;notes.splice(index,1);try{await encrypt();render();toast("Note deleted.");}catch(error){toast("Could not update vault.");}});
+$("vaultLock").addEventListener("click",()=>{key=null;notes=[];$("vaultTitle").value="";$("vaultBody").value="";setGate(!!saved());status("Vault locked. The passphrase was cleared.");});
+$("vaultClear").addEventListener("click",()=>{if(!confirm("Permanently delete the encrypted KR-X Vault from this browser? Export a copy first if you need one."))return;localStorage.removeItem(STORE);key=null;notes=[];$("vaultPass").value="";setGate(false);status("Encrypted vault deleted from this browser.");});
+$("vaultExport").addEventListener("click",()=>{const data=saved();if(!data)return;const blob=new Blob([data],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="krx-encrypted-vault.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
+setGate(!!saved());
+})();
+</script>
+
 </body></html>';
 }
 function saveStudio(){write("studioProject",{html:$("studioHtml").value,css:$("studioCss").value,js:$("studioJs").value})}
