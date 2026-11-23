@@ -1027,7 +1027,15 @@ $("notesList").addEventListener("click",e=>{
 function renderKnowledge(){$("knowledgeList").innerHTML=knowledge.length?knowledge.map(k=>'<div class="item"><div class="item-main">'+escapeHTML(k.text)+'</div><button class="btn small danger" data-delete-knowledge="'+k.id+'">Delete</button></div>').join(""):'<div class="empty">No knowledge entries yet.</div>';refreshStats()}
 $("saveKnowledge").addEventListener("click",()=>{const text=$("knowledgeInput").value.trim();if(!text)return;knowledge.unshift({id:uid(),text});write("knowledge",knowledge);$("knowledgeInput").value="";renderKnowledge()});
 $("knowledgeList").addEventListener("click",e=>{const b=e.target.closest("[data-delete-knowledge]");if(!b)return;knowledge=knowledge.filter(k=>k.id!==b.dataset.deleteKnowledge);write("knowledge",knowledge);renderKnowledge()});
-function renderBookmarks(){$("bookmarksList").innerHTML=bookmarks.length?bookmarks.map(b=>'<div class="item"><div class="item-main"><a href="'+escapeHTML(b.url)+'" target="_blank" rel="noopener noreferrer" style="color:var(--cyan)">'+escapeHTML(b.name)+'</a><div class="item-meta">'+escapeHTML(b.url)+'</div></div><button class="btn small danger" data-delete-bookmark="'+b.id+'">Delete</button></div>').join(""):'<div class="empty">No bookmarks saved yet.</div>'}
+function renderBookmarks(){
+ const valid=bookmarks.filter(b=>b&&typeof b==="object");
+ $("bookmarksList").innerHTML=valid.length?valid.map(b=>{
+  const url=safeUrl(b.url),name=escapeHTML(String(b.name||"Untitled bookmark")),id=escapeHTML(String(b.id||""));
+  const link=url?'<a href="'+escapeHTML(url)+'" target="_blank" rel="noopener noreferrer" style="color:var(--cyan)">'+name+'</a>':'<span>'+name+'</span>';
+  const detail=url?escapeHTML(url):'Unsafe or invalid URL — link disabled';
+  return '<div class="item"><div class="item-main">'+link+'<div class="item-meta">'+detail+'</div></div><button class="btn small danger" data-delete-bookmark="'+id+'">Delete</button></div>';
+ }).join(""):'<div class="empty">No bookmarks saved yet.</div>';
+}
 $("addBookmark").addEventListener("click",()=>{const name=$("bookmarkName").value.trim(),url=safeUrl($("bookmarkUrl").value.trim());if(!name||!url)return alert("Enter a name and a valid http/https URL.");bookmarks.unshift({id:uid(),name,url});write("bookmarks",bookmarks);$("bookmarkName").value="";$("bookmarkUrl").value="";renderBookmarks()});
 $("bookmarksList").addEventListener("click",e=>{const b=e.target.closest("[data-delete-bookmark]");if(!b)return;bookmarks=bookmarks.filter(x=>x.id!==b.dataset.deleteBookmark);write("bookmarks",bookmarks);renderBookmarks()});
 function renderTasks(){
