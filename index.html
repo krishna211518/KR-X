@@ -25,6 +25,7 @@ footer{border-top:1px solid var(--line);margin-top:35px;padding-top:18px;color:#
 .light{--bg:#edf4fa;--panel:#fff;--panel2:#fff;--line:#cbd9e5;--text:#102338;--muted:#526a80;background:var(--bg);color:var(--text)}.light .sidebar{background:#f7fbff;border-color:var(--line)}.light .nav button{color:#39536b}.light .nav button.active,.light .nav button:hover{background:#e4f1f8;color:#102338}.light .field input,.light .field textarea,.light .field select,.light .output,.light .control,.light .item,.light .tool,.light .quiz-option{background:#f6faff;color:#102338;border-color:#cbd9e5}.light .hero{background:linear-gradient(120deg,#d9f1f6,#e9f1ff)}.light .card{background:#fff}
 .agent-hero{background:linear-gradient(120deg,#102b43,#10213b);border-color:#39708b}.agent-hero h2 span{color:#54eaff}
 .agent-step{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.agent-step:last-child{border-bottom:0}.agent-step input{margin-top:4px;accent-color:var(--accent)}.agent-step label{flex:1;line-height:1.45;cursor:pointer}
+.memory-hero,.decision-hero,.predict-hero,.voice-hero{background:linear-gradient(120deg,#102b43,#10213b);border-color:#39708b}.memory-hero h2 span,.decision-hero h2 span,.predict-hero h2 span,.voice-hero h2 span{color:#54eaff}.memory-entry{padding:12px;border:1px solid var(--line);border-radius:10px;margin-top:9px}.memory-entry strong{display:block}.memory-entry p{white-space:pre-wrap;margin:7px 0}.memory-entry .row{justify-content:flex-end}
 .automation-hero{background:linear-gradient(120deg,#102b43,#10213b);border-color:#39708b}.automation-hero h2 span{color:#54eaff}
 .auto-item{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}.auto-item .item-main{min-width:160px;flex:1}.auto-actions{display:flex;gap:6px;flex-wrap:wrap}
 .auto-tag{font-size:10px;padding:4px 7px;border-radius:20px;background:#17344d;color:#a9d9f4}
@@ -1039,6 +1040,10 @@ body{
   <button data-page="nexus"><span class="ico">✧</span>NEXUS Core</button>
   <button data-page="automation"><span class="ico">⚡</span>Automation Engine</button>
   <button data-page="agent"><span class="ico">◈</span>AI Agent</button>
+  <button data-page="memory"><span class="ico">▤</span>Smart Memory Bank</button>
+  <button data-page="decision"><span class="ico">⚖</span>Decision Engine</button>
+  <button data-page="predict"><span class="ico">◷</span>Predict Engine</button>
+  <button data-page="voice"><span class="ico">🎙</span>Voice Command</button>
   <button data-page="assistant"><span class="ico"><svg class="krx-ai-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3.5 19.2 12.8 28.5 16 19.2 19.2 16 28.5 12.8 19.2 3.5 16 12.8 12.8Z"/><path d="M25.5 3.5v5M23 6h5M6.5 23.5v5M4 26h5"/></svg></span>AI Assistant</button>
   <button data-page="security"><span class="ico">◈</span>Security Center</button>
   <button data-page="workspace"><span class="ico">▤</span>Workspace</button>
@@ -1090,6 +1095,37 @@ body{
   <div class="dash-stat"><span>🎯</span><div><strong id="learningProgressStat">0%</strong><small>Learning progress</small></div></div>
  </div>
  <div class="dash-modules"><div><span class="dash-module-symbol">✧</span><div><strong>Everything in one place</strong><small>Explore your KR-X workspace modules.</small></div></div><div class="dash-module-links"><button data-go="assistant">AI Assistant</button><button data-go="workspace">Workspace</button><button data-go="planner">Planner</button><button data-go="security">Security</button><button data-go="learning">Learning</button><button data-go="tools">Tools Lab</button></div></div>
+</section>
+
+<section class="page" id="page-memory">
+ <div class="section-head"><div><h2>SMART MEMORY BANK</h2><p>Your user-controlled knowledge store. Save, search, edit and delete memories.</p></div><span class="pill">LOCAL & PRIVATE</span></div>
+ <div class="hero memory-hero"><div class="eyebrow">KR-X SYNAPSE MEMORY</div><h2>Keep useful knowledge <span>within reach.</span></h2><p>Store preferences, project notes, learning goals and useful facts. Nothing is uploaded to a server.</p></div>
+ <div class="grid">
+  <div class="card full"><h3>Save a memory</h3><div class="field"><label for="memoryTitle">Title</label><input class="control" id="memoryTitle" maxlength="80" placeholder="e.g. My current project"></div><div class="field"><label for="memoryBody">Memory details</label><textarea class="control" id="memoryBody" rows="3" maxlength="1500" placeholder="Write information you want to keep..."></textarea></div><div class="row" style="justify-content:flex-end"><button class="btn primary" id="memorySave" type="button">Save memory</button></div></div>
+  <div class="card full"><div class="row" style="justify-content:space-between"><h3>Memory library</h3><span class="pill" id="memoryCount">0 SAVED</span></div><input class="control" id="memorySearch" placeholder="Search your memories..." aria-label="Search memories"><div class="list" id="memoryList"><div class="empty">No memories saved yet.</div></div></div>
+ </div>
+</section>
+
+<section class="page" id="page-decision">
+ <div class="section-head"><div><h2>DECISION ENGINE</h2><p>Compare two choices using criteria you select and rate.</p></div><span class="pill">DECISION SUPPORT</span></div>
+ <div class="hero decision-hero"><div class="eyebrow">KR-X LOGIC CORE</div><h2>Make choices with <span>clear reasoning.</span></h2><p>Rate each option from 1 to 5. The engine calculates a transparent score — the final decision remains yours.</p></div>
+ <div class="grid"><div class="card full"><div class="field"><label for="decisionQuestion">What are you deciding?</label><input class="control" id="decisionQuestion" maxlength="140" placeholder="e.g. Which learning project should I start?"></div>
+ <div class="grid"><div class="card"><h3>Option A</h3><input class="control" id="decisionA" maxlength="80" placeholder="First option"><div class="field"><label for="scoreA1">Interest (1–5)</label><input class="control" type="number" id="scoreA1" min="1" max="5" value="3"></div><div class="field"><label for="scoreA2">Practicality (1–5)</label><input class="control" type="number" id="scoreA2" min="1" max="5" value="3"></div><div class="field"><label for="scoreA3">Learning value (1–5)</label><input class="control" type="number" id="scoreA3" min="1" max="5" value="3"></div></div>
+ <div class="card"><h3>Option B</h3><input class="control" id="decisionB" maxlength="80" placeholder="Second option"><div class="field"><label for="scoreB1">Interest (1–5)</label><input class="control" type="number" id="scoreB1" min="1" max="5" value="3"></div><div class="field"><label for="scoreB2">Practicality (1–5)</label><input class="control" type="number" id="scoreB2" min="1" max="5" value="3"></div><div class="field"><label for="scoreB3">Learning value (1–5)</label><input class="control" type="number" id="scoreB3" min="1" max="5" value="3"></div></div></div>
+ <button class="btn primary" id="decisionCompare" type="button">Compare options</button><div class="output" id="decisionResult" aria-live="polite">Your comparison will appear here.</div></div></div>
+</section>
+
+<section class="page" id="page-predict">
+ <div class="section-head"><div><h2>PREDICT ENGINE</h2><p>A simple progress outlook based on your saved Planner data.</p></div><span class="pill">TREND ESTIMATE</span></div>
+ <div class="hero predict-hero"><div class="eyebrow">KR-X PROGRESS INTELLIGENCE</div><h2>See your current <span>momentum.</span></h2><p>This is a transparent snapshot, not machine-learning or a guaranteed prediction. Better tracking creates a more useful estimate.</p><button class="btn primary" id="predictRefresh" type="button">↻ Refresh outlook</button></div>
+ <div class="grid"><div class="card"><div class="eyebrow">TOTAL TASKS</div><div class="stat-number" id="predictTotal">0</div></div><div class="card"><div class="eyebrow">COMPLETED</div><div class="stat-number" id="predictDone">0</div></div><div class="card"><div class="eyebrow">COMPLETION RATE</div><div class="stat-number" id="predictRate">0%</div></div><div class="card full"><h3>Progress outlook</h3><div class="meter"><span id="predictBar"></span></div><p id="predictSummary" class="muted">Add and complete tasks in Planner, then refresh this outlook.</p><div class="output" id="predictInsight">Your local progress summary will appear here.</div></div></div>
+</section>
+
+<section class="page" id="page-voice">
+ <div class="section-head"><div><h2>VOICE COMMAND</h2><p>Use your browser's speech recognition to navigate KR-X or dictate a question.</p></div><span class="pill">BROWSER-DEPENDENT</span></div>
+ <div class="hero voice-hero"><div class="eyebrow">HANDS-FREE INTERACTION</div><h2>Speak to <span>KR-X.</span></h2><p>Microphone access starts only when you press the button. Speech is processed by the browser's recognition service where supported.</p></div>
+ <div class="grid"><div class="card full"><div class="row" style="align-items:center;justify-content:space-between"><h3>Voice control</h3><span class="pill" id="voiceStatus">READY</span></div><p class="muted">Try saying: “Open Planner”, “Open Workspace”, “Open AI Agent” or dictate a question.</p><div class="row"><button class="btn primary" id="voiceStart" type="button">🎙 Start listening</button><button class="btn" id="voiceStop" type="button" disabled>Stop</button></div><div class="output" id="voiceTranscript" aria-live="polite">Your recognized words will appear here.</div><div class="row"><button class="btn" id="voiceSendChat" type="button" disabled>Send transcript to AI Assistant</button><button class="btn" id="voiceClear" type="button">Clear</button></div></div>
+ <div class="card"><h3>Privacy & compatibility</h3><p class="muted">Voice recognition may not be available in every browser or region. The browser may send audio to its speech service. KR-X does not record or save audio. You can use typed commands anytime.</p></div></div>
 </section>
 
 <section class="page" id="page-agent">
@@ -1500,6 +1536,47 @@ $("agentAddTasks")?.addEventListener("click",()=>{
  write("tasks",tasks);if(typeof renderTasks==="function")renderTasks();toast(selected.length+" steps added to Planner.");navigate("planner");
 });
 
+
+/* Batch 1: Smart Memory, Decision, Predict and Voice modules */
+let krxMemories=read("smartMemories",[]);
+function renderMemories(){
+ const list=$("memoryList");if(!list)return;const q=($("memorySearch").value||"").trim().toLowerCase();
+ const items=krxMemories.filter(m=>(m.title+" "+m.body).toLowerCase().includes(q));
+ $("memoryCount").textContent=krxMemories.length+" SAVED";list.replaceChildren();
+ if(!items.length){const e=document.createElement("div");e.className="empty";e.textContent=krxMemories.length?"No matching memories.":"No memories saved yet.";list.append(e);return;}
+ items.forEach(m=>{const card=document.createElement("article");card.className="memory-entry";const title=document.createElement("strong");title.textContent=m.title;const body=document.createElement("p");body.textContent=m.body;const meta=document.createElement("small");meta.className="muted";meta.textContent=new Date(m.updatedAt||m.createdAt).toLocaleString();const row=document.createElement("div");row.className="row";const edit=document.createElement("button");edit.className="btn small";edit.textContent="Edit";edit.type="button";edit.addEventListener("click",()=>{const t=prompt("Edit memory title",m.title);if(t===null)return;const b=prompt("Edit memory details",m.body);if(b===null)return;if(!t.trim()||!b.trim())return toast("Title and details are required.");m.title=t.trim().slice(0,80);m.body=b.trim().slice(0,1500);m.updatedAt=new Date().toISOString();write("smartMemories",krxMemories);renderMemories();});const del=document.createElement("button");del.className="btn small danger";del.textContent="Delete";del.type="button";del.addEventListener("click",()=>{if(!confirm("Delete this memory?"))return;krxMemories=krxMemories.filter(x=>x.id!==m.id);write("smartMemories",krxMemories);renderMemories();});row.append(edit,del);card.append(title,body,meta,row);list.append(card);});
+}
+$("memorySave")?.addEventListener("click",()=>{const title=$("memoryTitle").value.trim(),body=$("memoryBody").value.trim();if(!title||!body)return toast("Add both a title and details.");krxMemories.unshift({id:uid(),title:title.slice(0,80),body:body.slice(0,1500),createdAt:new Date().toISOString()});write("smartMemories",krxMemories);$("memoryTitle").value="";$("memoryBody").value="";renderMemories();toast("Memory saved on this device.");});
+$("memorySearch")?.addEventListener("input",renderMemories);renderMemories();
+$("decisionCompare")?.addEventListener("click",()=>{
+ const a=$("decisionA").value.trim()||"Option A",b=$("decisionB").value.trim()||"Option B";
+ const readScore=id=>{const n=Number($(id).value);return Number.isFinite(n)?Math.max(1,Math.min(5,n)):1;};
+ const sa=readScore("scoreA1")+readScore("scoreA2")+readScore("scoreA3"),sb=readScore("scoreB1")+readScore("scoreB2")+readScore("scoreB3");
+ const result=$("decisionResult");result.textContent="Decision: "+$("decisionQuestion").value.trim()+"\n"+a+": "+sa+"/15\n"+b+": "+sb+"/15\n"+(sa===sb?"Both options are tied. Consider cost, timing and personal priorities.":(sa>sb?a:b)+" scores higher based on your ratings.")+"\nThis is a scoring aid, not an automatic decision. Review your ratings and real-world constraints.";
+});
+function refreshPredict(){
+ const total=tasks.length,done=tasks.filter(t=>t.done).length,pending=total-done,rate=total?Math.round(done/total*100):0;
+ $("predictTotal").textContent=total;$("predictDone").textContent=done;$("predictRate").textContent=rate+"%";$("predictBar").style.width=rate+"%";
+ const due=tasks.filter(t=>!t.done&&t.due).map(t=>new Date(t.due+"T23:59:59")).filter(d=>!Number.isNaN(d.getTime())).sort((a,b)=>a-b)[0];
+ $("predictSummary").textContent=total?"You have "+pending+" pending task(s) and a "+rate+"% completion rate.": "Add and complete tasks in Planner, then refresh this outlook.";
+ $("predictInsight").textContent=total?(pending===0?"All saved tasks are marked complete. Nice work!": "At the current saved completion ratio, "+pending+" task(s) remain. "+(due?"Your nearest pending due date is "+due.toLocaleDateString()+".":"Add due dates to make planning more useful.")+" This is a snapshot of current data, not a forecast of future performance."):"Not enough Planner data yet. Start by adding a few manageable tasks.";
+}
+$("predictRefresh")?.addEventListener("click",refreshPredict);refreshPredict();
+/* Voice uses browser-native speech recognition only after a user gesture. */
+let voiceRecognition=null,voiceText="";
+const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+if(SpeechRecognition){
+ voiceRecognition=new SpeechRecognition();voiceRecognition.lang="en-IN";voiceRecognition.interimResults=true;voiceRecognition.continuous=false;
+ voiceRecognition.onstart=()=>{$("voiceStatus").textContent="LISTENING";$("voiceStart").disabled=true;$("voiceStop").disabled=false;};
+ voiceRecognition.onresult=e=>{voiceText=Array.from(e.results).map(r=>r[0].transcript).join(" ");$("voiceTranscript").textContent=voiceText;$("voiceSendChat").disabled=!voiceText.trim();};
+ voiceRecognition.onerror=e=>{$("voiceStatus").textContent="ERROR: "+e.error;$("voiceStart").disabled=false;$("voiceStop").disabled=true;};
+ voiceRecognition.onend=()=>{$("voiceStatus").textContent="READY";$("voiceStart").disabled=false;$("voiceStop").disabled=true;};
+}else{$("voiceStatus").textContent="NOT SUPPORTED";$("voiceStart").disabled=true;$("voiceTranscript").textContent="Speech recognition is not supported in this browser. You can still use KR-X by typing.";}
+$("voiceStart")?.addEventListener("click",()=>{if(!voiceRecognition)return;try{voiceRecognition.start();}catch(e){toast("Voice recognition could not start. Try again.");}});
+$("voiceStop")?.addEventListener("click",()=>voiceRecognition?.stop());
+$("voiceClear")?.addEventListener("click",()=>{voiceText="";$("voiceTranscript").textContent="Your recognized words will appear here.";$("voiceSendChat").disabled=true;});
+$("voiceSendChat")?.addEventListener("click",()=>{if(!voiceText.trim())return;$("chatInput").value=voiceText;voiceText="";navigate("assistant");$("voiceSendChat").disabled=true;toast("Transcript placed in AI Assistant. Press Send to submit.");});
+
 let chatHistory=read("chatHistory",[]);
 function assistantReply(q){
  const raw=String(q||"").trim(),s=raw.toLowerCase()
@@ -1606,7 +1683,11 @@ function studioDocument(){
   ["Multi-Window","windows","▣","Open and manage floating module windows"],
   ["NEXUS CORE","nexus","✧","Central overview of KR-X modules and local data"],
   ["Automation Engine","automation","⚡","Build and run local IF / THEN workflows"],
-  ["AI Agent","agent","◈","Turn goals into reviewable plans and Planner tasks"]
+  ["AI Agent","agent","◈","Turn goals into reviewable plans and Planner tasks"],
+  ["Smart Memory Bank","memory","▤","Save and search your private local memories"],
+  ["Decision Engine","decision","⚖","Compare options using transparent ratings"],
+  ["Predict Engine","predict","◷","View a progress estimate from Planner data"],
+  ["Voice Command","voice","🎙","Navigate and dictate using browser speech recognition"]
  ];
  const actions = [
   ["Create a note","new-note","＋","Open Workspace and focus the note title"],
@@ -1618,7 +1699,11 @@ function studioDocument(){
   ["Open Command Center","open-command","⌘","View quick actions and recent pages"],
   ["Open NEXUS CORE","open-nexus","✧","View connected modules and local system overview"],
   ["Open Automation Engine","open-automation","⚡","Create and manage local workflows"],
-  ["Open AI Agent","open-agent","◈","Create an action plan from a goal"]
+  ["Open AI Agent","open-agent","◈","Create an action plan from a goal"],
+  ["Open Smart Memory Bank","open-memory","▤","Save and find local memories"],
+  ["Open Decision Engine","open-decision","⚖","Compare two choices"],
+  ["Open Predict Engine","open-predict","◷","Review your Planner progress outlook"],
+  ["Open Voice Command","open-voice","🎙","Use speech navigation and dictation"]
  ];
  let recent = [];
  try { recent = JSON.parse(localStorage.getItem("krx-recent-pages") || "[]"); if(!Array.isArray(recent)) recent=[]; } catch { recent=[]; }
@@ -1648,6 +1733,10 @@ function studioDocument(){
   if(id==="toggle-theme"){$("themeBtn")?.click();return;}
   if(id==="open-security"){window.navigate("security");return;}
   if(id==="open-command"){window.navigate("command");return;}
+  if(id==="open-memory"){window.navigate("memory");return;}
+  if(id==="open-decision"){window.navigate("decision");return;}
+  if(id==="open-predict"){window.navigate("predict");return;}
+  if(id==="open-voice"){window.navigate("voice");return;}
   const page=pages.find(p=>p[1]===id);if(page)window.navigate(id);
  }
  function renderCommands(){
@@ -1696,7 +1785,7 @@ function studioDocument(){
   ["Workspace","workspace"],["Planner","planner"],["Tools Lab","tools"],
   ["Learning Hub","learning"],["Advanced Tools","advanced"],["Habits & Insights","routines"],
   ["Notification Center","notifications"],["Focus Mode","focus"],["KR-X Brain","brain"],
-  ["KR-X Vault","vault"],["Settings","settings"],["Command Center","command"],["NEXUS CORE","nexus"],["Automation Engine","automation"],["AI Agent","agent"]
+  ["KR-X Vault","vault"],["Settings","settings"],["Command Center","command"],["NEXUS CORE","nexus"],["Automation Engine","automation"],["AI Agent","agent"],["Smart Memory Bank","memory"],["Decision Engine","decision"],["Predict Engine","predict"],["Voice Command","voice"]
  ];
  let z=20,serial=0,layouts={};
  try{layouts=JSON.parse(localStorage.getItem("krx-window-layouts")||"{}");if(!layouts||typeof layouts!=="object")layouts={};}catch{layouts={};}
