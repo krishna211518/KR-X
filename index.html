@@ -1205,6 +1205,11 @@ body.krx-a11y-motion-reduce *{scroll-behavior:auto!important;animation-duration:
 <button data-page="privacyfootprint"><span class="ico">◉</span>Privacy Footprint Scanner</button>
 <button data-page="linkexposure"><span class="ico">↗</span>Link Exposure Audit</button>
 <button data-page="securitychecklist"><span class="ico">✓</span>Security Checklist Vault</button>
+<button data-page="retentionplanner"><span class="ico">◷</span>Data Retention Planner</button>
+<button data-page="redactionlab"><span class="ico">✂</span>Sensitive Data Redaction Lab</button>
+<button data-page="sharingreview"><span class="ico">⇄</span>Privacy Sharing Review</button>
+<button data-page="datamanifest"><span class="ico">▤</span>Local Data Manifest</button>
+<button data-page="privacyjournal"><span class="ico">▣</span>Privacy Review Journal</button>
   <button data-page="assistant"><span class="ico"><svg class="krx-ai-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3.5 19.2 12.8 28.5 16 19.2 19.2 16 28.5 12.8 19.2 3.5 16 12.8 12.8Z"/><path d="M25.5 3.5v5M23 6h5M6.5 23.5v5M4 26h5"/></svg></span>AI Assistant</button>
   <button data-page="security"><span class="ico">◈</span>Security Center</button>
   <button data-page="workspace"><span class="ico">▤</span>Workspace</button>
@@ -1836,6 +1841,12 @@ button{padding:10px 16px;border:0;border-radius:8px;background:#35e6ff;color:#06
 <section class="page" id="page-privacyfootprint"><div class="section-head"><div><h2>PRIVACY FOOTPRINT SCANNER</h2><p>Scan KR-X local storage for possible sensitive-data patterns. Values are never shown.</p></div><span class="pill">LOCAL ONLY</span></div><div class="card full"><button class="btn primary" id="pfRun">Scan privacy footprint</button><div class="list" id="pfList" style="margin-top:14px"></div><p class="small-note">Pattern matches can be false positives. This scan does not transmit data or determine whether an account is compromised.</p></div></section>
 <section class="page" id="page-linkexposure"><div class="section-head"><div><h2>LINK EXPOSURE AUDIT</h2><p>Review page links for common configuration issues.</p></div><span class="pill">STATIC AUDIT</span></div><div class="card full"><button class="btn primary" id="leRun">Audit page links</button><div class="list" id="leList" style="margin-top:14px"></div></div></section>
 <section class="page" id="page-securitychecklist"><div class="section-head"><div><h2>SECURITY CHECKLIST VAULT</h2><p>Keep a local record of routine security maintenance checks.</p></div><span class="pill">PERSONAL CHECKLIST</span></div><div class="card full"><div id="scItems" class="list"></div><div class="row" style="margin-top:12px;gap:8px"><button class="btn primary" id="scSave">Save checklist</button><button class="btn" id="scReset">Reset checks</button></div><div class="small-note" id="scStatus" style="margin-top:10px">Checklist is stored only in this browser.</div></div></section>
+
+<section class="page" id="page-retentionplanner"><div class="section-head"><div><h2>DATA RETENTION PLANNER</h2><p>Set reminders to review information. KR-X will never automatically delete it.</p></div><span class="pill">USER CONTROLLED</span></div><div class="card full"><div class="row" style="gap:8px;flex-wrap:wrap"><input id="rpTitle" placeholder="What should you review?" class="input"><input id="rpDate" type="date" class="input"><button class="btn primary" id="rpAdd">Add review</button></div><div class="list" id="rpList" style="margin-top:14px"></div></div></section>
+<section class="page" id="page-redactionlab"><div class="section-head"><div><h2>SENSITIVE DATA REDACTION LAB</h2><p>Preview masking of common patterns in text before you share it. Nothing is saved.</p></div><span class="pill">LOCAL PREVIEW</span></div><div class="card full"><textarea id="rlInput" rows="6" placeholder="Paste text here to preview masking..." class="input"></textarea><button class="btn primary" id="rlRun" style="margin-top:10px">Preview redaction</button><textarea id="rlOutput" rows="6" readonly placeholder="Redacted preview will appear here" class="input" style="margin-top:10px"></textarea><button class="btn" id="rlCopy" style="margin-top:8px">Copy preview</button><p class="small-note">Pattern-based masking can miss sensitive information or mask ordinary text. Review manually before sharing.</p></div></section>
+<section class="page" id="page-sharingreview"><div class="section-head"><div><h2>PRIVACY SHARING REVIEW</h2><p>Pause and review before sharing files, links or personal information.</p></div><span class="pill">REVIEW FIRST</span></div><div class="card full"><div id="srItems" class="list"></div><textarea id="srNotes" rows="3" class="input" placeholder="Optional review notes (avoid passwords or secrets)..." style="margin-top:10px"></textarea><button class="btn primary" id="srSave" style="margin-top:10px">Save review</button><div class="small-note" id="srStatus" style="margin-top:8px"></div></div></section>
+<section class="page" id="page-datamanifest"><div class="section-head"><div><h2>LOCAL DATA MANIFEST</h2><p>Create a metadata-only inventory of KR-X browser storage. Stored values are excluded.</p></div><span class="pill">METADATA ONLY</span></div><div class="card full"><button class="btn primary" id="dmBuild">Build manifest</button><button class="btn" id="dmDownload" style="margin-left:8px">Download JSON</button><div class="list" id="dmList" style="margin-top:14px"></div><p class="small-note">Includes key names and approximate sizes, but not stored content.</p></div></section>
+<section class="page" id="page-privacyjournal"><div class="section-head"><div><h2>PRIVACY REVIEW JOURNAL</h2><p>Record a privacy check and next steps locally in this browser.</p></div><span class="pill">LOCAL JOURNAL</span></div><div class="card full"><input id="pjTitle" class="input" placeholder="Review title"><textarea id="pjBody" rows="4" class="input" placeholder="What did you review? What is the next step?" style="margin-top:8px"></textarea><button class="btn primary" id="pjAdd" style="margin-top:8px">Save entry</button><div class="list" id="pjList" style="margin-top:14px"></div></div></section>
 </section>
 </footer>
 </main>
@@ -2555,7 +2566,12 @@ function studioDocument(){
   ["External Dependency Inspector","dependencyinspector","⇄","List external scripts, stylesheets and resource origins"],
   ["Privacy Footprint Scanner","privacyfootprint","◉","Check local browser data for possible sensitive patterns without displaying values"],
   ["Link Exposure Audit","linkexposure","↗","Find risky link patterns and missing external-link protections"],
-  ["Security Checklist Vault","securitychecklist","✓","Track your own security maintenance checklist locally"]
+  ["Security Checklist Vault","securitychecklist","✓","Track your own security maintenance checklist locally"],
+  ["Data Retention Planner","retentionplanner","◷","Set review dates for information you may no longer need"],
+  ["Sensitive Data Redaction Lab","redactionlab","✂","Preview masking of sensitive patterns in text you provide"],
+  ["Privacy Sharing Review","sharingreview","⇄","Record and review decisions before sharing information"],
+  ["Local Data Manifest","datamanifest","▤","Export a metadata-only inventory of KR-X browser storage"],
+  ["Privacy Review Journal","privacyjournal","▣","Keep a local record of privacy reviews and follow-up actions"]
  ];
  const actions = [
   ["Create a note","new-note","＋","Open Workspace and focus the note title"],
@@ -2684,7 +2700,12 @@ function studioDocument(){
   ["Open External Dependency Inspector","dependencyinspector","⇄","List external scripts, stylesheets and resource origins"],
   ["Open Privacy Footprint Scanner","privacyfootprint","◉","Check local browser data for possible sensitive patterns without displaying values"],
   ["Open Link Exposure Audit","linkexposure","↗","Find risky link patterns and missing external-link protections"],
-  ["Open Security Checklist Vault","securitychecklist","✓","Track your own security maintenance checklist locally"]
+  ["Open Security Checklist Vault","securitychecklist","✓","Track your own security maintenance checklist locally"],
+  ["Open Data Retention Planner","retentionplanner","◷","Set review dates for information you may no longer need"],
+  ["Open Sensitive Data Redaction Lab","redactionlab","✂","Preview masking of sensitive patterns in text you provide"],
+  ["Open Privacy Sharing Review","sharingreview","⇄","Record and review decisions before sharing information"],
+  ["Open Local Data Manifest","datamanifest","▤","Export a metadata-only inventory of KR-X browser storage"],
+  ["Open Privacy Review Journal","privacyjournal","▣","Keep a local record of privacy reviews and follow-up actions"]
  ];
  let recent = [];
  try { recent = JSON.parse(localStorage.getItem("krx-recent-pages") || "[]"); if(!Array.isArray(recent)) recent=[]; } catch { recent=[]; }
@@ -2887,7 +2908,12 @@ function studioDocument(){
   ["External Dependency Inspector","dependencyinspector"],
   ["Privacy Footprint Scanner","privacyfootprint"],
   ["Link Exposure Audit","linkexposure"],
-  ["Security Checklist Vault","securitychecklist"]
+  ["Security Checklist Vault","securitychecklist"],
+  ["Data Retention Planner","retentionplanner"],
+  ["Sensitive Data Redaction Lab","redactionlab"],
+  ["Privacy Sharing Review","sharingreview"],
+  ["Local Data Manifest","datamanifest"],
+  ["Privacy Review Journal","privacyjournal"]
  ];
  let z=20,serial=0,layouts={};
  try{layouts=JSON.parse(localStorage.getItem("krx-window-layouts")||"{}");if(!layouts||typeof layouts!=="object")layouts={};}catch{layouts={};}
@@ -3376,7 +3402,8 @@ setGate(!!saved());
 ["Preference Lab","preferencelab","⚙"],
 ["Knowledge Curator","knowledgecurator","▣"],
 ["Personal Operating Manual","operatingmanual","▤"],["Command History","commandhistory","◷"],["System Switchboard","systemswitchboard","⛭"],["Session Recorder","sessionrecorder","▤"],["Control Profiles","controlprofiles","◫"],["Quick Action Builder","quickactionbuilder","⚡"],["Workspace Blueprint Studio","workspaceblueprints","▦"],["Device Handoff Center","handoffcenter","⇄"],["Transfer Validator","transfervalidator","✓"],["Device Readiness Check","devicereadiness","◉"],["Workspace Audit","workspaceaudit","⌕"],["System Metrics Dashboard","systemmetrics","◈"],["Local Data Health","localdatahealth","♥"],["Performance Watch","performancewatch","⌁"],["Cleanup Advisor","cleanupadvisor","✧"],["Self-Optimization Advisor","optimizationadvisor","⚙"],
-["Security Posture Board","securityposture","🛡"],["External Dependency Inspector","dependencyinspector","⇄"],["Privacy Footprint Scanner","privacyfootprint","◉"],["Link Exposure Audit","linkexposure","↗"],["Security Checklist Vault","securitychecklist","✓"]];
+["Security Posture Board","securityposture","🛡"],["External Dependency Inspector","dependencyinspector","⇄"],["Privacy Footprint Scanner","privacyfootprint","◉"],["Link Exposure Audit","linkexposure","↗"],["Security Checklist Vault","securitychecklist","✓"],
+["Data Retention Planner","retentionplanner","◷"],["Sensitive Data Redaction Lab","redactionlab","✂"],["Privacy Sharing Review","sharingreview","⇄"],["Local Data Manifest","datamanifest","▤"],["Privacy Review Journal","privacyjournal","▣"]];
  const dataKeys=[["Notes","notes"],["Tasks","tasks"],["Bookmarks","bookmarks"],["Knowledge notes","knowledge"],["Learning progress","learningProgress"],["Chat history","chatHistory"],["Habits","habits"],["Notifications","notifications"],["Accessibility preferences","accessibilityPrefs"],["Onboarding progress","onboardingProgress"]];
  function readLocal(key){try{return JSON.parse(localStorage.getItem("krx-"+key));}catch{return null;}}
  function countRecords(value){if(Array.isArray(value))return value.length;if(value&&typeof value==="object")return Object.keys(value).length;return value==null?0:1;}
@@ -3957,6 +3984,22 @@ let checked=[];try{checked=JSON.parse(localStorage.getItem("krx-b19-security-che
 $("scItems").innerHTML=checklist.map((x,i)=>'<label class="item" style="display:flex;gap:10px;align-items:center"><input type="checkbox" data-sc="'+i+'" '+(checked.includes(i)?"checked":"")+'><span>'+esc(x)+'</span></label>').join("");
 $("scSave")?.addEventListener("click",()=>{checked=[...document.querySelectorAll("[data-sc]:checked")].map(x=>Number(x.dataset.sc));try{localStorage.setItem("krx-b19-security-checklist",JSON.stringify(checked));$("scStatus").textContent="Saved "+checked.length+" of "+checklist.length+" checks locally."}catch{$("scStatus").textContent="Could not save: browser storage may be unavailable."}});
 $("scReset")?.addEventListener("click",()=>{document.querySelectorAll("[data-sc]").forEach(x=>x.checked=false);checked=[];try{localStorage.setItem("krx-b19-security-checklist","[]")}catch{}$("scStatus").textContent="Checklist reset."});
+})();
+</script>
+
+<script>
+(()=>{"use strict";const $=id=>document.getElementById(id),esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const read=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}},write=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));return true}catch{return false}},render=(id,rows)=>$(id).innerHTML=rows.join("")||'<div class="empty">Nothing saved yet.</div>';
+let retention=read("krx-b20-retention",[]);function rpRender(){render("rpList",retention.map((x,i)=>'<div class="item"><div class="item-title">'+esc(x.title)+'</div><div class="item-meta">Review date: '+esc(x.date)+' · '+(x.date<new Date().toISOString().slice(0,10)?"Review date passed":"Scheduled")+'</div><button class="btn" data-rp="'+i+'">Remove reminder</button></div>'));document.querySelectorAll("[data-rp]").forEach(b=>b.onclick=()=>{retention.splice(+b.dataset.rp,1);write("krx-b20-retention",retention);rpRender()})}
+$("rpAdd")?.addEventListener("click",()=>{const title=$("rpTitle").value.trim(),date=$("rpDate").value;if(!title||!date)return;retention.push({title,date,created:new Date().toISOString()});if(write("krx-b20-retention",retention)){$("rpTitle").value="";$("rpDate").value="";rpRender()}});
+rpRender();
+$("rlRun")?.addEventListener("click",()=>{let t=$("rlInput").value;t=t.replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi,"[REDACTED EMAIL]").replace(/\+?\d[\d\s().-]{7,}\d/g,"[REDACTED PHONE-LIKE VALUE]").replace(/\b(?:api[_-]?key|access[_-]?token|secret|password)\s*[:=]\s*[^\s,;]{6,}/gi,"[REDACTED TOKEN-LIKE VALUE]");$("rlOutput").value=t});$("rlCopy")?.addEventListener("click",async()=>{try{await navigator.clipboard.writeText($("rlOutput").value)}catch{$("rlOutput").select();document.execCommand("copy")}});
+const reviewItems=["I removed unnecessary personal details","I checked who can access the destination","I verified the recipient or website","I reviewed file contents and metadata","I chose a safe sharing method"];
+$("srItems").innerHTML=reviewItems.map((x,i)=>'<label class="item" style="display:flex;gap:10px;align-items:center"><input type="checkbox" data-sr="'+i+'"><span>'+esc(x)+'</span></label>').join("");
+$("srSave")?.addEventListener("click",()=>{const v={date:new Date().toISOString(),checked:[...document.querySelectorAll("[data-sr]:checked")].map(x=>+x.dataset.sr),notes:$("srNotes").value};const arr=read("krx-b20-sharing-reviews",[]);arr.push(v);$("srStatus").textContent=write("krx-b20-sharing-reviews",arr)?"Review saved locally.":"Could not save this review."});
+let manifest=null;$("dmBuild")?.addEventListener("click",()=>{const entries=[];for(let i=0;i<localStorage.length;i++){const key=localStorage.key(i);if(!key?.startsWith("krx-"))continue;const value=localStorage.getItem(key)||"";entries.push({key,characters:value.length,approxUtf16Bytes:(key.length+value.length)*2})}manifest={generatedAt:new Date().toISOString(),scope:"KR-X-prefixed localStorage keys only",valuesExcluded:true,entryCount:entries.length,entries};render("dmList",entries.map(x=>'<div class="item"><div class="item-title">'+esc(x.key)+'</div><div class="item-meta">'+x.characters+' characters · ~'+x.approxUtf16Bytes+' bytes</div></div>'));$("dmList").insertAdjacentHTML("afterbegin",'<div class="item"><div class="item-title">Manifest ready: '+entries.length+' entries</div><div class="item-meta">Values are not included.</div></div>')});$("dmDownload")?.addEventListener("click",()=>{if(!manifest)return;const blob=new Blob([JSON.stringify(manifest,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="krx-local-data-manifest.json";a.click();URL.revokeObjectURL(url)});
+let journal=read("krx-b20-privacy-journal",[]);function pjRender(){render("pjList",journal.slice().reverse().map((x,i)=>'<div class="item"><div class="item-title">'+esc(x.title)+'</div><div class="item-meta">'+esc(new Date(x.date).toLocaleString())+' · '+esc(x.body)+'</div><button class="btn" data-pj="'+i+'">Delete entry</button></div>'));document.querySelectorAll("[data-pj]").forEach(b=>b.onclick=()=>{journal.splice(journal.length-1-(+b.dataset.pj),1);write("krx-b20-privacy-journal",journal);pjRender()})}
+$("pjAdd")?.addEventListener("click",()=>{const title=$("pjTitle").value.trim(),body=$("pjBody").value.trim();if(!title||!body)return;journal.push({title,body,date:new Date().toISOString()});if(write("krx-b20-privacy-journal",journal)){$("pjTitle").value="";$("pjBody").value="";pjRender()}});pjRender();
 })();
 </script>
 </html>
