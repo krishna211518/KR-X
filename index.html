@@ -1177,6 +1177,14 @@ body.krx-a11y-motion-reduce *{scroll-behavior:auto!important;animation-duration:
 <button data-page="conditionlab"><span class="ico">⌁</span>Condition Lab</button>
 <button data-page="runconsole"><span class="ico">▤</span>Run Console</button>
 <button data-page="automationcontrol"><span class="ico">⛭</span>Automation Control</button>
+<button data-page="decisionjournal"><span class="ico">◇</span>Decision Journal</button>
+<button data-page="skillmatrix"><span class="ico">▦</span>Skill Matrix</button>
+<button data-page="personaltimeline"><span class="ico">◷</span>Personal Timeline</button>
+<button data-page="milestonemapper"><span class="ico">⌁</span>Milestone Mapper</button>
+<button data-page="reflectioninsights"><span class="ico">✧</span>Reflection Insights</button>
+<button data-page="preferencelab"><span class="ico">⚙</span>Preference Lab</button>
+<button data-page="knowledgecurator"><span class="ico">▣</span>Knowledge Curator</button>
+<button data-page="operatingmanual"><span class="ico">▤</span>Personal Operating Manual</button>
   <button data-page="assistant"><span class="ico"><svg class="krx-ai-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3.5 19.2 12.8 28.5 16 19.2 19.2 16 28.5 12.8 19.2 3.5 16 12.8 12.8Z"/><path d="M25.5 3.5v5M23 6h5M6.5 23.5v5M4 26h5"/></svg></span>AI Assistant</button>
   <button data-page="security"><span class="ico">◈</span>Security Center</button>
   <button data-page="workspace"><span class="ico">▤</span>Workspace</button>
@@ -1776,6 +1784,15 @@ button{padding:10px 16px;border:0;border-radius:8px;background:#35e6ff;color:#06
 <section class="page" id="page-conditionlab"><div class="section-head"><div><h2>CONDITION LAB</h2><p>Preview common IF conditions using current local KR-X data.</p></div><span class="pill">READ-ONLY TEST</span></div><div class="card full"><div class="field"><label for="conditionPick">Condition</label><select class="control" id="conditionPick"><option value="pending">At least one pending task</option><option value="overdue">At least one overdue task</option><option value="notes">At least one saved note</option><option value="goals">At least one saved goal</option><option value="projects">At least one project</option><option value="online">Browser reports online</option></select></div><button class="btn primary" id="conditionRun">Test condition</button><div id="conditionResult" class="list" style="margin-top:12px"></div><p class="small-note">Read-only preview. Does not execute workflows.</p></div></section>
 <section class="page" id="page-runconsole"><div class="section-head"><div><h2>RUN CONSOLE</h2><p>Review recent actions initiated by Batch 14 tools.</p></div><span class="pill">LOCAL RUN HISTORY</span></div><div class="card full"><div class="row"><button class="btn primary" id="runRefresh">Refresh</button><button class="btn" id="runExport">Export</button><button class="btn" id="runClear">Clear history</button></div><div class="list" id="runList" style="margin-top:12px"></div></div></section>
 <section class="page" id="page-automationcontrol"><div class="section-head"><div><h2>AUTOMATION CONTROL</h2><p>Manage Batch 14 automation activity and run approvals.</p></div><span class="pill">GLOBAL CONTROL</span></div><div class="card full"><div class="row" style="justify-content:space-between"><div><h3>Pause automation tools</h3><p class="muted">Stops triggers and scheduled reminders from firing.</p></div><label class="check-row"><input type="checkbox" id="autoPaused"> Pause all</label></div><div class="divider"></div><div class="row" style="justify-content:space-between"><div><h3>Require confirmation</h3><p class="muted">Ask before a saved workflow runs.</p></div><label class="check-row"><input type="checkbox" id="autoApproval"> Require approval</label></div><div class="row" style="margin-top:14px"><button class="btn primary" id="autoSave">Save controls</button><button class="btn" id="autoStatus">Refresh status</button></div><div class="list" id="autoStatusText" style="margin-top:12px"></div><p class="small-note">Settings apply only to Batch 14 tools; existing automation modules are unchanged.</p></div></section>
+
+<section class="page" id="page-decisionjournal"><div class="section-head"><div><h2>DECISION JOURNAL</h2><p>Capture important choices, alternatives and later outcomes.</p></div><span class="pill">PERSONAL RECORD</span></div><div class="card full"><div class="form-grid"><label>Decision title<input id="djTitle" class="input" placeholder="What are you deciding?"></label><label>Decision date<input id="djDate" class="input" type="date"></label><label>Options considered<input id="djOptions" class="input" placeholder="Option A, Option B..."></label><label>Reasoning<textarea id="djReason" class="input" rows="3" placeholder="What matters most in this choice?"></textarea></label><label>Review date<input id="djReview" class="input" type="date"></label></div><button class="btn primary" id="djSave">Save decision</button><div class="list" id="djList" style="margin-top:14px"></div></div></section>
+<section class="page" id="page-skillmatrix"><div class="section-head"><div><h2>SKILL MATRIX</h2><p>Track skills with your own level, proof and next learning step.</p></div><span class="pill">SKILL TRACKER</span></div><div class="card full"><div class="form-grid"><label>Skill<input id="smName" class="input" placeholder="e.g. HTML"></label><label>Current level<select id="smLevel" class="input"><option>Beginner</option><option>Developing</option><option>Comfortable</option><option>Strong</option></select></label><label>Evidence / what you can do<input id="smEvidence" class="input" placeholder="A small example or project"></label><label>Next step<input id="smNext" class="input" placeholder="What will you practise next?"></label></div><button class="btn primary" id="smSave">Add skill</button><div class="list" id="smList" style="margin-top:14px"></div></div></section>
+<section class="page" id="page-personaltimeline"><div class="section-head"><div><h2>PERSONAL TIMELINE</h2><p>A read-only local timeline assembled from supported KR-X records.</p></div><button class="btn" id="ptRefresh">Refresh timeline</button></div><div class="card full"><div class="list" id="ptList"></div><p class="small-note">Only records available in this browser are included. Some modules do not store timestamps, so their entries may not appear.</p></div></section>
+<section class="page" id="page-milestonemapper"><div class="section-head"><div><h2>MILESTONE MAPPER</h2><p>Turn a larger goal into dated checkpoints you can complete one by one.</p></div><span class="pill">GOAL BREAKDOWN</span></div><div class="card full"><div class="form-grid"><label>Goal / project<input id="mmGoal" class="input" placeholder="What are you working toward?"></label><label>Milestone<input id="mmTitle" class="input" placeholder="A clear checkpoint"></label><label>Target date<input id="mmDate" class="input" type="date"></label></div><button class="btn primary" id="mmSave">Add milestone</button><div class="list" id="mmList" style="margin-top:14px"></div></div></section>
+<section class="page" id="page-reflectioninsights"><div class="section-head"><div><h2>REFLECTION INSIGHTS</h2><p>Simple summaries of your saved journal entries. Not a mental-health assessment.</p></div><button class="btn" id="riRefresh">Refresh insights</button></div><div class="grid-3"><div class="card"><div class="stat" id="riTotal">0</div><div class="stat-label">Saved reflections</div></div><div class="card"><div class="stat" id="riRecent">0</div><div class="stat-label">Entries in last 7 days</div></div><div class="card"><div class="stat" id="riMood">—</div><div class="stat-label">Most used mood label</div></div></div><div class="card full"><h3>Recent reflection titles</h3><div class="list" id="riList"></div><p class="small-note">Counts and labels are descriptive only; they do not infer emotions or diagnose anything.</p></div></section>
+<section class="page" id="page-preferencelab"><div class="section-head"><div><h2>PREFERENCE LAB</h2><p>Choose how KR-X should organize your personal workspace.</p></div><span class="pill">YOUR SETTINGS</span></div><div class="card full"><div class="form-grid"><label>Preferred work session<select id="plSession" class="input"><option>Short focused blocks</option><option>Long uninterrupted blocks</option><option>Flexible sessions</option></select></label><label>Information style<select id="plStyle" class="input"><option>Concise summary first</option><option>Step-by-step detail</option><option>Visual outline first</option></select></label><label>Daily planning priority<select id="plPriority" class="input"><option>Deadlines first</option><option>Most important first</option><option>Quick wins first</option></select></label><label>Reminder approach<select id="plReminders" class="input"><option>Only important reminders</option><option>Regular gentle reminders</option><option>Manual reminders only</option></select></label></div><button class="btn primary" id="plSave">Save preferences</button><div class="list" id="plStatus" style="margin-top:12px"></div></div></section>
+<section class="page" id="page-knowledgecurator"><div class="section-head"><div><h2>KNOWLEDGE CURATOR</h2><p>Organize useful knowledge into your own named collections.</p></div><span class="pill">LOCAL COLLECTIONS</span></div><div class="card full"><div class="form-grid"><label>Collection name<input id="kcCollection" class="input" placeholder="e.g. Cybersecurity basics"></label><label>Knowledge item<input id="kcItem" class="input" placeholder="A concept, link title or reminder"></label><label>Notes<textarea id="kcNotes" class="input" rows="3" placeholder="Why is this useful?"></textarea></label></div><button class="btn primary" id="kcSave">Add to collection</button><div class="list" id="kcList" style="margin-top:14px"></div></div></section>
+<section class="page" id="page-operatingmanual"><div class="section-head"><div><h2>PERSONAL OPERATING MANUAL</h2><p>Your own guide to conditions, routines and methods that help you work effectively.</p></div><span class="pill">USER-DEFINED</span></div><div class="card full"><div class="form-grid"><label>When I focus best<input id="omFocus" class="input" placeholder="Your preferred time or conditions"></label><label>Helpful environment<input id="omEnvironment" class="input" placeholder="Quiet, checklist, desk setup..."></label><label>How I like to learn<textarea id="omLearn" class="input" rows="3" placeholder="Examples, diagrams, practice, short notes..."></textarea></label><label>What helps when I feel stuck<textarea id="omStuck" class="input" rows="3" placeholder="A small first step, ask for help, break it down..."></textarea></label><label>Personal reminders<textarea id="omReminders" class="input" rows="3" placeholder="Things you want to remember"></textarea></label></div><button class="btn primary" id="omSave">Save my manual</button><div class="list" id="omStatus" style="margin-top:12px"></div></div></section>
 </footer>
 </main>
 </div>
@@ -2466,7 +2483,15 @@ function studioDocument(){
   ["Automation Templates","automationtemplates","✧","Install ready-made workflow starters"],
   ["Condition Lab","conditionlab","⌁","Preview local IF conditions"],
   ["Run Console","runconsole","▤","Review workflow and automation run history"],
-  ["Automation Control","automationcontrol","⛭","Pause automations and manage approvals"]
+  ["Automation Control","automationcontrol","⛭","Pause automations and manage approvals"],
+  ["Decision Journal","decisionjournal","◇","Record decisions and revisit outcomes"],
+  ["Skill Matrix","skillmatrix","▦","Track skills, evidence and next steps"],
+  ["Personal Timeline","personaltimeline","◷","A local chronological view of your KR-X activity"],
+  ["Milestone Mapper","milestonemapper","⌁","Break goals into clear checkpoints"],
+  ["Reflection Insights","reflectioninsights","✧","Review reflection patterns without diagnosis"],
+  ["Preference Lab","preferencelab","⚙","Set explicit preferences for your KR-X workflow"],
+  ["Knowledge Curator","knowledgecurator","▣","Collect selected ideas into useful collections"],
+  ["Personal Operating Manual","operatingmanual","▤","Write your own guide to how you work best"]
  ];
  const actions = [
   ["Create a note","new-note","＋","Open Workspace and focus the note title"],
@@ -2567,7 +2592,15 @@ function studioDocument(){
   ["Open Automation Templates","automationtemplates","✧","Install ready-made workflow starters"],
   ["Open Condition Lab","conditionlab","⌁","Preview local IF conditions"],
   ["Open Run Console","runconsole","▤","Review workflow and automation run history"],
-  ["Open Automation Control","automationcontrol","⛭","Pause automations and manage approvals"]
+  ["Open Automation Control","automationcontrol","⛭","Pause automations and manage approvals"],
+  ["Open Decision Journal","decisionjournal","◇","Record decisions and revisit outcomes"],
+  ["Open Skill Matrix","skillmatrix","▦","Track skills, evidence and next steps"],
+  ["Open Personal Timeline","personaltimeline","◷","A local chronological view of your KR-X activity"],
+  ["Open Milestone Mapper","milestonemapper","⌁","Break goals into clear checkpoints"],
+  ["Open Reflection Insights","reflectioninsights","✧","Review reflection patterns without diagnosis"],
+  ["Open Preference Lab","preferencelab","⚙","Set explicit preferences for your KR-X workflow"],
+  ["Open Knowledge Curator","knowledgecurator","▣","Collect selected ideas into useful collections"],
+  ["Open Personal Operating Manual","operatingmanual","▤","Write your own guide to how you work best"]
  ];
  let recent = [];
  try { recent = JSON.parse(localStorage.getItem("krx-recent-pages") || "[]"); if(!Array.isArray(recent)) recent=[]; } catch { recent=[]; }
@@ -2742,7 +2775,15 @@ function studioDocument(){
   ["Automation Templates","automationtemplates"],
   ["Condition Lab","conditionlab"],
   ["Run Console","runconsole"],
-  ["Automation Control","automationcontrol"]
+  ["Automation Control","automationcontrol"],
+  ["Decision Journal","decisionjournal"],
+  ["Skill Matrix","skillmatrix"],
+  ["Personal Timeline","personaltimeline"],
+  ["Milestone Mapper","milestonemapper"],
+  ["Reflection Insights","reflectioninsights"],
+  ["Preference Lab","preferencelab"],
+  ["Knowledge Curator","knowledgecurator"],
+  ["Personal Operating Manual","operatingmanual"]
  ];
  let z=20,serial=0,layouts={};
  try{layouts=JSON.parse(localStorage.getItem("krx-window-layouts")||"{}");if(!layouts||typeof layouts!=="object")layouts={};}catch{layouts={};}
@@ -3222,7 +3263,15 @@ setGate(!!saved());
 ["Automation Templates","automationtemplates","✧"],
 ["Condition Lab","conditionlab","⌁"],
 ["Run Console","runconsole","▤"],
-["Automation Control","automationcontrol","⛭"]];
+["Automation Control","automationcontrol","⛭"],
+["Decision Journal","decisionjournal","◇"],
+["Skill Matrix","skillmatrix","▦"],
+["Personal Timeline","personaltimeline","◷"],
+["Milestone Mapper","milestonemapper","⌁"],
+["Reflection Insights","reflectioninsights","✧"],
+["Preference Lab","preferencelab","⚙"],
+["Knowledge Curator","knowledgecurator","▣"],
+["Personal Operating Manual","operatingmanual","▤"]];
  const dataKeys=[["Notes","notes"],["Tasks","tasks"],["Bookmarks","bookmarks"],["Knowledge notes","knowledge"],["Learning progress","learningProgress"],["Chat history","chatHistory"],["Habits","habits"],["Notifications","notifications"],["Accessibility preferences","accessibilityPrefs"],["Onboarding progress","onboardingProgress"]];
  function readLocal(key){try{return JSON.parse(localStorage.getItem("krx-"+key));}catch{return null;}}
  function countRecords(value){if(Array.isArray(value))return value.length;if(value&&typeof value==="object")return Object.keys(value).length;return value==null?0:1;}
@@ -3712,5 +3761,34 @@ renderDraft();renderWorkflows();renderTriggers();renderRoutines();renderQueue();
 })();
 </script>
 
+
+<script>
+(()=>{"use strict";
+const $=id=>document.getElementById(id),K="krx-b15-";
+const get=(k,d=[])=>{try{const v=JSON.parse(localStorage.getItem(K+k));return v??d}catch{return d}};
+const put=(k,v)=>{try{localStorage.setItem(K+k,JSON.stringify(v));return true}catch{return false}};
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const id=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const show=(el,html)=>{if(el)el.innerHTML=html};
+const date=v=>v?new Date(v).toLocaleDateString():"No date";
+function bind(id,fn){const el=$(id);if(el)el.addEventListener("click",fn)}
+function decisions(){const a=get("decisions");show($("djList"),a.map(x=>'<div class="item"><div class="item-main"><div class="item-title">'+esc(x.title)+'</div><div class="item-meta">'+esc(x.date||"No date")+' · Options: '+esc(x.options||"Not listed")+' · Review: '+esc(x.review||"Not set")+'</div><p>'+esc(x.reason)+'</p></div><button class="btn" data-del="'+x.id+'">Delete</button></div>').join("")||'<div class="empty">No decisions recorded yet.</div>');$("djList")?.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{put("decisions",a.filter(x=>x.id!==b.dataset.del));decisions()})}
+bind("djSave",()=>{const title=$("djTitle").value.trim();if(!title)return;const a=get("decisions");a.unshift({id:id(),title,date:$("djDate").value,options:$("djOptions").value.trim(),reason:$("djReason").value.trim(),review:$("djReview").value});put("decisions",a);["djTitle","djOptions","djReason","djDate","djReview"].forEach(x=>$(x).value="");decisions()});decisions();
+function skills(){const a=get("skills");show($("smList"),a.map(x=>'<div class="item"><div class="item-main"><div class="item-title">'+esc(x.name)+' · '+esc(x.level)+'</div><div class="item-meta">Evidence: '+esc(x.evidence||"Not added")+'</div><p>Next step: '+esc(x.next||"Not set")+'</p></div><button class="btn" data-del="'+x.id+'">Delete</button></div>').join("")||'<div class="empty">Add your first skill to start the matrix.</div>');$("smList")?.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{put("skills",a.filter(x=>x.id!==b.dataset.del));skills()})}
+bind("smSave",()=>{const name=$("smName").value.trim();if(!name)return;const a=get("skills");a.unshift({id:id(),name,level:$("smLevel").value,evidence:$("smEvidence").value.trim(),next:$("smNext").value.trim()});put("skills",a);["smName","smEvidence","smNext"].forEach(x=>$(x).value="");skills()});skills();
+function timeline(){let a=[];const add=(key,label,mapper)=>{let v;try{v=JSON.parse(localStorage.getItem(key)||"null")}catch{}if(Array.isArray(v))v.forEach(x=>{const t=x.createdAt||x.date||x.updatedAt||x.timestamp;if(t)a.push({t,label,detail:mapper(x)})})};add("krx-notes","Workspace note",x=>x.title||x.name||"Saved note");add("krx-tasks","Planner task",x=>x.title||x.text||x.name||"Task");add("krx-b7-journal","Daily journal",x=>x.date||x.title||"Reflection");add("krx-b14-runs","Automation run",x=>x.name||x.kind||"Workflow run");a.sort((x,y)=>new Date(y.t)-new Date(x.t));show($("ptList"),a.slice(0,100).map(x=>'<div class="item"><div class="item-main"><div class="item-title">'+esc(x.label)+'</div><div class="item-meta">'+esc(date(x.t))+'</div><p>'+esc(x.detail)+'</p></div></div>').join("")||'<div class="empty">No timestamped activity found yet. Keep using KR-X and refresh later.</div>')}
+bind("ptRefresh",timeline);timeline();
+function milestones(){const a=get("milestones");show($("mmList"),a.map(x=>'<div class="item"><div class="item-main"><div class="item-title">'+esc(x.goal)+' — '+esc(x.title)+'</div><div class="item-meta">Target: '+esc(date(x.date))+' · '+(x.done?"Completed":"Pending")+'</div></div><button class="btn" data-done="'+x.id+'">'+(x.done?"Reopen":"Complete")+'</button><button class="btn" data-del="'+x.id+'">Delete</button></div>').join("")||'<div class="empty">No milestones yet.</div>');$("mmList")?.querySelectorAll("[data-done]").forEach(b=>b.onclick=()=>{const z=a.find(x=>x.id===b.dataset.done);if(z)z.done=!z.done;put("milestones",a);milestones()});$("mmList")?.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{put("milestones",a.filter(x=>x.id!==b.dataset.del));milestones()})}
+bind("mmSave",()=>{const goal=$("mmGoal").value.trim(),title=$("mmTitle").value.trim();if(!goal||!title)return;const a=get("milestones");a.unshift({id:id(),goal,title,date:$("mmDate").value,done:false});put("milestones",a);$("mmTitle").value="";$("mmDate").value="";milestones()});milestones();
+function reflections(){let a=[];try{const v=JSON.parse(localStorage.getItem("krx-b7-journal")||"[]");if(Array.isArray(v))a=v}catch{}const cutoff=Date.now()-7*86400000,recent=a.filter(x=>new Date(x.date||x.createdAt||0).getTime()>=cutoff);const moods={};a.forEach(x=>{const m=x.mood||x.feeling;if(m)moods[m]=(moods[m]||0)+1});const top=Object.entries(moods).sort((x,y)=>y[1]-x[1])[0];if($("riTotal"))$("riTotal").textContent=a.length;if($("riRecent"))$("riRecent").textContent=recent.length;if($("riMood"))$("riMood").textContent=top?top[0]:"—";show($("riList"),a.slice().reverse().slice(0,20).map(x=>'<div class="item"><div class="item-main"><div class="item-title">'+esc(x.title||x.date||"Reflection")+'</div><div class="item-meta">'+esc(x.date||"Date not stored")+(x.mood?" · "+esc(x.mood):"")+'</div><p>'+esc(x.text||x.content||x.reflection||"Saved reflection")+'</p></div></div>').join("")||'<div class="empty">No journal entries found. Add reflections in Daily Journal first.</div>')}
+bind("riRefresh",reflections);reflections();
+const prefIds=["plSession","plStyle","plPriority","plReminders"];const prefs=get("preferences",{});prefIds.forEach((x,i)=>{if($(x)&&prefs[["session","style","priority","reminders"][i]])$(x).value=prefs[["session","style","priority","reminders"][i]]});
+bind("plSave",()=>{const p={session:$("plSession").value,style:$("plStyle").value,priority:$("plPriority").value,reminders:$("plReminders").value};put("preferences",p);show($("plStatus"),'<div class="item"><div class="item-title">Preferences saved on this browser.</div><div class="item-meta">'+esc(Object.values(p).join(" · "))+'</div></div>')});
+function curator(){const a=get("curations");show($("kcList"),a.map(x=>'<div class="item"><div class="item-main"><div class="item-title">'+esc(x.collection)+' — '+esc(x.item)+'</div><p>'+esc(x.notes)+'</p></div><button class="btn" data-del="'+x.id+'">Delete</button></div>').join("")||'<div class="empty">Your curated knowledge will appear here.</div>');$("kcList")?.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{put("curations",a.filter(x=>x.id!==b.dataset.del));curator()})}
+bind("kcSave",()=>{const collection=$("kcCollection").value.trim(),item=$("kcItem").value.trim();if(!collection||!item)return;const a=get("curations");a.unshift({id:id(),collection,item,notes:$("kcNotes").value.trim()});put("curations",a);$("kcItem").value="";$("kcNotes").value="";curator()});curator();
+const manual=get("manual",{focus:"",environment:"",learn:"",stuck:"",reminders:""});["focus","environment","learn","stuck","reminders"].forEach(k=>{const el=$("om"+k[0].toUpperCase()+k.slice(1));if(el)el.value=manual[k]||""});
+bind("omSave",()=>{const m={};["focus","environment","learn","stuck","reminders"].forEach(k=>m[k]=$("om"+k[0].toUpperCase()+k.slice(1)).value);put("manual",m);show($("omStatus"),'<div class="item"><div class="item-title">Your operating manual is saved locally.</div><div class="item-meta">You can edit it any time.</div></div>')});
+})();
+</script>
 </html>
 
