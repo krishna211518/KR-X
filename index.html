@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#07111f">
 <meta name="description" content="KR-X NEBULA X — technology learning, productivity, tools and digital safety in one responsive workspace.">
 <title>KR-X | NEBULA X Technology Workspace</title>
 <style>
 :root{--bg:#07111f;--panel:#0d1b2d;--panel2:#10243a;--line:#203b55;--text:#edf6ff;--muted:#9bb0c5;--cyan:#48d9e8;--blue:#5597ff;--green:#6ce6b0;--red:#ff8585;--shadow:0 18px 55px #0005}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 10% 0%,#12314b 0,transparent 34%),var(--bg);color:var(--text);font:15px/1.55 Inter,system-ui,Segoe UI,Arial,sans-serif;min-height:100vh}
+*{box-sizing:border-box}html{scroll-behavior:smooth;overscroll-behavior-y:contain;-webkit-text-size-adjust:100%}body{-webkit-tap-highlight-color:transparent}body{margin:0;background:radial-gradient(ellipse at 10% 0%,#12314b 0,transparent 34%),var(--bg);color:var(--text);font:15px/1.55 Inter,system-ui,Segoe UI,Arial,sans-serif;min-height:100vh}
 button,input,textarea,select{font:inherit}button{cursor:pointer}.app{display:grid;grid-template-columns:245px minmax(0,1fr);min-height:100vh}
 .sidebar{background:#081523eF;border-right:1px solid var(--line);padding:24px 16px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:24px}
 .brand{display:flex;align-items:center;gap:12px;padding:0 8px}.brand-mark{width:42px;height:42px;border-radius:13px;background:linear-gradient(140deg,var(--cyan),var(--blue));display:grid;place-items:center;color:#06111c;font-weight:950;font-size:20px;box-shadow:0 0 25px #48d9e855}.brand strong{font-size:20px;letter-spacing:3px}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:1.5px}
@@ -812,7 +812,7 @@ main{width:100%;overflow-wrap:anywhere}
  <div class="side-bottom"><span class="status-dot" id="connectionDot" aria-hidden="true"></span><span class="connection-label" id="connectionStatus" role="status" aria-live="polite">Network: online</span><br><span>Local workspace active</span><br><span id="sideDate"></span></div>
 </aside>
 <main>
- <div class="topbar"><div><div class="eyebrow">KR-X • YOUR PERSONAL HUB</div><h1 id="pageTitle">Dashboard</h1><p id="installStatus" class="small-note" role="status" aria-live="polite" hidden></p><p id="offlineNotice" class="small-note" role="status" aria-live="polite" hidden>You are offline. Saved KR-X data on this device remains available; some links need internet.</p></div><div class="top-actions"><span class="clock" id="clock">--:--:--</span><button class="btn small primary" id="installAppBtn" type="button">↓ Install App</button><button class="btn small" id="themeBtn">☼ Theme</button></div></div>
+ <div class="topbar"><div><div class="eyebrow">KR-X • YOUR PERSONAL HUB</div><h1 id="pageTitle">Dashboard</h1><p id="offlineNotice" class="small-note" role="status" aria-live="polite" hidden>You are offline. Saved KR-X data on this device remains available; some links need internet.</p></div><div class="top-actions"><span class="clock" id="clock">--:--:--</span><button class="btn small" id="themeBtn">☼ Theme</button></div></div>
 
 <section class="page active" id="page-dashboard">
  <div class="dash-welcome">
@@ -1214,47 +1214,8 @@ const savedStudio=read("studioProject",null);
 if(savedStudio&&typeof savedStudio==="object"){if(typeof savedStudio.html==="string")$("studioHtml").value=savedStudio.html;if(typeof savedStudio.css==="string")$("studioCss").value=savedStudio.css;if(typeof savedStudio.js==="string")$("studioJs").value=savedStudio.js;}
 function studioDocument(){
  const html=$("studioHtml").value,css=$("studioCss").value,code=$("studioJs").value.replace(/<\/script/gi,"<\\/script");
- return '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src \'none\'; img-src data:; style-src \'unsafe-inline\'; script-src \'unsafe-inline\'"><style>'+css+'</style></head><body>'+html+'<script>'+code+'<\/script><style>
-#krxCommandOverlay{position:fixed;inset:0;z-index:3000;background:#020914c9;backdrop-filter:blur(9px);display:none;align-items:flex-start;justify-content:center;padding:12vh 16px 20px}
-#krxCommandOverlay.open{display:flex}
-.krx-command-box{width:min(620px,100%);background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:0 25px 90px #0009;padding:14px}
-.krx-command-box input{width:100%;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:14px;font:inherit}
-.krx-command-list{display:grid;gap:6px;margin-top:10px;max-height:50vh;overflow:auto}
-.krx-command-list button{text-align:left;background:transparent;border:1px solid transparent;color:var(--text);padding:11px;border-radius:9px}
-.krx-command-list button:hover,.krx-command-list button:focus{background:var(--panel2);border-color:var(--line)}
-@media(max-width:700px){#krxCommandOverlay{padding-top:8vh}}
-</style><div id="krxCommandOverlay" role="dialog" aria-modal="true" aria-label="KR-X quick launcher"><div class="krx-command-box"><div class="row" style="justify-content:space-between"><strong>KR-X Quick Launcher</strong><button class="btn small" id="krxCommandClose" type="button">Esc</button></div><input id="krxCommandInput" type="search" placeholder="Search pages and actions..." autocomplete="off"><div class="krx-command-list" id="krxCommandList"></div><p class="small-note">Tip: press Ctrl + K (or /) to open • Esc to close</p></div></div><script>
-(()=>{
-"use strict";
-const $=id=>document.getElementById(id);
-const on=(id,event,fn)=>{const el=$(id);if(el)el.addEventListener(event,fn)};
-const out=(id,value)=>{if($(id))$(id).textContent=String(value)};
-const val=id=>$(id)?$(id).value:"";
-const copy=async text=>{try{await navigator.clipboard.writeText(text);if(typeof toast==="function")toast("Copied to clipboard.");}catch{if(typeof toast==="function")toast("Clipboard unavailable in this browser.");}};
-on("advJsonFormat","click",()=>{try{out("advJsonOutput",JSON.stringify(JSON.parse(val("advJsonInput")),null,2));}catch(e){out("advJsonOutput","Invalid JSON: "+e.message);}});
-on("advJsonMinify","click",()=>{try{out("advJsonOutput",JSON.stringify(JSON.parse(val("advJsonInput"))));}catch(e){out("advJsonOutput","Invalid JSON: "+e.message);}});
-on("advBaseEncode","click",()=>{try{$("advBaseOutput").value=btoa(unescape(encodeURIComponent(val("advBaseInput"))));}catch(e){out("advBaseOutput","Could not encode this text.");}});
-on("advBaseDecode","click",()=>{try{$("advBaseOutput").value=decodeURIComponent(escape(atob(val("advBaseInput").trim())));}catch(e){out("advBaseOutput","Invalid Base64 input.");}});
-on("advUrlEncode","click",()=>{$("advUrlOutput").value=encodeURIComponent(val("advUrlInput"));});
-on("advUrlDecode","click",()=>{try{$("advUrlOutput").value=decodeURIComponent(val("advUrlInput"));}catch(e){out("advUrlOutput","Invalid encoded text.");}});
-on("advUuid","click",()=>out("advUuidOutput",crypto.randomUUID?crypto.randomUUID():"UUID generation is not supported by this browser."));
-on("advUuidCopy","click",()=>copy(val("advUuidOutput")||$("advUuidOutput").textContent));
-on("advRand","click",()=>{const a=Number(val("advRandMin")),b=Number(val("advRandMax"));if(!Number.isSafeInteger(a)||!Number.isSafeInteger(b)||b<a||b-a>1000000000)return out("advRandOutput","Enter valid whole-number limits (maximum range: 1 billion).");const n=new Uint32Array(1);crypto.getRandomValues(n);out("advRandOutput",a+(n[0]%(b-a+1)));});
-on("advHexConvert","click",()=>{const h=val("advHex").trim().replace(/^#/,"");if(!/^[0-9a-fA-F]{6}$/.test(h))return out("advColorOutput","Enter a valid 6-digit HEX color.");const n=parseInt(h,16),r=n>>16&255,g=n>>8&255,b=n&255;out("advColorOutput","RGB("+r+", "+g+", "+b+") • HEX #"+h.toUpperCase());$("advColorPicker").value="#"+h;});
-on("advColorPicker","input",()=>{$("advHex").value=$("advColorPicker").value;});
-on("advDateCalc","click",()=>{const a=Date.parse(val("advDateA")+"T00:00:00Z"),b=Date.parse(val("advDateB")+"T00:00:00Z");if(!Number.isFinite(a)||!Number.isFinite(b))return out("advDateOutput","Choose both dates.");out("advDateOutput",Math.round(Math.abs(b-a)/86400000)+" days"+(b<a?" (end date is earlier)":""));});
-on("advDiff","click",()=>{const a=val("advDiffA").split(/\s+/),b=val("advDiffB").split(/\s+/),max=Math.max(a.length,b.length),lines=[];for(let i=0;i<max&&lines.length<250;i++){if(a[i]!==b[i]){if(a[i]!==undefined)lines.push("- "+a[i]);if(b[i]!==undefined)lines.push("+ "+b[i]);}}out("advDiffOutput",lines.length?lines.join("\n"):"No word-level differences found.");});
-on("advTimestampConvert","click",()=>{const n=Number(val("advTimestamp"));if(!Number.isFinite(n)||Math.abs(n)>8640000000000)return out("advTimestampOutput","Enter a valid timestamp in seconds.");out("advTimestampOutput",new Date(n*1000).toLocaleString()+" (your device's local time)");});
-on("advSpeak","click",()=>{if(!("speechSynthesis"in window))return out("advSpeakText","Text-to-speech is not supported by this browser.");speechSynthesis.cancel();speechSynthesis.speak(new SpeechSynthesisUtterance(val("advSpeakText")));});
-on("advSpeakStop","click",()=>{if("speechSynthesis"in window)speechSynthesis.cancel();});
-const pages=[...document.querySelectorAll("[data-page]")].map(b=>({label:b.textContent.trim(),page:b.dataset.page}));
-const overlay=$("krxCommandOverlay"),input=$("krxCommandInput"),list=$("krxCommandList");
-function close(){overlay.classList.remove("open");}
-function render(q=""){list.replaceChildren();const matches=pages.filter(p=>p.label.toLowerCase().includes(q.toLowerCase()));for(const p of matches){const b=document.createElement("button");b.type="button";b.textContent="Open "+p.label;b.addEventListener("click",()=>{navigate(p.page);close();});list.appendChild(b);}const actions=[{label:"Open Advanced Tools",run:()=>{navigate("advanced");close();}},{label:"Export KR-X backup",run:()=>{$("exportData")?.click();close();}},{label:"Toggle theme",run:()=>{$("themeBtn")?.click();close();}}];for(const a of actions.filter(x=>x.label.toLowerCase().includes(q.toLowerCase()))){const b=document.createElement("button");b.type="button";b.textContent=a.label;b.addEventListener("click",a.run);list.appendChild(b);}if(!list.children.length){const p=document.createElement("p");p.className="small-note";p.textContent="No matching actions.";list.appendChild(p);}}
-function open(){overlay.classList.add("open");input.value="";render();setTimeout(()=>input.focus(),0);}
-on("krxCommandClose","click",close);on("krxCommandInput","input",()=>render(input.value));overlay.addEventListener("click",e=>{if(e.target===overlay)close();});
-document.addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();open();}else if(e.key==="/"&&!/input|textarea|select/i.test(document.activeElement.tagName)){e.preventDefault();open();}else if(e.key==="Escape")close();});
-})();
+ return '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>'+css+'</style></head><body>'+html+'<script>'+code+'<\\/script></body></html>';
+}
 </script>
 <script>
 (()=>{
@@ -1454,57 +1415,7 @@ $("exportData").addEventListener("click",()=>{const data={version:8,notes,tasks,
 $("importFile").addEventListener("change",async e=>{const file=e.target.files[0];if(!file)return;try{const d=JSON.parse(await file.text());if(!d||typeof d!=="object")throw Error("Invalid backup");notes=Array.isArray(d.notes)?d.notes:[];tasks=Array.isArray(d.tasks)?d.tasks:[];bookmarks=Array.isArray(d.bookmarks)?d.bookmarks:[];knowledge=Array.isArray(d.knowledge)?d.knowledge:[];checks=d.checks&&typeof d.checks==="object"?d.checks:{};learningProgress=d.learningProgress&&typeof d.learningProgress==="object"?d.learningProgress:{};chatHistory=Array.isArray(d.chatHistory)?d.chatHistory:[];focusSessions=Number(d.focusSessions)||0;if(d.studioProject&&typeof d.studioProject==="object"){["html","css","js"].forEach(k=>{if(typeof d.studioProject[k]==="string")$("studio"+k.charAt(0).toUpperCase()+k.slice(1)).value=d.studioProject[k]});saveStudio();$("studioPreview").srcdoc=studioDocument()}write("chatHistory",chatHistory);write("focusSessions",focusSessions);write("learningProgress",learningProgress);write("notes",notes);write("tasks",tasks);write("bookmarks",bookmarks);write("knowledge",knowledge);write("checks",checks);write("habits",Array.isArray(d.habits)?d.habits:read("habits",[]));write("habitChecks",d.habitChecks&&typeof d.habitChecks==="object"?d.habitChecks:read("habitChecks",{}));write("dismissed-alerts",Array.isArray(d.dismissedAlerts)?d.dismissedAlerts:read("dismissed-alerts",[]));write("focusModeSessions",Number(d.focusModeSessions)||0);if(d.theme==="light"||d.theme==="dark")localStorage.setItem("krx-theme",d.theme);localStorage.setItem("krx-nickname",String(d.nickname||""));$("nickname").value=String(d.nickname||"");renderNotes();renderTasks();renderKnowledge();renderBookmarks();renderChecks();renderLearningProgress();renderChat();showTimer();alert("Backup imported.")}catch(err){alert("Could not import: "+err.message)}e.target.value=""});
 $("resetData").addEventListener("click",()=>{if(!confirm("This will delete KR-X data saved in this browser. Export a backup first if needed. Continue?"))return;Object.keys(localStorage).filter(k=>k.startsWith("krx-")).forEach(k=>localStorage.removeItem(k));location.reload()});
 renderNotes();renderKnowledge();renderBookmarks();renderTasks();refreshStats();renderLearningProgress();
-// --- KR-X PWA install and offline support ---
-let deferredInstallPrompt = null;
-const installAppBtn = $("installAppBtn");
-const installStatus = $("installStatus");
-function isStandaloneApp(){
-  return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
-}
-function refreshInstallButton(){
-  const installed = isStandaloneApp() || read("appInstalled",false) === true;
-  installAppBtn.hidden = installed;
-  if(installed) installStatus.hidden = true;
-}
-window.addEventListener("beforeinstallprompt", event => {
-  event.preventDefault();
-  deferredInstallPrompt = event;
-  installStatus.textContent = "KR-X is ready to install.";
-  installStatus.hidden = false;
-});
-window.addEventListener("appinstalled", () => {
-  deferredInstallPrompt = null;
-  write("appInstalled",true);
-  installAppBtn.hidden = true;
-  installStatus.hidden = true;
-});
-installAppBtn.addEventListener("click", async () => {
-  if (isStandaloneApp()) { installAppBtn.hidden = true; return; }
-  if (deferredInstallPrompt) {
-    const promptEvent = deferredInstallPrompt;
-    deferredInstallPrompt = null;
-    promptEvent.prompt();
-    const choice = await promptEvent.userChoice;
-    if(choice.outcome === "accepted"){
-      write("appInstalled",true);
-      installAppBtn.hidden = true;
-      installStatus.hidden = true;
-    }else{
-      installStatus.textContent = "Installation was cancelled.";
-      installStatus.hidden = false;
-    }
-    return;
-  }
-  const userAgent = navigator.userAgent.toLowerCase();
-  const help = /(iphone|ipad|ipod)/.test(userAgent)
-    ? "To install on iPhone or iPad, open KR-X in Safari, tap Share, then Add to Home Screen."
-    : /android/.test(userAgent)
-      ? "If the install prompt is not shown, open your browser menu and choose Install app or Add to Home screen."
-      : "If the install prompt is not shown, use your browser’s Install app option near the address bar or in its menu.";
-  installStatus.textContent = help;
-  installStatus.hidden = false;
-});
-refreshInstallButton();
+// --- KR-X PWA standalone mode; install prompt button removed ---
 // --- KR-X connectivity status ---
 const connectionDot = $("connectionDot");
 const connectionStatus = $("connectionStatus");
