@@ -1190,6 +1190,11 @@ body.krx-a11y-motion-reduce *{scroll-behavior:auto!important;animation-duration:
 <button data-page="sessionrecorder"><span class="ico">▤</span>Session Recorder</button>
 <button data-page="controlprofiles"><span class="ico">◫</span>Control Profiles</button>
 <button data-page="quickactionbuilder"><span class="ico">⚡</span>Quick Action Builder</button>
+<button data-page="workspaceblueprints"><span class="ico">▦</span>Workspace Blueprint Studio</button>
+<button data-page="handoffcenter"><span class="ico">⇄</span>Device Handoff Center</button>
+<button data-page="transfervalidator"><span class="ico">✓</span>Transfer Validator</button>
+<button data-page="devicereadiness"><span class="ico">◉</span>Device Readiness Check</button>
+<button data-page="workspaceaudit"><span class="ico">⌕</span>Workspace Audit</button>
   <button data-page="assistant"><span class="ico"><svg class="krx-ai-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3.5 19.2 12.8 28.5 16 19.2 19.2 16 28.5 12.8 19.2 3.5 16 12.8 12.8Z"/><path d="M25.5 3.5v5M23 6h5M6.5 23.5v5M4 26h5"/></svg></span>AI Assistant</button>
   <button data-page="security"><span class="ico">◈</span>Security Center</button>
   <button data-page="workspace"><span class="ico">▤</span>Workspace</button>
@@ -1803,6 +1808,12 @@ button{padding:10px 16px;border:0;border-radius:8px;background:#35e6ff;color:#06
 <section class="page" id="page-sessionrecorder"><div class="section-head"><div><h2>SESSION RECORDER</h2><p>Manually record what you worked on and what comes next.</p></div><span class="pill">LOCAL SESSIONS</span></div><div class="card full"><div class="form-grid"><label>Session title<input class="input" id="srTitle" placeholder="e.g. Science revision"></label><label>Duration (minutes)<input class="input" id="srMinutes" type="number" min="1" max="1440" value="25"></label><label>What did you work on?<textarea class="input" id="srNotes" rows="3" placeholder="Topics, tasks or progress"></textarea></label><label>Next step<textarea class="input" id="srNext" rows="2" placeholder="What should happen next?"></textarea></label></div><button class="btn primary" id="srSave">Save session</button><div class="list" id="srList" style="margin-top:14px"></div></div></section>
 <section class="page" id="page-controlprofiles"><div class="section-head"><div><h2>CONTROL PROFILES</h2><p>Save named sets of KR-X pages for different kinds of work.</p></div><span class="pill">WORKSPACE PRESETS</span></div><div class="card full"><div class="form-grid"><label>Profile name<input class="input" id="cpName" placeholder="Study mode"></label><label>Pages (comma-separated IDs)<input class="input" id="cpPages" placeholder="planner, learning, focus"></label></div><p class="small-note">Use page IDs such as planner, workspace, learning, focus, nexus or dashboard.</p><button class="btn primary" id="cpSave">Save profile</button><div class="list" id="cpList" style="margin-top:14px"></div></div></section>
 <section class="page" id="page-quickactionbuilder"><div class="section-head"><div><h2>QUICK ACTION BUILDER</h2><p>Create reusable shortcuts that open a page or show a reminder inside KR-X.</p></div><span class="pill">PERSONAL COMMANDS</span></div><div class="card full"><div class="form-grid"><label>Action name<input class="input" id="qaName" placeholder="Start study session"></label><label>Action type<select class="input" id="qaType"><option value="navigate">Open a KR-X page</option><option value="reminder">Show an in-app reminder</option></select></label><label>Page ID (for navigation)<input class="input" id="qaPage" placeholder="planner"></label><label>Reminder text<input class="input" id="qaText" placeholder="Take a short break"></label></div><button class="btn primary" id="qaSave">Save quick action</button><div class="list" id="qaList" style="margin-top:14px"></div></div></section>
+
+<section class="page" id="page-workspaceblueprints"><div class="section-head"><div><h2>WORKSPACE BLUEPRINT STUDIO</h2><p>Save named groups of KR-X pages for repeatable workflows.</p></div><span class="pill">LOCAL BLUEPRINTS</span></div><div class="card full"><div class="form-grid"><label>Blueprint name<input class="input" id="wbName" placeholder="Study workspace"></label><label>Page IDs, comma-separated<input class="input" id="wbPages" placeholder="planner, learning, focus"></label></div><p class="small-note">Examples: dashboard, planner, workspace, learning, focus, nexus, command.</p><button class="btn primary" id="wbSave">Save blueprint</button><div class="list" id="wbList" style="margin-top:14px"></div></div></section>
+<section class="page" id="page-handoffcenter"><div class="section-head"><div><h2>DEVICE HANDOFF CENTER</h2><p>Prepare a portable handoff note when moving your work to another device.</p></div><span class="pill">MANUAL TRANSFER</span></div><div class="card full"><div class="form-grid"><label>Handoff title<input class="input" id="hcTitle" placeholder="Continue science project"></label><label>Current progress<textarea class="input" id="hcProgress" rows="3" placeholder="What is already completed?"></textarea></label><label>Next steps<textarea class="input" id="hcNext" rows="3" placeholder="What should be done next?"></textarea></label><label>Important page IDs<input class="input" id="hcPages" placeholder="workspace, planner, learning"></label></div><button class="btn primary" id="hcExport">Download handoff note</button><p class="small-note">This creates a text handoff note. It does not sync devices or transmit data.</p></div></section>
+<section class="page" id="page-transfervalidator"><div class="section-head"><div><h2>TRANSFER VALIDATOR</h2><p>Inspect a JSON file before using KR-X's import tools.</p></div><span class="pill">READ-ONLY CHECK</span></div><div class="card full"><label>Select a JSON file<input class="input" id="tvFile" type="file" accept=".json,application/json"></label><div class="list" id="tvResult" style="margin-top:14px"><div class="empty">Choose a JSON file to inspect its structure.</div></div><p class="small-note">The file is read locally in this browser. Nothing is uploaded or imported.</p></div></section>
+<section class="page" id="page-devicereadiness"><div class="section-head"><div><h2>DEVICE READINESS CHECK</h2><p>Review browser capabilities that may affect KR-X features.</p></div><span class="pill">DEVICE STATUS</span></div><div class="card full"><button class="btn primary" id="drRun">Run readiness check</button><div class="list" id="drList" style="margin-top:14px"></div></div></section>
+<section class="page" id="page-workspaceaudit"><div class="section-head"><div><h2>WORKSPACE AUDIT</h2><p>Check that KR-X navigation entries point to existing page sections.</p></div><span class="pill">LOCAL STRUCTURE CHECK</span></div><div class="card full"><button class="btn primary" id="waRun">Run workspace audit</button><div class="list" id="waList" style="margin-top:14px"></div></div></section>
 </section>
 </footer>
 </main>
@@ -2507,7 +2518,12 @@ function studioDocument(){
   ["System Switchboard","systemswitchboard","⛭","One place to control KR-X appearance and workspace modes"],
   ["Session Recorder","sessionrecorder","▤","Keep a local log of your work sessions"],
   ["Control Profiles","controlprofiles","◫","Save named sets of preferred KR-X module shortcuts"],
-  ["Quick Action Builder","quickactionbuilder","⚡","Create personal one-click navigation and reminder actions"]
+  ["Quick Action Builder","quickactionbuilder","⚡","Create personal one-click navigation and reminder actions"],
+  ["Workspace Blueprint Studio","workspaceblueprints","▦","Save reusable groups of KR-X pages"],
+  ["Device Handoff Center","handoffcenter","⇄","Prepare a manual handoff note for another device"],
+  ["Transfer Validator","transfervalidator","✓","Inspect a KR-X JSON transfer file before import"],
+  ["Device Readiness Check","devicereadiness","◉","Review browser and device capabilities"],
+  ["Workspace Audit","workspaceaudit","⌕","Check navigation and module page consistency"]
  ];
  const actions = [
   ["Create a note","new-note","＋","Open Workspace and focus the note title"],
@@ -2621,7 +2637,12 @@ function studioDocument(){
   ["Open System Switchboard","systemswitchboard","⛭","One place to control KR-X appearance and workspace modes"],
   ["Open Session Recorder","sessionrecorder","▤","Keep a local log of your work sessions"],
   ["Open Control Profiles","controlprofiles","◫","Save named sets of preferred KR-X module shortcuts"],
-  ["Open Quick Action Builder","quickactionbuilder","⚡","Create personal one-click navigation and reminder actions"]
+  ["Open Quick Action Builder","quickactionbuilder","⚡","Create personal one-click navigation and reminder actions"],
+  ["Open Workspace Blueprint Studio","workspaceblueprints","▦","Save reusable groups of KR-X pages"],
+  ["Open Device Handoff Center","handoffcenter","⇄","Prepare a manual handoff note for another device"],
+  ["Open Transfer Validator","transfervalidator","✓","Inspect a KR-X JSON transfer file before import"],
+  ["Open Device Readiness Check","devicereadiness","◉","Review browser and device capabilities"],
+  ["Open Workspace Audit","workspaceaudit","⌕","Check navigation and module page consistency"]
  ];
  let recent = [];
  try { recent = JSON.parse(localStorage.getItem("krx-recent-pages") || "[]"); if(!Array.isArray(recent)) recent=[]; } catch { recent=[]; }
@@ -2809,7 +2830,12 @@ function studioDocument(){
   ["System Switchboard","systemswitchboard"],
   ["Session Recorder","sessionrecorder"],
   ["Control Profiles","controlprofiles"],
-  ["Quick Action Builder","quickactionbuilder"]
+  ["Quick Action Builder","quickactionbuilder"],
+  ["Workspace Blueprint Studio","workspaceblueprints"],
+  ["Device Handoff Center","handoffcenter"],
+  ["Transfer Validator","transfervalidator"],
+  ["Device Readiness Check","devicereadiness"],
+  ["Workspace Audit","workspaceaudit"]
  ];
  let z=20,serial=0,layouts={};
  try{layouts=JSON.parse(localStorage.getItem("krx-window-layouts")||"{}");if(!layouts||typeof layouts!=="object")layouts={};}catch{layouts={};}
@@ -3297,7 +3323,7 @@ setGate(!!saved());
 ["Reflection Insights","reflectioninsights","✧"],
 ["Preference Lab","preferencelab","⚙"],
 ["Knowledge Curator","knowledgecurator","▣"],
-["Personal Operating Manual","operatingmanual","▤"],["Command History","commandhistory","◷"],["System Switchboard","systemswitchboard","⛭"],["Session Recorder","sessionrecorder","▤"],["Control Profiles","controlprofiles","◫"],["Quick Action Builder","quickactionbuilder","⚡"]];
+["Personal Operating Manual","operatingmanual","▤"],["Command History","commandhistory","◷"],["System Switchboard","systemswitchboard","⛭"],["Session Recorder","sessionrecorder","▤"],["Control Profiles","controlprofiles","◫"],["Quick Action Builder","quickactionbuilder","⚡"],["Workspace Blueprint Studio","workspaceblueprints","▦"],["Device Handoff Center","handoffcenter","⇄"],["Transfer Validator","transfervalidator","✓"],["Device Readiness Check","devicereadiness","◉"],["Workspace Audit","workspaceaudit","⌕"]];
  const dataKeys=[["Notes","notes"],["Tasks","tasks"],["Bookmarks","bookmarks"],["Knowledge notes","knowledge"],["Learning progress","learningProgress"],["Chat history","chatHistory"],["Habits","habits"],["Notifications","notifications"],["Accessibility preferences","accessibilityPrefs"],["Onboarding progress","onboardingProgress"]];
  function readLocal(key){try{return JSON.parse(localStorage.getItem("krx-"+key));}catch{return null;}}
  function countRecords(value){if(Array.isArray(value))return value.length;if(value&&typeof value==="object")return Object.keys(value).length;return value==null?0:1;}
@@ -3834,6 +3860,22 @@ function profiles(){const a=get("profiles",[]),box=$("cpList");if(!box)return;bo
 bind("cpSave",()=>{const name=$("cpName").value.trim(),pages=$("cpPages").value.split(",").map(x=>x.trim()).filter(Boolean);if(!name||!pages.length)return;const a=get("profiles",[]);a.unshift({name,pages});put("profiles",a);$("cpName").value="";$("cpPages").value="";profiles()});profiles();
 function actions(){const a=get("actions",[]),box=$("qaList");if(!box)return;box.innerHTML=a.map((x,i)=>'<div class="item"><div class="item-main"><div class="item-title">'+esc(x.name)+'</div><div class="item-meta">'+esc(x.type==="navigate"?"Open "+x.page:"Reminder")+'</div></div><button class="btn primary" data-run="'+i+'">Run</button><button class="btn" data-del="'+i+'">Delete</button></div>').join("")||'<div class="empty">No quick actions created.</div>';box.querySelectorAll("[data-run]").forEach(b=>b.onclick=()=>{const x=a[Number(b.dataset.run)];if(!x)return;if(x.type==="navigate"&&x.page&&typeof window.navigate==="function")window.navigate(x.page);else if(x.text)alert(x.text)});box.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{a.splice(Number(b.dataset.del),1);put("actions",a);actions()})}
 bind("qaSave",()=>{const name=$("qaName").value.trim(),type=$("qaType").value,page=$("qaPage").value.trim(),text=$("qaText").value.trim();if(!name||(type==="navigate"&&!page)||(type==="reminder"&&!text))return;const a=get("actions",[]);a.unshift({name,type,page,text});put("actions",a);$("qaName").value="";$("qaPage").value="";$("qaText").value="";actions()});actions();
+})();
+</script>
+
+<script>
+(()=>{"use strict";
+const $=id=>document.getElementById(id),K="krx-b17-";
+const get=(k,d=[])=>{try{return JSON.parse(localStorage.getItem(K+k))??d}catch{return d}};
+const put=(k,v)=>{try{localStorage.setItem(K+k,JSON.stringify(v))}catch{}};
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const bind=(id,fn)=>{if($(id))$(id).addEventListener("click",fn)};
+function blueprints(){const a=get("blueprints"),b=$("wbList");if(!b)return;b.innerHTML=a.map((x,i)=>'<div class="item"><div class="item-main"><div class="item-title">'+esc(x.name)+'</div><div class="item-meta">'+esc(x.pages.join(", "))+'</div></div><button class="btn primary" data-open="'+i+'">Open first page</button><button class="btn" data-del="'+i+'">Delete</button></div>').join("")||'<div class="empty">No blueprints saved.</div>';b.querySelectorAll("[data-open]").forEach(x=>x.onclick=()=>{const p=a[+x.dataset.open]?.pages[0];if(p&&document.querySelector('[data-page="'+CSS.escape(p)+'"]')&&window.navigate)window.navigate(p)});b.querySelectorAll("[data-del]").forEach(x=>x.onclick=()=>{a.splice(+x.dataset.del,1);put("blueprints",a);blueprints()})}
+bind("wbSave",()=>{const name=$("wbName").value.trim(),pages=$("wbPages").value.split(",").map(x=>x.trim()).filter(Boolean);if(!name||!pages.length)return;const a=get("blueprints");a.unshift({name,pages});put("blueprints",a);$("wbName").value="";$("wbPages").value="";blueprints()});blueprints();
+bind("hcExport",()=>{const title=$("hcTitle").value.trim();if(!title)return;const data="KR-X DEVICE HANDOFF\n"+title+"\n\nPROGRESS\n"+$("hcProgress").value+"\n\nNEXT STEPS\n"+$("hcNext").value+"\n\nPAGES\n"+$("hcPages").value+"\n\nCreated: "+new Date().toLocaleString()+"\n\nNote: This is a manual handoff note; no automatic device sync is performed.";const u=URL.createObjectURL(new Blob([data],{type:"text/plain"})),a=document.createElement("a");a.href=u;a.download="krx-device-handoff.txt";a.click();URL.revokeObjectURL(u)});
+const file=$("tvFile");if(file)file.addEventListener("change",async()=>{const out=$("tvResult"),f=file.files?.[0];if(!f)return;try{const raw=await f.text(),v=JSON.parse(raw);let checks=[];checks.push(["Valid JSON","Passed"]);checks.push(["Top-level type",Array.isArray(v)?"Array":typeof v]);if(v&&typeof v==="object"&&!Array.isArray(v)){checks.push(["Recognized KR-X export",!!(v.data||v.records||v.version||v.exportedAt||v.app)]);checks.push(["Top-level keys",Object.keys(v).slice(0,20).join(", ")||"None"]);}out.innerHTML=checks.map(x=>'<div class="item"><div class="item-title">'+esc(x[0])+'</div><div class="item-meta">'+esc(x[1])+'</div></div>').join("")+'<div class="item"><div class="item-meta">File size: '+esc(f.size)+' bytes. This is a structural check only, not a guarantee that the file is safe or compatible.</div></div>';}catch(e){out.innerHTML='<div class="item"><div class="item-title">Could not parse JSON</div><div class="item-meta">Check that the selected file is valid JSON.</div></div>'}});
+bind("drRun",()=>{const rows=[["Internet",navigator.onLine?"Online":"Offline"],["Local storage",(()=>{try{localStorage.setItem(K+"test","1");localStorage.removeItem(K+"test");return"Available"}catch{return"Unavailable"}})()],["Clipboard API",navigator.clipboard?"Available (permission may be required)":"Not available"],["Service worker",("serviceWorker" in navigator)?"Supported by browser":"Not supported"],["Screen",screen.width+" × "+screen.height],["Browser language",navigator.language||"Unknown"]];$("drList").innerHTML=rows.map(x=>'<div class="item"><div class="item-title">'+esc(x[0])+'</div><div class="item-meta">'+esc(x[1])+'</div></div>').join("")});$("drRun")?.click();
+bind("waRun",()=>{const nav=[...document.querySelectorAll("#navigation [data-page]")],rows=nav.map(b=>{const id=b.dataset.page;return [b.textContent.trim(),!!document.getElementById("page-"+id)]});const ok=rows.filter(x=>x[1]).length,box=$("waList");box.innerHTML='<div class="item"><div class="item-title">Navigation check: '+ok+'/'+rows.length+' pages found</div><div class="item-meta">Checks sidebar targets against page section IDs.</div></div>'+rows.filter(x=>!x[1]).map(x=>'<div class="item"><div class="item-title">'+esc(x[0])+'</div><div class="item-meta">Page section missing</div></div>').join("")+(ok===rows.length?'<div class="item"><div class="item-title">All sidebar targets have matching sections.</div></div>':"")});$("waRun")?.click();
 })();
 </script>
 </html>
