@@ -2695,7 +2695,12 @@ const savedStudio=read("studioProject",null);
 if(savedStudio&&typeof savedStudio==="object"){if(typeof savedStudio.html==="string")$("studioHtml").value=savedStudio.html;if(typeof savedStudio.css==="string")$("studioCss").value=savedStudio.css;if(typeof savedStudio.js==="string")$("studioJs").value=savedStudio.js;}
 function studioDocument(){
  const html=$("studioHtml").value,css=$("studioCss").value,code=$("studioJs").value.replace(/<\/script/gi,"<\\/script");
- return '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>'+css+'</style>\n<style id="krx-performance-boost">\n/* KR-X performance boost: preserve the glass look while reducing GPU-heavy effects on phones. */\n@media (max-width: 768px) {\n  .hero, .dash-search, .dash-panel, .dash-action, .dash-stat,\n  .dash-modules, .card, .tool, .sim-card,\n  .dash-tool-row, .dash-search-shortcuts button, .dash-module-links button,\n  .dash-search-clear, .btn, .quiz-option, .sim-choice, .item,\n  .tool .output, .sidebar, .command-overlay, .krx-toast {\n    -webkit-backdrop-filter: blur(6px) saturate(110%) !important;\n    backdrop-filter: blur(6px) saturate(110%) !important;\n  }\n  .card, .tool, .hero, .item, .dash-panel, .dash-action {\n    box-shadow: 0 5px 16px rgba(0,0,0,.22) !important;\n  }\n}\n@media (hover: none) and (pointer: coarse) {\n  .card:hover, .tool:hover, .hero:hover, .item:hover, .btn:hover,\n  .dash-action:hover, .nav button:hover {\n    transform: none !important;\n  }\n}\n@media (prefers-reduced-motion: reduce) {\n  *, *::before, *::after {\n    scroll-behavior: auto !important;\n    animation-duration: .01ms !important;\n    animation-iteration-count: 1 !important;\n    transition-duration: .01ms !important;\n  }\n}\n</style>\n</head><body>'+html+'<script>'+code+'<\/script></body></html>';
+ return '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>'+css+'</style>\n<style id="krx-performance-boost">\n/* KR-X performance boost: preserve the glass look while reducing GPU-heavy effects on phones. */\n@media (max-width: 768px) {\n  .hero, .dash-search, .dash-panel, .dash-action, .dash-stat,\n  .dash-modules, .card, .tool, .sim-card,\n  .dash-tool-row, .dash-search-shortcuts button, .dash-module-links button,\n  .dash-search-clear, .btn, .quiz-option, .sim-choice, .item,\n  .tool .output, .sidebar, .command-overlay, .krx-toast {\n    -webkit-backdrop-filter: blur(6px) saturate(110%) !important;\n    backdrop-filter: blur(6px) saturate(110%) !important;\n  }\n  .card, .tool, .hero, .item, .dash-panel, .dash-action {\n    box-shadow: 0 5px 16px rgba(0,0,0,.22) !important;\n  }\n}\n@media (hover: none) and (pointer: coarse) {\n  .card:hover, .tool:hover, .hero:hover, .item:hover, .btn:hover,\n  .dash-action:hover, .nav button:hover {\n    transform: none !important;\n  }\n}\n@media (prefers-reduced-motion: reduce) {\n  *, *::before, *::after {\n    scroll-behavior: auto !important;\n    animation-duration: .01ms !important;\n    animation-iteration-count: 1 !important;\n    transition-duration: .01ms !important;\n  }\n}\n
+/* Shared pull-to-refresh interaction, matching RUCHI GNM */
+#pullRefreshHint{position:fixed;z-index:2500;top:8px;left:50%;transform:translate(-50%,-150%);transition:transform .18s ease,opacity .18s ease;opacity:0;padding:9px 15px;border-radius:999px;background:rgba(8,28,52,.94);color:#fff;font-size:13px;font-weight:700;box-shadow:0 8px 24px #0005;backdrop-filter:blur(18px)}
+body.pull-refresh-visible #pullRefreshHint{transform:translate(-50%,0);opacity:1}
+@media(prefers-reduced-motion:reduce){#pullRefreshHint{transition:none}}
+</style>\n</head><body>'+html+'<script>'+code+'<\/script></body></html>';
 }
 (()=> {
  "use strict";
@@ -4680,7 +4685,17 @@ refreshDashboard();
   }
  }catch(e){}
 })();
+
+/* Pull down at the top of the page to refresh KR-X */
+let krxPullStartY=0,krxPullDistance=0,krxPullTracking=false;
+function clearKrxPull(){krxPullTracking=false;krxPullDistance=0;document.body.classList.remove('pull-refresh-visible')}
+document.addEventListener('touchstart',event=>{if(event.touches.length!==1||window.scrollY>0){clearKrxPull();return}krxPullStartY=event.touches[0].clientY;krxPullDistance=0;krxPullTracking=true},{passive:true});
+document.addEventListener('touchmove',event=>{if(!krxPullTracking||event.touches.length!==1)return;const dy=event.touches[0].clientY-krxPullStartY,dx=Math.abs(event.touches[0].clientX-(event.changedTouches[0]?.clientX||event.touches[0].clientX));if(window.scrollY>0||dy<=0||dy<dx){clearKrxPull();return}krxPullDistance=Math.min(dy,150);if(krxPullDistance>8){if(event.cancelable)event.preventDefault();document.body.classList.add('pull-refresh-visible');const hint=document.getElementById('pullRefreshHint');if(hint)hint.textContent=krxPullDistance>=85?'Release to refresh':'Pull down to refresh'}},{passive:false});
+document.addEventListener('touchend',()=>{if(!krxPullTracking)return;const shouldRefresh=krxPullDistance>=85;const hint=document.getElementById('pullRefreshHint');if(shouldRefresh&&hint){hint.textContent='Refreshing KR-X…';document.body.classList.add('pull-refresh-visible');setTimeout(()=>window.location.reload(),140)}else clearKrxPull()},{passive:true});
+document.addEventListener('touchcancel',clearKrxPull,{passive:true});
+
 </script>
+<div id="pullRefreshHint" role="status" aria-live="polite">Pull down to refresh</div>
 </body>
 </html>
 
