@@ -2566,38 +2566,7 @@ const savedStudio=read("studioProject",null);
 if(savedStudio&&typeof savedStudio==="object"){if(typeof savedStudio.html==="string")$("studioHtml").value=savedStudio.html;if(typeof savedStudio.css==="string")$("studioCss").value=savedStudio.css;if(typeof savedStudio.js==="string")$("studioJs").value=savedStudio.js;}
 function studioDocument(){
  const html=$("studioHtml").value,css=$("studioCss").value,code=$("studioJs").value.replace(/<\/script/gi,"<\\/script");
- return '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>'+css+'</style>
-<style id="krx-performance-boost">
-/* KR-X performance boost: preserve the glass look while reducing GPU-heavy effects on phones. */
-@media (max-width: 768px) {
-  .hero, .dash-search, .dash-panel, .dash-action, .dash-stat,
-  .dash-modules, .card, .tool, .sim-card,
-  .dash-tool-row, .dash-search-shortcuts button, .dash-module-links button,
-  .dash-search-clear, .btn, .quiz-option, .sim-choice, .item,
-  .tool .output, .sidebar, .command-overlay, .krx-toast {
-    -webkit-backdrop-filter: blur(6px) saturate(110%) !important;
-    backdrop-filter: blur(6px) saturate(110%) !important;
-  }
-  .card, .tool, .hero, .item, .dash-panel, .dash-action {
-    box-shadow: 0 5px 16px rgba(0,0,0,.22) !important;
-  }
-}
-@media (hover: none) and (pointer: coarse) {
-  .card:hover, .tool:hover, .hero:hover, .item:hover, .btn:hover,
-  .dash-action:hover, .nav button:hover {
-    transform: none !important;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    scroll-behavior: auto !important;
-    animation-duration: .01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: .01ms !important;
-  }
-}
-</style>
-</head><body>'+html+'<script>'+code+'<\/script></body></html>';
+ return '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>'+css+'</style>\n<style id="krx-performance-boost">\n/* KR-X performance boost: preserve the glass look while reducing GPU-heavy effects on phones. */\n@media (max-width: 768px) {\n  .hero, .dash-search, .dash-panel, .dash-action, .dash-stat,\n  .dash-modules, .card, .tool, .sim-card,\n  .dash-tool-row, .dash-search-shortcuts button, .dash-module-links button,\n  .dash-search-clear, .btn, .quiz-option, .sim-choice, .item,\n  .tool .output, .sidebar, .command-overlay, .krx-toast {\n    -webkit-backdrop-filter: blur(6px) saturate(110%) !important;\n    backdrop-filter: blur(6px) saturate(110%) !important;\n  }\n  .card, .tool, .hero, .item, .dash-panel, .dash-action {\n    box-shadow: 0 5px 16px rgba(0,0,0,.22) !important;\n  }\n}\n@media (hover: none) and (pointer: coarse) {\n  .card:hover, .tool:hover, .hero:hover, .item:hover, .btn:hover,\n  .dash-action:hover, .nav button:hover {\n    transform: none !important;\n  }\n}\n@media (prefers-reduced-motion: reduce) {\n  *, *::before, *::after {\n    scroll-behavior: auto !important;\n    animation-duration: .01ms !important;\n    animation-iteration-count: 1 !important;\n    transition-duration: .01ms !important;\n  }\n}\n</style>\n</head><body>'+html+'<script>'+code+'<\/script></body></html>';
 }
 (()=> {
  "use strict";
