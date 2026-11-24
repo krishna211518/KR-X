@@ -2426,81 +2426,7 @@ $("appProjectName").value=appProject.name||appDefault.name;$("appHtml").value=ap
 function runAppPreview(){
  const html=$("appHtml").value,css=$("appCss").value,code=isKrxSafeMode()?"":$("appJs").value;
  $("appPreview").srcdoc="<!doctype html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><style>"+css.replace(/<\/style/gi,"<\\/style")+"</style></head><body>"+html+"<script>"+code.replace(/<\/script/gi,"<\\/script")+"<\/script>
-<script>
-// Independent KR-X install controller: works even if another feature script fails.
-(() => {
-  "use strict";
-  let installPrompt = null;
-  let busy = false;
-  const button = document.getElementById("installAppBtn");
-  const mode = window.matchMedia("(display-mode: standalone)");
-  const installed = () => mode.matches || window.navigator.standalone === true;
-  const notice = message => {
-    const region = document.getElementById("toastRegion");
-    if (region) {
-      const node = document.createElement("div");
-      node.className = "krx-toast";
-      node.setAttribute("role", "status");
-      node.textContent = message;
-      region.appendChild(node);
-      while (region.children.length > 3) region.firstElementChild.remove();
-      window.setTimeout(() => node.remove(), 6000);
-    } else {
-      window.alert(message);
-    }
-  };
-  const sync = () => {
-    if (!button) return;
-    button.hidden = installed();
-    button.disabled = busy;
-    button.textContent = busy ? "Opening install…" : "↓ Install App";
-  };
-  window.krxInstallApp = async () => {
-    if (installed()) { sync(); return; }
-    if (!installPrompt) {
-      notice(/android/i.test(navigator.userAgent)
-        ? "Chrome mein ⋮ menu kholo → Install app ya Add to Home screen chuno. Agar option nahi hai, page ko Chrome mein kholkar dobara try karo."
-        : /iphone|ipad|ipod/i.test(navigator.userAgent)
-          ? "Safari mein Share button dabao → Add to Home Screen chuno."
-          : "Browser menu kholo aur Install app / Add to Home screen chuno. Agar option nahi hai, supported browser mein KR-X kholo.");
-      return;
-    }
-    const event = installPrompt;
-    installPrompt = null;
-    busy = true;
-    sync();
-    try {
-      const promptResult = event.prompt();
-      await promptResult;
-      const choice = await event.userChoice;
-      notice(choice && choice.outcome === "accepted"
-        ? "KR-X install accepted. Browser prompt complete karo."
-        : "Install cancel hua. Baad mein phir try kar sakte ho.");
-    } catch (error) {
-      notice("Browser install prompt open nahi kar saka. Browser ke ⋮ menu se Install app chuno.");
-    } finally {
-      busy = false;
-      sync();
-    }
-  };
-  window.addEventListener("beforeinstallprompt", event => {
-    event.preventDefault();
-    installPrompt = event;
-    sync();
-  });
-  window.addEventListener("appinstalled", () => {
-    installPrompt = null;
-    busy = false;
-    sync();
-    notice("KR-X successfully installed.");
-  });
-  window.addEventListener("pageshow", sync);
-  window.addEventListener("focus", sync);
-  document.addEventListener("visibilitychange", () => { if (!document.hidden) sync(); });
-  try { mode.addEventListener("change", sync); } catch {}
-  sync();
-})();
-</script>
+
 </body></html>";
 }
 $("appRun")?.addEventListener("click",runAppPreview);
@@ -4558,6 +4484,68 @@ refreshDashboard();
 })();
 </script>
 
+<script>
+(() => {
+  "use strict";
+  let installPrompt = null, busy = false;
+  const button = document.getElementById("installAppBtn");
+  const mode = window.matchMedia("(display-mode: standalone)");
+  const installed = () => mode.matches || window.navigator.standalone === true;
+  const notice = message => {
+    const region = document.getElementById("toastRegion");
+    if (region) {
+      const node = document.createElement("div");
+      node.className = "krx-toast";
+      node.setAttribute("role", "status");
+      node.textContent = message;
+      region.appendChild(node);
+      while (region.children.length > 3) region.firstElementChild.remove();
+      setTimeout(() => node.remove(), 6000);
+    } else alert(message);
+  };
+  const sync = () => {
+    if (!button) return;
+    button.hidden = installed();
+    button.disabled = busy;
+    button.textContent = busy ? "Opening install…" : "↓ Install App";
+  };
+  window.krxInstallApp = async () => {
+    if (installed()) { sync(); return; }
+    if (!installPrompt) {
+      notice(/android/i.test(navigator.userAgent)
+        ? "Chrome mein ⋮ menu kholo → Install app ya Add to Home screen chuno. Agar option nahi hai, page ko Chrome mein kholkar dobara try karo."
+        : /iphone|ipad|ipod/i.test(navigator.userAgent)
+          ? "Safari mein Share button dabao → Add to Home Screen chuno."
+          : "Browser menu kholo aur Install app / Add to Home screen chuno.");
+      return;
+    }
+    const event = installPrompt;
+    installPrompt = null;
+    busy = true; sync();
+    try {
+      const promptResult = event.prompt();
+      await promptResult;
+      const choice = await event.userChoice;
+      notice(choice && choice.outcome === "accepted"
+        ? "KR-X install accepted. Browser prompt complete karo."
+        : "Install cancel hua. Baad mein phir try kar sakte ho.");
+    } catch {
+      notice("Browser install prompt open nahi kar saka. Browser ke ⋮ menu se Install app chuno.");
+    } finally { busy = false; sync(); }
+  };
+  window.addEventListener("beforeinstallprompt", event => {
+    event.preventDefault(); installPrompt = event; sync();
+  });
+  window.addEventListener("appinstalled", () => {
+    installPrompt = null; busy = false; sync(); notice("KR-X successfully installed.");
+  });
+  window.addEventListener("pageshow", sync);
+  window.addEventListener("focus", sync);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) sync(); });
+  try { mode.addEventListener("change", sync); } catch {}
+  sync();
+})();
+</script>
 </body>
 </html>
 
