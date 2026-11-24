@@ -2425,9 +2425,7 @@ let appProject=read("appBuilderProject",appDefault);
 $("appProjectName").value=appProject.name||appDefault.name;$("appHtml").value=appProject.html||appDefault.html;$("appCss").value=appProject.css||appDefault.css;$("appJs").value=appProject.js||appDefault.js;
 function runAppPreview(){
  const html=$("appHtml").value,css=$("appCss").value,code=isKrxSafeMode()?"":$("appJs").value;
- $("appPreview").srcdoc="<!doctype html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><style>"+css.replace(/<\/style/gi,"<\\/style")+"</style></head><body>"+html+"<script>"+code.replace(/<\/script/gi,"<\\/script")+"<\/script>
-
-</body></html>";
+ $("appPreview").srcdoc="<!doctype html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><style>"+css.replace(/<\/style/gi,"<\\/style")+"</style></head><body>"+html+"<script>"+code.replace(/<\/script/gi,"<\\/script")+"<\/script></body></html>";
 }
 $("appRun")?.addEventListener("click",runAppPreview);
 $("appSave")?.addEventListener("click",()=>{appProject={name:$("appProjectName").value.trim()||"Untitled App",html:$("appHtml").value,css:$("appCss").value,js:$("appJs").value};write("appBuilderProject",appProject);toast("App project saved locally.");});
