@@ -3326,10 +3326,7 @@ function studioDocument(){
  }
 })();
 </script>
-
-</body></html>';
-}
-
+<script>
 function saveStudio(){write("studioProject",{html:$("studioHtml").value,css:$("studioCss").value,js:$("studioJs").value})}
 ["studioHtml","studioCss","studioJs"].forEach(id=>$(id).addEventListener("input",saveStudio));
 $("runStudio").addEventListener("click",()=>{$("studioPreview").srcdoc=studioDocument();saveStudio();toast("Preview updated in the sandbox.")});
