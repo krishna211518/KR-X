@@ -1287,7 +1287,7 @@ body.krx-a11y-motion-reduce *{scroll-behavior:auto!important;animation-duration:
  <div class="side-bottom"><span class="status-dot" id="connectionDot" aria-hidden="true"></span><span class="connection-label" id="connectionStatus" role="status" aria-live="polite">Network: online</span><br><span>Local workspace active</span><br><span id="sideDate"></span></div>
 </aside>
 <main>
- <div class="topbar"><div><div class="eyebrow">KR-X • YOUR PERSONAL HUB</div><h1 id="pageTitle">Dashboard</h1><p id="offlineNotice" class="small-note" role="status" aria-live="polite" hidden>You are offline. Saved KR-X data on this device remains available; some links need internet.</p></div><div class="top-actions"><span class="clock" id="clock">--:--:--</span><button class="btn small" id="commandPaletteBtn" type="button" title="Open Command Palette (Ctrl+K)">⌘ Commands</button><button class="btn small" id="openWindowHub" type="button" title="Open Multi-Window Workspace">▣ Windows</button><button class="btn small" id="installAppBtn" type="button">↓ Install App</button><button class="btn small" id="themeBtn">☼ Theme</button></div></div>
+ <div class="topbar"><div><div class="eyebrow">KR-X • YOUR PERSONAL HUB</div><h1 id="pageTitle">Dashboard</h1><p id="offlineNotice" class="small-note" role="status" aria-live="polite" hidden>You are offline. Saved KR-X data on this device remains available; some links need internet.</p></div><div class="top-actions"><span class="clock" id="clock">--:--:--</span><button class="btn small" id="commandPaletteBtn" type="button" title="Open Command Palette (Ctrl+K)">⌘ Commands</button><button class="btn small" id="openWindowHub" type="button" title="Open Multi-Window Workspace">▣ Windows</button><button class="btn small" id="installAppBtn" type="button" onclick="window.krxInstallApp && window.krxInstallApp()">↓ Install App</button><button class="btn small" id="themeBtn">☼ Theme</button></div></div>
 
 <section class="page active" id="page-dashboard">
  <div class="dash-welcome">
@@ -2425,7 +2425,83 @@ let appProject=read("appBuilderProject",appDefault);
 $("appProjectName").value=appProject.name||appDefault.name;$("appHtml").value=appProject.html||appDefault.html;$("appCss").value=appProject.css||appDefault.css;$("appJs").value=appProject.js||appDefault.js;
 function runAppPreview(){
  const html=$("appHtml").value,css=$("appCss").value,code=isKrxSafeMode()?"":$("appJs").value;
- $("appPreview").srcdoc="<!doctype html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><style>"+css.replace(/<\/style/gi,"<\\/style")+"</style></head><body>"+html+"<script>"+code.replace(/<\/script/gi,"<\\/script")+"<\/script></body></html>";
+ $("appPreview").srcdoc="<!doctype html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><style>"+css.replace(/<\/style/gi,"<\\/style")+"</style></head><body>"+html+"<script>"+code.replace(/<\/script/gi,"<\\/script")+"<\/script>
+<script>
+// Independent KR-X install controller: works even if another feature script fails.
+(() => {
+  "use strict";
+  let installPrompt = null;
+  let busy = false;
+  const button = document.getElementById("installAppBtn");
+  const mode = window.matchMedia("(display-mode: standalone)");
+  const installed = () => mode.matches || window.navigator.standalone === true;
+  const notice = message => {
+    const region = document.getElementById("toastRegion");
+    if (region) {
+      const node = document.createElement("div");
+      node.className = "krx-toast";
+      node.setAttribute("role", "status");
+      node.textContent = message;
+      region.appendChild(node);
+      while (region.children.length > 3) region.firstElementChild.remove();
+      window.setTimeout(() => node.remove(), 6000);
+    } else {
+      window.alert(message);
+    }
+  };
+  const sync = () => {
+    if (!button) return;
+    button.hidden = installed();
+    button.disabled = busy;
+    button.textContent = busy ? "Opening install…" : "↓ Install App";
+  };
+  window.krxInstallApp = async () => {
+    if (installed()) { sync(); return; }
+    if (!installPrompt) {
+      notice(/android/i.test(navigator.userAgent)
+        ? "Chrome mein ⋮ menu kholo → Install app ya Add to Home screen chuno. Agar option nahi hai, page ko Chrome mein kholkar dobara try karo."
+        : /iphone|ipad|ipod/i.test(navigator.userAgent)
+          ? "Safari mein Share button dabao → Add to Home Screen chuno."
+          : "Browser menu kholo aur Install app / Add to Home screen chuno. Agar option nahi hai, supported browser mein KR-X kholo.");
+      return;
+    }
+    const event = installPrompt;
+    installPrompt = null;
+    busy = true;
+    sync();
+    try {
+      const promptResult = event.prompt();
+      await promptResult;
+      const choice = await event.userChoice;
+      notice(choice && choice.outcome === "accepted"
+        ? "KR-X install accepted. Browser prompt complete karo."
+        : "Install cancel hua. Baad mein phir try kar sakte ho.");
+    } catch (error) {
+      notice("Browser install prompt open nahi kar saka. Browser ke ⋮ menu se Install app chuno.");
+    } finally {
+      busy = false;
+      sync();
+    }
+  };
+  window.addEventListener("beforeinstallprompt", event => {
+    event.preventDefault();
+    installPrompt = event;
+    sync();
+  });
+  window.addEventListener("appinstalled", () => {
+    installPrompt = null;
+    busy = false;
+    sync();
+    notice("KR-X successfully installed.");
+  });
+  window.addEventListener("pageshow", sync);
+  window.addEventListener("focus", sync);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) sync(); });
+  try { mode.addEventListener("change", sync); } catch {}
+  sync();
+})();
+</script>
+</body></html>";
 }
 $("appRun")?.addEventListener("click",runAppPreview);
 $("appSave")?.addEventListener("click",()=>{appProject={name:$("appProjectName").value.trim()||"Untitled App",html:$("appHtml").value,css:$("appCss").value,js:$("appJs").value};write("appBuilderProject",appProject);toast("App project saved locally.");});
@@ -3252,72 +3328,8 @@ $("exportData").addEventListener("click",()=>{const data={version:8,notes,tasks,
 $("importFile").addEventListener("change",async e=>{const file=e.target.files[0];if(!file)return;try{const d=JSON.parse(await file.text());if(!d||typeof d!=="object")throw Error("Invalid backup");notes=Array.isArray(d.notes)?d.notes:[];tasks=Array.isArray(d.tasks)?d.tasks:[];bookmarks=Array.isArray(d.bookmarks)?d.bookmarks:[];knowledge=Array.isArray(d.knowledge)?d.knowledge:[];checks=d.checks&&typeof d.checks==="object"?d.checks:{};learningProgress=d.learningProgress&&typeof d.learningProgress==="object"?d.learningProgress:{};chatHistory=Array.isArray(d.chatHistory)?d.chatHistory:[];focusSessions=Number(d.focusSessions)||0;if(d.studioProject&&typeof d.studioProject==="object"){["html","css","js"].forEach(k=>{if(typeof d.studioProject[k]==="string")$("studio"+k.charAt(0).toUpperCase()+k.slice(1)).value=d.studioProject[k]});saveStudio();$("studioPreview").srcdoc=studioDocument()}write("chatHistory",chatHistory);write("focusSessions",focusSessions);write("learningProgress",learningProgress);write("notes",notes);write("tasks",tasks);write("bookmarks",bookmarks);write("knowledge",knowledge);write("checks",checks);write("habits",Array.isArray(d.habits)?d.habits:read("habits",[]));write("habitChecks",d.habitChecks&&typeof d.habitChecks==="object"?d.habitChecks:read("habitChecks",{}));write("dismissed-alerts",Array.isArray(d.dismissedAlerts)?d.dismissedAlerts:read("dismissed-alerts",[]));write("focusModeSessions",Number(d.focusModeSessions)||0);if(d.theme==="light"||d.theme==="dark")localStorage.setItem("krx-theme",d.theme);renderNotes();renderTasks();renderKnowledge();renderBookmarks();renderChecks();renderLearningProgress();renderChat();showTimer();alert("Backup imported.")}catch(err){alert("Could not import: "+err.message)}e.target.value=""});
 $("resetData").addEventListener("click",()=>{if(!confirm("This will delete KR-X data saved in this browser. Export a backup first if needed. Continue?"))return;Object.keys(localStorage).filter(k=>k.startsWith("krx-")).forEach(k=>localStorage.removeItem(k));location.reload()});
 renderNotes();renderKnowledge();renderBookmarks();renderTasks();refreshStats();renderLearningProgress();
-// --- KR-X PWA install control ---
-const installButton = $("installAppBtn");
-let deferredInstallPrompt = null;
-let installPromptBusy = false;
-const displayModeQuery = window.matchMedia("(display-mode: standalone)");
-const isAppInstalled = () =>
-  displayModeQuery.matches ||
-  window.navigator.standalone === true;
-function syncInstallButton() {
-  if (!installButton) return;
-  installButton.hidden = isAppInstalled();
-  installButton.disabled = installPromptBusy;
-  installButton.textContent = installPromptBusy ? "Opening install…" : "↓ Install App";
-}
-syncInstallButton();
-window.addEventListener("pageshow", syncInstallButton);
-window.addEventListener("focus", syncInstallButton);
-document.addEventListener("visibilitychange", () => {
-  if (!document.hidden) syncInstallButton();
-});
-try { displayModeQuery.addEventListener("change", syncInstallButton); } catch {}
-window.addEventListener("beforeinstallprompt", event => {
-  event.preventDefault();
-  deferredInstallPrompt = event;
-  syncInstallButton();
-});
-window.addEventListener("appinstalled", () => {
-  deferredInstallPrompt = null;
-  installPromptBusy = false;
-  if (installButton) {
-    installButton.hidden = true;
-    installButton.disabled = false;
-  }
-});
-if (installButton) installButton.addEventListener("click", async () => {
-  if (isAppInstalled()) {
-    syncInstallButton();
-    return;
-  }
-  if (!deferredInstallPrompt) {
-    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-    toast(isIOS
-      ? "To install KR-X: tap Share in Safari, then choose Add to Home Screen."
-      : "Install prompt is not available yet. In Chrome, open ⋮ menu and choose Install app or Add to Home screen.");
-    return;
-  }
-  const promptEvent = deferredInstallPrompt;
-  deferredInstallPrompt = null;
-  installPromptBusy = true;
-  syncInstallButton();
-  try {
-    await promptEvent.prompt();
-    const choice = await promptEvent.userChoice;
-    if (choice && choice.outcome === "accepted") {
-      toast("KR-X install accepted. Finish the browser prompt to add the app.");
-    } else {
-      toast("Install cancelled. You can install KR-X later from this button.");
-    }
-  } catch (error) {
-    toast("The browser could not open the install prompt. Use the browser menu to install KR-X.");
-  } finally {
-    installPromptBusy = false;
-    syncInstallButton();
-  }
-});
-// --- End KR-X PWA install control ---
+// PWA install handling is initialized in the independent script at the end of the document.
+
 
 // --- KR-X connectivity status ---
 const connectionDot = $("connectionDot");
