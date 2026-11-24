@@ -3255,16 +3255,24 @@ renderNotes();renderKnowledge();renderBookmarks();renderTasks();refreshStats();r
 // --- KR-X PWA install control ---
 const installButton = $("installAppBtn");
 let deferredInstallPrompt = null;
+let installPromptBusy = false;
+const displayModeQuery = window.matchMedia("(display-mode: standalone)");
 const isAppInstalled = () =>
-  window.matchMedia("(display-mode: standalone)").matches ||
+  displayModeQuery.matches ||
   window.navigator.standalone === true;
 function syncInstallButton() {
-  if (installButton) installButton.hidden = isAppInstalled();
+  if (!installButton) return;
+  installButton.hidden = isAppInstalled();
+  installButton.disabled = installPromptBusy;
+  installButton.textContent = installPromptBusy ? "Opening install…" : "↓ Install App";
 }
 syncInstallButton();
 window.addEventListener("pageshow", syncInstallButton);
-document.addEventListener("visibilitychange", () => { if (!document.hidden) syncInstallButton(); });
-try { window.matchMedia("(display-mode: standalone)").addEventListener("change", syncInstallButton); } catch {}
+window.addEventListener("focus", syncInstallButton);
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) syncInstallButton();
+});
+try { displayModeQuery.addEventListener("change", syncInstallButton); } catch {}
 window.addEventListener("beforeinstallprompt", event => {
   event.preventDefault();
   deferredInstallPrompt = event;
@@ -3272,18 +3280,42 @@ window.addEventListener("beforeinstallprompt", event => {
 });
 window.addEventListener("appinstalled", () => {
   deferredInstallPrompt = null;
-  if (installButton) installButton.hidden = true;
+  installPromptBusy = false;
+  if (installButton) {
+    installButton.hidden = true;
+    installButton.disabled = false;
+  }
 });
 if (installButton) installButton.addEventListener("click", async () => {
-  if (isAppInstalled()) { syncInstallButton(); return; }
-  if (!deferredInstallPrompt) {
-    toast("Install KR-X from your browser menu: Add to Home screen or Install app.");
+  if (isAppInstalled()) {
+    syncInstallButton();
     return;
   }
-  deferredInstallPrompt.prompt();
-  try { await deferredInstallPrompt.userChoice; } catch (error) {}
+  if (!deferredInstallPrompt) {
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    toast(isIOS
+      ? "To install KR-X: tap Share in Safari, then choose Add to Home Screen."
+      : "Install prompt is not available yet. In Chrome, open ⋮ menu and choose Install app or Add to Home screen.");
+    return;
+  }
+  const promptEvent = deferredInstallPrompt;
   deferredInstallPrompt = null;
+  installPromptBusy = true;
   syncInstallButton();
+  try {
+    await promptEvent.prompt();
+    const choice = await promptEvent.userChoice;
+    if (choice && choice.outcome === "accepted") {
+      toast("KR-X install accepted. Finish the browser prompt to add the app.");
+    } else {
+      toast("Install cancelled. You can install KR-X later from this button.");
+    }
+  } catch (error) {
+    toast("The browser could not open the install prompt. Use the browser menu to install KR-X.");
+  } finally {
+    installPromptBusy = false;
+    syncInstallButton();
+  }
 });
 // --- End KR-X PWA install control ---
 
