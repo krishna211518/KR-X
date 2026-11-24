@@ -1297,40 +1297,52 @@ body.krx-a11y-motion-reduce *{scroll-behavior:auto!important;animation-duration:
 <main>
  <div class="topbar"><div><div class="eyebrow">KR-X • YOUR PERSONAL HUB</div><h1 id="pageTitle">Dashboard</h1><p id="offlineNotice" class="small-note" role="status" aria-live="polite" hidden>You are offline. Saved KR-X data on this device remains available; some links need internet.</p></div><div class="top-actions"><span class="clock" id="clock">--:--:--</span><button class="btn small" id="commandPaletteBtn" type="button" title="Open Command Palette (Ctrl+K)">⌘ Commands</button><button class="btn small" id="openWindowHub" type="button" title="Open Multi-Window Workspace">▣ Windows</button><button class="btn small" id="installAppBtn" type="button" onclick="window.krxInstallApp && window.krxInstallApp()">↓ Install App</button><button class="btn small" id="themeBtn">☼ Theme</button></div></div>
 
-<section class="page active" id="page-dashboard">
- <div class="dash-welcome">
-  <div><div class="dash-eyebrow">YOUR PERSONAL WORKSPACE</div><h2>Good morning <span>👋</span></h2><p>What would you like to work on today?</p></div>
-  <div class="dash-welcome-mark">KR-X</div>
+<section class="page active" id="page-welcome">
+ <div class="welcome-screen">
+  <div class="welcome-orbit"></div><div class="welcome-logo">KR-X</div>
+  <div class="welcome-tagline">EXPLORE <i>•</i> LEARN <i>•</i> GROW</div>
+  <div class="welcome-bottom"><p>Your Ultimate<br>Cyber Technology Hub</p>
+   <button class="welcome-primary" type="button" onclick="localStorage.setItem('krx-welcome-seen','1');navigate('dashboard')">Get Started <span>→</span></button>
+   <button class="welcome-signin" type="button" onclick="localStorage.setItem('krx-welcome-seen','1');navigate('profiles')">Sign In</button>
+  </div>
  </div>
- <div class="dash-search">
-  <div class="dash-search-input"><span>⌕</span><input id="globalSearch" type="search" placeholder="Search anything in KR-X..." aria-label="Search KR-X"><button id="clearGlobalSearch" class="dash-search-clear" type="button" aria-label="Clear search" title="Clear search">×</button><button class="dash-search-go" type="button" onclick="document.getElementById('globalSearch').focus()" aria-label="Focus search">→</button></div>
-  <div class="dash-search-shortcuts"><button type="button" data-go="assistant">✦ Ask KR-X</button><button type="button" data-go="workspace">▤ Notes</button><button type="button" data-go="planner">✓ Tasks</button><button type="button" data-go="focus">◷ Focus</button><button type="button" data-go="tools">⌘ Tools</button></div>
-  <div id="globalSearchResults" class="list dash-search-results" aria-live="polite"><div class="empty">Search your notes, tasks, learning and KR-X tools.</div></div>
- </div>
- <div class="dash-quick-grid">
-  <button class="dash-action action-chat" data-go="assistant"><span class="dash-action-icon krx-assistant-action-icon"><svg class="krx-ai-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3.5 19.2 12.8 28.5 16 19.2 19.2 16 28.5 12.8 19.2 3.5 16 12.8 12.8Z"/><path d="M25.5 3.5v5M23 6h5M6.5 23.5v5M4 26h5"/></svg></span><strong>Chat with KR-X</strong><small>Get answers and clarity on anything.</small><span class="dash-arrow">→</span></button>
-  <button class="dash-action action-notes" data-go="workspace"><span class="dash-action-icon">▤</span><strong>Save your notes</strong><small>Write ideas and keep them organized.</small><span class="dash-arrow">→</span></button>
-  <button class="dash-action action-tasks" data-go="planner"><span class="dash-action-icon">✓</span><strong>Plan your tasks</strong><small>Stay organized and track your goals.</small><span class="dash-arrow">→</span></button>
-  <button class="dash-action action-learn" data-go="learning"><span class="dash-action-icon">⌘</span><strong>Explore learning</strong><small>Build useful technology skills.</small><span class="dash-arrow">→</span></button>
- </div>
- <div class="dash-panels">
-  <section class="dash-panel"><div class="dash-panel-head"><div><h3>Recent Notes</h3><p>Your latest saved workspace notes</p></div><button type="button" data-go="workspace">View all →</button></div><div id="recentNotesList" class="dash-recent-list"><div class="empty">Your saved notes will appear here.</div></div><button class="dash-add-note" type="button" data-go="workspace">＋ Add a new note</button></section>
-  <section class="dash-panel"><div class="dash-panel-head"><div><h3>Quick Tools</h3><p>Jump straight into a KR-X feature</p></div></div>
-   <button class="dash-tool-row" data-go="security"><span class="dash-tool-icon cyan">◈</span><span><strong>Security Center</strong><small>Privacy and digital safety</small></span><b>›</b></button>
-   <button class="dash-tool-row" data-go="tools"><span class="dash-tool-icon violet">⌘</span><span><strong>Tools Lab</strong><small>Useful everyday tools</small></span><b>›</b></button>
-   <button class="dash-tool-row" data-go="learning"><span class="dash-tool-icon green">▱</span><span><strong>Learning Hub</strong><small>Continue your roadmap</small></span><b>›</b></button>
-   <button class="dash-tool-row" data-go="assistant"><span class="dash-tool-icon blue krx-assistant-tool-icon"><svg class="krx-ai-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3.5 19.2 12.8 28.5 16 19.2 19.2 16 28.5 12.8 19.2 3.5 16 12.8 12.8Z"/><path d="M25.5 3.5v5M23 6h5M6.5 23.5v5M4 26h5"/></svg></span><span><strong>AI Assistant</strong><small>Ask and explore ideas</small></span><b>›</b></button>
-  </section>
- </div>
- <div class="dash-bottom-grid">
-  <div class="dash-stat"><span>📝</span><div><strong id="noteCount">0</strong><small>Saved notes</small></div></div>
-  <div class="dash-stat"><span>✓</span><div><strong id="taskCount">0</strong><small>Pending tasks</small></div></div>
-  <div class="dash-stat"><span>📚</span><div><strong id="knowledgeCount">0</strong><small>Knowledge entries</small></div></div>
-  <div class="dash-stat"><span>🎯</span><div><strong id="learningProgressStat">0%</strong><small>Learning progress</small></div></div>
- </div>
- <div class="dash-modules"><div><span class="dash-module-symbol">✧</span><div><strong>Everything in one place</strong><small>Explore your KR-X workspace modules.</small></div></div><div class="dash-module-links"><button data-go="assistant">AI Assistant</button><button data-go="workspace">Workspace</button><button data-go="planner">Planner</button><button data-go="security">Security</button><button data-go="learning">Learning</button><button data-go="tools">Tools Lab</button></div></div>
 </section>
 
+<section class="page" id="page-dashboard">
+ <div class="ref-dashboard">
+  <div class="ref-greeting">
+   <div><span class="ref-eyebrow">YOUR PERSONAL TECH HUB</span><h2>Hello, Ayush 👋</h2><p>Ready to explore the tech world?</p></div>
+   <div class="ref-cube" aria-hidden="true">⬡</div>
+  </div>
+  <div class="ref-search">
+   <span>⌕</span><input id="globalSearch" type="search" placeholder="Search anything..." aria-label="Search KR-X">
+   <button id="clearGlobalSearch" type="button" aria-label="Clear search">×</button>
+   <button type="button" onclick="document.getElementById('globalSearch').focus()" aria-label="Focus search">🎙</button>
+  </div>
+  <div id="globalSearchResults" class="list dash-search-results" aria-live="polite"><div class="empty">Search your notes, tasks, learning and KR-X tools.</div></div>
+  <div class="ref-shortcuts">
+   <button data-go="tools"><span>⚒</span>Tools</button>
+   <button data-go="learning"><span>▣</span>Learning</button>
+   <button data-go="security"><span>⛨</span>Security</button>
+   <button data-go="sandbox"><span>🎮</span>Games</button>
+   <button data-go="updates"><span>▣</span>Updates</button>
+   <button data-go="assistant"><span>✧</span>AI Assistant</button>
+   <button data-go="advanced"><span>•••</span>More</button>
+  </div>
+  <div class="ref-pro-card"><div><span class="ref-crown">♛</span><strong>KR-X Pro</strong><p>Unlock premium features<br>and take control!</p><button type="button" data-go="profiles">Explore Profiles →</button></div><div class="ref-pro-art" aria-hidden="true">♛</div></div>
+  <div class="ref-quick-head"><h3>Quick Access</h3><button type="button" data-go="tools">See All →</button></div>
+  <div class="ref-quick-list">
+   <button type="button" data-go="security"><span class="ref-quick-icon">⛨</span><span><strong>Cyber Security Guide</strong><small>Stay Safe. Stay Secure.</small></span><b>›</b></button>
+   <button type="button" data-go="learning"><span class="ref-quick-icon">▣</span><span><strong>Technology Learning Hub</strong><small>Explore and build new skills.</small></span><b>›</b></button>
+   <button type="button" data-go="assistant"><span class="ref-quick-icon">✧</span><span><strong>KR-X AI Assistant</strong><small>Ask, learn and get help.</small></span><b>›</b></button>
+  </div>
+  <div class="ref-stats">
+   <div><strong id="noteCount">0</strong><small>Saved notes</small></div><div><strong id="taskCount">0</strong><small>Pending tasks</small></div>
+   <div><strong id="knowledgeCount">0</strong><small>Knowledge entries</small></div><div><strong id="learningProgressStat">0%</strong><small>Learning progress</small></div>
+  </div>
+  <div class="ref-more-links"><button data-go="workspace">Workspace</button><button data-go="planner">Planner</button><button data-go="focus">Focus Mode</button><button data-go="notifications">Notifications</button></div>
+ </div>
+</section>
 <section class="page" id="page-memory">
  <div class="section-head"><div><h2>SMART MEMORY BANK</h2><p>Your user-controlled knowledge store. Save, search, edit and delete memories.</p></div><span class="pill">LOCAL & PRIVATE</span></div>
  <div class="hero memory-hero"><div class="eyebrow">KR-X SYNAPSE MEMORY</div><h2>Keep useful knowledge <span>within reach.</span></h2><p>Store preferences, project notes, learning goals and useful facts. Nothing is uploaded to a server.</p></div>
@@ -1597,28 +1609,45 @@ body.krx-a11y-motion-reduce *{scroll-behavior:auto!important;animation-duration:
 </section>
 
 <section class="page" id="page-assistant">
- <div class="section-head"><div><h2>AI Assistant</h2><p>A small offline demo assistant with starter knowledge.</p></div><span class="pill">LOCAL DEMO</span></div>
- <div class="grid"><div class="card wide"><div class="row" style="justify-content:space-between"><h3><span class="krx-assistant-heading-icon"><svg class="krx-ai-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3.5 19.2 12.8 28.5 16 19.2 19.2 16 28.5 12.8 19.2 3.5 16 12.8 12.8Z"/><path d="M25.5 3.5v5M23 6h5M6.5 23.5v5M4 26h5"/></svg></span> Chat with KR-X</h3><div class="row"><button class="btn small" id="copyChat" type="button">Copy chat</button><button class="btn small" id="clearChat" type="button">Clear chat</button></div></div><div class="output chat-log" id="chatLog" role="log" aria-live="polite" aria-relevant="additions text">KR-X: Welcome! I’m your offline learning assistant. Ask about computers, coding, networking, AI or digital safety.</div><div class="chat-prompts"><button class="btn small" data-prompt="Explain HTML in simple words">HTML basics</button><button class="btn small" data-prompt="What is an operating system?">Operating system</button><button class="btn small" data-prompt="How does the internet work?">Internet</button><button class="btn small" data-prompt="Give me a safe cybersecurity study tip">Cyber safety</button></div><div class="row" style="margin-top:10px"><input class="control grow" id="chatInput" placeholder="Ask a technology question..." aria-label="Ask KR-X"><button class="btn primary" id="sendChat">Send ↗</button></div><div class="small-note">Offline knowledge assistant • Chat is saved only in this browser • Not a live AI model.</div></div><div class="card"><h3>KR-X capabilities</h3><ul class="muted"><li>Beginner-friendly explanations</li><li>Study prompts and revision help</li><li>Defensive digital-safety guidance</li><li>Answers using your Knowledge Notebook</li></ul><div class="output">For genuine generative AI, KR-X needs a secure server-side AI connection. Never place private API keys in public website code.</div></div></div>
+ <div class="ref-ai-page">
+  <div class="ref-ai-top"><button type="button" data-go="dashboard" aria-label="Back to home">‹</button><strong>KR-X AI</strong><span>✦</span></div>
+  <div class="ref-ai-orb"><div class="ref-ai-orb-core">✦</div></div>
+  <h2>KR-X AI Assistant</h2><p class="ref-ai-sub">Ask • Learn • Get Help</p>
+  <div class="ref-ai-suggestions">
+   <button type="button" data-prompt="Explain a technology concept in simple words"><span>🎓</span>Explain<br>Tech Concepts</button>
+   <button type="button" data-prompt="Help me understand this code safely"><span>‹/›</span>Write<br>Code</button>
+   <button type="button" data-prompt="Give me a useful technology learning tip"><span>♧</span>Get<br>Tech Tips</button>
+   <button type="button" data-prompt="I have a general question"><span>☏</span>General<br>Query</button>
+  </div>
+  <div class="ref-ai-chat-card">
+   <div class="row" style="justify-content:space-between"><h3>Chat with KR-X</h3><div class="row"><button class="btn small" id="copyChat" type="button">Copy</button><button class="btn small" id="clearChat" type="button">Clear</button></div></div>
+   <div class="output chat-log" id="chatLog" role="log" aria-live="polite" aria-relevant="additions text">KR-X: Welcome! I’m your offline learning assistant. Ask about computers, coding, networking, AI or digital safety.</div>
+   <div class="ref-ai-input"><input class="control" id="chatInput" placeholder="Type your message..." aria-label="Ask KR-X"><button class="btn primary" id="sendChat" type="button" aria-label="Send message">➤</button></div>
+   <p class="small-note">Offline knowledge assistant • Saved only in this browser • Not a live AI model.</p>
+  </div>
+  <div class="ref-ai-capabilities"><h3>KR-X capabilities</h3><ul><li>Beginner-friendly explanations</li><li>Study prompts and revision help</li><li>Defensive digital-safety guidance</li><li>Answers using your Knowledge Notebook</li></ul><p>For genuine generative AI, KR-X needs a secure server-side AI connection. Never place private API keys in public website code.</p></div>
+ </div>
 </section>
-
 <section class="page" id="page-security">
- <div class="section-head"><div><h2>Security Center</h2><p>Learn safe habits and check sample information on your own device.</p></div><span class="pill">DEFENSIVE LEARNING</span></div>
- <div class="grid">
-  <div class="card half"><h3>Sample password strength checker</h3><div class="field"><label for="passwordInput">Enter a sample password (don't use your real password)</label><input id="passwordInput" type="password" autocomplete="off" placeholder="Type a sample only"></div><div class="meter"><span id="passwordMeter"></span></div><p id="passwordFeedback" class="muted">Your result will appear here.</p><button class="btn" id="checkPassword">Check sample</button></div>
-  <div class="card half"><h3>Phishing awareness quiz</h3><p id="quizQuestion">A message says your account will be closed unless you share an OTP. What should you do?</p><div id="quizOptions"><button class="quiz-option" data-correct="false">Share the OTP to save the account</button><button class="quiz-option" data-correct="true">Never share it; verify through the official app or website</button><button class="quiz-option" data-correct="false">Forward the OTP to a friend</button></div><p id="quizFeedback" class="muted">Choose the safest answer.</p></div>
-  <div class="card full"><h3>Personal digital-safety checklist</h3><div id="safetyChecks"><label class="checkline"><input type="checkbox" data-safe="updates"> I keep my apps and operating system updated.</label><label class="checkline"><input type="checkbox" data-safe="otp"> I never share OTPs, passwords or recovery codes.</label><label class="checkline"><input type="checkbox" data-safe="links"> I check links and website addresses before signing in.</label><label class="checkline"><input type="checkbox" data-safe="backup"> I keep a backup of important files.</label><label class="checkline"><input type="checkbox" data-safe="privacy"> I review app permissions and privacy settings.</label></div><p class="small-note" id="safetyProgress">0 of 5 completed. Your checklist is saved on this device.</p></div>
-  <div class="card full sim-card" id="cyberDefenseSimulator">
-   <div class="sim-topline">
-    <div><span class="pill">CYBER DEFENSE LAB • SIMULATION</span><h3>Mission: Defend the device</h3><p class="muted">Make three choices to protect a fictional device. See your shield score after every decision.</p></div>
-    <div class="sim-readout"><span id="simScore">0 / 3 threats blocked</span><div class="small-note">Shield integrity</div><div class="meter"><span id="simShieldMeter" style="width:100%"></span></div></div>
+ <div class="ref-security-page">
+  <div class="ref-page-top"><button type="button" data-go="dashboard" aria-label="Back to home">‹</button><strong>Cyber Security</strong><button type="button" aria-label="Bookmark security page" onclick="this.classList.toggle('saved')">♧</button></div>
+  <div class="ref-shield-art" aria-hidden="true"><div class="ref-shield">⛨<span>⌑</span></div><div class="ref-shield-orbit"></div></div>
+  <h2>Stay Safe in<br>the Digital World</h2><p class="ref-security-lead">Learn. Protect. Secure.</p>
+  <div class="ref-security-info"><p>Cyber Security is the key to a safer and smarter digital life. Explore tips, tools and guides to protect yourself from online threats.</p><span>♢</span></div>
+  <h3 class="ref-get-title">What You’ll Get?</h3>
+  <ul class="ref-benefits"><li>Pro Security Tips</li><li>Threat Awareness</li><li>Secure Tools</li><li>Expert Guides</li></ul>
+  <button class="ref-explore-security" type="button" data-go="sandbox">Explore Now →</button>
+  <div class="ref-security-tools">
+   <div class="section-head"><div><h2>Security Learning Lab</h2><p>Practice safe habits with local tools and examples.</p></div><span class="pill">DEFENSIVE LEARNING</span></div>
+   <div class="grid">
+    <div class="card half"><h3>Sample password strength checker</h3><div class="field"><label for="passwordInput">Enter a sample password (don't use your real password)</label><input id="passwordInput" type="password" autocomplete="off" placeholder="Type a sample only"></div><div class="meter"><span id="passwordMeter"></span></div><p id="passwordFeedback" class="muted">Your result will appear here.</p><button class="btn" id="checkPassword">Check sample</button></div>
+    <div class="card half"><h3>Phishing awareness quiz</h3><p id="quizQuestion">A message says your account will be closed unless you share an OTP. What should you do?</p><div id="quizOptions"><button class="quiz-option" data-correct="false">Share the OTP to save the account</button><button class="quiz-option" data-correct="true">Never share it; verify through the official app or website</button><button class="quiz-option" data-correct="false">Forward the OTP to a friend</button></div><p id="quizFeedback" class="muted">Choose the safest answer.</p></div>
+    <div class="card full"><h3>Personal digital-safety checklist</h3><div id="safetyChecks"><label class="checkline"><input type="checkbox" data-safe="updates"> I keep my apps and operating system updated.</label><label class="checkline"><input type="checkbox" data-safe="otp"> I never share OTPs, passwords or recovery codes.</label><label class="checkline"><input type="checkbox" data-safe="links"> I check links and website addresses before signing in.</label><label class="checkline"><input type="checkbox" data-safe="backup"> I keep a backup of important files.</label><label class="checkline"><input type="checkbox" data-safe="privacy"> I review app permissions and privacy settings.</label></div><p class="small-note" id="safetyProgress">0 of 5 completed. Your checklist is saved on this device.</p></div>
+    <div class="card full sim-card" id="cyberDefenseSimulator"><div class="sim-topline"><div><span class="pill">CYBER DEFENSE LAB • SIMULATION</span><h3>Mission: Defend the device</h3><p class="muted">Make three choices to protect a fictional device. See your shield score after every decision.</p></div><div class="sim-readout"><span id="simScore">0 / 3 threats blocked</span><div class="small-note">Shield integrity</div><div class="meter"><span id="simShieldMeter" style="width:100%"></span></div></div></div><div id="simIntro" class="sim-intro"><div class="output">Training run: urgent message, reused password, and unknown public Wi-Fi. These are fictional situations; no accounts or network connections are used.</div><button class="btn primary" id="simStart" type="button">Start simulation →</button></div><div id="simStage" class="sim-stage" hidden><p class="eyebrow" id="simRound"></p><h3 id="simTitle"></h3><p class="sim-question" id="simPrompt"></p><div class="sim-choices" id="simChoices"></div><p class="muted sim-feedback" id="simFeedback" role="status" aria-live="polite" hidden></p><button class="btn" id="simNext" type="button" hidden>Continue →</button></div><div id="simResults" class="sim-stage" hidden><p class="output" id="simResultText" role="status" aria-live="polite"></p><button class="btn primary" id="simRestart" type="button">Run again</button></div></div>
    </div>
-   <div id="simIntro" class="sim-intro"><div class="output">Training run: urgent message, reused password, and unknown public Wi-Fi. These are fictional situations; no accounts or network connections are used.</div><button class="btn primary" id="simStart" type="button">Start simulation →</button></div>
-   <div id="simStage" class="sim-stage" hidden><p class="eyebrow" id="simRound"></p><h3 id="simTitle"></h3><p class="sim-question" id="simPrompt"></p><div class="sim-choices" id="simChoices"></div><p class="muted sim-feedback" id="simFeedback" role="status" aria-live="polite" hidden></p><button class="btn" id="simNext" type="button" hidden>Continue →</button></div>
-   <div id="simResults" class="sim-stage" hidden><p class="output" id="simResultText" role="status" aria-live="polite"></p><button class="btn primary" id="simRestart" type="button">Run again</button></div>
   </div>
  </div>
 </section>
-
 <section class="page" id="page-notifications">
  <div class="section-head"><div><h2>Notification Center</h2><p>A daily briefing built from tasks saved in this browser. No push notifications or external tracking.</p></div><span class="pill">ON-DEVICE</span></div>
  <div class="grid">
@@ -2643,6 +2672,74 @@ footer{border-color:#26356d;color:#8193bd} :focus-visible{outline:2px solid #52e
 #page-security .section-head:before{content:"";display:block;flex:none;width:54px;height:54px;margin-right:2px;border-radius:16px;background:linear-gradient(145deg,#1c77ff,#25136d);box-shadow:0 0 24px #267bff88,inset 0 0 0 1px #a3dfff77}
 #page-security .section-head{align-items:center}
 #page-security .section-head>div{flex:1}
+
+
+/* EXACT REFERENCE-LED KR-X SCREEN LAYOUT */
+body{background:#02040b;color:#f5f7ff}
+.page{min-height:calc(100vh - 130px)}
+#page-welcome.active{display:flex;min-height:100vh;align-items:stretch;justify-content:center;margin:-28px calc(-1 * clamp(16px,3vw,42px)) -60px;overflow:hidden}
+#page-welcome~*{ }
+.welcome-screen{position:relative;isolation:isolate;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;width:100%;overflow:hidden;padding:40px 24px;background:radial-gradient(ellipse at 0 0,#123b9b88,transparent 38%),radial-gradient(ellipse at 100% 100%,#32107888,transparent 36%),#02040b}
+.welcome-screen:before,.welcome-screen:after{content:"";position:absolute;z-index:-1;width:120%;height:36%;border:1px solid #277bff55;border-radius:50%;transform:rotate(-25deg);filter:drop-shadow(0 0 15px #1c7cff)}
+.welcome-screen:before{top:-18%;left:-25%;box-shadow:0 0 50px #176cff33}.welcome-screen:after{bottom:-18%;right:-30%;transform:rotate(-25deg);border-color:#873dff66}
+.welcome-orbit{position:absolute;width:76vw;height:30vw;max-height:300px;border:2px solid transparent;border-top-color:#28baff;border-bottom-color:#8c35ff;border-radius:50%;transform:rotate(-22deg);filter:drop-shadow(0 0 12px #168cff) drop-shadow(0 0 26px #7a35ff);pointer-events:none}
+.welcome-logo{font-size:clamp(66px,17vw,116px);font-weight:950;font-style:italic;letter-spacing:-7px;line-height:1;background:linear-gradient(120deg,#fff 5%,#69cfff 32%,#3974ff 58%,#bd5aff 92%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 35px #277bff88;filter:drop-shadow(0 0 20px #316bff66)}
+.welcome-tagline{margin-top:66px;font-size:11px;letter-spacing:4px;color:#cbd7f7}.welcome-tagline i{font-style:normal;color:#6a8cff;padding:0 8px}
+.welcome-bottom{position:absolute;bottom:7%;display:flex;flex-direction:column;align-items:center;gap:17px;width:min(88%,360px);text-align:center}
+.welcome-bottom p{align-self:flex-start;text-align:left;margin:0 0 18px 20%;color:#9ba9d0;font-size:14px;line-height:1.5}
+.welcome-primary{width:100%;border:1px solid #a6b8ff;border-radius:999px;padding:15px 22px;color:white;font-weight:750;font-size:16px;background:linear-gradient(105deg,#167bff,#315dff 58%,#8b35ff);box-shadow:0 0 20px #267cff99,0 0 42px #883dff55,inset 0 1px #ffffff88}
+.welcome-primary span{margin-left:10px}.welcome-signin{border:0;background:transparent;color:#d4dfff;text-decoration:underline;text-underline-offset:4px;padding:6px}
+body:has(#page-welcome.active) .topbar,body:has(#page-welcome.active) .sidebar,body:has(#page-welcome.active) .krx-mobile-nav,body:has(#page-welcome.active) footer{display:none!important}
+body:has(#page-welcome.active) main{padding:0;max-width:none;width:100%;min-height:100vh}
+.ref-dashboard{max-width:780px;margin:0 auto;padding:0 0 34px}
+.ref-greeting{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:22px 20px;margin:0 0 16px;border:1px solid #344f9a;border-radius:20px;background:radial-gradient(circle at 85% 40%,#145dff55,transparent 34%),linear-gradient(120deg,#101c3e,#080e20 70%,#1c1044);box-shadow:0 0 26px #155dff33,inset 0 1px #ffffff20}
+.ref-eyebrow{font-size:9px;letter-spacing:2px;color:#64dfff}.ref-greeting h2{font-size:23px;margin:8px 0 4px}.ref-greeting p{font-size:12px;color:#aab9db;margin:0}
+.ref-cube{width:78px;height:78px;display:grid;place-items:center;font-size:57px;color:#43dfff;text-shadow:0 0 12px #00aaff,0 0 28px #963dff;transform:rotate(0deg)}
+.ref-search{display:flex;align-items:center;gap:9px;padding:0 14px;height:48px;border:1px solid #293f79;border-radius:999px;background:linear-gradient(145deg,#0c1530,#060b19);box-shadow:inset 0 1px #ffffff15}
+.ref-search>span{font-size:24px;color:#b4caff}.ref-search input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:white;font-size:13px}.ref-search button{border:0;background:transparent;color:#9bb9ef;font-size:18px}
+#globalSearchResults{display:none}.ref-shortcuts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:18px 4px}
+.ref-shortcuts button{min-height:84px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:1px solid #263c78;border-radius:17px;background:linear-gradient(145deg,#101b39,#080e20);color:#e9f0ff;font-size:11px;box-shadow:0 8px 22px #0006,inset 0 1px #ffffff12}
+.ref-shortcuts button span{font-size:25px;color:#7adfff;text-shadow:0 0 13px #347bff}
+.ref-pro-card{display:flex;align-items:center;justify-content:space-between;min-height:125px;padding:16px 18px;margin:14px 0;border:1px solid #4058a8;border-radius:20px;background:radial-gradient(circle at 90% 55%,#4924a955,transparent 34%),linear-gradient(120deg,#121f4a,#0b1230 68%,#28105a);box-shadow:0 0 25px #236aff33}
+.ref-pro-card strong{font-size:14px}.ref-crown{color:#ffd65b;margin-right:8px}.ref-pro-card p{font-size:11px;line-height:1.4;color:#c0cbed;margin:6px 0 9px}.ref-pro-card button{border:1px solid #a9c5ff;border-radius:99px;padding:8px 16px;background:linear-gradient(100deg,#167bff,#723eff);color:white;font-size:11px;font-weight:700;box-shadow:0 0 15px #287bff88}.ref-pro-art{font-size:75px;color:#66baff;text-shadow:0 0 15px #277dff,0 0 35px #823cff}
+.ref-quick-head{display:flex;align-items:center;justify-content:space-between;margin:18px 3px 10px}.ref-quick-head h3{font-size:14px;margin:0}.ref-quick-head button{border:0;background:transparent;color:#9bbcff;font-size:11px}
+.ref-quick-list{display:grid;gap:9px}.ref-quick-list>button{display:flex;align-items:center;gap:12px;text-align:left;padding:12px;border:1px solid #202f5d;border-radius:16px;background:linear-gradient(120deg,#0d1730,#080d1b);color:#f4f7ff}
+.ref-quick-icon{display:grid;place-items:center;width:38px;height:38px;border:1px solid #3c5eac;border-radius:12px;background:#142b5b;color:#71dcff;font-size:20px}.ref-quick-list>button span:nth-child(2){flex:1}.ref-quick-list strong{display:block;font-size:12px}.ref-quick-list small{display:block;color:#9caed3;font-size:10px;margin-top:3px}.ref-quick-list b{font-size:23px;color:#a8c2ff}
+.ref-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:15px}.ref-stats>div{padding:12px 6px;text-align:center;border:1px solid #23376b;border-radius:12px;background:#0a1227}.ref-stats strong{display:block;color:#64dfff;font-size:18px}.ref-stats small{font-size:9px;color:#a2b2d4}
+.ref-more-links{display:flex;gap:8px;overflow:auto;margin-top:15px}.ref-more-links button{white-space:nowrap;border:1px solid #293f79;border-radius:99px;background:#0d1730;color:#b9cbf5;padding:8px 12px;font-size:10px}
+.ref-page-top,.ref-ai-top{display:flex;align-items:center;justify-content:space-between;padding:5px 0 18px;border-bottom:1px solid #17244a}.ref-page-top button,.ref-ai-top button,.ref-ai-top span{border:0;background:transparent;color:#eaf1ff;font-size:23px}.ref-page-top strong,.ref-ai-top strong{font-size:14px}
+.ref-security-page,.ref-ai-page{max-width:680px;margin:0 auto;padding:0 0 30px}
+.ref-shield-art{position:relative;display:grid;place-items:center;height:225px;margin:10px 0 0;overflow:hidden}
+.ref-shield{position:relative;z-index:1;display:grid;place-items:center;width:142px;height:162px;clip-path:polygon(50% 0,94% 17%,88% 69%,50% 100%,12% 69%,6% 17%);background:linear-gradient(145deg,#49cfff,#236aff 50%,#712cff);color:#e9faff;font-size:75px;text-shadow:0 0 20px #fff;filter:drop-shadow(0 0 23px #167bff)}
+.ref-shield span{position:absolute;font-size:30px;color:white;text-shadow:0 0 14px #fff}
+.ref-shield-orbit{position:absolute;width:90%;height:75px;border:2px solid #2b80ff;border-left-color:#4aeaff;border-right-color:#933cff;border-radius:50%;transform:rotate(-19deg);box-shadow:0 0 16px #1c78ff,0 0 30px #873dff}
+.ref-security-page>h2{font-size:clamp(27px,5vw,36px);line-height:1.12;margin:0 0 8px;letter-spacing:-.8px}.ref-security-lead{color:#9eb3db;margin:0 0 17px}
+.ref-security-info{display:flex;align-items:center;gap:14px;padding:17px;border:1px solid #334c91;border-radius:18px;background:linear-gradient(120deg,#111d3e,#0a1127);box-shadow:inset 0 1px #ffffff14}.ref-security-info p{font-size:12px;color:#b8c6e5;line-height:1.6;margin:0;flex:1}.ref-security-info span{font-size:36px;color:#47dcff;text-shadow:0 0 18px #168bff}
+.ref-get-title{font-size:15px;margin:22px 0 10px}.ref-benefits{list-style:none;padding:0;margin:0 0 20px;display:grid;gap:9px}.ref-benefits li{font-size:12px;color:#c5d3ef}.ref-benefits li:before{content:"✓";display:inline-grid;place-items:center;width:18px;height:18px;margin-right:10px;border-radius:50%;background:#087be9;color:white;box-shadow:0 0 12px #168bff;font-weight:900}
+.ref-explore-security{width:100%;border:1px solid #9dbbff;border-radius:99px;padding:14px;background:linear-gradient(100deg,#167bff,#355dff 60%,#8d36ff);color:white;font-weight:750;box-shadow:0 0 20px #176cff88,0 0 32px #8b35ff44}
+.ref-security-tools{margin-top:35px}.ref-ai-orb{position:relative;display:grid;place-items:center;width:190px;height:190px;margin:28px auto 18px;border:2px solid #2c74ff;border-radius:50%;background:radial-gradient(circle at 35% 25%,#3b82ff,#17134e 55%,#080b22 76%);box-shadow:0 0 24px #276cff99,0 0 55px #873dff55,inset 0 0 30px #4b86ff66}
+.ref-ai-orb:before,.ref-ai-orb:after{content:"";position:absolute;width:145%;height:52%;border:2px solid #326fff;border-left-color:#ae48ff;border-right-color:#29d9ff;border-radius:50%;transform:rotate(-24deg);box-shadow:0 0 16px #3e72ff}.ref-ai-orb:after{transform:rotate(32deg);width:125%;height:40%;border-color:#742fff}
+.ref-ai-orb-core{font-size:72px;color:#c5f7ff;text-shadow:0 0 18px #46dfff,0 0 35px #983dff;z-index:1}
+.ref-ai-page>h2{text-align:center;font-size:24px;margin:8px 0 3px}.ref-ai-sub{text-align:center;color:#a9b9dc;font-size:13px;margin:0 0 22px}
+.ref-ai-suggestions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.ref-ai-suggestions button{min-height:76px;border:1px solid #354b8d;border-radius:17px;background:linear-gradient(135deg,#101b39,#0b1025);color:#eff4ff;font-size:12px;line-height:1.35;box-shadow:0 8px 22px #0005,inset 0 1px #ffffff15}.ref-ai-suggestions button span{font-size:22px;color:#8edbff;display:block;margin-bottom:5px}
+.ref-ai-chat-card{margin-top:18px;padding:14px;border:1px solid #334d98;border-radius:19px;background:linear-gradient(140deg,#101a38,#090e20);box-shadow:0 0 22px #176cff2a}.ref-ai-chat-card h3{font-size:13px;margin:0}
+.ref-ai-chat-card .chat-log{min-height:150px;max-height:280px;overflow:auto;margin:10px 0;border:0;background:#060b19}
+.ref-ai-input{display:flex;align-items:center;gap:8px;padding:5px 7px 5px 13px;border:1px solid #3b5ba8;border-radius:99px;background:#060b19}.ref-ai-input input{border:0;background:transparent;outline:0;box-shadow:none!important;color:#fff;min-width:0}.ref-ai-input button{width:42px;height:42px;border-radius:50%;padding:0}
+.ref-ai-capabilities{margin-top:14px;padding:14px;border:1px solid #283d78;border-radius:16px;background:#0a1228}.ref-ai-capabilities h3{margin:0 0 8px;font-size:13px}.ref-ai-capabilities ul{margin:0;padding-left:20px;color:#b9c8e5;font-size:12px}.ref-ai-capabilities p{font-size:11px;color:#9caed3}
+@media(max-width:700px){
+ #page-welcome.active{margin:0;min-height:100dvh}.welcome-screen{min-height:100dvh;padding:30px 18px}.welcome-orbit{width:100vw;height:44vw}.welcome-bottom{bottom:7%;width:82%}
+ body:has(#page-welcome.active) main{padding:0}
+ .sidebar{display:none!important}.krx-mobile-nav{display:grid!important}
+ .ref-dashboard,.ref-security-page,.ref-ai-page{max-width:100%;padding:0 0 20px}
+ main{padding:15px 14px calc(100px + env(safe-area-inset-bottom))}
+ .ref-greeting{padding:18px 16px}.ref-greeting h2{font-size:21px}.ref-cube{width:62px;height:62px;font-size:45px}
+ .ref-shortcuts{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:15px 1px}.ref-shortcuts button{min-height:78px;font-size:9px;border-radius:14px}.ref-shortcuts button span{font-size:22px}
+ .ref-pro-card{min-height:112px;padding:13px 15px}.ref-pro-art{font-size:60px}
+ .ref-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .ref-shield-art{height:205px}.ref-ai-orb{width:166px;height:166px;margin:24px auto 17px}
+ .ref-ai-suggestions button{min-height:78px}
+}
+@media(min-width:701px){.ref-dashboard{padding-top:0}.ref-security-page,.ref-ai-page{padding-top:0}}
 
 </style>\n</head><body>'+html+'<script>'+code+'<\/script></body></html>';
 }
@@ -4620,6 +4717,16 @@ refreshDashboard();
   document.addEventListener("visibilitychange", () => { if (!document.hidden) sync(); });
   try { mode.addEventListener("change", sync); } catch {}
   sync();
+})();
+</script>
+<script>
+(function(){
+ try{
+  if(localStorage.getItem("krx-welcome-seen")==="1"){
+   document.getElementById("page-welcome")?.classList.remove("active");
+   document.getElementById("page-dashboard")?.classList.add("active");
+  }
+ }catch(e){}
 })();
 </script>
 </body>
