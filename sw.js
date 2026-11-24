@@ -1,4 +1,4 @@
-const CACHE_NAME = "krx-pwa-v25";
+const CACHE_NAME = "krx-pwa-v26";
 const APP_SHELL = [
   "./",
   "./index.html",
