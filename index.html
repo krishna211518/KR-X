@@ -1295,7 +1295,7 @@ body.krx-a11y-motion-reduce *{scroll-behavior:auto!important;animation-duration:
 </nav>
 
 <main>
- <div class="topbar"><div><div class="eyebrow">KR-X • YOUR PERSONAL HUB</div><h1 id="pageTitle">Dashboard</h1><p id="offlineNotice" class="small-note" role="status" aria-live="polite" hidden>You are offline. Saved KR-X data on this device remains available; some links need internet.</p></div><div class="top-actions"><span class="clock" id="clock">--:--:--</span><button class="btn small" id="commandPaletteBtn" type="button" title="Open Command Palette (Ctrl+K)">⌘ Commands</button><button class="btn small" id="openWindowHub" type="button" title="Open Multi-Window Workspace">▣ Windows</button><button class="btn small" id="installAppBtn" type="button" onclick="window.krxInstallApp && window.krxInstallApp()">↓ Install App</button><button class="btn small" id="themeBtn">☼ Theme</button></div></div>
+ <div class="topbar"><div class="ref-mobile-header"><button type="button" aria-label="Open navigation" onclick="document.querySelector('.sidebar').classList.toggle('mobile-open')">☰</button><strong>KR-X</strong><button type="button" data-go="notifications" aria-label="Notifications">♧</button></div><div><div class="eyebrow">KR-X • YOUR PERSONAL HUB</div><h1 id="pageTitle">Dashboard</h1><p id="offlineNotice" class="small-note" role="status" aria-live="polite" hidden>You are offline. Saved KR-X data on this device remains available; some links need internet.</p></div><div class="top-actions"><span class="clock" id="clock">--:--:--</span><button class="btn small" id="commandPaletteBtn" type="button" title="Open Command Palette (Ctrl+K)">⌘ Commands</button><button class="btn small" id="openWindowHub" type="button" title="Open Multi-Window Workspace">▣ Windows</button><button class="btn small" id="installAppBtn" type="button" onclick="window.krxInstallApp && window.krxInstallApp()">↓ Install App</button><button class="btn small" id="themeBtn">☼ Theme</button></div></div>
 
 <section class="page active" id="page-welcome">
  <div class="welcome-screen">
@@ -2740,6 +2740,23 @@ body:has(#page-welcome.active) main{padding:0;max-width:none;width:100%;min-heig
  .ref-ai-suggestions button{min-height:78px}
 }
 @media(min-width:701px){.ref-dashboard{padding-top:0}.ref-security-page,.ref-ai-page{padding-top:0}}
+
+
+.ref-mobile-header{display:none}
+@media(max-width:700px){
+ .ref-mobile-header{display:flex;align-items:center;justify-content:space-between;width:100%;padding:2px 4px 15px}
+ .ref-mobile-header strong{font-size:23px;letter-spacing:3px;background:linear-gradient(100deg,#bfefff,#4f9aff,#b35bff);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 18px #2c70ff66}
+ .ref-mobile-header button{border:0;background:transparent;color:#e7f0ff;font-size:21px;padding:5px 9px}
+ .topbar>div:first-of-type:not(.ref-mobile-header){display:none}
+ .top-actions{display:none}
+ .sidebar.mobile-open{display:flex!important;position:fixed!important;z-index:1400;inset:0 0 76px 0!important;height:auto!important;overflow:auto!important;align-items:stretch;background:#050a18f7!important;border:1px solid #324c92!important;border-radius:0 0 18px 18px;padding:16px!important}
+ .sidebar.mobile-open .brand{display:flex!important}
+ .sidebar.mobile-open .nav-label{display:block!important}
+ .sidebar.mobile-open .side-bottom{display:block!important}
+ .sidebar.mobile-open .nav{display:grid!important;overflow:visible!important;flex-wrap:initial!important}
+ .sidebar.mobile-open .nav button{flex-direction:row!important;justify-content:flex-start!important;flex:initial!important;width:100%;min-height:43px!important;font-size:12px!important;text-align:left!important}
+ .sidebar.mobile-open .nav .ico{width:20px!important;font-size:17px!important}
+}
 
 </style>\n</head><body>'+html+'<script>'+code+'<\/script></body></html>';
 }
