@@ -1286,6 +1286,14 @@ body.krx-a11y-motion-reduce *{scroll-behavior:auto!important;animation-duration:
  </nav></div>
  <div class="side-bottom"><span class="status-dot" id="connectionDot" aria-hidden="true"></span><span class="connection-label" id="connectionStatus" role="status" aria-live="polite">Network: online</span><br><span>Local workspace active</span><br><span id="sideDate"></span></div>
 </aside>
+<nav class="krx-mobile-nav" aria-label="Main navigation">
+ <button type="button" data-page="dashboard" class="active"><span class="nav-icon">⌂</span><span>Home</span></button>
+ <button type="button" data-page="tools"><span class="nav-icon">⌕</span><span>Explore</span></button>
+ <button type="button" data-page="assistant" class="krx-center"><span class="nav-icon">✦</span><span>KR-X</span></button>
+ <button type="button" data-page="workspace"><span class="nav-icon">▤</span><span>Library</span></button>
+ <button type="button" data-page="settings"><span class="nav-icon">◉</span><span>Profile</span></button>
+</nav>
+
 <main>
  <div class="topbar"><div><div class="eyebrow">KR-X • YOUR PERSONAL HUB</div><h1 id="pageTitle">Dashboard</h1><p id="offlineNotice" class="small-note" role="status" aria-live="polite" hidden>You are offline. Saved KR-X data on this device remains available; some links need internet.</p></div><div class="top-actions"><span class="clock" id="clock">--:--:--</span><button class="btn small" id="commandPaletteBtn" type="button" title="Open Command Palette (Ctrl+K)">⌘ Commands</button><button class="btn small" id="openWindowHub" type="button" title="Open Multi-Window Workspace">▣ Windows</button><button class="btn small" id="installAppBtn" type="button" onclick="window.krxInstallApp && window.krxInstallApp()">↓ Install App</button><button class="btn small" id="themeBtn">☼ Theme</button></div></div>
 
@@ -2566,7 +2574,69 @@ const savedStudio=read("studioProject",null);
 if(savedStudio&&typeof savedStudio==="object"){if(typeof savedStudio.html==="string")$("studioHtml").value=savedStudio.html;if(typeof savedStudio.css==="string")$("studioCss").value=savedStudio.css;if(typeof savedStudio.js==="string")$("studioJs").value=savedStudio.js;}
 function studioDocument(){
  const html=$("studioHtml").value,css=$("studioCss").value,code=$("studioJs").value.replace(/<\/script/gi,"<\\/script");
- return '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>'+css+'</style>\n<style id="krx-performance-boost">\n/* KR-X performance boost: preserve the glass look while reducing GPU-heavy effects on phones. */\n@media (max-width: 768px) {\n  .hero, .dash-search, .dash-panel, .dash-action, .dash-stat,\n  .dash-modules, .card, .tool, .sim-card,\n  .dash-tool-row, .dash-search-shortcuts button, .dash-module-links button,\n  .dash-search-clear, .btn, .quiz-option, .sim-choice, .item,\n  .tool .output, .sidebar, .command-overlay, .krx-toast {\n    -webkit-backdrop-filter: blur(6px) saturate(110%) !important;\n    backdrop-filter: blur(6px) saturate(110%) !important;\n  }\n  .card, .tool, .hero, .item, .dash-panel, .dash-action {\n    box-shadow: 0 5px 16px rgba(0,0,0,.22) !important;\n  }\n}\n@media (hover: none) and (pointer: coarse) {\n  .card:hover, .tool:hover, .hero:hover, .item:hover, .btn:hover,\n  .dash-action:hover, .nav button:hover {\n    transform: none !important;\n  }\n}\n@media (prefers-reduced-motion: reduce) {\n  *, *::before, *::after {\n    scroll-behavior: auto !important;\n    animation-duration: .01ms !important;\n    animation-iteration-count: 1 !important;\n    transition-duration: .01ms !important;\n  }\n}\n</style>\n</head><body>'+html+'<script>'+code+'<\/script></body></html>';
+ return '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>'+css+'</style>\n<style id="krx-performance-boost">\n/* KR-X performance boost: preserve the glass look while reducing GPU-heavy effects on phones. */\n@media (max-width: 768px) {\n  .hero, .dash-search, .dash-panel, .dash-action, .dash-stat,\n  .dash-modules, .card, .tool, .sim-card,\n  .dash-tool-row, .dash-search-shortcuts button, .dash-module-links button,\n  .dash-search-clear, .btn, .quiz-option, .sim-choice, .item,\n  .tool .output, .sidebar, .command-overlay, .krx-toast {\n    -webkit-backdrop-filter: blur(6px) saturate(110%) !important;\n    backdrop-filter: blur(6px) saturate(110%) !important;\n  }\n  .card, .tool, .hero, .item, .dash-panel, .dash-action {\n    box-shadow: 0 5px 16px rgba(0,0,0,.22) !important;\n  }\n}\n@media (hover: none) and (pointer: coarse) {\n  .card:hover, .tool:hover, .hero:hover, .item:hover, .btn:hover,\n  .dash-action:hover, .nav button:hover {\n    transform: none !important;\n  }\n}\n@media (prefers-reduced-motion: reduce) {\n  *, *::before, *::after {\n    scroll-behavior: auto !important;\n    animation-duration: .01ms !important;\n    animation-iteration-count: 1 !important;\n    transition-duration: .01ms !important;\n  }\n}\n
+/* KR-X NEON GLASS REDESIGN — reference-led styling; feature markup and IDs stay intact */
+:root{--bg:#03050d;--panel:#090e1d;--panel2:#0d1428;--line:#26356d;--text:#f4f7ff;--muted:#9aa9cb;--cyan:#35d8ff;--blue:#267bff;--violet:#873dff;--green:#43e8bd;--shadow:0 18px 55px #0009;--krx-glow:0 0 24px #176cff55,0 0 55px #7a35ff20}
+html{background:#03050d}body{background:radial-gradient(ellipse at 12% 0%,#103a9a55 0,transparent 34%),radial-gradient(ellipse at 88% 8%,#5720a044 0,transparent 32%),radial-gradient(ellipse at 52% 100%,#061d5a55 0,transparent 40%),#03050d;color:var(--text)}
+.sidebar{background:linear-gradient(180deg,#080d1df5,#050916f7);border-color:#26356d;box-shadow:8px 0 40px #0008;backdrop-filter:blur(24px)}
+.brand-mark{border-radius:15px;background:linear-gradient(135deg,#2be2ff,#326dff 55%,#a23dff);box-shadow:0 0 25px #268cff88,0 0 45px #823dff44}
+.brand strong{font-size:22px;letter-spacing:4px;text-shadow:0 0 20px #548bff88}
+.nav button{border:1px solid transparent;border-radius:13px;transition:all .2s ease;color:#c2cce8}
+.nav button:hover{background:#17234b99;border-color:#3658a0;color:#fff;transform:translateX(2px)}
+.nav button.active{background:linear-gradient(110deg,#123e9b66,#562caa55);border-color:#426bda;color:#fff;box-shadow:inset 3px 0 #42dfff,0 0 22px #1b62ff22}
+main{max-width:1600px;padding-top:25px}.topbar{margin-bottom:25px}.eyebrow,.dash-eyebrow{color:#50dfff;text-shadow:0 0 16px #178bff66;letter-spacing:2.2px}
+.btn{border:1px solid #354d91;border-radius:13px;background:linear-gradient(145deg,#121d3b,#0a1024);color:#eff5ff;box-shadow:inset 0 1px #ffffff12,0 6px 20px #0004}
+.btn:hover{background:linear-gradient(145deg,#1b2d5b,#101a38);border-color:#4e9dff;box-shadow:0 0 22px #1e74ff33}
+.btn.primary{background:linear-gradient(105deg,#167bff,#385dff 55%,#8a35ff);border:1px solid #8bbaff;color:white;box-shadow:0 0 18px #176cff88,0 0 34px #8a35ff33,inset 0 1px #ffffff66}
+.hero,.dash-welcome{border:1px solid #3957a4;border-radius:22px;background:radial-gradient(circle at 85% 25%,#245eff3b,transparent 30%),linear-gradient(125deg,#111f49f5,#090f23f5 65%,#1b1040f5);box-shadow:var(--krx-glow),inset 0 1px #ffffff18}
+.hero:after{background:radial-gradient(circle,#236dff44 0,#7d35ff20 45%,transparent 70%);filter:blur(12px)}
+.dash-welcome{padding:24px 26px;min-height:150px}.dash-welcome h2{font-size:clamp(26px,4vw,36px);letter-spacing:-.8px}.dash-welcome p{color:#b0bfdf}
+.dash-welcome-mark{border:1px solid #4a74db;border-radius:24px;background:linear-gradient(145deg,#0d2455,#17103d);color:#eaf5ff;text-shadow:0 0 20px #3caaff,0 0 34px #873dff;box-shadow:0 0 35px #1d6cff55,inset 0 1px #ffffff30}
+.dash-search{border:1px solid #344d91;border-radius:18px;background:linear-gradient(145deg,#0d1730,#070d1e);box-shadow:0 10px 30px #0005,inset 0 1px #ffffff12}
+.dash-search-input{border:1px solid #344b8d;border-radius:99px;background:#070d1c}.dash-search-input input{color:#f5f7ff}
+.dash-search-shortcuts button{border:1px solid #2a3d76;border-radius:99px;background:#101a36;color:#cbd9ff}
+.card,.tool,.dash-panel,.dash-stat,.dash-action,.dash-module-links{border:1px solid #293d7c;background:linear-gradient(145deg,#101a36ed,#080e20f5);border-radius:17px;box-shadow:0 12px 32px #0006,inset 0 1px #ffffff0c}
+.card:hover,.tool:hover{border-color:#4779db;box-shadow:0 14px 38px #0008,0 0 24px #1d6dff1f}
+.dash-action{text-align:left;color:var(--text);padding:17px;border-radius:17px;transition:transform .2s,border-color .2s,box-shadow .2s}
+.dash-action:hover{transform:translateY(-3px);border-color:#5b8fff;box-shadow:0 0 28px #1c6cff33}
+.dash-action-icon,.dash-tool-icon{border:1px solid #3e62b5;border-radius:14px;background:linear-gradient(145deg,#172d62,#111331);color:#72dfff;box-shadow:0 0 20px #236dff33}
+.dash-panel{padding:18px}.dash-panel-head h3{color:#f4f7ff}.dash-tool-row{border:1px solid #24376f;border-radius:13px;background:#0a1228;color:#f1f5ff}.dash-tool-row:hover{border-color:#5489ed;background:#111d3e}
+.dash-stat strong{color:#55dfff}.dash-modules{border:1px solid #2c4385;border-radius:17px;background:linear-gradient(120deg,#101b3a,#0b1024)}
+.field input,.field textarea,.field select,input.control,textarea.control,select.control,.output{background:#060b19;color:#f2f6ff;border-color:#293e78;border-radius:12px}
+.field input:focus,.field textarea:focus,.field select:focus,.control:focus{border-color:#42dfff;box-shadow:0 0 0 3px #277dff24,0 0 18px #277dff22}
+.item,.quiz-option,.sim-choice,.nexus-module{background:#080f22;border-color:#26396f;border-radius:13px;color:#f1f5ff}
+.pill{background:#102b60;color:#83eaff;border:1px solid #345bb0}.meter{background:#1b2850;border-radius:99px}.meter>span{background:linear-gradient(90deg,#23d9ff,#2878ff,#9b42ff)}
+#page-assistant .card.wide{background:radial-gradient(circle at 50% 0%,#1a3c9b44,transparent 38%),linear-gradient(145deg,#101b3b,#080d20);border-color:#3b5fb2}
+#page-assistant .chat-log{min-height:230px;border-radius:17px;background:#050a18;border-color:#314a91;box-shadow:inset 0 0 35px #1a4b9b22}
+#page-security .sim-card{background:linear-gradient(145deg,#101c3e,#080e20);border-color:#3659a5}
+footer{border-color:#26356d;color:#8193bd} :focus-visible{outline:2px solid #52e3ff;outline-offset:3px}::selection{background:#245cff88;color:#fff}
+.light{--bg:#eef3ff;--panel:#fff;--panel2:#f7f9ff;--line:#c8d4f1;--text:#172443;--muted:#536487;background:linear-gradient(145deg,#f4f7ff,#e8edff);color:var(--text)}
+.light .sidebar{background:#f3f6ffed;border-color:#c8d4f1}.light .nav button{color:#405177}.light .nav button.active,.light .nav button:hover{background:#e3eaff;color:#14244a}
+.light .card,.light .tool,.light .dash-panel,.light .dash-stat,.light .dash-action{background:linear-gradient(145deg,#fff,#f2f5ff);border-color:#cbd6f0;color:#172443}
+.light .dash-welcome,.light .hero{background:linear-gradient(125deg,#dceaff,#e8e2ff);color:#172443}.light .dash-welcome p,.light .muted{color:#536487}.light .dash-panel-head h3{color:#172443}
+.light .field input,.light .field textarea,.light .field select,.light .output,.light .control,.light .item,.light .quiz-option,.light .sim-choice{background:#f8faff;color:#172443;border-color:#cbd6f0}
+.light .dash-search{background:#fff;border-color:#cbd6f0}.light .dash-search-input{background:#f5f7ff;border-color:#cbd6f0}.light .dash-search-input input{color:#172443}
+.light .dash-search-shortcuts button,.light .dash-tool-row{background:#f2f5ff;color:#172443;border-color:#cbd6f0}.light .dash-modules{background:#f4f6ff;border-color:#cbd6f0}.light .pill{background:#e5efff;color:#2457a5;border-color:#c4d7fa}
+.light .btn{background:#f4f6ff;color:#172443;border-color:#cbd6f0}.light .btn.primary{background:linear-gradient(105deg,#167bff,#385dff 55%,#8a35ff);color:#fff}
+@media(max-width:700px){
+ .sidebar{display:none!important}main{padding:15px 14px calc(100px + env(safe-area-inset-bottom));max-width:none}
+ .topbar{display:flex;flex-direction:row;align-items:center;gap:8px;margin-bottom:17px}.topbar>div:first-child{min-width:0}.topbar .eyebrow{font-size:9px;letter-spacing:1.6px}.topbar h1{font-size:22px;margin-top:1px}
+ .top-actions{width:auto;display:flex;gap:6px;align-items:center;justify-content:flex-end}.top-actions #commandPaletteBtn,.top-actions #openWindowHub,.top-actions #installAppBtn{display:none}.top-actions #themeBtn{font-size:11px;padding:7px 9px}.clock{font-size:11px;white-space:nowrap}
+ .dash-welcome{padding:19px 18px;border-radius:20px;min-height:128px}.dash-welcome h2{font-size:26px}.dash-welcome-mark{width:66px;height:66px;font-size:17px}
+ .dash-search{padding:12px;border-radius:17px}.dash-search-shortcuts{display:flex;overflow-x:auto;flex-wrap:nowrap;padding-bottom:3px;scrollbar-width:none}.dash-search-shortcuts button{white-space:nowrap;flex:none;font-size:11px}
+ .dash-quick-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.dash-action{min-height:125px;padding:13px}.dash-action strong{font-size:13px}.dash-action small{font-size:11px}.dash-action-icon{width:39px;height:39px}
+ .dash-panels{grid-template-columns:1fr;gap:12px}.dash-panel{padding:15px}.dash-bottom-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.dash-stat{padding:12px}.dash-modules{padding:14px}
+ .grid{grid-template-columns:minmax(0,1fr);gap:12px}.card,.card.half,.card.wide,.card.full{grid-column:1/-1;padding:15px}.section-head h2{font-size:21px}#page-assistant .chat-log{min-height:260px}
+ .krx-mobile-nav{position:fixed;left:10px;right:10px;bottom:calc(8px + env(safe-area-inset-bottom));z-index:1200;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));align-items:center;gap:2px;padding:7px 8px;border:1px solid #435ba5;border-radius:22px;background:linear-gradient(145deg,#101a35ed,#080d1ff2);box-shadow:0 12px 38px #000b,0 0 28px #1c65ff38,inset 0 1px #ffffff20;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px)}
+ .krx-mobile-nav button{min-width:0;min-height:49px;border:0;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:transparent;color:#9eadd2;font-size:9px;line-height:1.1}
+ .krx-mobile-nav button .nav-icon{font-size:19px;line-height:1.15}.krx-mobile-nav button.active{color:#fff;background:#17346a88;text-shadow:0 0 12px #4abfff}
+ .krx-mobile-nav button.krx-center{width:54px;height:54px;justify-self:center;margin-top:-20px;border-radius:50%;border:1px solid #77dfff;background:radial-gradient(circle at 35% 25%,#315bff,#10164b 62%,#4b1a9a);color:white;font-size:11px;font-weight:800;letter-spacing:.5px;box-shadow:0 0 18px #168bffbb,0 0 32px #873dff77,inset 0 1px #ffffff88}
+ .krx-mobile-nav button.krx-center .nav-icon{font-size:20px}
+}
+@media(max-width:380px){main{padding-left:11px;padding-right:11px}.topbar h1{font-size:20px}.dash-quick-grid{gap:8px}.krx-mobile-nav{left:7px;right:7px;padding-left:5px;padding-right:5px}}
+@media(min-width:701px){.krx-mobile-nav{display:none!important}}
+
+</style>\n</head><body>'+html+'<script>'+code+'<\/script></body></html>';
 }
 (()=> {
  "use strict";
