@@ -2128,7 +2128,7 @@ function toast(message){
  setTimeout(()=>node.remove(),3200);
 }
 
-function navigate(page){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id==="page-"+page));document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===page));const active=document.querySelector('[data-page="'+page+'"]');$("pageTitle").textContent=active?active.textContent.trim():page;const navButton=document.querySelector('[data-page="'+page+'"]');if(navButton&&window.matchMedia("(max-width:700px)").matches)navButton.scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"});window.scrollTo({top:0,behavior:"smooth"})}
+function navigate(page){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id==="page-"+page));document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===page));const active=document.querySelector('[data-page="'+page+'"]');$("pageTitle").textContent=active?active.textContent.trim():page;const navButton=document.querySelector('[data-page="'+page+'"]');if(navButton&&window.matchMedia("(max-width:700px)").matches)navButton.scrollIntoView({block:"nearest",inline:"center",behavior:"auto"});window.scrollTo({top:0,behavior:"auto"})}
 document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>navigate(b.dataset.page)));
 document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>navigate(b.dataset.go)));
 function tick(){const d=new Date();$("clock").textContent=d.toLocaleTimeString();$("sideDate").textContent=d.toLocaleDateString(undefined,{weekday:"short",day:"numeric",month:"short",year:"numeric"})}tick();setInterval(tick,1000);
@@ -2562,7 +2562,55 @@ let appProject=read("appBuilderProject",appDefault);
 $("appProjectName").value=appProject.name||appDefault.name;$("appHtml").value=appProject.html||appDefault.html;$("appCss").value=appProject.css||appDefault.css;$("appJs").value=appProject.js||appDefault.js;
 function runAppPreview(){
  const html=$("appHtml").value,css=$("appCss").value,code=isKrxSafeMode()?"":$("appJs").value;
- $("appPreview").srcdoc="<!doctype html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><style>"+css.replace(/<\/style/gi,"<\\/style")+"</style></head><body>"+html+"<script>"+code.replace(/<\/script/gi,"<\\/script")+"<\/script></body></html>";
+ $("appPreview").srcdoc="<!doctype html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><style>"+css.replace(/<\/style/gi,"<\\/style")+"</style></head><body>"+html+"<script>"+code.replace(/<\/script/gi,"<\\/script")+"<\/script>
+<style id="krx-performance-repair">
+/* Mobile performance repair: avoid expensive compositing during long-page scrolling. */
+html { scroll-behavior: auto !important; }
+@media (max-width: 700px) {
+  body, main, .page { animation: none !important; }
+  .page { contain: layout style; }
+  .hero, .card, .tool, .item, .widget-tile, .quick-tile {
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  .sidebar { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+  .hero:after { display: none !important; }
+  body.krx-ambient-calm, body.krx-ambient-energy { filter: none !important; }
+  .nav { scroll-behavior: auto !important; }
+  main { touch-action: pan-y; }
+  .page, .card, .tool { animation: none !important; }
+  * { scroll-behavior: auto !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+</style>
+<script id="krx-runtime-guard">
+(() => {
+  "use strict";
+  const report = (message) => {
+    const region = document.getElementById("toastRegion");
+    if (!region) return;
+    const node = document.createElement("div");
+    node.className = "krx-toast";
+    node.setAttribute("role", "status");
+    node.textContent = "A feature hit an error: " + String(message || "Unknown error").slice(0, 180);
+    region.appendChild(node);
+    while (region.children.length > 2) region.firstElementChild.remove();
+    setTimeout(() => node.remove(), 6500);
+  };
+  window.addEventListener("error", (event) => {
+    if (event && event.message) report(event.message);
+  });
+  window.addEventListener("unhandledrejection", (event) => {
+    const reason = event && event.reason;
+    report(reason && reason.message ? reason.message : reason || "Async action failed");
+  });
+})();
+</script>
+
+</body></html>";
 }
 $("appRun")?.addEventListener("click",runAppPreview);
 $("appSave")?.addEventListener("click",()=>{appProject={name:$("appProjectName").value.trim()||"Untitled App",html:$("appHtml").value,css:$("appCss").value,js:$("appJs").value};write("appBuilderProject",appProject);toast("App project saved locally.");});
